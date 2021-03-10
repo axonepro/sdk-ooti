@@ -28,6 +28,26 @@ payload = {
 invoice = my_account.update_invoice(pk='invoice_pk', payload)  # updatee an invoice
 pprint.pp(invoice)
 
+###### Payment ######
+payments = my_account.get_payments_list()  # Get the list of payments
+for payment in payments:
+    pprint.pp(payment)  # Print each payment
+
+payment = my_account.get_payment_details(pk='payment_pk')  # Get the details of one payment
+pprint.pp(payment)
+
+payload = {
+    "amount": 1000,
+}
+payment = my_account.create_payment(1499, payload)  # Create an payment
+pprint.pp(payment)
+
+payload = {
+    "amount": 3000,
+}
+payment = my_account.update_payment(pk='payment_pk', payload)  # updatee an payment
+pprint.pp(payment)
+
 ###### Project ######
 projects = my_account.get_projects_list()  # Get the list of projects
 for project in projects:

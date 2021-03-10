@@ -61,6 +61,50 @@ class Auth(object):
                                  headers=self.headers, data=json.dumps(data))
         return json.loads(response.content)
 
+    def get_payment_details(self, pk):
+        """Get the payment details
+
+        Keyword arguments:
+        pk -- the pk of the payment
+        """
+
+        route = 'v1/payments/{0}'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return json.loads(response.content)
+
+    def get_payments_list(self):
+        """Get the payment list"""
+
+        route = 'v1/payments/list/{0}'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return json.loads(response.content)['results']
+
+    def update_payment(self, pk, data):
+        """Create an payment
+
+        Keyword arguments:
+        pk -- the pk of the payment
+        data -- data to create
+        """
+
+        route = 'v1/payments/{0}'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return json.loads(response.content)
+
+    def create_payment(self, team_pk, data):
+        """Create an payment
+
+        Keyword arguments:
+        team_pk -- the pk of the team
+        data -- data to create
+        """
+
+        route = 'v1/payments/list/{0}'.format(self.org_pk)
+        parameters = '?team={0}'.format(team_pk)
+        response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
+                                 headers=self.headers, data=json.dumps(data))
+        return json.loads(response.content)
+
     def get_project_details(self, pk):
         """Get the project details
 

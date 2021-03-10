@@ -5,14 +5,14 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/HippolyteBringer/sdk-ooti/blob/master/README.md">
+  <a href="https://github.com/axonepro/sdk-ooti/blob/master/README.md">
     <img src="logo.png" alt="Logo" width="240" height="140">
   </a>
 
   <h3 align="center">SDK OOTI</h3>
 
   <p align="center">
-    <a href="https://github.com/HippolyteBringer/sdk-ooti/blob/master/README.md"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/axonepro/sdk-ooti/blob/master/README.md"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://app.ooti.co/api/v1/docs/">Swagger: Docs API</a>
@@ -97,7 +97,7 @@ This sdk is for all people wanting to use the ooti API
    invoices = my_account.get_invoices_list()
    ``` 
 
-See the [example.py](https://github.com/HippolyteBringer/sdk-ooti/blob/master/example.py) file for more examples
+See the [example.py](https://github.com/axonepro/sdk-ooti/blob/master/example.py) file for more examples
 
 
 <!-- LICENSE -->
@@ -115,5 +115,5 @@ axonepro.com can not be copied and/or distributed without the express permission
 <!-- MARKDOWN LINKS & IMAGES -->
 [linkedin-url]: https://www.linkedin.com/company/ooti-co/
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[contributors-url]: https://github.com/axonepro/immo/graphs/contributors
+[contributors-url]: https://github.com/axonepro/sdk-ooti/graphs/contributors
 [contributors-shield]: https://img.shields.io/github/contributors/immo/Best-README-Template.svg?style=for-the-badge
