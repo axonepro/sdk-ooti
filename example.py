@@ -1,45 +1,56 @@
-import main
+import sdk_ooti
 import pprint
 
 
 ###### Connect ######
-my_account = main.Auth('username', 'password')
+my_account = sdk_ooti.Auth('email', 'password')
 my_account.connect()
 
 
 ###### Invoice ######
-invoices = my_account.get_invoices_list() # Get the list of invoices
+invoices = my_account.get_invoices_list()  # Get the list of invoices
 for invoice in invoices:
-    pprint.pp(invoice) # Print each invoice
+    pprint.pp(invoice)  # Print each invoice
 
-invoice = my_account.get_invoice_details(pk='invoice_pk') # Get the details of one invoice
+invoice = my_account.get_invoice_details(pk='invoice_pk')  # Get the details of one invoice
 for line in invoice['items']:
-    pprint.pp(line) # Print each lines of the invoice
+    pprint.pp(line)  # Print each lines of the invoice
 
+payload = {
+    "amount": 1000,
+}
+invoice = my_account.create_invoice(1499, payload)  # Create an invoice
+pprint.pp(invoice)
+
+payload = {
+    "amount": 3000,
+}
+invoice = my_account.update_invoice(pk='invoice_pk', payload)  # updatee an invoice
+pprint.pp(invoice)
 
 ###### Project ######
-projects = my_account.get_projects_list() # Get the list of projects
+projects = my_account.get_projects_list()  # Get the list of projects
 for project in projects:
-    pprint.pp(project) # Print each project
+    pprint.pp(project)  # Print each project
 
-project = my_account.get_project_details(pk='invoice_pk') # Get the details of one project
-pprint.pp(project) # Print details of the project
+project = my_account.get_project_details(pk='invoice_pk')  # Get the details of one project
+pprint.pp(project)  # Print details of the project
 
 data = {
     'business_title': 'new_title'
-    }
-project = my_account.update_project_details(pk='invoice_pk', data=data) # Update the details of one project
-pprint.pp(project) # Print details of the updated project
+}
+project = my_account.update_project_details(pk='invoice_pk', data=data)  # Update the details of one project
+pprint.pp(project)  # Print details of the updated project
 
 
 ###### Phase ######
-phases = my_account.get_phases_list(project_pk='invoice_pk') # Get the list of phases
+phases = my_account.get_phases_list(project_pk='invoice_pk')  # Get the list of phases
 for phase in phases:
-    pprint.pp(phase) # Print each phase
+    pprint.pp(phase)  # Print each phase
 
-phase = my_account.get_phase_details(pk='phase_pk') # Get the details of one phase
-pprint.pp(phase) # Print details of the phase
+phase = my_account.get_phase_details(pk='phase_pk')  # Get the details of one phase
+pprint.pp(phase)  # Print details of the phase
 
 data = {'progress': 66}
-phase = my_account.update_phase_details(pk='phase_pk', data=data) # Update the details of one phase
-pprint.pp(phase) # Print details of the updated phase
+phase = my_account.update_phase_details(pk='phase_pk', data=data)  # Update the details of one phase
+pprint.pp(phase)  # Print details of the updated phase
