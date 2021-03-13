@@ -103,13 +103,13 @@ See the [example.py](https://github.com/axonepro/sdk-ooti/blob/master/example.py
 <!-- LICENSE -->
 ## License
 
-Copyright (C) 2016-2021 AxonePro S.A.S. mriahi@ooti.co All Rights Reserved
+Copyright (C) 2016-2021 AxonePro S.A.S. legal@ooti.co All Rights Reserved
 
 This file is part of axonepro.com.
 
 Unauthorized copying of any file in this project, via any medium is strictly prohibited. Proprietary and confidential
 
-axonepro.com can not be copied and/or distributed without the express permission of Maxime Riahi.
+axonepro.com can not be copied and/or distributed without the express permission of AXONEPRO.
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
