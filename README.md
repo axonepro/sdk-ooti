@@ -96,6 +96,47 @@ This sdk is for all people wanting to use the ooti API
 See the [example.py](https://github.com/axonepro/sdk-ooti/blob/master/example.py) file for more examples
 
 
+<!-- CONVENTIONS -->
+## Conventions
+
+### Python:
+* Use docstring
+* 120 character limit
+* No python file greater than 2000 lines
+* Follow pep8 https://www.python.org/dev/peps/pep-0008/
+* In VisualStudio Code use ‘autopep8’: ("python.formatting.provider": "autopep8")
+
+
+### Branch names:
+* feature-xxx
+* improve-xxx
+* bug-xxx
+* hotfix-xxx
+
+1 commit per modification
+
+Use informative commit messages
+
+learn more - https://gist.github.com/digitaljhelms/4287848
+
+### Key words:
+* TODO: something todo
+* TOOSLOW: Speed needs to be improved
+
+### Imports:
+Good:
+   ```py
+   from operations.factories import OperationFactory
+   from discounts.selectors import discount_coefficient
+   from discounts.selectors import discount_list
+   ```
+Not good:
+   ```py
+   from operations.factories import OperationFactory
+   from discounts.selectors import (discount_coefficient,
+                                    discount_list)
+   ```  
+
 <!-- LICENSE -->
 ## License
 
