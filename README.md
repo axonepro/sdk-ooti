@@ -2,7 +2,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/axonepro/sdk-ooti/blob/master/README.md">
-    <img src="sdk_ooti/logo.png" alt="Logo" width="240" height="140">
+    <img src="ooti/logo.png" alt="Logo" width="240" height="140">
   </a>
 
   <h3 align="center">SDK OOTI</h3>
