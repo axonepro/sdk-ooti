@@ -148,6 +148,12 @@ Unauthorized copying of any file in this project, via any medium is strictly pro
 
 axonepro.com can not be copied and/or distributed without the express permission of AXONEPRO.
 
+# HOW PUBLISHED IN PYPI
+```sh
+   python setup.py sdist bdist_wheel
+   python3 -m twine check dist/*
+   python3 -m twine upload -r pypi dist/*
+```
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [linkedin-url]: https://www.linkedin.com/company/ooti-co/
