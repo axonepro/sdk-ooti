@@ -1,9 +1,9 @@
-import sdk_ooti
+import ooti
 import pprint
 
 
 ###### Connect ######
-my_account = sdk_ooti.Auth('email', 'password')
+my_account = ooti.Auth('email', 'password')
 my_account.connect()
 
 

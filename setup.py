@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 import sdk_ooti
 
 setup(
-    name='sdk_ooti_axonepro',
+    name='ooti-api',
 
     version=sdk_ooti.__version__,
 
