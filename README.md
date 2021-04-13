@@ -71,6 +71,10 @@ This sdk is for all people wanting to use the ooti API
    pip install pipenv
    pipenv shell --python 3.7
    ```
+3. Install ooti-api
+   ```sh
+   pip install ooti-api
+   ```
 2. Install requirements
    ```sh
    pip install -r requirements.txt
@@ -148,7 +152,7 @@ Unauthorized copying of any file in this project, via any medium is strictly pro
 
 axonepro.com can not be copied and/or distributed without the express permission of AXONEPRO.
 
-# HOW PUBLISHED IN PYPI
+# HOW TO PUBLISHED IN PYPI
 French tuto: https://sametmax.com/creer-un-setup-py-et-mettre-sa-bibliotheque-python-en-ligne-sur-pypi/
 
 Twine documentation: https://twine.readthedocs.io/en/latest/
