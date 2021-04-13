@@ -149,6 +149,9 @@ Unauthorized copying of any file in this project, via any medium is strictly pro
 axonepro.com can not be copied and/or distributed without the express permission of AXONEPRO.
 
 # HOW PUBLISHED IN PYPI
+French tuto: https://sametmax.com/creer-un-setup-py-et-mettre-sa-bibliotheque-python-en-ligne-sur-pypi/
+
+Twine documentation: https://twine.readthedocs.io/en/latest/
 ```sh
    python setup.py sdist bdist_wheel
    python3 -m twine check dist/*
