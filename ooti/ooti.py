@@ -55,7 +55,7 @@ class Auth(object):
         data -- data to create
         """
 
-        route = 'v1/invoices/list/{0}'.format(self.org_pk)
+        route = 'v1/invoices/list/{0}/'.format(self.org_pk)
         parameters = '?team={0}'.format(team_pk)
         response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
                                  headers=self.headers, data=json.dumps(data))
@@ -182,6 +182,7 @@ class Auth(object):
         self.access_token = json.loads(response.content)['token']
         self.headers = {
             'Authorization': 'JWT {0}'.format(self.access_token),
+            'Content-Type': 'application/json',
             'Accept': 'application/json',
             'X-CSRF-Token': self._csrf_token
         }
