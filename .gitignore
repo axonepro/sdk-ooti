@@ -1,2 +1,4 @@
 .Vscode
+.DS_Store
+main.py
 __pycache__/

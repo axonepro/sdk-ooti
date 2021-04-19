@@ -24,14 +24,14 @@ class Auth(object):
         pk -- the pk of the invoice
         """
 
-        route = 'v1/invoices/{0}'.format(pk)
+        route = 'v1/invoices/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return json.loads(response.content)
 
     def get_invoices_list(self):
         """Get the invoice list"""
 
-        route = 'v1/invoices/list/{0}'.format(self.org_pk)
+        route = 'v1/invoices/list/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return json.loads(response.content)['results']
 
@@ -43,7 +43,7 @@ class Auth(object):
         data -- data to create
         """
 
-        route = 'v1/invoices/{0}'.format(pk)
+        route = 'v1/invoices/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return json.loads(response.content)
 
@@ -55,7 +55,7 @@ class Auth(object):
         data -- data to create
         """
 
-        route = 'v1/invoices/list/{0}'.format(self.org_pk)
+        route = 'v1/invoices/list/{0}/'.format(self.org_pk)
         parameters = '?team={0}'.format(team_pk)
         response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
                                  headers=self.headers, data=json.dumps(data))
@@ -75,7 +75,7 @@ class Auth(object):
     def get_payments_list(self):
         """Get the payment list"""
 
-        route = 'v1/payments/list/{0}'.format(self.org_pk)
+        route = 'v1/payments/list/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return json.loads(response.content)['results']
 
@@ -87,7 +87,7 @@ class Auth(object):
         data -- data to create
         """
 
-        route = 'v1/payments/{0}'.format(pk)
+        route = 'v1/payments/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return json.loads(response.content)
 
@@ -99,7 +99,7 @@ class Auth(object):
         data -- data to create
         """
 
-        route = 'v1/payments/list/{0}'.format(self.org_pk)
+        route = 'v1/payments/list/{0}/'.format(self.org_pk)
         parameters = '?team={0}'.format(team_pk)
         response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
                                  headers=self.headers, data=json.dumps(data))
@@ -112,7 +112,7 @@ class Auth(object):
         pk -- the pk of the project
         """
 
-        route = 'v1/projects/{0}'.format(pk)
+        route = 'v1/projects/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return json.loads(response.content)
 
@@ -123,14 +123,14 @@ class Auth(object):
         pk -- the pk of the project
         """
 
-        route = 'v1/projects/{0}'.format(pk)
+        route = 'v1/projects/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return json.loads(response.content)
 
     def get_projects_list(self):
         """Get the project list"""
 
-        route = 'v1/projects/list/{0}'.format(self.org_pk)
+        route = 'v1/projects/list/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return json.loads(response.content)['results']
 
@@ -142,7 +142,7 @@ class Auth(object):
         data -- data to update
         """
 
-        route = 'v1/phases/{0}'.format(pk)
+        route = 'v1/phases/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return json.loads(response.content)
 
@@ -154,7 +154,7 @@ class Auth(object):
         data -- data to update
         """
 
-        route = 'v1/phases/{0}'.format(pk)
+        route = 'v1/phases/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return json.loads(response.content)
 
@@ -165,7 +165,7 @@ class Auth(object):
         pk -- the pk of the project
         """
 
-        route = 'v1/phases/list/{0}'.format(project_pk)
+        route = 'v1/phases/list/{0}/'.format(project_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return json.loads(response.content)['results']
 
@@ -182,11 +182,14 @@ class Auth(object):
         self.access_token = json.loads(response.content)['token']
         self.headers = {
             'Authorization': 'JWT {0}'.format(self.access_token),
+            'Content-Type': 'application/json',
             'Accept': 'application/json',
             'X-CSRF-Token': self._csrf_token
         }
 
     def __get_org(self):
+        """ Set the organization id of the user """
+
         route = 'v1/organizations/membership/'
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         self.org_pk = json.loads(response.content)['organizations'][0]['id']
@@ -201,3 +204,24 @@ class Auth(object):
             csrftoken = client.cookies['csrf']
 
         self._csrf_token = csrftoken
+
+    def __refresh_token(self):
+        """ Refresh the access token """
+
+        route = 'v1/token-refresh/'
+        data = {
+            'token': self.access_token
+        }
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        if response == 201:
+            self.headers['Authorization'] = 'JWT {0}'.format(self.access_token)
+
+    def __verify_token(self):
+        """ Return the access toke if it's still valid """
+
+        route = 'v1/token-verify/'
+        data = {
+            'token': self.access_token
+        }
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return response.json()['token']
