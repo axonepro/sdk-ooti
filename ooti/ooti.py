@@ -114,7 +114,7 @@ class Auth(object):
 
         route = 'v1/projects/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return json.loads(response.content)
+        return {'status': response.status_code, 'data': json.loads(response.content)}
 
     def update_project_details(self, pk, data):
         """Update the project details
@@ -125,14 +125,14 @@ class Auth(object):
 
         route = 'v1/projects/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return json.loads(response.content)
+        return {'status': response.status_code, 'data': json.loads(response.content)}
 
     def get_projects_list(self):
         """Get the project list"""
 
         route = 'v1/projects/list/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return json.loads(response.content)['results']
+        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
 
     def get_phase_details(self, pk):
         """Get the phase details
@@ -144,7 +144,7 @@ class Auth(object):
 
         route = 'v1/phases/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return json.loads(response.content)
+        return {'status': response.status_code, 'data': json.loads(response.content)}
 
     def update_phase_details(self, pk, data):
         """Update the phase details
@@ -156,9 +156,9 @@ class Auth(object):
 
         route = 'v1/phases/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return json.loads(response.content)
+        return {'status': response.status_code, 'data': json.loads(response.content)}
 
-    def get_phases_list(self, project_pk):
+    def get_phases_list(self, pk):
         """Get the phase list
 
         Keyword arguments:
@@ -167,7 +167,7 @@ class Auth(object):
 
         route = 'v1/phases/list/{0}/'.format(project_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return json.loads(response.content)['results']
+        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
 
     def __get_token(self):
         route = 'v1/token-auth/'
@@ -186,6 +186,7 @@ class Auth(object):
             'Accept': 'application/json',
             'X-CSRF-Token': self._csrf_token
         }
+        return response.status_code
 
     def __get_org(self):
         """ Set the organization id of the user """
@@ -193,6 +194,7 @@ class Auth(object):
         route = 'v1/organizations/membership/'
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         self.org_pk = json.loads(response.content)['organizations'][0]['id']
+        return response.status_code
 
     def __get_csrf_token(self):
         client = requests.session()
@@ -215,6 +217,7 @@ class Auth(object):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         if response == 201:
             self.headers['Authorization'] = 'JWT {0}'.format(self.access_token)
+        return response.status_code
 
     def __verify_token(self):
         """ Return the access toke if it's still valid """
@@ -224,4 +227,4 @@ class Auth(object):
             'token': self.access_token
         }
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return response.json()['token']
+        return response.status_code
