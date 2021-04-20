@@ -1,5 +1,9 @@
 .Vscode
-.DS_Store
-main.py
-test_sdk.py
 __pycache__/
+
+# operating system-related files
+*.DS_Store #file properties cache/storage on macOS
+
+main.py
+.env
+test_sdk.py
