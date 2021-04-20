@@ -17,6 +17,8 @@ class Auth(object):
         self.__get_token()
         self.__get_org()
 
+    ###### Invoice ######
+
     def get_invoice_details(self, pk):
         """Get the invoice details
         Keyword arguments:
@@ -59,6 +61,8 @@ class Auth(object):
 
         return {"status": response.status_code}
 
+    ###### Payment ######
+
     def get_payment_details(self, pk):
         """Get the payment details
         Keyword arguments:
@@ -99,6 +103,8 @@ class Auth(object):
         response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
                                  headers=self.headers, data=json.dumps(data))
         return json.loads(response.content)
+
+    ###### Project and phases ######
 
     def get_project_details(self, pk):
         """Get the project details
@@ -159,6 +165,8 @@ class Auth(object):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return {'status': response.status_code, 'data': json.loads(response.content)['results']}
 
+    ###### Currency ######
+
     def get_currencies_list(self):
         """Get the currencies list """
 
@@ -185,8 +193,7 @@ class Auth(object):
         route = 'v1/currencies/{0}'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         if(response.status_code == 204):
-
-        return {"status": 204, "data": json.loads(response.content)}
+            return {"status": 204, "data": json.loads(response.content)}
 
     def create_currency(self, data):
         """ Create a currency
@@ -206,6 +213,113 @@ class Auth(object):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         if(response.status_code == 201):
             return {"status": 201, "data": "Currency created"}
+
+    def update_currency(self, pk, data):
+        """ Update a currency
+
+        Keyword arguments:
+
+        data -- data to create, required fields : 
+            {
+                "name": "string",
+                "longname": "string",
+                "decimal_points": 0,
+                "symbol": "string"
+            }
+
+        pk -- the pk of the currency
+        """
+
+        route = 'v1/currencies/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers,
+                                  data=json.dumps(data))
+        return {"status": response.status_code, "data": json.loads(response.content)}
+
+    ###### Clients ######
+
+    def get_clients_list(self, team_pk):
+        """Get the clients list
+
+        Keyword arguments:
+
+        pk -- the pk of the team
+        """
+
+        route = 'v1/clients/list/{0}/'.format(self.org_pk)
+        parameters = '?page_size=50&team={0}'.format(team_pk)
+
+        response = requests.get('{0}{1}{2}'.format(self.base_url, route, parameters), headers=self.headers)
+        return {"status": response.status_code, "data": json.loads(response.content)}
+
+    def get_clients_details(self, pk):
+        """Get the client details
+
+        Keyword arguments:
+
+        pk -- the pk of the client
+        """
+
+        route = 'v1/clients/{0}/'.format(pk)
+
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return {"status": response.status_code, "data": json.loads(response.content)}
+
+    def create_client(self, data):
+        """ Create client 
+
+        Keyword arguments:
+        data -- data to create, required fields : 
+            {
+                "company_name": "string",
+                "number": "string",
+                "currency": "string" (currency_pk)
+                "billing_address": "string",
+                "team": "string"
+            }
+
+        """
+
+        route = 'v1/clients/list/{0}/'.format(self.org_pk)
+
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return {"status": response.status_code, "data": json.loads(response.content)}
+
+    def update_client(self, pk, data):
+        """ Update client
+
+        Keyword arguments:
+        pk -- pk of the client 
+        data -- data to create, required fields : 
+            {
+                "company_name": "string",
+                "currency": "string" (currency_pk),
+                "number": "string",
+                "business_vat_id: "string",
+                "billing_address": "string",
+                "group": "?"
+                "address: "string"
+            }
+        """
+        route = 'v1/clients/{0}/'.format(pk)
+
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return {"status": response.status_code, "data": json.loads(response.content)}
+
+    def delete_client(self, pk):
+        """ Delete client
+
+        Keyword arguments:
+        pk -- pk of the client
+        """
+        route = 'v1/clients/{0}/'.format(pk)
+
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        if(response.status_code == 204):
+            return {"status": response.status_code, "data": "Client deleted"}
+        else:
+            return {"status": response.status_code, "data": json.loads(response.content)}
+
+    ###### Token ######
 
     def __get_token(self):
         route = 'v1/token-auth/'
