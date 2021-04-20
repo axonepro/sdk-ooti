@@ -14,7 +14,7 @@ OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 my_account = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
 my_account.connect()
 
-team_pk = my_account.get_team_id()['data']
+team_pk = my_account.teams_pk[0]['id']
 currency_pk = my_account.get_currencies_list()['data'][0]['pk']
 
 
@@ -33,7 +33,7 @@ class Tests(unittest.TestCase):
                 if(data_object[attribute_name] == value_attribute):
                     return data_object['pk']
 
-    ##### Invoices ######
+##### Invoices ######
     def test_get_invoices_list(self):
         """ Test that 200 is returned """
         # * OK
@@ -70,7 +70,7 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res_creation['status'], 201)
 
-    ###### Currencies ######
+###### Currencies ######
 
     def test_get_currencies_list(self):
         """ Test that 200 is returned """
@@ -142,13 +142,12 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res_del['status'], 204)
 
-    ###### Clients ######
+###### Clients ######
 
     def test_get_clients_list(self):
         """ Test that 200 is returned """
         # * OK
 
-        team_pk = my_account.get_team_id()['data']
         res_get = my_account.get_clients_list(team_pk)
 
         self.assertEqual(res_get['status'], 200)
