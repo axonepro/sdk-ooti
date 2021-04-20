@@ -6,8 +6,9 @@ class Auth(object):
     def __init__(self, username, password):
         self.username = username
         self.password = password
-        self.org_pk = None
         self.base_url = 'https://ooti-staging-3.herokuapp.com/api/'  # "https://app.ooti.co/api/"
+        self.org_pk = None
+        self.teams = None
         self.access_token = None
         self._csrf_token = None
         self.headers = None
@@ -15,7 +16,7 @@ class Auth(object):
     def connect(self):
         self.__get_csrf_token()
         self.__get_token()
-        self.__get_org_pk()
+        self.__get_org()
 
 
 ##### Invoice #####
@@ -249,12 +250,13 @@ class Auth(object):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return {'status': response.status_code, 'data': json.loads(response.content)}
 
-    def __get_org_pk(self):
+    def __get_org(self):
         """ Set the organization id of the user """
 
         route = 'v1/organizations/membership/'
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         self.org_pk = json.loads(response.content)['organizations'][0]['id']
+        self.teams = json.loads(response.content)['organizations'][0]['teams']
         return response.status_code
 
 
