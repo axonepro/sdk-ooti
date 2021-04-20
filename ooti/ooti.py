@@ -276,7 +276,8 @@ class Auth(object):
                 "number": "string",
                 "currency": "string" (currency_pk)
                 "billing_address": "string",
-                "team": "string"
+                "team": "string",
+                "tags": []
             }
 
         """
