@@ -33,7 +33,44 @@ class Tests(unittest.TestCase):
                 if(data_object[attribute_name] == value_attribute):
                     return data_object['pk']
 
-    ###### Currency ######
+    ##### Invoices ######
+    def test_get_invoices_list(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        res_get = my_account.get_invoices_list()
+
+        self.assertEqual(res_get['status'], 200)
+
+    def test_get_invoice_details(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        invoice_pk = my_account.get_invoices_list()['data'][0]['pk']
+        res_details = my_account.get_invoice_details(invoice_pk)
+
+        self.assertEqual(res_details['status'], 200)
+
+    def test_create_invoice(self):
+        """ Test that 201 is returned """
+        # * OK
+
+        client_info = my_account.get_clients_list(team_pk)['data']['results'][0]
+
+        invoice = {
+            "client_name": client_info['name'],
+            "client_address": client_info['address'],
+            "invoice_date": '19-04-2021',
+            "due_date": '19-05-2021',
+            "references": 'UNITTEST',
+            "type": 4
+        }
+
+        res_creation = my_account.create_invoice(team_pk, invoice)
+
+        self.assertEqual(res_creation['status'], 201)
+
+    ###### Currencies ######
 
     def test_get_currencies_list(self):
         """ Test that 200 is returned """
@@ -109,6 +146,7 @@ class Tests(unittest.TestCase):
 
     def test_get_clients_list(self):
         """ Test that 200 is returned """
+        # * OK
 
         team_pk = my_account.get_team_id()['data']
         res_get = my_account.get_clients_list(team_pk)
