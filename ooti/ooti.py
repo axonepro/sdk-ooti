@@ -8,7 +8,7 @@ class Auth(object):
         self.password = password
         self.base_url = 'https://ooti-staging-3.herokuapp.com/api/'  # "https://app.ooti.co/api/"
         self.org_pk = None
-        self.teams = None
+        self.teams_pk = None
         self.access_token = None
         self._csrf_token = None
         self.headers = None
@@ -20,6 +20,7 @@ class Auth(object):
 
 
 ##### Invoice #####
+
 
     def get_invoice_details(self, pk):
         """Get the invoice details
@@ -68,6 +69,7 @@ class Auth(object):
 
 ##### Payment #####
 
+
     def get_payment_details(self, pk):
         """Get the payment details
 
@@ -115,6 +117,7 @@ class Auth(object):
 
 ##### Project #####
 
+
     def get_project_details(self, pk):
         """Get the project details
 
@@ -146,6 +149,7 @@ class Auth(object):
 
 
 ##### Phase #####
+
 
     def get_phase_details(self, pk):
         """Get the phase details
@@ -185,6 +189,7 @@ class Auth(object):
 
 ##### Task #####
 
+
     def get_tasks_list(self):
         """ Get the tasks list """
 
@@ -194,6 +199,7 @@ class Auth(object):
 
 
 ##### Annexe #####
+
 
     def get_annexes_list(self, project_pk):
         """Get the annexes list
@@ -243,6 +249,7 @@ class Auth(object):
 
 ##### Organization #####
 
+
     def get_organization_details(self):
         """ Get organization details """
 
@@ -256,11 +263,15 @@ class Auth(object):
         route = 'v1/organizations/membership/'
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         self.org_pk = json.loads(response.content)['organizations'][0]['id']
-        self.teams = json.loads(response.content)['organizations'][0]['teams']
+        teams = json.loads(response.content)['organizations'][0]['teams']
+        self.teams_pk = []
+        for team in range(len(teams)):
+            self.teams_pk.append({key: teams[team][key] for key in ('id', 'title')})
         return response.status_code
 
 
 ##### Token #####
+
 
     def __get_token(self):
         route = 'v1/token-auth/'
