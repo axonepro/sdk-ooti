@@ -194,7 +194,7 @@ class Auth(object):
         route = 'v1/currencies/{0}'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         if(response.status_code == 204):
-            return {"status": 204, "data": json.loads(response.content)}
+            return {"status": 204, "data": "Currency deleted"}
 
     def create_currency(self, data):
         """ Create a currency
@@ -244,6 +244,7 @@ class Auth(object):
         Keyword arguments:
 
         pk -- the pk of the team
+
         """
 
         route = 'v1/clients/list/{0}/'.format(self.org_pk)
@@ -381,3 +382,10 @@ class Auth(object):
         }
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return response.status_code
+
+    def get_team_id(self):
+        """ Return team id """
+
+        route = 'v1/organizations/membership/'
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return {"status": response.status_code, "data": json.loads(response.content)["organizations"][0]["teams"][0]["id"]}
