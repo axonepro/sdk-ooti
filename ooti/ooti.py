@@ -7,7 +7,7 @@ class Auth(object):
         self.username = username
         self.password = password
         self.org_pk = None
-        self.base_url = "https://app.ooti.co/api/"
+        self.base_url = "https://ooti-staging-3.herokuapp.com/api/"
         self.access_token = None
         self._csrf_token = None
         self.headers = None
@@ -19,7 +19,6 @@ class Auth(object):
 
     def get_invoice_details(self, pk):
         """Get the invoice details
-
         Keyword arguments:
         pk -- the pk of the invoice
         """
@@ -31,13 +30,12 @@ class Auth(object):
     def get_invoices_list(self):
         """Get the invoice list"""
 
-        route = 'v1/invoices/list/{0}/'.format(self.org_pk)
+        route = 'v1/invoices/list/{0}/?page_size=200'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return json.loads(response.content)['results']
 
     def update_invoice(self, pk, data):
         """Create an invoice
-
         Keyword arguments:
         pk -- the pk of the invoice
         data -- data to create
@@ -49,7 +47,6 @@ class Auth(object):
 
     def create_invoice(self, team_pk, data):
         """Create an invoice
-
         Keyword arguments:
         team_pk -- the pk of the team
         data -- data to create
@@ -59,11 +56,11 @@ class Auth(object):
         parameters = '?team={0}'.format(team_pk)
         response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
                                  headers=self.headers, data=json.dumps(data))
-        return json.loads(response.content)
+
+        return {"status": response.status_code}
 
     def get_payment_details(self, pk):
         """Get the payment details
-
         Keyword arguments:
         pk -- the pk of the payment
         """
@@ -81,7 +78,6 @@ class Auth(object):
 
     def update_payment(self, pk, data):
         """Create an payment
-
         Keyword arguments:
         pk -- the pk of the payment
         data -- data to create
@@ -93,7 +89,6 @@ class Auth(object):
 
     def create_payment(self, team_pk, data):
         """Create an payment
-
         Keyword arguments:
         team_pk -- the pk of the team
         data -- data to create
@@ -107,7 +102,6 @@ class Auth(object):
 
     def get_project_details(self, pk):
         """Get the project details
-
         Keyword arguments:
         pk -- the pk of the project
         """
@@ -118,7 +112,6 @@ class Auth(object):
 
     def update_project_details(self, pk, data):
         """Update the project details
-
         Keyword arguments:
         pk -- the pk of the project
         """
@@ -136,7 +129,6 @@ class Auth(object):
 
     def get_phase_details(self, pk):
         """Get the phase details
-
         Keyword arguments:
         pk -- the pk of the phase
         data -- data to update
@@ -148,7 +140,6 @@ class Auth(object):
 
     def update_phase_details(self, pk, data):
         """Update the phase details
-
         Keyword arguments:
         pk -- the pk of the phase
         data -- data to update
@@ -160,7 +151,6 @@ class Auth(object):
 
     def get_phases_list(self, pk):
         """Get the phase list
-
         Keyword arguments:
         pk -- the pk of the project
         """
@@ -168,6 +158,54 @@ class Auth(object):
         route = 'v1/phases/list/{0}/'.format(project_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+
+    def get_currencies_list(self):
+        """Get the currencies list """
+
+        route = 'v1/currencies/list/?page_size=200'
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return {"status": response.status_code, "data": json.loads(response.content)['results']}
+
+    def get_currency_details(self, pk):
+        """ Get the currency details
+        Keyword arguments:
+        pk -- the pk of the currency
+        """
+
+        route = 'v1/currencies/{0}'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return {"status": response.status_code, "data": json.loads(response.content)}
+
+    def delete_currency(self, pk):
+        """ Delete a currency
+        Keyword arguments:
+        pk -- the pk of the currency
+        """
+
+        route = 'v1/currencies/{0}'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        if(response.status_code == 204):
+
+        return {"status": 204, "data": json.loads(response.content)}
+
+    def create_currency(self, data):
+        """ Create a currency
+
+        Keyword arguments:
+
+        data -- data to create, required fields : 
+            {
+                "name": "string",
+                "longname": "string",
+                "decimal_points": 0,
+                "symbol": "string"
+            }
+        """
+
+        route = 'v1/currencies/list/'
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        if(response.status_code == 201):
+            return {"status": 201, "data": "Currency created"}
 
     def __get_token(self):
         route = 'v1/token-auth/'
