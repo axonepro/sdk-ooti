@@ -241,7 +241,7 @@ class Auth(object):
                                   data=json.dumps(data))
         return {"status": response.status_code, "data": json.loads(response.content)}
 
-    ###### Clients ######
+###### Clients ######
 
     def get_clients_list(self, team_pk):
         """Get the clients list
