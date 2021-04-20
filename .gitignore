@@ -1,4 +1,5 @@
 .Vscode
 .DS_Store
 main.py
+test_sdk.py
 __pycache__/
