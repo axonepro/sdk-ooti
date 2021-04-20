@@ -62,6 +62,7 @@ class Auth(object):
 
         return {'status': response.status_code, 'data': "Invoice created"}
 
+
 ##### Payment #####
 
     def get_payment_details(self, pk):
@@ -105,6 +106,7 @@ class Auth(object):
         response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
                                  headers=self.headers, data=json.dumps(data))
         return {'status': response.status_code, 'data': json.loads(response.content)}
+
 
 ###### Project ######
 
@@ -170,6 +172,7 @@ class Auth(object):
         route = 'v1/phases/list/{0}/'.format(project_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+
 
 ###### Currency ######
 
@@ -240,6 +243,7 @@ class Auth(object):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers,
                                   data=json.dumps(data))
         return {"status": response.status_code, "data": json.loads(response.content)}
+
 
 ###### Clients ######
 
