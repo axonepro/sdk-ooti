@@ -425,7 +425,7 @@ class Auth(object):
 
         route = 'v1/contacts/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return response.status_code
 
 
 ##### Task #####
