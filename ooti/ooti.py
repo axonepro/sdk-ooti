@@ -425,7 +425,10 @@ class Auth(object):
 
         route = 'v1/contacts/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return response.status_code
+        if(response.status_code == 204):
+            return {'status': response.status_code, 'data': 'Contact deleted'}
+        else:
+            return {'status': response.status_code, 'data': json.loads(response.content)}
 
 
 ##### Task #####
