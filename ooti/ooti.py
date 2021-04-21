@@ -340,7 +340,8 @@ class Auth(object):
 
 
     def get_contacts_list(self, project_pk=None):
-        """ Get the contacts list 
+        """ Get the contacts list
+
         project_pk -- the pk of the contacts' project (optional)
         """
 
@@ -352,6 +353,7 @@ class Auth(object):
 
     def get_contact_details(self, pk):
         """ Get the contact details
+
         Keywords arguments:
         pk -- the pk of the contact
         """
@@ -362,6 +364,7 @@ class Auth(object):
 
     def update_contact_details(self, pk, data):
         """ Update the contact details
+
         Keywords arguments:
         pk -- the pk of the contact
         data -- data to update, example value:
@@ -393,6 +396,7 @@ class Auth(object):
 
     def create_contact(self, data, project_pk=None):
         """ Create contact
+
         Keywords arguments:
         project_pk -- the pk of the contact's project (optional)
         data -- data to create:
@@ -414,6 +418,7 @@ class Auth(object):
 
     def delete_contact(self, pk):
         """ Delete the contact
+
         Keywords arguments:
         pk -- the pk of the contact
         """
