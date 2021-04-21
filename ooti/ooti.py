@@ -33,7 +33,7 @@ class Auth(object):
     def get_invoices_list(self):
         """Get the invoice list"""
 
-        route = 'v1/invoices/list/{0}/?page_size=200'.format(self.org_pk)
+        route = 'v1/invoices/list/{0}/?page_size=9999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return {'status': response.status_code, 'data': json.loads(response.content)['results']}
 
@@ -41,18 +41,37 @@ class Auth(object):
         """Create an invoice
         Keyword arguments:
         pk -- the pk of the invoice
-        data -- data to create
+        data -- data to create :
+            {
+                "invoice_date": "DD-MM-YYYY",
+                "billing_option": 0,
+                "bank": 0,
+                "purchase_order": "string",
+                "references": "string"
+            }
         """
 
         route = 'v1/invoices/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        if(response.status_code == 200):
+            return {'status': response.status_code}
+        else:
+            return {'status': response.status_code, 'data': json.loads(response.content)}
 
     def create_invoice(self, team_pk, data):
         """Create an invoice
         Keyword arguments:
         team_pk -- the pk of the team
-        data -- data to create
+        data -- data to create :
+            {
+                "project": 0,
+                "type": 0,
+                "invoice_date": "DD-MM-YYY",
+                "client": 0,
+                "team": 0
+            }
+
+            Note that for type 4 (other), project is not mandatory
         """
 
         route = 'v1/invoices/list/{0}/'.format(self.org_pk)
@@ -60,10 +79,84 @@ class Auth(object):
         response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
                                  headers=self.headers, data=json.dumps(data))
 
-        return {'status': response.status_code, 'data': "Invoice created"}
+        if(response.status_code == 201):
+            return {'status': response.status_code, 'data': 'Invoice created'}
+        else:
+            return {'status': response.status_code, 'data': json.loads(response.content)}
+
+    def get_invoice_items(self, pk):
+        """ Get invoice's items
+
+        Keyword arguments: 
+
+        pk -- invoice pk
+        """
+
+        route = 'v1/invoices/items/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return {'status': response.status_code, 'data': json.loads(response.content)}
+
+    def create_invoice_item(self, pk, data):
+        """ Create invoice's item
+
+        Keyword Arguments:
+
+        pk -- pk of the invoice
+        data -- data to create :
+            {
+                "descritpion": "string" (title of the item),
+                "subtitle": "string" (description of the item),
+                "amount": 0
+            }
+        """
+
+        route = 'v1/invoices/items/{0}/'.format(pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        if(response.status_code not in [201, 500]):
+            return {'status': response.status_code, 'data': json.loads(response.content)}
+        else:
+            return {'status': response.status_code}
+
+    def update_invoice_item(self, pk, data):
+        """ Update invoice's item
+
+        Keyword Arguments:
+
+        pk -- pk of the item
+        data -- data to update :
+            {
+                "descritpion": "string" (title of the item),
+                "subtitle": "string" (description of the item),
+                "amount": 0
+            }
+        """
+
+        route = 'v1/invoices/item/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+
+        if(response.status_code == 200):
+            return {'status': response.status_code}
+        else:
+            return {'status': response.status_code, 'data': json.loads(response.content)}
+
+    def delete_invoice_item(self, pk):
+        """ Update invoice's item
+
+        Keyword Arguments:
+
+        pk -- pk of the item
+        """
+
+        route = 'v1/invoices/item/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        if(response.status_code not in [204]):
+            return {'status': response.status_code, 'data': json.loads(response.content)}
+        else:
+            return {'status': response.status_code}
 
 
 ##### Payment #####
+
 
     def get_payment_details(self, pk):
         """Get the payment details
@@ -91,7 +184,6 @@ class Auth(object):
 
         route = 'v1/payments/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return json.loads(response.content)
         return {'status': response.status_code, 'data': json.loads(response.content)}
 
     def create_payment(self, team_pk, data):
@@ -105,6 +197,29 @@ class Auth(object):
         parameters = '?team={0}'.format(team_pk)
         response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
                                  headers=self.headers, data=json.dumps(data))
+        return {'status': response.status_code, 'data': json.loads(response.content)}
+
+
+##### Expense #####
+
+
+    def get_expenses_list(self):
+        """ Get the expenses list """
+
+        route = 'v1/expenses/list/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+
+    def get_expenses_details(self, pk):
+        """Get the expense details
+
+        Keyword arguments:
+
+        pk -- the pk of the expense
+        """
+
+        route = 'v1/expenses/{0}'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return {'status': response.status_code, 'data': json.loads(response.content)}
 
 
