@@ -1,6 +1,9 @@
 import unittest
 from ooti import ooti
 
+from datetime import datetime
+from uuid import uuid4
+
 # To read .env variables
 import os
 from dotenv import load_dotenv
@@ -33,7 +36,30 @@ class Tests(unittest.TestCase):
                 if(data_object[attribute_name] == value_attribute):
                     return data_object['pk']
 
-##### Invoices ######
+    def _create_invoice_return_pk(self):
+        """ Create and return the pk of an invoice """
+
+        client_info = my_account.get_clients_list(team_pk)['data']['results'][0]
+
+        reference = "{0}{1}".format(datetime.now().strftime('%Y%m-%d%H-%M%S-'), uuid4())
+
+        invoice = {
+            "client_name": client_info['name'],
+            "client_address": client_info['address'],
+            "invoice_date": '19-04-2021',
+            "due_date": '19-05-2021',
+            "references": reference,
+            "type": 4
+        }
+
+        my_account.create_invoice(team_pk, invoice)
+        res_get_invoices = my_account.get_invoices_list()['data']
+
+        invoice_pk = self._get_item_id(res_get_invoices, 'references', invoice['references'])
+        return invoice_pk
+
+    ##### Invoices ######
+
     def test_get_invoices_list(self):
         """ Test that 200 is returned """
         # * OK
@@ -70,7 +96,83 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res_creation['status'], 201)
 
-###### Currencies ######
+    def test_update_invoice(self):
+        """ Test that 200 is returned """
+
+        invoice_pk = self._create_invoice_return_pk()
+
+        invoice_updated = {
+            "invoice_date": "20-04-2021",
+            "references": "This is my new reference!!!",
+            "purchase_order": "Hey this is the purchase order"
+        }
+        res_update = my_account.update_invoice(invoice_pk, invoice_updated)
+
+        self.assertEqual(res_update['status'], 200)
+
+    def test_get_invoice_items(self):
+        """ Test that 200 is returned """
+
+        invoice_pk = self._create_invoice_return_pk()
+        res_items = my_account.get_invoice_items(invoice_pk)
+
+        self.assertEqual(res_items['status'], 200)
+
+    def test_create_invoice_item(self):
+        """ Test that 201 is returned """
+
+        invoice_pk = self._create_invoice_return_pk()
+
+        invoice_item = {
+            "description": "UNITTEST ITEM",
+            "subtitle": "My subtitle",
+            "amount": 1000
+        }
+
+        res_creation = my_account.create_invoice_item(invoice_pk, invoice_item)
+
+        self.assertEqual(res_creation['status'], 201)
+
+    def test_update_invoice_item(self):
+        """ Test that 200 is returned """
+
+        invoice_pk = self._create_invoice_return_pk()
+
+        invoice_item = {
+            "description": "UNITTEST ITEM",
+            "subtitle": "My subtitle",
+            "amount": 1000
+        }
+
+        my_account.create_invoice_item(invoice_pk, invoice_item)
+        invoice_item_pk = my_account.get_invoice_items(invoice_pk)['data']['results'][0]['pk']
+
+        invoice_item_updated = {
+            "amount": 1200
+        }
+
+        res_update = my_account.update_invoice_item(invoice_item_pk, invoice_item_updated)
+
+        self.assertEqual(res_update['status'], 200)
+
+    def test_delete_invoice_item(self):
+        """ Test that 204 is returned """
+
+        invoice_pk = self._create_invoice_return_pk()
+        invoice_item = {
+            "description": "UNITTEST ITEM",
+            "subtitle": "My subtitle",
+            "amount": 1000
+        }
+
+        my_account.create_invoice_item(invoice_pk, invoice_item)
+        invoice_item_pk = my_account.get_invoice_items(invoice_pk)['data']['results'][0]['pk']
+
+        res_delete = my_account.delete_invoice_item(invoice_item_pk)
+
+        self.assertEqual(res_delete['status'], 204)
+
+    ###### Currencies ######
 
     def test_get_currencies_list(self):
         """ Test that 200 is returned """
@@ -142,7 +244,7 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res_del['status'], 204)
 
-###### Clients ######
+    ###### Clients ######
 
     def test_get_clients_list(self):
         """ Test that 200 is returned """
@@ -223,6 +325,8 @@ class Tests(unittest.TestCase):
 
         res_delete = my_account.delete_client(client_pk)
         self.assertEqual(res_delete['status'], 204)
+
+    ###### Exepenses ######
 
 
 if __name__ == '__main__':
