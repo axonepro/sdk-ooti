@@ -1,9 +1,6 @@
 import unittest
 from ooti import ooti
 
-from datetime import datetime
-from uuid import uuid4
-
 # To read .env variables
 import os
 from dotenv import load_dotenv
@@ -22,43 +19,24 @@ currency_pk = my_account.get_currencies_list()['data'][0]['pk']
 
 
 class Tests(unittest.TestCase):
-    def _get_item_id(self, results, attribute_name, value_attribute):
-        """ Returns the pk of a given object based on value of attribute
-
-        Keyword arguments:
-
-        results -- array of object
-        attribute_name -- name of the attribute you're looking for
-        value_attribute -- value of the attribute you're looking for
-        """
-        for data_object in results:
-            if(attribute_name in data_object):
-                if(data_object[attribute_name] == value_attribute):
-                    return data_object['pk']
-
     def _create_invoice_return_pk(self):
         """ Create and return the pk of an invoice """
 
         client_info = my_account.get_clients_list(team_pk)['data']['results'][0]
-
-        reference = "{0}{1}".format(datetime.now().strftime('%Y%m-%d%H-%M%S-'), uuid4())
 
         invoice = {
             "client_name": client_info['name'],
             "client_address": client_info['address'],
             "invoice_date": '19-04-2021',
             "due_date": '19-05-2021',
-            "references": reference,
+            "references": "UNITTEST ref",
             "type": 4
         }
 
-        my_account.create_invoice(team_pk, invoice)
-        res_get_invoices = my_account.get_invoices_list()['data']
-
-        invoice_pk = self._get_item_id(res_get_invoices, 'references', invoice['references'])
+        invoice_pk = my_account.create_invoice(team_pk, invoice)['data']['pk']
         return invoice_pk
 
-    ##### Invoices ######
+##### Invoices ######
 
     def test_get_invoices_list(self):
         """ Test that 200 is returned """
@@ -98,6 +76,7 @@ class Tests(unittest.TestCase):
 
     def test_update_invoice(self):
         """ Test that 200 is returned """
+        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
 
@@ -110,8 +89,19 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res_update['status'], 200)
 
+    def test_validate_invoice(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        invoice_pk = self._create_invoice_return_pk()
+
+        res_validate = my_account.validate_invoice(invoice_pk)
+
+        self.assertEqual(res_validate['status'], 200)
+
     def test_get_invoice_items(self):
         """ Test that 200 is returned """
+        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
         res_items = my_account.get_invoice_items(invoice_pk)
@@ -120,6 +110,7 @@ class Tests(unittest.TestCase):
 
     def test_create_invoice_item(self):
         """ Test that 201 is returned """
+        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
 
@@ -135,6 +126,7 @@ class Tests(unittest.TestCase):
 
     def test_update_invoice_item(self):
         """ Test that 200 is returned """
+        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
 
@@ -144,8 +136,7 @@ class Tests(unittest.TestCase):
             "amount": 1000
         }
 
-        my_account.create_invoice_item(invoice_pk, invoice_item)
-        invoice_item_pk = my_account.get_invoice_items(invoice_pk)['data']['results'][0]['pk']
+        invoice_item_pk = my_account.create_invoice_item(invoice_pk, invoice_item)['data']['pk']
 
         invoice_item_updated = {
             "amount": 1200
@@ -157,6 +148,7 @@ class Tests(unittest.TestCase):
 
     def test_delete_invoice_item(self):
         """ Test that 204 is returned """
+        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
         invoice_item = {
@@ -165,14 +157,116 @@ class Tests(unittest.TestCase):
             "amount": 1000
         }
 
-        my_account.create_invoice_item(invoice_pk, invoice_item)
-        invoice_item_pk = my_account.get_invoice_items(invoice_pk)['data']['results'][0]['pk']
+        invoice_item_pk = my_account.create_invoice_item(invoice_pk, invoice_item)['data']['pk']
 
         res_delete = my_account.delete_invoice_item(invoice_item_pk)
 
         self.assertEqual(res_delete['status'], 204)
 
-    ###### Currencies ######
+###### Payments ######
+
+    def test_get_payments_list(self):
+        """ Test that 200 is returned """
+
+        res_payments = my_account.get_payments_list()
+
+        self.assertEqual(res_payments['status'], 200)
+
+    def test_get_payments_details(self):
+        """ Test that 200 is returned """
+
+        payment_pk = my_account.get_payments_list()['data'][0]['pk']
+        res_details = my_account.get_payment_details(payment_pk)
+
+        self.assertEqual(res_details['status'], 200)
+
+    def test_create_payment(self):
+        """ Test that 201 is returned """
+
+        invoice_pk = self._create_invoice_return_pk()
+
+        invoice_item = {
+            "description": "UNITTEST ITEM",
+            "subtitle": "My subtitle",
+            "amount": 1000
+        }
+
+        res_creation_item = my_account.create_invoice_item(invoice_pk, invoice_item)
+        my_account.validate_invoice(invoice_pk)
+
+        payment = {
+            "date": "21-04-2021",
+            "amount": 100,
+            "currency": "11833",
+            "invoice": invoice_pk,
+            "team": team_pk
+        }
+
+        res_creation_payment = my_account.create_payment(team_pk, payment)
+
+        self.assertEqual(res_creation_payment['status'], 201)
+
+    def test_update_payment(self):
+        """ Test that 200 is returned """
+
+        invoice_pk = self._create_invoice_return_pk()
+        invoice_item = {
+            "description": "UNITTEST ITEM",
+            "subtitle": "My subtitle",
+            "amount": 1000
+        }
+
+        res_creation_item = my_account.create_invoice_item(invoice_pk, invoice_item)
+        my_account.validate_invoice(invoice_pk)
+
+        payment = {
+            "date": "21-04-2021",
+            "amount": 100,
+            "currency": "11833",
+            "invoice": invoice_pk,
+            "team": team_pk
+        }
+
+        payment_pk = my_account.create_payment(team_pk, payment)['data']['pk']
+        payment['date'] = '20-04-2021'
+
+        res_update_payment = my_account.update_payment(payment_pk, payment)
+
+        self.assertEqual(res_update_payment['status'], 200)
+
+    def test_update_amount_payment_invoice(self):
+        """ Test that 200 is returned """
+
+        invoice_pk = self._create_invoice_return_pk()
+        invoice_item = {
+            "description": "UNITTEST ITEM",
+            "subtitle": "My subtitle",
+            "amount": 1000
+        }
+
+        res_creation_item = my_account.create_invoice_item(invoice_pk, invoice_item)
+        my_account.validate_invoice(invoice_pk)
+
+        payment = {
+            "date": "21-04-2021",
+            "amount": 100,
+            "currency": "11833",
+            "invoice": invoice_pk,
+            "team": team_pk
+        }
+
+        payment_pk = my_account.create_payment(team_pk, payment)['data']['pk']
+
+        update = {
+            "amount": 200
+        }
+
+        my_account.update_payment(payment_pk, update)
+        res_update_amount_invoice = my_account.update_payment_invoice(payment_pk, update)
+
+        self.assertEqual(res_update_amount_invoice['status'], 200)
+
+###### Currencies ######
 
     def test_get_currencies_list(self):
         """ Test that 200 is returned """
@@ -218,9 +312,7 @@ class Tests(unittest.TestCase):
             "symbol": "^"
         }
 
-        my_account.create_currency(currency)
-        res_currencies_list = my_account.get_currencies_list()["data"]
-        pk_currency = self._get_item_id(res_currencies_list, 'name', currency['name'])
+        pk_currency = my_account.create_currency(currency)['data']['pk']
         currency["decimal_points"] = 2
 
         res_update = my_account.update_currency(pk_currency, currency)
@@ -237,14 +329,13 @@ class Tests(unittest.TestCase):
             "symbol": "^"
         }
 
-        my_account.create_currency(currency)
-        res_currencies_list = my_account.get_currencies_list()['data']
-        pk_currency = self._get_item_id(res_currencies_list, 'name', currency['name'])
+        pk_currency = my_account.create_currency(currency)['data']['pk']
         res_del = my_account.delete_currency(pk_currency)
 
         self.assertEqual(res_del['status'], 204)
 
-    ###### Clients ######
+
+###### Clients ######
 
     def test_get_clients_list(self):
         """ Test that 200 is returned """
@@ -295,10 +386,7 @@ class Tests(unittest.TestCase):
             "tags": []
         }
 
-        res_creation = my_account.create_client(client)
-
-        res_clients_list = my_account.get_clients_list(team_pk)
-        client_pk = self._get_item_id(res_clients_list["data"]["results"], "name", "UNITTEST_UPDATE")
+        client_pk = my_account.create_client(client)['data']['pk']
 
         client["billing_address"] = "Update unittest address"
 
@@ -319,10 +407,7 @@ class Tests(unittest.TestCase):
             "tags": []
         }
 
-        res_creation = my_account.create_client(client)
-        res_clients_list = my_account.get_clients_list(team_pk)
-        client_pk = self._get_item_id(res_clients_list["data"]["results"], "name", "UNITTEST_DELETE")
-
+        client_pk = my_account.create_client(client)['data']['pk']
         res_delete = my_account.delete_client(client_pk)
         self.assertEqual(res_delete['status'], 204)
 
