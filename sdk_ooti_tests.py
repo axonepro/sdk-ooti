@@ -99,6 +99,26 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res_validate['status'], 200)
 
+    def test_send_invoice(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        invoice_pk = self._create_invoice_return_pk()
+
+        res_send = my_account.send_invoice(invoice_pk)
+
+        self.assertEqual(res_send['status'], 200)
+
+    def test_close_invoice(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        invoice_pk = self._create_invoice_return_pk()
+
+        res_close = my_account.cancel_invoice(invoice_pk)
+
+        self.assertEqual(res_close['status'], 200)
+
     def test_get_invoice_items(self):
         """ Test that 200 is returned """
         # * OK
