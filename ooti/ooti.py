@@ -49,7 +49,8 @@ class Auth(object):
                 "purchase_order": "string",
                 "references": "string",
                 "is_valid": Boolean,
-                "is_sent": Boolean
+                "is_sent": Boolean,
+                "multi_tax_enabled": Boolean (if invoice items have multi tax rates)
             }
         """
 
@@ -96,6 +97,31 @@ class Auth(object):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return {'status': response.status_code, 'data': json.loads(response.content)}
 
+    def send_invoice(self, pk):
+        """Send an invoice
+        Keyword arguments:
+        pk -- the pk of the invoice
+        """
+        data = {"is_sent": True}
+
+        route = 'v1/invoices/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return {'status': response.status_code, 'data': json.loads(response.content)}
+
+    def cancel_invoice(self, pk):
+        """Cancel an invoice and create a credit note
+        Keyword arguments:
+        pk -- the pk of the invoice
+        """
+        data = {"is_closed": True}
+
+        route = 'v1/invoices/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        if(response.status_code == 200):
+            response_data = json.loads(response.content)
+            credit_note_pk = response_data['credit_note_url'].split('/')[4]
+        return {'status': response.status_code, 'data': credit_note_pk}
+
     def get_invoice_items(self, pk):
         """ Get invoice's items
 
@@ -118,7 +144,9 @@ class Auth(object):
             {
                 "descritpion": "string" (title of the item),
                 "subtitle": "string" (description of the item),
-                "amount": 0
+                "amount": 0,
+                "tax_rate": 0.0 (if invoice.multi_tax_rate = True)
+                "tax": 0.0 (tax amount, if invoice.multi_tax_rate = True)
             }
         """
 
@@ -168,7 +196,6 @@ class Auth(object):
 
 
 ##### Payment #####
-
 
     def get_payment_details(self, pk):
         """Get the payment details
@@ -252,7 +279,6 @@ class Auth(object):
 
 ##### Expense #####
 
-
     def get_expenses_list(self):
         """ Get the expenses list """
 
@@ -274,7 +300,6 @@ class Auth(object):
 
 
 ###### Project ######
-
 
     def get_project_details(self, pk):
         """Get the project details
@@ -305,7 +330,6 @@ class Auth(object):
 
 
 ##### Phase #####
-
 
     def get_phase_details(self, pk):
         """Get the phase details
@@ -341,7 +365,6 @@ class Auth(object):
 
 
 ###### Currency ######
-
 
     def get_currencies_list(self):
         """Get the currencies list """
@@ -412,7 +435,6 @@ class Auth(object):
 
 
 ###### Clients ######
-
 
     def get_clients_list(self, team_pk):
         """Get the clients list
@@ -501,7 +523,6 @@ class Auth(object):
 
 ##### Contact #####
 
-
     def get_contacts_list(self, project_pk=None):
         """ Get the contacts list
 
@@ -577,7 +598,10 @@ class Auth(object):
         if project_pk is not None:
             route += '{0}/'.format(project_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        if(response.status_code != 500):
+            return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        else:
+            return {'status': response.status_code}
 
     def delete_contact(self, pk):
         """ Delete the contact
@@ -596,7 +620,6 @@ class Auth(object):
 
 ##### Task #####
 
-
     def get_tasks_list(self):
         """ Get the tasks list """
 
@@ -606,7 +629,6 @@ class Auth(object):
 
 
 ##### Annexe #####
-
 
     def get_annexes_list(self, project_pk):
         """Get the annexes list
@@ -656,7 +678,6 @@ class Auth(object):
 
 ##### Organization #####
 
-
     def get_organization_details(self):
         """ Get organization details """
 
@@ -678,7 +699,6 @@ class Auth(object):
 
 
 ##### Token #####
-
 
     def __get_token(self):
         route = 'v1/token-auth/'
