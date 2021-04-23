@@ -47,7 +47,10 @@ class Auth(object):
                 "billing_option": 0,
                 "bank": 0,
                 "purchase_order": "string",
-                "references": "string"
+                "references": "string",
+                "is_valid": Boolean,
+                "is_sent": Boolean,
+                "multi_tax_enabled": Boolean (if invoice items have multi tax rates)
             }
         """
 
@@ -66,8 +69,11 @@ class Auth(object):
             {
                 "project": 0,
                 "type": 0,
-                "invoice_date": "DD-MM-YYY",
-                "client": 0,
+                "invoice_date": "DD-MM-YYYY",
+                "due_date": "DD-MM-YYYY"
+                "client_name": "string",
+                "client_address": "string",
+                "references": "string"
                 "team": 0
             }
 
@@ -78,11 +84,43 @@ class Auth(object):
         parameters = '?team={0}'.format(team_pk)
         response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
                                  headers=self.headers, data=json.dumps(data))
+        return {'status': response.status_code, 'data': json.loads(response.content)}
 
-        if(response.status_code == 201):
-            return {'status': response.status_code, 'data': 'Invoice created'}
-        else:
-            return {'status': response.status_code, 'data': json.loads(response.content)}
+    def validate_invoice(self, pk):
+        """Validate an invoice
+        Keyword arguments:
+        pk -- the pk of the invoice
+        """
+        data = {"is_valid": True}
+
+        route = 'v1/invoices/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return {'status': response.status_code, 'data': json.loads(response.content)}
+
+    def send_invoice(self, pk):
+        """Send an invoice
+        Keyword arguments:
+        pk -- the pk of the invoice
+        """
+        data = {"is_sent": True}
+
+        route = 'v1/invoices/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return {'status': response.status_code, 'data': json.loads(response.content)}
+
+    def cancel_invoice(self, pk):
+        """Cancel an invoice and create a credit note
+        Keyword arguments:
+        pk -- the pk of the invoice
+        """
+        data = {"is_closed": True}
+
+        route = 'v1/invoices/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        if(response.status_code == 200):
+            response_data = json.loads(response.content)
+            credit_note_pk = response_data['credit_note_url'].split('/')[4]
+        return {'status': response.status_code, 'data': credit_note_pk}
 
     def get_invoice_items(self, pk):
         """ Get invoice's items
@@ -106,13 +144,15 @@ class Auth(object):
             {
                 "descritpion": "string" (title of the item),
                 "subtitle": "string" (description of the item),
-                "amount": 0
+                "amount": 0,
+                "tax_rate": 0.0 (if invoice.multi_tax_rate = True)
+                "tax": 0.0 (tax amount, if invoice.multi_tax_rate = True)
             }
         """
 
         route = 'v1/invoices/items/{0}/'.format(pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        if(response.status_code not in [201, 500]):
+        if(response.status_code not in [500]):
             return {'status': response.status_code, 'data': json.loads(response.content)}
         else:
             return {'status': response.status_code}
@@ -157,7 +197,6 @@ class Auth(object):
 
 ##### Payment #####
 
-
     def get_payment_details(self, pk):
         """Get the payment details
         Keyword arguments:
@@ -179,10 +218,39 @@ class Auth(object):
         """Create an payment
         Keyword arguments:
         pk -- the pk of the payment
-        data -- data to create
+        data -- data to create : 
+            {
+                "date": "DD-MM-YYYY",
+                "amount": 0,
+                "currency": "string" (currency_pk),
+                "currency_rate": 0,
+                "type": "string",
+                "invoice": "string" (invoice_pk)
+                "team": "string" (team_pk),
+                "project": "string" (project_pk)
+            }
         """
 
         route = 'v1/payments/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return {'status': response.status_code, 'data': json.loads(response.content)}
+
+    def update_payment_invoice(self, pk, data):
+        """ Update payment's amount on invoice
+
+        Please do not call this function before update_payment. 
+        To make an update on a payment, first use the "update_payment" method. 
+        Then, update the amount on the invoice with this method. 
+
+        Keyword arguments :
+
+        pk -- pk of payment
+        data -- data to update : 
+            {
+                "amount": 0
+            }
+        """
+        route = 'v1/payments/invoice/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return {'status': response.status_code, 'data': json.loads(response.content)}
 
@@ -190,7 +258,16 @@ class Auth(object):
         """Create an payment
         Keyword arguments:
         team_pk -- the pk of the team
-        data -- data to create
+        data -- data to create : 
+            {
+                "date": "DD-MM-YYYY",
+                "amount": 0,
+                "currency": "string" (currency_pk),
+                "type": "string",
+                "invoice": "string" (invoice_pk)
+                "team": "string" (team_pk),
+                "project": "string" (project_pk) (no need of project for invoices of type 4)
+            }
         """
 
         route = 'v1/payments/list/{0}/'.format(self.org_pk)
@@ -201,7 +278,6 @@ class Auth(object):
 
 
 ##### Expense #####
-
 
     def get_expenses_list(self):
         """ Get the expenses list """
@@ -224,7 +300,6 @@ class Auth(object):
 
 
 ###### Project ######
-
 
     def get_project_details(self, pk):
         """Get the project details
@@ -255,7 +330,6 @@ class Auth(object):
 
 
 ##### Phase #####
-
 
     def get_phase_details(self, pk):
         """Get the phase details
@@ -291,7 +365,6 @@ class Auth(object):
 
 
 ###### Currency ######
-
 
     def get_currencies_list(self):
         """Get the currencies list """
@@ -337,8 +410,7 @@ class Auth(object):
 
         route = 'v1/currencies/list/'
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        if(response.status_code == 201):
-            return {"status": 201, "data": "Currency created"}
+        return {"status": response.status_code, "data": json.loads(response.content)}
 
     def update_currency(self, pk, data):
         """ Update a currency
@@ -363,7 +435,6 @@ class Auth(object):
 
 
 ###### Clients ######
-
 
     def get_clients_list(self, team_pk):
         """Get the clients list
@@ -452,7 +523,6 @@ class Auth(object):
 
 ##### Contact #####
 
-
     def get_contacts_list(self, project_pk=None):
         """ Get the contacts list
 
@@ -528,7 +598,10 @@ class Auth(object):
         if project_pk is not None:
             route += '{0}/'.format(project_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        if(response.status_code != 500):
+            return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        else:
+            return {'status': response.status_code}
 
     def delete_contact(self, pk):
         """ Delete the contact
@@ -547,7 +620,6 @@ class Auth(object):
 
 ##### Task #####
 
-
     def get_tasks_list(self):
         """ Get the tasks list """
 
@@ -557,7 +629,6 @@ class Auth(object):
 
 
 ##### Annexe #####
-
 
     def get_annexes_list(self, project_pk):
         """Get the annexes list
@@ -607,7 +678,6 @@ class Auth(object):
 
 ##### Organization #####
 
-
     def get_organization_details(self):
         """ Get organization details """
 
@@ -629,7 +699,6 @@ class Auth(object):
 
 
 ##### Token #####
-
 
     def __get_token(self):
         route = 'v1/token-auth/'
