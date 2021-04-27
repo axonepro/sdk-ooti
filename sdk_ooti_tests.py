@@ -55,6 +55,14 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res_details['status'], 200)
 
+    def test_get_invoices_sent_valid_list(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        res_sent_valid = my_account.get_invoices_sent_valid_list()
+
+        self.assertEqual(res_sent_valid['status'], 200)
+
     def test_create_invoice(self):
         """ Test that 201 is returned """
         # * OK
@@ -353,7 +361,6 @@ class Tests(unittest.TestCase):
         res_del = my_account.delete_currency(pk_currency)
 
         self.assertEqual(res_del['status'], 204)
-
 
 ###### Clients ######
 
