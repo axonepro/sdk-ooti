@@ -33,14 +33,14 @@ class Auth(object):
     def get_invoices_list(self):
         """Get the invoice list"""
 
-        route = 'v1/invoices/list/{0}/?page_size=200'.format(self.org_pk)
+        route = 'v1/invoices/list/{0}/?page_size=999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return {'status': response.status_code, 'data': json.loads(response.content)['results']}
 
     def get_invoices_sent_valid_list(self):
         """ Get the sent and valid invoice list """
 
-        route = 'v1/invoices/list/{0}/?team={1}&page_size=200&q=&is_sent=true&is_valid=true'.format(
+        route = 'v1/invoices/list/{0}/?team={1}&page_size=999999&q=&is_sent=true&is_valid=true'.format(
             self.org_pk, self.teams_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return {'status': response.status_code, 'data': json.loads(response.content)['results']}
@@ -207,14 +207,14 @@ class Auth(object):
     def get_credit_notes_list(self):
         """Get the invoice list"""
 
-        route = 'v1/invoices/list/{0}/?page_size=200&type=9'.format(self.org_pk)
+        route = 'v1/invoices/list/{0}/?page_size=999999&type=9'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return {'status': response.status_code, 'data': json.loads(response.content)['results']}
 
     def get_credit_notes_sent_valid_list(self):
         """ Get the sent and valid invoice list """
 
-        route = 'v1/invoices/list/{0}/?team={1}&page_size=200&q=&is_sent=true&is_valid=true&type=9'.format(
+        route = 'v1/invoices/list/{0}/?team={1}&page_size=999999&q=&is_sent=true&is_valid=true&type=9'.format(
             self.org_pk, self.teams_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return {'status': response.status_code, 'data': json.loads(response.content)['results']}
@@ -471,7 +471,7 @@ class Auth(object):
         """
 
         route = 'v1/clients/list/{0}/'.format(self.org_pk)
-        parameters = '?page_size=50&team={0}'.format(team_pk)
+        parameters = '?page_size=999999&team={0}'.format(team_pk)
 
         response = requests.get('{0}{1}{2}'.format(self.base_url, route, parameters), headers=self.headers)
         return {"status": response.status_code, "data": json.loads(response.content)['results']}
