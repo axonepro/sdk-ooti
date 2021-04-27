@@ -202,6 +202,23 @@ class Auth(object):
         else:
             return {'status': response.status_code}
 
+##### Credit note #####
+
+    def get_credit_notes_list(self):
+        """Get the invoice list"""
+
+        route = 'v1/invoices/list/{0}/?page_size=200&type=9'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+
+    def get_credit_notes_sent_valid_list(self):
+        """ Get the sent and valid invoice list """
+
+        route = 'v1/invoices/list/{0}/?team={1}&page_size=200&q=&is_sent=true&is_valid=true&type=9'.format(
+            self.org_pk, self.teams_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+
 
 ##### Payment #####
 
