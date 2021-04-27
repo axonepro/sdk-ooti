@@ -191,6 +191,20 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res_delete['status'], 204)
 
+##### Credit notes #####
+
+    def test_get_credit_notes(self):
+        """ Test that 200 is returned """
+        res = my_account.get_credit_notes_list()
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_sent_valid_credit_notes(self):
+        """ Test that 200 is returned """
+        res = my_account.get_credit_notes_sent_valid_list()
+
+        self.assertEqual(res['status'], 200)
+
 ###### Payments ######
 
     def test_get_payments_list(self):
