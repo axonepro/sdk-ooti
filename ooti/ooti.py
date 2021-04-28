@@ -18,6 +18,27 @@ class Auth(object):
         self.__get_token()
         self.__get_org()
 
+##### HELPER #####
+
+    def process_response(self, response, results=None):
+        """ Process the response and return it 
+
+        :param: reponse is the reponse from the API
+        :param: results is saying if we just want the results field of the reponse
+
+        :return: {status, data} or {status} if data is not JSON serializable
+        """
+        try:
+            if(results == None):
+                return {'status': response.status_code, 'data': json.loads(response.content)}
+            else:
+                return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        except ValueError:
+            return {'status': response.status_code}
+        except KeyError:
+            return {'status': response.status_code, 'data': json.loads(response.content)}
+
+
 ##### AUTH #####
 
     ##### Projects #####
@@ -647,6 +668,117 @@ class Auth(object):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers,
                                   data=json.dumps(data))
         return {"status": response.status_code, "data": json.loads(response.content)}
+
+    #### Emails ####
+
+    ### Classic ###
+
+    def get_emails_list(self):
+        """Get the emails list"""
+
+        route = 'v1/emails/list/{0}/?page_size=999999'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def get_email_details(self, pk):
+        """Get the email details
+        Keyword arguments:
+        pk -- the pk of the email
+        """
+
+        route = 'v1/emails/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response
+
+    def create_email(self, team_pk, data):
+        """ Create an email
+
+        Keyword arguments:
+
+        team_pk -- the pk of the team
+        data -- data to create, fields : 
+            {
+                "team": 0,
+                "name": "string", (name of the template)
+                "type": "", ('invoice', 'followup' or 'contractor_notification')
+                "email_to": "string",
+                "email_from": "string",
+                "name_from": "string",
+                "email_cc": "string",
+                "email_bcc": "string",
+                "email_subject": "string",
+                "email_body": "string",
+                "smtp_setting": 0,
+                "projects": [],
+                "invoices": []
+            }
+
+        Note that there is no required fields to create the email template.
+        """
+
+        route = 'v1/emails/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def update_email(self, pk, data):
+        """ Create an email
+
+        Keyword arguments:
+
+        pk -- the pk of the email template
+        data -- data to create, fields : 
+            {
+                "team": 0,
+                "name": "string", (name of the template)
+                "type": "", ('invoice', 'followup' or 'contractor_notification')
+                "email_to": "string",
+                "email_from": "string",
+                "name_from": "string",
+                "email_cc": "string",
+                "email_bcc": "string",
+                "email_subject": "string",
+                "email_body": "string",
+                "smtp_setting": 0 ,
+                "projects": [],
+                "invoices": []
+            }
+
+        Note that there is no required fields to create the email template.
+        """
+
+        route = 'v1/emails/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_email(self, pk):
+        """Delete an email 
+
+        Keyword arguments:
+
+        pk -- pk of the email
+        """
+        route = 'v1/emails/{0}'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    ### smtp ###
+
+    def get_emails_smtp_list(self):
+        """Get the emails list"""
+
+        route = 'v1/emails/smtp/list/{0}/?page_size=999999'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def get_email_smtp_details(self, pk):
+        """Get the email smtp details
+        Keyword arguments:
+        pk -- the pk of the email smtp
+        """
+
+        route = 'v1/emails/smtp/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response
 
 
 ##### COSTS #####
