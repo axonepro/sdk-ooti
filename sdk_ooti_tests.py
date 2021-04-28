@@ -22,11 +22,10 @@ class Tests(unittest.TestCase):
     def _create_invoice_return_pk(self):
         """ Create and return the pk of an invoice """
 
-        client_info = my_account.get_clients_list(team_pk)['data']['results'][0]
+        client_info = my_account.get_clients_list(team_pk)['data'][0]
 
         invoice = {
-            "client_name": client_info['name'],
-            "client_address": client_info['address'],
+            "client": client_info['pk'],
             "invoice_date": '19-04-2021',
             "due_date": '19-05-2021',
             "references": "UNITTEST ref",
@@ -36,7 +35,9 @@ class Tests(unittest.TestCase):
         invoice_pk = my_account.create_invoice(team_pk, invoice)['data']['pk']
         return invoice_pk
 
-##### Invoices ######
+##### INVOICING #####
+
+    #### Invoices #####
 
     def test_get_invoices_list(self):
         """ Test that 200 is returned """
@@ -67,11 +68,10 @@ class Tests(unittest.TestCase):
         """ Test that 201 is returned """
         # * OK
 
-        client_info = my_account.get_clients_list(team_pk)['data']['results'][0]
+        client_info = my_account.get_clients_list(team_pk)['data'][0]
 
         invoice = {
-            "client_name": client_info['name'],
-            "client_address": client_info['address'],
+            "client": client_info['pk'],
             "invoice_date": '19-04-2021',
             "due_date": '19-05-2021',
             "references": 'UNITTEST',
@@ -191,7 +191,7 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res_delete['status'], 204)
 
-##### Credit notes #####
+    #### Credit notes ####
 
     def test_get_credit_notes(self):
         """ Test that 200 is returned """
@@ -205,7 +205,7 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 200)
 
-###### Payments ######
+    ##### Payments #####
 
     def test_get_payments_list(self):
         """ Test that 200 is returned """
@@ -308,7 +308,7 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res_update_amount_invoice['status'], 200)
 
-###### Currencies ######
+    ##### Currencies #####
 
     def test_get_currencies_list(self):
         """ Test that 200 is returned """
@@ -376,7 +376,7 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res_del['status'], 204)
 
-###### Clients ######
+    ##### Clients #####
 
     def test_get_clients_list(self):
         """ Test that 200 is returned """
@@ -392,7 +392,7 @@ class Tests(unittest.TestCase):
 
         res_get_list = my_account.get_clients_list(team_pk)
 
-        client_pk = res_get_list['data']['results'][0]['pk']
+        client_pk = res_get_list['data'][0]['pk']
         res_get = my_account.get_clients_details(client_pk)
 
         self.assertEqual(res_get['status'], 200)
@@ -452,7 +452,170 @@ class Tests(unittest.TestCase):
         res_delete = my_account.delete_client(client_pk)
         self.assertEqual(res_delete['status'], 204)
 
-    ###### Exepenses ######
+    #### Emails ####
+
+    ### Classic ###
+    def _create_email_return_pk(self):
+        """ Create an email template and return the pk """
+
+        email = {
+            "name": "UNITTEST",
+            "email_subject": "UNITTEST",
+            "email_body": "UNITTEST",
+            "email_to": "vdebande@ooti.co",
+            "email_from": "vdebande@ooti.co",
+            "name_from": "Vincent de OOTI"
+        }
+
+        email_pk = my_account.create_email(my_account.teams_pk, email)['data']['id']
+        return email_pk
+
+    def test_get_emails_list(self):
+        """ Test that 200 is returned """
+        res = my_account.get_emails_list()
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_email(self):
+        """ Test that 201 is returned """
+
+        email = {
+            "name": "UNITTEST",
+            "email_subject": "UNITTEST",
+            "email_body": "UNITTEST",
+            "email_to": "vdebande@ooti.co",
+            "email_from": "vdebande@ooti.co",
+            "name_from": "Vincent de OOTI"
+        }
+
+        res_creation = my_account.create_email(my_account.teams_pk, email)
+        my_account.delete_email(res_creation['data']['id'])
+
+        self.assertEqual(res_creation['status'], 201)
+
+    def test_get_emails_details(self):
+        """ Test that 200 is returned """
+
+        email_pk = self._create_email_return_pk()
+        res = my_account.get_email_details(email_pk)
+        my_account.delete_email(email_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_email(self):
+        """ Test that 200 is returned """
+        email_pk = self._create_email_return_pk()
+
+        data = {'name': 'UNITTEST - update'}
+        res = my_account.update_email(email_pk, data)
+        my_account.delete_email(email_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_email(self):
+        """ Test that 204 is returned """
+
+        email_pk = self._create_email_return_pk()
+        res = my_account.delete_email(email_pk)
+
+        self.assertEqual(res['status'], 204)
+
+    def test_send_test_email(self):
+        """ Test that 200 is returned """
+
+        email_pk = self._create_email_return_pk()
+        res = my_account.send_test_email(email_pk)
+        my_account.delete_email(email_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_apply_email(self):
+        """ Test that 200 is returned """
+
+        email_pk = self._create_email_return_pk()
+        res = my_account.apply_email(email_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    ### smtp ###
+    def _create_email_smtp_return_pk(self):
+        """ Create email smtp and return pk """
+
+        data = {
+            "from_name": "UNITTEST",
+            "from_email": "UNITTEST",
+            "username": "UNITTEST",
+            "password": "UNITTEST",
+            "protocol": "TLS",
+            "host": "UNITTEST",
+            "port": 0
+        }
+
+        smtp_pk = my_account.create_email_smtp(data)['data']['id']
+        return smtp_pk
+
+    def test_get_emails_smtp(self):
+        """ Test that 200 is returned """
+
+        res = my_account.get_emails_smtp_list()
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_email_smtp(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "from_name": "UNITTEST",
+            "from_email": "UNITTEST",
+            "username": "UNITTEST",
+            "password": "UNITTEST",
+            "protocol": "TLS",
+            "host": "UNITTEST",
+            "port": 0
+        }
+
+        res = my_account.create_email_smtp(data)
+        my_account.delete_email_smtp(res['data']['id'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_email_smtp_details(self):
+        """ Test that 200 is returned """
+
+        smtp_pk = self._create_email_smtp_return_pk()
+
+        res = my_account.get_email_smtp_details(smtp_pk)
+        my_account.delete_email_smtp(smtp_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_email_smtp(self):
+        """ Test that 200 is returned """
+
+        smtp_pk = self._create_email_smtp_return_pk()
+
+        data = {"from_name": "UNITTEST - Update"}
+        res = my_account.update_email_smtp(smtp_pk, data)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_email_smtp(self):
+        """ Test that 204 is returned """
+
+        smtp_pk = self._create_email_smtp_return_pk()
+        res = my_account.delete_email_smtp(smtp_pk)
+
+        self.assertEqual(res['status'], 204)
+
+    def test_send_test_email_smtp(self):
+        """ Test that 200 is returned """
+
+        smtp_pk = self._create_email_smtp_return_pk()
+        res = my_account.send_test_email_smtp(smtp_pk)
+
+        my_account.delete_email_smtp(smtp_pk)
+
+        self.assertEqual(res['status'], 200)
 
 
 if __name__ == '__main__':
