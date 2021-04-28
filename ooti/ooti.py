@@ -43,6 +43,7 @@ class Auth(object):
 
     ##### Projects #####
 
+
     def get_project_details(self, pk):
         """Get the project details
         Keyword arguments:
@@ -150,6 +151,7 @@ class Auth(object):
 
     #### Phases ####
 
+
     def get_phase_details(self, pk):
         """Get the phase details
         Keyword arguments:
@@ -234,6 +236,7 @@ class Auth(object):
 
     #### Invoices ####
 
+
     def get_invoice_details(self, pk):
         """Get the invoice details
         Keyword arguments:
@@ -242,14 +245,14 @@ class Auth(object):
 
         route = 'v1/invoices/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def get_invoices_list(self):
         """Get the invoice list"""
 
         route = 'v1/invoices/list/{0}/?page_size=999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        return self.process_response(response, True)
 
     def get_invoices_sent_valid_list(self):
         """ Get the sent and valid invoice list """
@@ -257,7 +260,7 @@ class Auth(object):
         route = 'v1/invoices/list/{0}/?team={1}&page_size=999999&q=&is_sent=true&is_valid=true'.format(
             self.org_pk, self.teams_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        return self.process_response(response, True)
 
     def update_invoice(self, pk, data):
         """Create an invoice
@@ -278,10 +281,7 @@ class Auth(object):
 
         route = 'v1/invoices/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        if(response.status_code == 200):
-            return {'status': response.status_code}
-        else:
-            return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def create_invoice(self, team_pk, data):
         """Create an invoice
@@ -306,7 +306,7 @@ class Auth(object):
         parameters = '?team={0}'.format(team_pk)
         response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
                                  headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def validate_invoice(self, pk):
         """Validate an invoice
@@ -317,7 +317,7 @@ class Auth(object):
 
         route = 'v1/invoices/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def send_invoice(self, pk):
         """Send an invoice
@@ -328,7 +328,7 @@ class Auth(object):
 
         route = 'v1/invoices/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def cancel_invoice(self, pk):
         """Cancel an invoice and create a credit note
@@ -339,10 +339,13 @@ class Auth(object):
 
         route = 'v1/invoices/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+
         if(response.status_code == 200):
             response_data = json.loads(response.content)
             credit_note_pk = response_data['credit_note_url'].split('/')[4]
-        return {'status': response.status_code, 'data': credit_note_pk}
+            return {'status': response.status_code, 'data': credit_note_pk}
+
+        return self.process_response(response)
 
     def get_invoice_items(self, pk):
         """ Get invoice's items
@@ -354,7 +357,7 @@ class Auth(object):
 
         route = 'v1/invoices/items/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def create_invoice_item(self, pk, data):
         """ Create invoice's item
@@ -374,10 +377,7 @@ class Auth(object):
 
         route = 'v1/invoices/items/{0}/'.format(pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        if(response.status_code not in [500]):
-            return {'status': response.status_code, 'data': json.loads(response.content)}
-        else:
-            return {'status': response.status_code}
+        return self.process_response(response)
 
     def update_invoice_item(self, pk, data):
         """ Update invoice's item
@@ -395,11 +395,7 @@ class Auth(object):
 
         route = 'v1/invoices/item/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-
-        if(response.status_code == 200):
-            return {'status': response.status_code}
-        else:
-            return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def delete_invoice_item(self, pk):
         """ Update invoice's item
@@ -411,10 +407,7 @@ class Auth(object):
 
         route = 'v1/invoices/item/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        if(response.status_code not in [204]):
-            return {'status': response.status_code, 'data': json.loads(response.content)}
-        else:
-            return {'status': response.status_code}
+        return self.process_response(response)
 
     #### Credit notes ####
 
@@ -423,7 +416,7 @@ class Auth(object):
 
         route = 'v1/invoices/list/{0}/?page_size=999999&type=9'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        return self.process_response(response, True)
 
     def get_credit_notes_sent_valid_list(self):
         """ Get the sent and valid invoice list """
@@ -431,7 +424,7 @@ class Auth(object):
         route = 'v1/invoices/list/{0}/?team={1}&page_size=999999&q=&is_sent=true&is_valid=true&type=9'.format(
             self.org_pk, self.teams_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        return self.process_response(response, True)
 
     #### Payments ####
 
@@ -443,14 +436,14 @@ class Auth(object):
 
         route = 'v1/payments/{0}'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def get_payments_list(self):
         """Get the payment list"""
 
         route = 'v1/payments/list/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        return self.process_response(response, True)
 
     def update_payment(self, pk, data):
         """Create an payment
@@ -471,7 +464,7 @@ class Auth(object):
 
         route = 'v1/payments/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def update_payment_invoice(self, pk, data):
         """ Update payment's amount on invoice
@@ -490,7 +483,7 @@ class Auth(object):
         """
         route = 'v1/payments/invoice/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def create_payment(self, team_pk, data):
         """Create an payment
@@ -512,7 +505,7 @@ class Auth(object):
         parameters = '?team={0}'.format(team_pk)
         response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
                                  headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     ##### Clients #####
 
@@ -529,7 +522,7 @@ class Auth(object):
         parameters = '?page_size=999999&team={0}'.format(team_pk)
 
         response = requests.get('{0}{1}{2}'.format(self.base_url, route, parameters), headers=self.headers)
-        return {"status": response.status_code, "data": json.loads(response.content)['results']}
+        return self.process_response(response, True)
 
     def get_clients_details(self, pk):
         """Get the client details
@@ -542,7 +535,7 @@ class Auth(object):
         route = 'v1/clients/{0}/'.format(pk)
 
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {"status": response.status_code, "data": json.loads(response.content)}
+        return self.process_response(response)
 
     def create_client(self, data):
         """ Create client 
@@ -563,7 +556,7 @@ class Auth(object):
         route = 'v1/clients/list/{0}/'.format(self.org_pk)
 
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {"status": response.status_code, "data": json.loads(response.content)}
+        return self.process_response(response)
 
     def update_client(self, pk, data):
         """ Update client
@@ -584,7 +577,7 @@ class Auth(object):
         route = 'v1/clients/{0}/'.format(pk)
 
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {"status": response.status_code, "data": json.loads(response.content)}
+        return self.process_response(response)
 
     def delete_client(self, pk):
         """ Delete client
@@ -595,10 +588,7 @@ class Auth(object):
         route = 'v1/clients/{0}/'.format(pk)
 
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        if(response.status_code == 204):
-            return {"status": response.status_code, "data": "Client deleted"}
-        else:
-            return {"status": response.status_code, "data": json.loads(response.content)}
+        return self.process_response(response)
 
     ##### Currencies #####
 
@@ -607,7 +597,7 @@ class Auth(object):
 
         route = 'v1/currencies/list/?page_size=200'
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {"status": response.status_code, "data": json.loads(response.content)['results']}
+        return self.process_response(response, True)
 
     def get_currency_details(self, pk):
         """ Get the currency details
@@ -617,7 +607,7 @@ class Auth(object):
 
         route = 'v1/currencies/{0}'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {"status": response.status_code, "data": json.loads(response.content)}
+        return self.process_response(response)
 
     def delete_currency(self, pk):
         """ Delete a currency
@@ -627,8 +617,7 @@ class Auth(object):
 
         route = 'v1/currencies/{0}'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        if(response.status_code == 204):
-            return {"status": 204, "data": "Currency deleted"}
+        return self.process_response(response)
 
     def create_currency(self, data):
         """ Create a currency
@@ -646,7 +635,7 @@ class Auth(object):
 
         route = 'v1/currencies/list/'
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {"status": response.status_code, "data": json.loads(response.content)}
+        return self.process_response(response)
 
     def update_currency(self, pk, data):
         """ Update a currency
@@ -667,7 +656,7 @@ class Auth(object):
         route = 'v1/currencies/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers,
                                   data=json.dumps(data))
-        return {"status": response.status_code, "data": json.loads(response.content)}
+        return self.process_response(response)
 
     #### Emails ####
 
@@ -688,7 +677,7 @@ class Auth(object):
 
         route = 'v1/emails/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return self.process_response
+        return self.process_response(response)
 
     def create_email(self, team_pk, data):
         """ Create an email
@@ -721,7 +710,7 @@ class Auth(object):
         return self.process_response(response)
 
     def update_email(self, pk, data):
-        """ Create an email
+        """ Update an email
 
         Keyword arguments:
 
@@ -761,6 +750,29 @@ class Auth(object):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
+    def send_test_email(self, pk):
+        """ Send test email to the email of the account
+
+        Keyword arguments:
+
+        pk -- the pk of the email template
+        """
+
+        route = 'v1/emails/{0}/send-test/'.format(pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def apply_email(self, pk):
+        """ Apply the template to related projects and unsent invoices
+
+        Keyword arguments:
+
+        pk -- pk of the email template
+        """
+        route = 'v1/emails/{0}/apply/'.format(pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
     ### smtp ###
 
     def get_emails_smtp_list(self):
@@ -778,7 +790,72 @@ class Auth(object):
 
         route = 'v1/emails/smtp/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return self.process_response
+        return self.process_response(response)
+
+    def create_email_smtp(self, data):
+        """ Create an email SMTP 
+
+        Keyword Arguments:
+
+        data -- data to create: fields :
+           {
+               "from_name": "string",
+               "from_email": "string",
+               "username": "string",
+               "password": "string",
+               "protocol": "TLS" or "SSL",
+               "host": "string",
+               "port": 0      
+           } 
+           """
+        route = 'v1/emails/smtp/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def update_email_smtp(self, pk, data):
+        """ Update an email SMTP
+
+        Keyword arguments:
+
+        pk -- the pk of the email smtp
+        data -- data to create: fields :
+           {
+               "from_name": "string",
+               "from_email": "string",
+               "username": "string",
+               "password": "string",
+               "protocol": "TLS" or "SSL",
+               "host": "string",
+               "port": 0      
+           } 
+        """
+
+        route = 'v1/emails/smtp/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_email_smtp(self, pk):
+        """Delete an email smtp
+
+        Keyword arguments:
+
+        pk -- pk of the email smtp
+        """
+        route = 'v1/emails/smtp/{0}'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def send_test_email_smtp(self, pk):
+        """ Verify the status of the smtp
+
+        Keyword arguments:
+
+        pk -- the pk of the email template
+        """
+
+        route = 'v1/emails/smtp/{0}/send-test/'.format(pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
 
 
 ##### COSTS #####
