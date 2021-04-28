@@ -579,8 +579,7 @@ class Auth(object):
         else:
             return {"status": response.status_code, "data": json.loads(response.content)}
 
-
-###### Currencies ######
+    ##### Currencies #####
 
     def get_currencies_list(self):
         """Get the currencies list """
