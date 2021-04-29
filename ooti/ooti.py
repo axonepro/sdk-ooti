@@ -21,7 +21,7 @@ class Auth(object):
 ##### HELPER #####
 
     def process_response(self, response, results=None):
-        """ Process the response and return it 
+        """ Process the response and return it
 
         :param: reponse is the reponse from the API
         :param: results is saying if we just want the results field of the reponse
@@ -42,7 +42,6 @@ class Auth(object):
 ##### AUTH #####
 
     ##### Projects #####
-
 
     def get_project_details(self, pk):
         """Get the project details
@@ -151,7 +150,6 @@ class Auth(object):
 
     #### Phases ####
 
-
     def get_phase_details(self, pk):
         """Get the phase details
         Keyword arguments:
@@ -235,7 +233,6 @@ class Auth(object):
 ##### INVOICING #####
 
     #### Invoices ####
-
 
     def get_invoice_details(self, pk):
         """Get the invoice details
@@ -350,7 +347,7 @@ class Auth(object):
     def get_invoice_items(self, pk):
         """ Get invoice's items
 
-        Keyword arguments: 
+        Keyword arguments:
 
         pk -- invoice pk
         """
@@ -449,7 +446,7 @@ class Auth(object):
         """Create an payment
         Keyword arguments:
         pk -- the pk of the payment
-        data -- data to create : 
+        data -- data to create :
             {
                 "date": "DD-MM-YYYY",
                 "amount": 0,
@@ -469,14 +466,14 @@ class Auth(object):
     def update_payment_invoice(self, pk, data):
         """ Update payment's amount on invoice
 
-        Please do not call this function before update_payment. 
-        To make an update on a payment, first use the "update_payment" method. 
-        Then, update the amount on the invoice with this method. 
+        Please do not call this function before update_payment.
+        To make an update on a payment, first use the "update_payment" method.
+        Then, update the amount on the invoice with this method.
 
         Keyword arguments :
 
         pk -- pk of payment
-        data -- data to update : 
+        data -- data to update :
             {
                 "amount": 0
             }
@@ -489,7 +486,7 @@ class Auth(object):
         """Create an payment
         Keyword arguments:
         team_pk -- the pk of the team
-        data -- data to create : 
+        data -- data to create :
             {
                 "date": "DD-MM-YYYY",
                 "amount": 0,
@@ -538,10 +535,10 @@ class Auth(object):
         return self.process_response(response)
 
     def create_client(self, data):
-        """ Create client 
+        """ Create client
 
         Keyword arguments:
-        data -- data to create, required fields : 
+        data -- data to create, required fields :
             {
                 "company_name": "string",
                 "number": "string",
@@ -562,8 +559,8 @@ class Auth(object):
         """ Update client
 
         Keyword arguments:
-        pk -- pk of the client 
-        data -- data to create, required fields : 
+        pk -- pk of the client
+        data -- data to create, required fields :
             {
                 "company_name": "string",
                 "currency": "string" (currency_pk),
@@ -624,7 +621,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        data -- data to create, required fields : 
+        data -- data to create, required fields :
             {
                 "name": "string",
                 "longname": "string",
@@ -642,7 +639,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        data -- data to create, required fields : 
+        data -- data to create, required fields :
             {
                 "name": "string",
                 "longname": "string",
@@ -685,7 +682,7 @@ class Auth(object):
         Keyword arguments:
 
         team_pk -- the pk of the team
-        data -- data to create, fields : 
+        data -- data to create, fields :
             {
                 "team": 0,
                 "name": "string", (name of the template)
@@ -715,7 +712,7 @@ class Auth(object):
         Keyword arguments:
 
         pk -- the pk of the email template
-        data -- data to create, fields : 
+        data -- data to create, fields :
             {
                 "team": 0,
                 "name": "string", (name of the template)
@@ -740,7 +737,7 @@ class Auth(object):
         return self.process_response(response)
 
     def delete_email(self, pk):
-        """Delete an email 
+        """Delete an email
 
         Keyword arguments:
 
@@ -793,7 +790,7 @@ class Auth(object):
         return self.process_response(response)
 
     def create_email_smtp(self, data):
-        """ Create an email SMTP 
+        """ Create an email SMTP
 
         Keyword Arguments:
 
@@ -805,9 +802,9 @@ class Auth(object):
                "password": "string",
                "protocol": "TLS" or "SSL",
                "host": "string",
-               "port": 0      
-           } 
-           """
+               "port": 0
+           }
+        """
         route = 'v1/emails/smtp/list/{0}/'.format(self.org_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
@@ -826,8 +823,8 @@ class Auth(object):
                "password": "string",
                "protocol": "TLS" or "SSL",
                "host": "string",
-               "port": 0      
-           } 
+               "port": 0
+           }
         """
 
         route = 'v1/emails/smtp/{0}/'.format(pk)
@@ -857,6 +854,193 @@ class Auth(object):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
+    #### Files ####
+
+    ### Folders ###
+
+    def get_folder_list(self, project_pk):
+        """Get the folder list
+
+        Keyword arguments:
+
+        project_pk -- pk of the project
+        """
+
+        route = 'v1/files/folder/list/{0}/?page_size=999999'.format(project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def get_folder_details(self, pk):
+        """Get the folder details
+
+        Keyword arguments:
+
+        pk -- pk of the folder
+        """
+
+        route = 'v1/files/folder/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def create_folder(self, project_pk, data):
+        """ Create a folder
+
+        Keyword arguments:
+
+        project_pk -- pk of the project
+        data -- data to be created :
+            {
+                "name": "string",
+                "name_en": "string",
+                "name_fr": "string",
+                "parent": 0
+            }
+        """
+        route = 'v1/files/folder/list/{0}/'.format(project_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def update_folder(self, pk, data):
+        """ Update a folder
+
+        Keyword arguments:
+
+        pk -- pk of the folder
+        data -- data to be updated :
+            {
+                "name": "string",
+                "name_en": "string",
+                "name_fr": "string",
+                "parent": 0
+            }
+        """
+        route = 'v1/files/folder/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_folder(self, pk):
+        """ Delete a folder
+
+        Keyword arguments:
+
+        pk -- pk of the folder
+        """
+        route = 'v1/files/folder/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    ### Files ###
+
+    def get_files_list(self, project_pk):
+        """Get the files list
+
+        Keyword arguments:
+
+        project_pk -- pk of the project
+        """
+
+        route = 'v1/files/list/{0}/?page_size=999999'.format(project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def get_file_details(self, pk):
+        """Get the file details
+
+        Keyword arguments:
+
+        pk -- pk of the file
+        """
+
+        route = 'v1/files/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def delete_file(self, pk):
+        """ Delete a file 
+
+        Keyword arguments:
+
+        pk -- pk of the file
+        """
+
+        route = 'v1/files/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    #### Banks ####
+
+    def get_banks_list(self):
+        """Get the banks list """
+
+        route = 'v1/banks/list/{0}/?page_size=999999'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def get_bank_details(self, pk):
+        """Get the bank details
+
+        Keyword arguments:
+
+        pk -- pk of the bank
+        """
+
+        route = 'v1/banks/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def create_bank(self, data):
+        """ Create a bank
+
+        Keyword arguments:
+
+        data -- data to be created :
+            {
+                "name": "string",
+                "currency": 0,
+                "country": "string",
+                "iban": "string",
+                "bic": "string",
+                "rib": "string",
+                "teams": ["string"]
+                "projects": ["string"]         
+            }
+        """
+        route = 'v1/banks/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def update_bank(self, pk, data):
+        """ Create a bank
+
+        Keyword arguments:
+
+        data -- data to be created :
+            {
+                "name": "string",
+                "currency": 0,
+                "country": "string",
+                "iban": "string",
+                "bic": "string",
+                "rib": "string",
+                "teams": ["string"]
+                "projects": ["string"]         
+            }
+        """
+        route = 'v1/banks/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_bank(self, pk):
+        """ Create a bank
+
+        Keyword arguments:
+
+        pk -- pk of the bank 
+        """
+        route = 'v1/banks/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
 
 ##### COSTS #####
 
@@ -874,7 +1058,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- the pk of the expense
+        pk - - the pk of the expense
         """
 
         route = 'v1/expenses/{0}'.format(pk)
@@ -889,7 +1073,7 @@ class Auth(object):
     def get_contacts_list(self, project_pk=None):
         """ Get the contacts list
 
-        project_pk -- the pk of the contacts' project (optional)
+        project_pk - - the pk of the contacts' project(optional)
         """
 
         route = 'v1/contacts/list/{0}/'.format(self.org_pk)
@@ -902,7 +1086,7 @@ class Auth(object):
         """ Get the contact details
 
         Keywords arguments:
-        pk -- the pk of the contact
+        pk - - the pk of the contact
         """
 
         route = 'v1/contacts/{0}/'.format(pk)
@@ -913,8 +1097,8 @@ class Auth(object):
         """ Update the contact details
 
         Keywords arguments:
-        pk -- the pk of the contact
-        data -- data to update, example value:
+        pk - - the pk of the contact
+        data - - data to update, example value:
         {
             "name": "string",
             "first_name": "string",
@@ -931,8 +1115,8 @@ class Auth(object):
             "province1": "string",
             "country1": "string",
             "job_title": "string",
-            "client": [ (ids of the clients associated with this contact)
-                "string" 
+            "client": [(ids of the clients associated with this contact)
+                "string"
             ]
         }
         """
@@ -945,9 +1129,9 @@ class Auth(object):
         """ Create contact
 
         Keywords arguments:
-        project_pk -- the pk of the contact's project (optional)
-        data -- data to create:
-            {   
+        project_pk - - the pk of the contact's project(optional)
+        data - - data to create:
+            {
                 "name": "string" (required),
                 "first_name": "string" (optional),
                 "last_name": "string" (optional),
@@ -970,7 +1154,7 @@ class Auth(object):
         """ Delete the contact
 
         Keywords arguments:
-        pk -- the pk of the contact
+        pk - - the pk of the contact
         """
 
         route = 'v1/contacts/{0}/'.format(pk)
