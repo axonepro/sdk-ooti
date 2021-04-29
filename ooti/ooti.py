@@ -34,7 +34,7 @@ class Auth(object):
         except ValueError:
             return {'status': response.status_code}
         except KeyError:
-            return {'status': response.status_code, 'data': json.loads(response.content)}
+            return self.process_response(response)
 
 ##### AUTH #####
 
@@ -49,7 +49,7 @@ class Auth(object):
 
         route = 'v1/projects/{0}/'.format(id)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def update_project_details(self, id, data):
         """ Update the project details
@@ -67,7 +67,7 @@ class Auth(object):
 
         route = 'v1/projects/{0}/'.format(id)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def delete_project(self, id):
         """ Delete a project
@@ -77,7 +77,7 @@ class Auth(object):
         """
         route = 'v1/projects/{0}/'.format(id)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def get_projects_list(self):
         """ Get the projects list """
@@ -95,9 +95,13 @@ class Auth(object):
             "client": client_pk,
             "currency": curency_pk,
             "project_title": "New project",
+            "phases": [phase_pk, phase_pk, ...],
+            "project_users": [project_user_pk, ...],
+            "areas": [],
+            "project_tags": [],
             "start_date": "28-04-2020",
             "end_date": "28-08-2020",
-            "orgusers": [orguser_pk, orguser_pk, ...]
+            "orgusers": [orguser_pk, orguser_pk, ...],
             "city": "Paris",
             "country": "FR"
         }
@@ -105,7 +109,7 @@ class Auth(object):
 
         route = 'v1/projects/list/{0}/'.format(self.org_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        return self.process_response(response)
 
     def get_project_users_list(self, id):
         """ Get the list of users of a project 
@@ -114,7 +118,7 @@ class Auth(object):
         id -- the id of the project
         """
 
-        route = 'v1/projects/users/list/{0}/'.format(self.pk)
+        route = 'v1/projects/users/list/{0}/'.format(id)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return {'status': response.status_code, 'data': json.loads(response.content)['results']}
 
@@ -127,7 +131,7 @@ class Auth(object):
 
         route = 'v1/projects/users/{0}/'.format(user_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def add_project_user(self, id, data):
         """ Add a new user to the project 
@@ -138,14 +142,14 @@ class Auth(object):
         {
             "orguser": orguser_pk,
             "permissionsset": permission_pk,
-            "project": project_pk,
+            "project": project_id,
             "is_visible": true
         }
         """
 
-        route = 'v1/projects/users/list/{0}/'.format(pk)
+        route = 'v1/projects/users/list/{0}/'.format(id)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def update_project_user_details(self, user_pk, data):
         """ Update the project user details 
@@ -154,7 +158,6 @@ class Auth(object):
         user_pk -- pk of the user
         data -- content of the update :
         {
-            "permissionsset": permission_pk,
             "hours_actual": 10,
             "is_billable": False
         }
@@ -162,7 +165,7 @@ class Auth(object):
 
         route = 'v1/projects/users/{0}/'.format(user_pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def delete_project_user(self, user_pk):
         """ Delete the project user
@@ -173,7 +176,7 @@ class Auth(object):
 
         route = 'v1/projects/users/{0}/'.format(user_pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     #### Orgusers ####
 
@@ -182,7 +185,7 @@ class Auth(object):
 
         route = 'v1/orgusers/list/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def get_orguser_details(self, pk):
         """ Get the orguser details
@@ -193,7 +196,7 @@ class Auth(object):
 
         route = 'v1/orgusers/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def create_orguser(self, data):
         """ Create a new user in the organization 
@@ -202,18 +205,23 @@ class Auth(object):
         {
             "email": "testk@email.com",
             "first_name": "Julien",
-            'last_name": "DUPUIS",
-            'role': role_pk
+            "last_name": "DUPUIS",
+            "role": role_pk
+            "timeoff_validators": [],
+            "time_validators": [],
+            "expenses_validators": [],
+            "tags": []
         }
         """
 
         route = 'v1/orgusers/list/{0}/'.format(self.org_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def update_orguser_details(self, pk, data):
         """ Update the orguser details 
 
+        Keywords arguments:
         pk -- pk of the orguser to update
         data -- content of the update :
         {
@@ -224,7 +232,7 @@ class Auth(object):
 
         route = 'v1/orgusers/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def delete_orguser(self, pk):
         """ Delete the orguser 
@@ -235,7 +243,7 @@ class Auth(object):
 
         route = 'v1/orgusers/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     #### Organizations ####
 
@@ -244,14 +252,14 @@ class Auth(object):
 
         route = 'v1/organizations/membership/'
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def get_organization_details(self, pk):
         """ Get organizations details """
 
         route = 'v1/organizations/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def __get_org(self):
         """ Set the organization id of the user """
@@ -264,6 +272,113 @@ class Auth(object):
         for team in range(len(teams)):
             self.teams_pk.append({key: teams[team][key] for key in ('id', 'title')})
         return response.status_code
+
+    #### Profile ####
+
+    def get_profile_preferences(self):
+        """ Get profile preferences """
+
+        route = 'v1/profiles/preferences/'
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_profile_details(self):
+        """ Get current profile details """
+
+        route = 'v1/profiles/profile/'
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_profile_details(self, data):
+        """ Update current profile details 
+
+        Keywords arguments:
+        data -- content of the update :
+        {
+            "locale": "en",
+            "show_sidemenu": False
+        }
+        """
+
+        route = 'v1/profiles/profile/'
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    # post method on profile preferences ?
+
+    #### Team #####
+
+    def get_teams_list(self):
+        """ Get the list of teams """
+
+        route = 'v1/teams/list/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_team_users_list(self, pk):
+        """ Get the list of users in the team 
+
+        Keywords arguments:
+        pk -- pk of the team
+        """
+
+        route = 'v1/teams/users/list/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_team_user_details(self, orguser_pk):  # same thing as get_orguser_details ?
+        """ Get the orguser details related to the team he is in
+
+        Keywords arguments:
+        orguser_pk -- pk of the orguser
+        """
+
+        route = 'v1/teams/users/{0}/'.format(orguser_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_team_user_details(self, orguser_pk, data):
+        """ Update the orguser details related to the team he is in
+
+        Keywords arguments:
+        orguser_pk -- pk of the orguser
+        data -- content of the update :
+        {
+            "permissionsset": 16464,
+            "team": team_pk
+        }
+        """
+
+        route = 'v1/teams/users/{0}/'.format(orguser_pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_team_details(self, pk):
+        """ Get the team details 
+
+        Keywords arguments:
+        pk -- pk of the team
+        """
+
+        route = 'v1/teams/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_team_details(self, pk, data):
+        """ Get the team details 
+
+        Keywords arguments:
+        pk -- pk of the team
+        data -- content of the update :
+        {
+            "city": "Lyon",
+            "address": "2 Avenue du Trône"
+        }
+        """
+
+        route = 'v1/teams/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
 
     #### Token ####
 
@@ -324,6 +439,7 @@ class Auth(object):
 
     #### Phases ####
 
+
     def get_phase_details(self, pk):
         """Get the phase details
         Keyword arguments:
@@ -333,7 +449,7 @@ class Auth(object):
 
         route = 'v1/phases/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def update_phase_details(self, pk, data):
         """Update the phase details
@@ -344,7 +460,7 @@ class Auth(object):
 
         route = 'v1/phases/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def get_phases_list(self, project_pk):
         """Get the phase list
@@ -376,7 +492,7 @@ class Auth(object):
 
         route = 'v1/annexes/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def create_annex(self, project_pk, data):
         """Create an annex
@@ -388,7 +504,7 @@ class Auth(object):
         route = 'v1/annexes/list/{0}/'.format(project_pk)
         parameters = '?phase='
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def update_annex(self, pk, data):
         """Update the annex details
@@ -398,13 +514,12 @@ class Auth(object):
 
         route = 'v1/annexes/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
 
 ##### INVOICING #####
 
     #### Invoices ####
-
 
     def get_invoice_details(self, pk):
         """Get the invoice details
@@ -414,7 +529,7 @@ class Auth(object):
 
         route = 'v1/invoices/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def get_invoices_list(self):
         """Get the invoice list"""
@@ -453,7 +568,7 @@ class Auth(object):
         if(response.status_code == 200):
             return {'status': response.status_code}
         else:
-            return {'status': response.status_code, 'data': json.loads(response.content)}
+            return self.process_response(response)
 
     def create_invoice(self, team_pk, data):
         """Create an invoice
@@ -477,7 +592,7 @@ class Auth(object):
         parameters = '?team={0}'.format(team_pk)
         response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
                                  headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def validate_invoice(self, pk):
         """Validate an invoice
@@ -488,7 +603,7 @@ class Auth(object):
 
         route = 'v1/invoices/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def send_invoice(self, pk):
         """Send an invoice
@@ -499,7 +614,7 @@ class Auth(object):
 
         route = 'v1/invoices/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def cancel_invoice(self, pk):
         """Cancel an invoice and create a credit note
@@ -523,7 +638,7 @@ class Auth(object):
 
         route = 'v1/invoices/items/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def create_invoice_item(self, pk, data):
         """ Create invoice's item
@@ -542,7 +657,7 @@ class Auth(object):
         route = 'v1/invoices/items/{0}/'.format(pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         if(response.status_code not in [500]):
-            return {'status': response.status_code, 'data': json.loads(response.content)}
+            return self.process_response(response)
         else:
             return {'status': response.status_code}
 
@@ -564,7 +679,7 @@ class Auth(object):
         if(response.status_code == 200):
             return {'status': response.status_code}
         else:
-            return {'status': response.status_code, 'data': json.loads(response.content)}
+            return self.process_response(response)
 
     def delete_invoice_item(self, pk):
         """ Update invoice's item
@@ -575,7 +690,7 @@ class Auth(object):
         route = 'v1/invoices/item/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         if(response.status_code not in [204]):
-            return {'status': response.status_code, 'data': json.loads(response.content)}
+            return self.process_response(response)
         else:
             return {'status': response.status_code}
 
@@ -606,7 +721,7 @@ class Auth(object):
 
         route = 'v1/payments/{0}'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def get_payments_list(self):
         """Get the payment list"""
@@ -634,7 +749,7 @@ class Auth(object):
 
         route = 'v1/payments/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def update_payment_invoice(self, pk, data):
         """ Update payment's amount on invoice
@@ -650,7 +765,7 @@ class Auth(object):
         """
         route = 'v1/payments/invoice/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def create_payment(self, team_pk, data):
         """Create an payment
@@ -672,7 +787,7 @@ class Auth(object):
         parameters = '?team={0}'.format(team_pk)
         response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
                                  headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     ##### Clients #####
 
@@ -820,7 +935,6 @@ class Auth(object):
 
     #### Expenses ####
 
-
     def get_expenses_list(self):
         """ Get the expenses list """
 
@@ -836,13 +950,12 @@ class Auth(object):
 
         route = 'v1/expenses/{0}'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
 
 ##### COLLABORATION #####
 
     #### Contact ####
-
 
     def get_contacts_list(self, project_pk=None):
         """ Get the contacts list
@@ -863,7 +976,7 @@ class Auth(object):
 
         route = 'v1/contacts/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
     def update_contact_details(self, pk, data):
         """ Update the contact details
@@ -931,7 +1044,7 @@ class Auth(object):
         if(response.status_code == 204):
             return {'status': response.status_code, 'data': 'Contact deleted'}
         else:
-            return {'status': response.status_code, 'data': json.loads(response.content)}
+            return self.process_response(response)
 
     #### Task ####
 
@@ -940,7 +1053,7 @@ class Auth(object):
 
         route = 'v1/tasks/list/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
 
 ##### TIME #####
