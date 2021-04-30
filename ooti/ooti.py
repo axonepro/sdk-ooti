@@ -379,6 +379,89 @@ class Auth(object):
             self.teams_pk.append({key: teams[team][key] for key in ('id', 'title')})
         return response.status_code
 
+    #### Permissions ####
+
+    def get_permissions_list(self):
+        """ Get the list of permissions sets """
+
+        route = 'v1/permissions/list/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def create_permissions(self, data):
+        """ Create a new set of permissions
+
+        Keywords arguments:
+        data -- content of the permissions set to be created :
+        {
+            "name": "Consultant", (required)
+            "name_en": "Consultant",
+            "name_fr": "Consultant",
+            "level": "project",
+            "all_permissions": true,
+            "is_default": true,
+            "permissions": [
+
+            ]
+        }
+        """
+
+        route = 'v1/permissions/list/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_permissions_map(self):
+        """ Return a dictionary with request.user permissions by level """
+
+        route = 'v1/permissions/map/'
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_permissions_details(self, id):
+        """ Get permissions set details
+
+        Keywords arguments:
+        id -- id of the permissions set
+        """
+
+        route = 'v1/permissions/{0}/'.format(id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_permission_details(self, id, data):
+        """ Update permissions set details
+
+        Keywords arguments:
+        id -- id of the permissions set
+        data -- content of the update :
+        {
+            "name": "Boss",
+            "name_en": "Boss",
+            "name_fr": "Patron",
+            "level": "organization",
+            "all_permissions": true,
+            "is_default": true,
+            "permissions": [
+
+            ]
+        }
+        """
+
+        route = 'v1/permissions/{0}/'.format(id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_permission(self, id):
+        """ Delete permissions set
+
+        Keywords arguments:
+        id -- id of the permissions set
+        """
+
+        route = 'v1/permissions/{0}/'.format(id)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
     #### Profile ####
 
     def get_profile_preferences(self):
@@ -419,6 +502,26 @@ class Auth(object):
 
         route = 'v1/teams/list/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)  # no 'results' key
+
+    def create_team(self, data):
+        """ Create a new team 
+
+        Keywords arguments:
+        data -- content of the team to be created :
+        {
+            "name": "Beta", (required)
+            "currency": currency_pk,
+            "city": "Paris",
+            "address": "6 Rue de la rue",
+            "banks": [
+                bank_id
+            ]
+        }
+        """
+
+        route = 'v1/teams/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     def get_team_users_list(self, pk):
@@ -432,22 +535,40 @@ class Auth(object):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
-    def get_team_user_details(self, orguser_pk):  # same thing as get_orguser_details ?
+    def add_team_user(self, pk, data):
+        """ Add a user to a team
+
+        Keywords arguments:
+        pk -- pk of the team where to add the user
+        data -- details about the user to add (pk, permissionsset, role, ...) :
+        {
+            "orguser": orguser_pk,  # pk of the user to add
+            "permissionsset: permissionsset_pk,
+            "role": role_pk
+            "team"
+        }
+        """
+
+        route = 'v1/teams/users/list/{0}/'.format(pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_team_user_details(self, user_pk):  # same thing as get_orguser_details ?
         """ Get the orguser details related to the team he is in
 
         Keywords arguments:
-        orguser_pk -- pk of the orguser
+        user_pk -- pk of the team user
         """
 
-        route = 'v1/teams/users/{0}/'.format(orguser_pk)
+        route = 'v1/teams/users/{0}/'.format(user_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def update_team_user_details(self, orguser_pk, data):
+    def update_team_user_details(self, user_pk, data):
         """ Update the orguser details related to the team he is in
 
         Keywords arguments:
-        orguser_pk -- pk of the orguser
+        user_pk -- pk of the team user
         data -- content of the update :
         {
             "permissionsset": 16464,
@@ -455,8 +576,15 @@ class Auth(object):
         }
         """
 
-        route = 'v1/teams/users/{0}/'.format(orguser_pk)
+        route = 'v1/teams/users/{0}/'.format(user_pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_team_user(self, user_pk):
+        """ Delete a user from the team """
+
+        route = 'v1/teams/users/{0}/'.format(user_pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def get_team_details(self, pk):
@@ -545,6 +673,7 @@ class Auth(object):
 
     #### Phases ####
 
+
     def get_phase_details(self, pk):
         """Get the phase details
         Keyword arguments:
@@ -625,7 +754,6 @@ class Auth(object):
 ##### INVOICING #####
 
     #### Invoices ####
-
 
     def get_invoice_details(self, pk):
         """Get the invoice details
@@ -1041,7 +1169,6 @@ class Auth(object):
 
     #### Expenses ####
 
-
     def get_expenses_list(self):
         """ Get the expenses list """
 
@@ -1063,7 +1190,6 @@ class Auth(object):
 ##### COLLABORATION #####
 
     #### Contact ####
-
 
     def get_contacts_list(self, project_pk=None):
         """ Get the contacts list
