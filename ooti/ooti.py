@@ -23,8 +23,8 @@ class Auth(object):
     def process_response(self, response, results=None):
         """ Process the response and return it
 
-        :param: reponse is the reponse from the API
-        :param: results is saying if we just want the results field of the reponse
+        :param: response is the response from the API
+        :param: results is saying if we just want the results field of the response
 
         :return: {status, data} or {status} if data is not JSON serializable
         """
@@ -42,7 +42,6 @@ class Auth(object):
 ##### AUTH #####
 
     ##### Projects #####
-
 
     def get_project_details(self, pk):
         """Get the project details
@@ -149,8 +148,93 @@ class Auth(object):
 
 ##### DELIVERABLES #####
 
+    #### Areas ####
+
+    def get_areas_list(self, project_pk):
+        """ Get the areas list
+
+        Keyword arguments:
+
+        project_pk -- the pk of the project
+        """
+
+        route = 'v1/areas/list/{0}/?page_size=999999'.format(project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_areas_details(self, pk):
+        """ Get the area details
+
+        Keyword arguments:
+
+        pk -- pk of the area
+        """
+
+        route = 'v1/areas/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def create_areas(self, project_pk, data):
+        """ Create an area
+
+        Keyword arguments:
+
+        project_pk -- pk of the project 
+        data -- data create:
+            {
+                "name": "string",
+                "project": 0,
+                "internal_code": "string",
+                "client_code": "string"
+            }
+        """
+        route = 'v1/areas/list/{0}/'.format(project_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def update_areas(self, pk, data):
+        """ Update an area
+
+        Keyword arguments:
+
+        pk -- pk of the project 
+        data -- data update:
+            {
+                "name": "string",
+                "project": 0,
+                "internal_code": "string",
+                "client_code": "string"
+            }
+        """
+        route = 'v1/areas/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_area(self, pk):
+        """ Delete an area
+
+        Keyword arguments:
+
+        pk -- pk of the project 
+        """
+        route = 'v1/areas/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
     #### Phases ####
 
+    def get_phases_list(self, project_pk):
+        """Get the phases list
+
+        Keyword arguments:
+
+        project_pk -- the pk of the project
+
+        """
+
+        route = 'v1/phases/list/{0}/?page_size=999999'.format(project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
 
     def get_phase_details(self, pk):
         """Get the phase details
@@ -161,28 +245,188 @@ class Auth(object):
 
         route = 'v1/phases/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
-    def update_phase_details(self, pk, data):
-        """Update the phase details
+    def create_phase(self, project_pk, data):
+        """ Create an area
+
         Keyword arguments:
+
+        project_pk -- pk of the project 
+        data -- data create:
+            {
+                "name": "string",
+                "shortname": "string",
+                "fee_project": "string",
+                "ffne_phase": False,
+                "in_timeline": True,
+                "pct": 0,
+                "dependants": ["string"]
+            }
+        """
+        route = 'v1/phases/list/{0}/'.format(project_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_phase(self, pk):
+        """ Delete a phase """
+
+        route = 'v1/phase/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_phase(self, pk, data):
+        """Update the phase
+        Keyword arguments:
+
         pk -- the pk of the phase
-        data -- data to update
+        data -- data update:
+            {
+                "name": "string",
+                "shortname": "string",
+                "pct": "string" (number in string)
+            }
         """
 
         route = 'v1/phases/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {'status': response.status_code, 'data': json.loads(response.content)}
+        return self.process_response(response)
 
-    def get_phases_list(self, project_pk):
-        """Get the phase list
+    def delete_custom_phase(self, project_pk):
+        """ Delete custom phase and use default 
+
         Keyword arguments:
+
+        pk -- pk of the project
+        """
+        route = 'v1/phases/delete/{0}/'.format(project_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_phases_projections_list(self, project_pk):
+        """Get the phases projections list
+
+        Keyword arguments:
+
         project_pk -- the pk of the project
+
         """
 
-        route = 'v1/phases/list/{0}/'.format(project_pk)
+        route = 'v1/phases/projections/list/{0}/?page_size=999999'.format(project_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        return self.process_response(response, True)
+
+    def reset_phases_order(self, project_pk):
+        """ Reset phase order
+
+        Keyword arguments:
+
+        pk -- pk of the project
+        """
+        route = 'v1/phases/reset-orders/{0}/'.format(project_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_phases_progress(self):
+        """ Update progress of phases 
+        #! Not working 
+        """
+
+        route = 'v1/phases/update_progress/'
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def export_phase(self, project_pk):
+        """ Export phases
+
+        Keyword arguments:
+
+        project_pk -- pk of the project
+        """
+
+        route = 'v1/phases/export/{0}/'.format(project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    #### Milestones ####
+
+    def get_milestones_list(self):
+        """ Get milestones list """
+        route = 'v1/milestones/list/{0}/?page_size=999999'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def get_milestone_details(self, pk):
+        """ Get melistone details
+
+        Keyword arguments:
+
+        pk -- pk of the milestone
+        """
+        route = 'v1/milestones/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def create_milestone(self, data):
+        """ Create a milestone
+
+        Keyword arguments:
+
+        project_pk -- pk of the project 
+        data -- data create:
+            {
+                "title": "string",
+                "project": 0,
+                "date": "string",
+                "phases": [
+                    "string"
+                ],
+                "annexes": [
+                    "string"
+                ],
+                "description": "string",
+                "in_timeline": true
+            }
+        """
+        route = 'v1/milestones/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def update_milestone(self, pk, data):
+        """ Update a milestone
+
+        Keyword arguments:
+
+        pk -- pk of the milestone 
+        data -- data update:
+            {
+                "title": "string",
+                "project": 0,
+                "date": "string",
+                "phases": [
+                    "string"
+                ],
+                "annexes": [
+                    "string"
+                ],
+                "description": "string",
+                "in_timeline": true
+            }
+        """
+        route = 'v1/milestones/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_milestone(self, pk):
+        """ Delete milestone
+
+        Keyword arguments:
+
+        pk -- pk of the milestone
+        """
+        route = 'v1/milestones/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
 
     #### Annexes ####
 
@@ -190,7 +434,7 @@ class Auth(object):
         """Get the annexes list
 
         Keyword arguments:
-        project_pk -- the pk of the project
+        project_pk - - the pk of the project
         """
 
         route = 'v1/annexes/list/{0}/'.format(project_pk)
@@ -201,7 +445,7 @@ class Auth(object):
         """Get the annexe details
 
         Keyword arguments:
-        pk -- the pk of the annexe
+        pk - - the pk of the annexe
         """
 
         route = 'v1/annexes/{0}/'.format(pk)
@@ -212,8 +456,8 @@ class Auth(object):
         """Create an payment
 
         Keyword arguments:
-        project_pk -- the pk of the project
-        data -- data to create
+        project_pk - - the pk of the project
+        data - - data to create
         """
 
         route = 'v1/annexes/list/{0}/'.format(project_pk)
@@ -224,7 +468,7 @@ class Auth(object):
         """Update the annexe details
 
         Keyword arguments:
-        pk -- the pk of the project
+        pk - - the pk of the project
         """
 
         route = 'v1/annexes/{0}/'.format(pk)
@@ -240,7 +484,7 @@ class Auth(object):
     def get_invoice_details(self, pk):
         """Get the invoice details
         Keyword arguments:
-        pk -- the pk of the invoice
+        pk - - the pk of the invoice
         """
 
         route = 'v1/invoices/{0}/'.format(pk)
@@ -259,7 +503,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        team_pk -- pk of the team
+        team_pk - - pk of the team
         """
 
         route = 'v1/invoices/list/{0}/?team={1}&page_size=999999&q=&is_sent=true&is_valid=true'.format(
@@ -270,8 +514,8 @@ class Auth(object):
     def update_invoice(self, pk, data):
         """Create an invoice
         Keyword arguments:
-        pk -- the pk of the invoice
-        data -- data to create :
+        pk - - the pk of the invoice
+        data - - data to create:
             {
                 "invoice_date": "DD-MM-YYYY",
                 "billing_option": 0,
@@ -280,7 +524,7 @@ class Auth(object):
                 "references": "string",
                 "is_valid": Boolean,
                 "is_sent": Boolean,
-                "multi_tax_enabled": Boolean (if invoice items have multi tax rates)
+                "multi_tax_enabled": Boolean(if invoice items have multi tax rates)
             }
         """
 
@@ -291,8 +535,8 @@ class Auth(object):
     def create_invoice(self, team_pk, data):
         """Create an invoice
         Keyword arguments:
-        team_pk -- the pk of the team
-        data -- data to create :
+        team_pk - - the pk of the team
+        data - - data to create:
             {
                 "project": 0,
                 "type": 0,
@@ -316,7 +560,7 @@ class Auth(object):
     def validate_invoice(self, pk):
         """Validate an invoice
         Keyword arguments:
-        pk -- the pk of the invoice
+        pk - - the pk of the invoice
         """
         data = {"is_valid": True}
 
@@ -327,7 +571,7 @@ class Auth(object):
     def send_invoice(self, pk):
         """Send an invoice
         Keyword arguments:
-        pk -- the pk of the invoice
+        pk - - the pk of the invoice
         """
         data = {"is_sent": True}
 
@@ -338,7 +582,7 @@ class Auth(object):
     def cancel_invoice(self, pk):
         """Cancel an invoice and create a credit note
         Keyword arguments:
-        pk -- the pk of the invoice
+        pk - - the pk of the invoice
         """
         data = {"is_closed": True}
 
@@ -357,10 +601,10 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- invoice pk
+        pk - - invoice pk
         """
 
-        route = 'v1/invoices/items/{0}/'.format(pk)
+        route = 'v1/invoices/items/{0}/?page_size=999999'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -369,14 +613,14 @@ class Auth(object):
 
         Keyword Arguments:
 
-        pk -- pk of the invoice
-        data -- data to create :
+        pk - - pk of the invoice
+        data - - data to create:
             {
                 "descritpion": "string" (title of the item),
                 "subtitle": "string" (description of the item),
                 "amount": 0,
-                "tax_rate": 0.0 (if invoice.multi_tax_rate = True)
-                "tax": 0.0 (tax amount, if invoice.multi_tax_rate = True)
+                "tax_rate": 0.0 (if invoice.multi_tax_rate=True)
+                "tax": 0.0 (tax amount, if invoice.multi_tax_rate=True)
             }
         """
 
@@ -389,8 +633,8 @@ class Auth(object):
 
         Keyword Arguments:
 
-        pk -- pk of the item
-        data -- data to update :
+        pk - - pk of the item
+        data - - data to update:
             {
                 "descritpion": "string" (title of the item),
                 "subtitle": "string" (description of the item),
@@ -407,7 +651,7 @@ class Auth(object):
 
         Keyword Arguments:
 
-        pk -- pk of the item
+        pk - - pk of the item
         """
 
         route = 'v1/invoices/item/{0}/'.format(pk)
@@ -428,7 +672,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        team_pk -- pk of the team
+        team_pk - - pk of the team
         """
 
         route = 'v1/invoices/list/{0}/?team={1}&page_size=999999&q=&is_sent=true&is_valid=true&type=9'.format(
@@ -441,7 +685,7 @@ class Auth(object):
     def get_payment_details(self, pk):
         """Get the payment details
         Keyword arguments:
-        pk -- the pk of the payment
+        pk - - the pk of the payment
         """
 
         route = 'v1/payments/{0}'.format(pk)
@@ -451,15 +695,15 @@ class Auth(object):
     def get_payments_list(self):
         """Get the payment list"""
 
-        route = 'v1/payments/list/{0}/'.format(self.org_pk)
+        route = 'v1/payments/list/{0}/?page_size=999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
     def update_payment(self, pk, data):
         """Create an payment
         Keyword arguments:
-        pk -- the pk of the payment
-        data -- data to create :
+        pk - - the pk of the payment
+        data - - data to create:
             {
                 "date": "DD-MM-YYYY",
                 "amount": 0,
@@ -483,10 +727,10 @@ class Auth(object):
         To make an update on a payment, first use the "update_payment" method.
         Then, update the amount on the invoice with this method.
 
-        Keyword arguments :
+        Keyword arguments:
 
-        pk -- pk of payment
-        data -- data to update :
+        pk - - pk of payment
+        data - - data to update:
             {
                 "amount": 0
             }
@@ -498,8 +742,8 @@ class Auth(object):
     def create_payment(self, team_pk, data):
         """Create an payment
         Keyword arguments:
-        team_pk -- the pk of the team
-        data -- data to create :
+        team_pk - - the pk of the team
+        data - - data to create:
             {
                 "date": "DD-MM-YYYY",
                 "amount": 0,
@@ -507,7 +751,7 @@ class Auth(object):
                 "type": "string",
                 "invoice": "string" (invoice_pk)
                 "team": "string" (team_pk),
-                "project": "string" (project_pk) (no need of project for invoices of type 4)
+                "project": "string" (project_pk)(no need of project for invoices of type 4)
             }
         """
 
@@ -524,7 +768,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- the pk of the team
+        pk - - the pk of the team
 
         """
 
@@ -539,7 +783,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- the pk of the client
+        pk - - the pk of the client
         """
 
         route = 'v1/clients/{0}/'.format(pk)
@@ -551,7 +795,7 @@ class Auth(object):
         """ Create client
 
         Keyword arguments:
-        data -- data to create, required fields :
+        data - - data to create, required fields:
             {
                 "company_name": "string",
                 "number": "string",
@@ -572,8 +816,8 @@ class Auth(object):
         """ Update client
 
         Keyword arguments:
-        pk -- pk of the client
-        data -- data to create, required fields :
+        pk - - pk of the client
+        data - - data to create, required fields:
             {
                 "company_name": "string",
                 "currency": "string" (currency_pk),
@@ -593,7 +837,7 @@ class Auth(object):
         """ Delete client
 
         Keyword arguments:
-        pk -- pk of the client
+        pk - - pk of the client
         """
         route = 'v1/clients/{0}/'.format(pk)
 
@@ -605,14 +849,14 @@ class Auth(object):
     def get_currencies_list(self):
         """Get the currencies list """
 
-        route = 'v1/currencies/list/?page_size=200'
+        route = 'v1/currencies/list/?page_size=999999'
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
     def get_currency_details(self, pk):
         """ Get the currency details
         Keyword arguments:
-        pk -- the pk of the currency
+        pk - - the pk of the currency
         """
 
         route = 'v1/currencies/{0}'.format(pk)
@@ -622,7 +866,7 @@ class Auth(object):
     def delete_currency(self, pk):
         """ Delete a currency
         Keyword arguments:
-        pk -- the pk of the currency
+        pk - - the pk of the currency
         """
 
         route = 'v1/currencies/{0}'.format(pk)
@@ -634,7 +878,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        data -- data to create, required fields :
+        data - - data to create, required fields:
             {
                 "name": "string",
                 "longname": "string",
@@ -652,7 +896,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        data -- data to create, required fields :
+        data - - data to create, required fields:
             {
                 "name": "string",
                 "longname": "string",
@@ -660,7 +904,7 @@ class Auth(object):
                 "symbol": "string"
             }
 
-        pk -- the pk of the currency
+        pk - - the pk of the currency
         """
 
         route = 'v1/currencies/{0}/'.format(pk)
@@ -682,7 +926,7 @@ class Auth(object):
     def get_email_details(self, pk):
         """Get the email details
         Keyword arguments:
-        pk -- the pk of the email
+        pk - - the pk of the email
         """
 
         route = 'v1/emails/{0}/'.format(pk)
@@ -694,8 +938,8 @@ class Auth(object):
 
         Keyword arguments:
 
-        team_pk -- the pk of the team
-        data -- data to create, fields :
+        team_pk - - the pk of the team
+        data - - data to create, fields:
             {
                 "team": 0,
                 "name": "string", (name of the template)
@@ -724,8 +968,8 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- the pk of the email template
-        data -- data to create, fields :
+        pk - - the pk of the email template
+        data - - data to create, fields:
             {
                 "team": 0,
                 "name": "string", (name of the template)
@@ -737,7 +981,7 @@ class Auth(object):
                 "email_bcc": "string",
                 "email_subject": "string",
                 "email_body": "string",
-                "smtp_setting": 0 ,
+                "smtp_setting": 0,
                 "projects": [],
                 "invoices": []
             }
@@ -754,7 +998,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the email
+        pk - - pk of the email
         """
         route = 'v1/emails/{0}'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -765,7 +1009,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- the pk of the email template
+        pk - - the pk of the email template
         """
 
         route = 'v1/emails/{0}/send-test/'.format(pk)
@@ -777,7 +1021,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the email template
+        pk - - pk of the email template
         """
         route = 'v1/emails/{0}/apply/'.format(pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -795,7 +1039,7 @@ class Auth(object):
     def get_email_smtp_details(self, pk):
         """Get the email smtp details
         Keyword arguments:
-        pk -- the pk of the email smtp
+        pk - - the pk of the email smtp
         """
 
         route = 'v1/emails/smtp/{0}/'.format(pk)
@@ -807,7 +1051,7 @@ class Auth(object):
 
         Keyword Arguments:
 
-        data -- data to create: fields :
+        data - - data to create: fields:
            {
                "from_name": "string",
                "from_email": "string",
@@ -827,8 +1071,8 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- the pk of the email smtp
-        data -- data to create: fields :
+        pk - - the pk of the email smtp
+        data - - data to create: fields:
            {
                "from_name": "string",
                "from_email": "string",
@@ -849,7 +1093,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the email smtp
+        pk - - pk of the email smtp
         """
         route = 'v1/emails/smtp/{0}'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -860,7 +1104,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- the pk of the email template
+        pk - - the pk of the email template
         """
 
         route = 'v1/emails/smtp/{0}/send-test/'.format(pk)
@@ -876,7 +1120,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        project_pk -- pk of the project
+        project_pk - - pk of the project
         """
 
         route = 'v1/files/folder/list/{0}/?page_size=999999'.format(project_pk)
@@ -888,7 +1132,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the folder
+        pk - - pk of the folder
         """
 
         route = 'v1/files/folder/{0}/'.format(pk)
@@ -900,8 +1144,8 @@ class Auth(object):
 
         Keyword arguments:
 
-        project_pk -- pk of the project
-        data -- data to be created :
+        project_pk - - pk of the project
+        data - - data to be created:
             {
                 "name": "string",
                 "name_en": "string",
@@ -918,8 +1162,8 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the folder
-        data -- data to be updated :
+        pk - - pk of the folder
+        data - - data to be updated:
             {
                 "name": "string",
                 "name_en": "string",
@@ -936,7 +1180,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the folder
+        pk - - pk of the folder
         """
         route = 'v1/files/folder/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -949,7 +1193,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        project_pk -- pk of the project
+        project_pk - - pk of the project
         """
 
         route = 'v1/files/list/{0}/?page_size=999999'.format(project_pk)
@@ -961,7 +1205,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the file
+        pk - - pk of the file
         """
 
         route = 'v1/files/{0}/'.format(pk)
@@ -973,7 +1217,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the file
+        pk - - pk of the file
         """
 
         route = 'v1/files/{0}/'.format(pk)
@@ -994,7 +1238,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the bank
+        pk - - pk of the bank
         """
 
         route = 'v1/banks/{0}/'.format(pk)
@@ -1006,7 +1250,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        data -- data to be created :
+        data - - data to be created:
             {
                 "name": "string",
                 "currency": 0,
@@ -1027,7 +1271,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        data -- data to be created :
+        data - - data to be created:
             {
                 "name": "string",
                 "currency": 0,
@@ -1048,7 +1292,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the bank
+        pk - - pk of the bank
         """
         route = 'v1/banks/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -1077,7 +1321,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the report
+        pk - - pk of the report
         """
 
         route = 'v1/reports/{0}/'.format(pk)
@@ -1089,7 +1333,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        data -- data to be created :
+        data - - data to be created:
         {
             "name": "string", (required)
             "project": 0, (required)
@@ -1139,8 +1383,8 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the report
-        data -- data update:
+        pk - - pk of the report
+        data - - data update:
         {
             "name": "string", (required)
             "styleguide": 0,
@@ -1169,18 +1413,18 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the report
+        pk - - pk of the report
         """
         route = 'v1/reports/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def generate_report(self, data):
-        """ Generate a report (already created)
+        """ Generate a report(already created)
 
         Keyword arguments:
 
-        data -- data to be created:
+        data - - data to be created:
             {
                 "pk": 0 (pk of the report),
                 "project": 0 (project linked to the report)
@@ -1197,10 +1441,10 @@ class Auth(object):
 
         Keyword arguments:
 
-        team_pk -- pk of the team
+        team_pk - - pk of the team
         """
 
-        route = 'v1/reports/templates/list/{0}/'.format(team_pk)
+        route = 'v1/reports/templates/list/{0}/?page_size=999999'.format(team_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -1209,7 +1453,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the template
+        pk - - pk of the template
         """
 
         route = 'v1/reports/templates/{0}/'.format(pk)
@@ -1221,13 +1465,13 @@ class Auth(object):
 
         Keyword arguments:
 
-        team_pk -- pk of the team
-        data -- data create:
+        team_pk - - pk of the team
+        data - - data create:
             {
                 "name": "string", (required)
                 "type": "string", (required: "proprosal" or "progress")
                 "styleguide": 0,
-                "lang": "string", (required: "fr", "en", "it") 
+                "lang": "string", (required: "fr", "en", "it")
                 "orientation": "string", (portrait, landscape)
                 "font_size": 0,
                 "margin_top": 0,
@@ -1246,13 +1490,13 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the template
-        data -- data update:
+        pk - - pk of the template
+        data - - data update:
             {
                 "name": "string", (required)
                 "type": "string", (required: "proprosal" or "progress")
                 "styleguide": 0,
-                "lang": "string", (required: "fr", "en", "it") 
+                "lang": "string", (required: "fr", "en", "it")
                 "orientation": "string", (portrait, landscape)
                 "font_size": 0,
                 "margin_top": 0,
@@ -1271,7 +1515,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the template
+        pk - - pk of the template
          """
 
         route = 'v1/reports/templates/{0}/'.format(pk)
@@ -1283,7 +1527,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the template
+        pk - - pk of the template
          """
 
         route = 'v1/reports/templates/duplicate/{0}/'.format(pk)
@@ -1304,7 +1548,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the revenue
+        pk - - pk of the revenue
         """
 
         route = 'v1/revenue/{0}/'.format(pk)
@@ -1316,8 +1560,8 @@ class Auth(object):
 
         Keyword arguments:
 
-        team_pk -- pk of the team
-        data -- data create:
+        team_pk - - pk of the team
+        data - - data create:
             {
                 "amount_actual": 0,
                 "amount_budgeted": 0,
@@ -1352,7 +1596,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the styleguide
+        pk - - pk of the styleguide
         """
 
         route = 'v1/styleguides/{0}/'.format(pk)
@@ -1364,7 +1608,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        data -- data create:
+        data - - data create:
             {
                 "name": "string"
             }
@@ -1379,8 +1623,8 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the styleguide
-        data -- data create:
+        pk - - pk of the styleguide
+        data - - data create:
             {
                 "name": "string",
                 "type": "string" ("all", "report", "invoice", "proposal"),
@@ -1401,7 +1645,7 @@ class Auth(object):
 
         Keyword arguments:
 
-        pk -- pk of the styleguide
+        pk - - pk of the styleguide
         """
 
         route = 'v1/styleguides/{0}/'.format(pk)
