@@ -16,6 +16,7 @@ my_account.connect()
 
 team_pk = my_account.teams_pk[0]['id']
 currency_pk = my_account.get_currencies_list()['data'][0]['pk']
+project_pk = my_account.get_projects_list()['data'][0]['id']
 
 
 class Tests(unittest.TestCase):
@@ -60,7 +61,7 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        res_sent_valid = my_account.get_invoices_sent_valid_list()
+        res_sent_valid = my_account.get_invoices_sent_valid_list(team_pk)
 
         self.assertEqual(res_sent_valid['status'], 200)
 
@@ -195,13 +196,15 @@ class Tests(unittest.TestCase):
 
     def test_get_credit_notes(self):
         """ Test that 200 is returned """
+        # * OK
+
         res = my_account.get_credit_notes_list()
 
         self.assertEqual(res['status'], 200)
 
-    def test_get_sent_valid_credit_notes(self):
+    def test_get_credit_notes_sent_valid(self):
         """ Test that 200 is returned """
-        res = my_account.get_credit_notes_sent_valid_list()
+        res = my_account.get_credit_notes_sent_valid_list(team_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -209,6 +212,7 @@ class Tests(unittest.TestCase):
 
     def test_get_payments_list(self):
         """ Test that 200 is returned """
+        # * OK
 
         res_payments = my_account.get_payments_list()
 
@@ -216,6 +220,7 @@ class Tests(unittest.TestCase):
 
     def test_get_payments_details(self):
         """ Test that 200 is returned """
+        # * OK
 
         payment_pk = my_account.get_payments_list()['data'][0]['pk']
         res_details = my_account.get_payment_details(payment_pk)
@@ -224,6 +229,7 @@ class Tests(unittest.TestCase):
 
     def test_create_payment(self):
         """ Test that 201 is returned """
+        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
 
@@ -250,6 +256,7 @@ class Tests(unittest.TestCase):
 
     def test_update_payment(self):
         """ Test that 200 is returned """
+        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
         invoice_item = {
@@ -278,6 +285,7 @@ class Tests(unittest.TestCase):
 
     def test_update_amount_payment_invoice(self):
         """ Test that 200 is returned """
+        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
         invoice_item = {
@@ -457,6 +465,7 @@ class Tests(unittest.TestCase):
     ### Classic ###
     def _create_email_return_pk(self):
         """ Create an email template and return the pk """
+        # * OK
 
         email = {
             "name": "UNITTEST",
@@ -472,12 +481,15 @@ class Tests(unittest.TestCase):
 
     def test_get_emails_list(self):
         """ Test that 200 is returned """
+        # * OK
+
         res = my_account.get_emails_list()
 
         self.assertEqual(res['status'], 200)
 
     def test_create_email(self):
         """ Test that 201 is returned """
+        # * OK
 
         email = {
             "name": "UNITTEST",
@@ -495,6 +507,7 @@ class Tests(unittest.TestCase):
 
     def test_get_emails_details(self):
         """ Test that 200 is returned """
+        # * OK
 
         email_pk = self._create_email_return_pk()
         res = my_account.get_email_details(email_pk)
@@ -504,6 +517,8 @@ class Tests(unittest.TestCase):
 
     def test_update_email(self):
         """ Test that 200 is returned """
+        # * OK
+
         email_pk = self._create_email_return_pk()
 
         data = {'name': 'UNITTEST - update'}
@@ -514,6 +529,7 @@ class Tests(unittest.TestCase):
 
     def test_delete_email(self):
         """ Test that 204 is returned """
+        # * OK
 
         email_pk = self._create_email_return_pk()
         res = my_account.delete_email(email_pk)
@@ -522,6 +538,7 @@ class Tests(unittest.TestCase):
 
     def test_send_test_email(self):
         """ Test that 200 is returned """
+        # * OK
 
         email_pk = self._create_email_return_pk()
         res = my_account.send_test_email(email_pk)
@@ -531,6 +548,7 @@ class Tests(unittest.TestCase):
 
     def test_apply_email(self):
         """ Test that 200 is returned """
+        # * OK
 
         email_pk = self._create_email_return_pk()
         res = my_account.apply_email(email_pk)
@@ -540,6 +558,7 @@ class Tests(unittest.TestCase):
     ### smtp ###
     def _create_email_smtp_return_pk(self):
         """ Create email smtp and return pk """
+        # * OK
 
         data = {
             "from_name": "UNITTEST",
@@ -556,6 +575,7 @@ class Tests(unittest.TestCase):
 
     def test_get_emails_smtp(self):
         """ Test that 200 is returned """
+        # * OK
 
         res = my_account.get_emails_smtp_list()
 
@@ -563,6 +583,7 @@ class Tests(unittest.TestCase):
 
     def test_create_email_smtp(self):
         """ Test that 201 is returned """
+        # * OK
 
         data = {
             "from_name": "UNITTEST",
@@ -581,6 +602,7 @@ class Tests(unittest.TestCase):
 
     def test_get_email_smtp_details(self):
         """ Test that 200 is returned """
+        # * OK
 
         smtp_pk = self._create_email_smtp_return_pk()
 
@@ -591,6 +613,7 @@ class Tests(unittest.TestCase):
 
     def test_update_email_smtp(self):
         """ Test that 200 is returned """
+        # * OK
 
         smtp_pk = self._create_email_smtp_return_pk()
 
@@ -601,6 +624,7 @@ class Tests(unittest.TestCase):
 
     def test_delete_email_smtp(self):
         """ Test that 204 is returned """
+        # * OK
 
         smtp_pk = self._create_email_smtp_return_pk()
         res = my_account.delete_email_smtp(smtp_pk)
@@ -616,6 +640,334 @@ class Tests(unittest.TestCase):
         my_account.delete_email_smtp(smtp_pk)
 
         self.assertEqual(res['status'], 200)
+
+    #### Files ####
+
+    ### Folders ###
+    def _create_folder_return_pk(self):
+        """ Create a folder and return the pk """
+
+        folder = {
+            "name": "UNITTEST"
+        }
+
+        folder_pk = my_account.create_folder(project_pk, folder)['data']['pk']
+        return folder_pk
+
+    def test_get_folders_list(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        res = my_account.get_folder_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_folder_details(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        folder_pk = self._create_folder_return_pk()
+
+        res = my_account.get_folder_details(folder_pk)
+        my_account.delete_folder(folder_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_folder(self):
+        """ Test that 201 is returned """
+        # * OK
+
+        folder = {
+            "name": "UNITTEST"
+        }
+
+        res = my_account.create_folder(project_pk, folder)
+        my_account.delete_folder(res['data']['pk'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_update_folder(self):
+        """ Test that 201 is returned """
+        # * OK
+
+        folder_pk = self._create_folder_return_pk()
+
+        folder_updated = {
+            "name": "UNITTEST - UPDATE"
+        }
+
+        res = my_account.update_folder(folder_pk, folder_updated)
+        my_account.delete_folder(folder_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_folder(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        folder_pk = self._create_folder_return_pk()
+        res = my_account.delete_folder(folder_pk)
+
+        self.assertEqual(res['status'], 204)
+
+    ### Files ###
+    def test_get_files_list(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        res = my_account.get_files_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_files_details(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        file_pk = my_account.get_files_list(project_pk)['data'][0]['pk']
+        res = my_account.get_file_details(file_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    #### Banks ####
+    def test_get_banks_list(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        res = my_account.get_banks_list()
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_banks_details(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        bank_pk = my_account.get_banks_list()['data'][0]['id']
+        res = my_account.get_bank_details(bank_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_bank(self):
+        """ Test that 201 is returned """
+        # * OK
+
+        data = {
+            "name": "UNITTEST",
+            "currency": 11833,
+            "country": "FR",
+            "iban": "XXX",
+            "bic": "XXX",
+            "rib": "XXX",
+            "teams": [str(team_pk)],
+            "projects": [str(project_pk)]
+        }
+
+        res = my_account.create_bank(data)
+        my_account.delete_bank(res['data']['id'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_update_bank(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        bank = {
+            "name": "UNITTEST",
+            "currency": 11833,
+            "country": "FR",
+            "iban": "XXX",
+            "bic": "XXX",
+            "rib": "XXX",
+            "teams": [str(team_pk)],
+            "projects": [str(project_pk)]
+        }
+
+        bank_pk = my_account.create_bank(bank)['data']['id']
+
+        updated_bank = {
+            "name": "UNITTEST - update"
+        }
+
+        res = my_account.update_bank(bank_pk, updated_bank)
+        my_account.delete_bank(bank_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_bank(self):
+        """ Test that 204 is returned """
+        # * OK
+
+        bank = {
+            "name": "UNITTEST",
+            "currency": 11833,
+            "country": "FR",
+            "iban": "XXX",
+            "bic": "XXX",
+            "rib": "XXX",
+            "teams": [str(team_pk)],
+            "projects": [str(project_pk)]
+        }
+
+        bank_pk = my_account.create_bank(bank)['data']['id']
+        res = my_account.delete_bank(bank_pk)
+
+        self.assertEqual(res['status'], 204)
+
+    ##### Reports ####
+
+    ### Reports ###
+    def _create_report_return_pk(self):
+        """ Create a report and return the pk """
+
+        report = {
+            "name": "UNITTEST",
+            "project": project_pk,
+            "type": "billed_progress_report",
+            "lang": "fr"
+        }
+
+        res = my_account.create_report(report)['data']['pk']
+        return res
+
+    def test_get_reports_list(self):
+        """ Test that 200 is returned """
+
+        res = my_account.get_reports_list()
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_reports_project_list(self):
+        """ Test that 200 is returned """
+
+        res = my_account.get_reports_project_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_reports(self):
+        """ Test that 201 is returned """
+
+        report = {
+            "name": "UNITTEST_billed_progress",
+            "project": project_pk,
+            "type": "billed_progress_report",
+            "lang": "fr"
+        }
+
+        res = my_account.create_report(report)
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_report_details(self):
+        """ Test that 200 is returned """
+
+        report_pk = self._create_report_return_pk()
+        res = my_account.get_report_details(report_pk)
+        my_account.delete_report(report_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def update_report(self):
+        """ Test that 200 is returned """
+
+        report_pk = self._create_report_return_pk()
+
+        report_up = {
+            "name": "UPDATED UNITTEST"
+        }
+
+        res = my_account.update_report(report_pk, report_up)
+        my_account.delete_report(report_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def generate_report(self):
+        """ Test that 200 is returned """
+
+        report_pk = self._create_report_return_pk()
+
+        data = {
+            "pk": report_pk,
+            "project": project_pk
+        }
+
+        res = my_account.generate_report(data)
+
+        self.assertEqual(res['status'], 200)
+
+    ### Templates ###
+    def _create_template_return_pk(self):
+        """ Create a template and return the pk """
+
+        template = {
+            "name": "UNITTEST",
+            "type": "progress",
+            "lang": "fr",
+            "orientation": "portrait"
+        }
+
+        return my_account.create_template(team_pk, template)['data']['pk']
+
+    def test_get_templates_list(self):
+        """ Test that 200 is returned """
+
+        res = my_account.get_templates_list(team_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_template_details(self):
+        """ Test that 200 is returned """
+
+        template_pk = self._create_template_return_pk()
+
+        res = my_account.get_template_details(template_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_template(self):
+        """ Test that 201 is returned """
+
+        template = {
+            "name": "UNITTEST",
+            "type": "progress",
+            "lang": "fr",
+            "orientation": "portrait"
+        }
+
+        res = my_account.create_template(team_pk, template)
+
+        self.assertEqual(res['status'], 201)
+
+    def test_update_template(self):
+        """ Test that 200 is returned """
+
+        template_pk = self._create_template_return_pk()
+
+        template_up = {
+            "name": "UPDATED"
+        }
+
+        res = my_account.update_template(template_pk, template_up)
+        my_account.delete_template(template_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_template(self):
+        """ Test that 204 is returned """
+
+        template_pk = self._create_template_return_pk()
+        res = my_account.delete_template(template_pk)
+
+        self.assertEqual(res['status'], 204)
+
+    def test_duplicate_template(self):
+        """ Test that 201 is returned """
+
+        template_pk = self._create_template_return_pk()
+        res = my_account.duplicate_template(template_pk)
+
+        my_account.delete_template(template_pk)
+        my_account.delete_template(res['data']['pk'])
+
+        self.assertEqual(res['status'], 201)
 
 
 if __name__ == '__main__':
