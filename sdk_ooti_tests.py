@@ -817,6 +817,7 @@ class Tests(unittest.TestCase):
     ### Reports ###
     def _create_report_return_pk(self):
         """ Create a report and return the pk """
+        # * OK
 
         report = {
             "name": "UNITTEST",
@@ -830,6 +831,7 @@ class Tests(unittest.TestCase):
 
     def test_get_reports_list(self):
         """ Test that 200 is returned """
+        # * OK
 
         res = my_account.get_reports_list()
 
@@ -837,6 +839,7 @@ class Tests(unittest.TestCase):
 
     def test_get_reports_project_list(self):
         """ Test that 200 is returned """
+        # * OK
 
         res = my_account.get_reports_project_list(project_pk)
 
@@ -844,6 +847,7 @@ class Tests(unittest.TestCase):
 
     def test_create_reports(self):
         """ Test that 201 is returned """
+        # * OK
 
         report = {
             "name": "UNITTEST_billed_progress",
@@ -858,6 +862,7 @@ class Tests(unittest.TestCase):
 
     def test_get_report_details(self):
         """ Test that 200 is returned """
+        # * OK
 
         report_pk = self._create_report_return_pk()
         res = my_account.get_report_details(report_pk)
@@ -867,6 +872,7 @@ class Tests(unittest.TestCase):
 
     def update_report(self):
         """ Test that 200 is returned """
+        # * OK
 
         report_pk = self._create_report_return_pk()
 
@@ -881,6 +887,7 @@ class Tests(unittest.TestCase):
 
     def generate_report(self):
         """ Test that 200 is returned """
+        # * OK
 
         report_pk = self._create_report_return_pk()
 
@@ -896,6 +903,7 @@ class Tests(unittest.TestCase):
     ### Templates ###
     def _create_template_return_pk(self):
         """ Create a template and return the pk """
+        # * OK
 
         template = {
             "name": "UNITTEST",
@@ -908,6 +916,7 @@ class Tests(unittest.TestCase):
 
     def test_get_templates_list(self):
         """ Test that 200 is returned """
+        # * OK
 
         res = my_account.get_templates_list(team_pk)
 
@@ -915,6 +924,7 @@ class Tests(unittest.TestCase):
 
     def test_get_template_details(self):
         """ Test that 200 is returned """
+        # * OK
 
         template_pk = self._create_template_return_pk()
 
@@ -924,6 +934,7 @@ class Tests(unittest.TestCase):
 
     def test_create_template(self):
         """ Test that 201 is returned """
+        # * OK
 
         template = {
             "name": "UNITTEST",
@@ -938,6 +949,7 @@ class Tests(unittest.TestCase):
 
     def test_update_template(self):
         """ Test that 200 is returned """
+        # * OK
 
         template_pk = self._create_template_return_pk()
 
@@ -952,6 +964,7 @@ class Tests(unittest.TestCase):
 
     def test_delete_template(self):
         """ Test that 204 is returned """
+        # * OK
 
         template_pk = self._create_template_return_pk()
         res = my_account.delete_template(template_pk)
@@ -960,6 +973,7 @@ class Tests(unittest.TestCase):
 
     def test_duplicate_template(self):
         """ Test that 201 is returned """
+        # * OK
 
         template_pk = self._create_template_return_pk()
         res = my_account.duplicate_template(template_pk)
@@ -972,6 +986,8 @@ class Tests(unittest.TestCase):
     #### Styleguides ####
     def _create_styleguide_return_pk(self):
         """ Create a styleguide and return pk """
+        # * OK
+
         data = {
             "name": "UNITTEST"
         }
@@ -980,12 +996,15 @@ class Tests(unittest.TestCase):
 
     def test_get_styleguides_list(self):
         """ Test that 200 is returned"""
+        # * OK
+
         res = my_account.get_styleguides_list()
 
         self.assertEqual(res['status'], 200)
 
     def test_create_styleguide(self):
         """ Test that 201 is returned """
+        # * OK
 
         data = {
             "name": "UNITTEST"
@@ -998,6 +1017,7 @@ class Tests(unittest.TestCase):
 
     def test_get_styleguide_details(self):
         """ Test that 200 is returned """
+        # * OK
 
         styleguide_pk = self._create_styleguide_return_pk()
         res = my_account.get_styleguide_details(styleguide_pk)
@@ -1007,6 +1027,7 @@ class Tests(unittest.TestCase):
 
     def test_update_styleguide(self):
         """ Test that 200 is returned """
+        # * OK
 
         styleguide_pk = self._create_styleguide_return_pk()
 
@@ -1020,11 +1041,169 @@ class Tests(unittest.TestCase):
 
     def test_delete_styleguide(self):
         """ Test that 204 is returned """
+        # * OK
 
         styleguide_pk = self._create_styleguide_return_pk()
         res = my_account.delete_styleguide(styleguide_pk)
 
         self.assertEqual(res['status'], 204)
+
+##### DELIVERABLES #####
+
+    #### Areas ####
+    def _create_area_return_pk(self):
+        """ Create an area and return the pk """
+
+        area = {
+            "name": "test",
+            "project": project_pk,
+            "surface_area": 30
+        }
+
+        return my_account.create_areas(project_pk, area)['data']['id']
+
+    def test_get_areas_list(self):
+        """ Test that 200 is returned """
+        # * OK
+        res = my_account.get_areas_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_area(self):
+        """ Test that 201 is returned """
+        # * OK
+
+        area = {
+            "name": "UNITTEST",
+            "project": project_pk,
+            "surface_area": 30
+        }
+
+        res = my_account.create_areas(project_pk, area)
+        my_account.delete_area(res['data']['id'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_area_details(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        area_pk = self._create_area_return_pk()
+
+        res = my_account.get_areas_details(area_pk)
+        my_account.delete_area(area_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    # def test_update_area(self):
+    #     """ Test that 200 is returned """
+    #     #! Do not pass (403)
+
+    #     area_pk = self._create_area_return_pk()
+
+    #     area_up = {
+    #         "name": "UPDATE",
+    #     }
+
+    #     res = my_account.create_areas(area_pk, area_up)
+    #     my_account.delete_area(area_pk)
+
+    #     self.assertEqual(res['status'], 200)
+
+    def test_delete_area(self):
+        """ Test that 204 is returned """
+        # * OK
+
+        area_pk = self._create_area_return_pk()
+        res = my_account.delete_area(area_pk)
+
+        self.assertEqual(res['status'], 204)
+
+    #### Phases ####
+    def test_get_phases_list(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        res = my_account.get_phases_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_phases_projections_list(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        res = my_account.get_phases_projections_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_export_phase(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        res = my_account.export_phase(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    #### Milestone ####
+    def _create_milestone_return_pk(self):
+        """ Create a milestone and return the pk """
+
+        data = {
+            "title": "UNITTEST",
+            "project": project_pk,
+            "date": "30-04-2021",
+            "description": "string",
+            "in_timeline": True
+        }
+
+        return my_account.create_milestone(data)['data']['pk']
+
+    def test_get_milestones_list(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        res = my_account.get_milestones_list()
+
+        self.assertEqual(res['status'], 200)
+
+    # def test_get_milestone_details(self):
+    #     """ Test that 200 is returned """
+    #     #! Do not pass, 403
+
+    #     milestone_pk = self._create_milestone_return_pk()
+    #     res = my_account.get_milestone_details(milestone_pk)
+
+    #     self.assertEqual(res['status'], 200)
+
+    def test_create_milestone(self):
+        """ Test that 201 is returned """
+        # * OK
+
+        data = {
+            "title": "UNITTEST",
+            "project": project_pk,
+            "date": "30-04-2021",
+            "description": "string",
+            "in_timeline": True
+        }
+
+        res = my_account.create_milestone(data)
+
+        self.assertEqual(res['status'], 201)
+
+    def test_update_milestone(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        milestone_pk = self._create_milestone_return_pk()
+
+        data = {
+            "title": "UPDATE"
+        }
+
+        res = my_account.update_milestone(milestone_pk, data)
+
+        self.assertEqual(res['status'], 200)
 
 
 if __name__ == '__main__':
