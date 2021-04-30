@@ -969,6 +969,63 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 201)
 
+    #### Styleguides ####
+    def _create_styleguide_return_pk(self):
+        """ Create a styleguide and return pk """
+        data = {
+            "name": "UNITTEST"
+        }
+
+        return my_account.create_styleguide(data)['data']['id']
+
+    def test_get_styleguides_list(self):
+        """ Test that 200 is returned"""
+        res = my_account.get_styleguides_list()
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_styleguide(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "name": "UNITTEST"
+        }
+
+        res = my_account.create_styleguide(data)
+        my_account.delete_styleguide(res['data']['id'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_styleguide_details(self):
+        """ Test that 200 is returned """
+
+        styleguide_pk = self._create_styleguide_return_pk()
+        res = my_account.get_styleguide_details(styleguide_pk)
+        my_account.delete_styleguide(styleguide_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_styleguide(self):
+        """ Test that 200 is returned """
+
+        styleguide_pk = self._create_styleguide_return_pk()
+
+        data_up = {
+            "name": "UNITTEST - UPDATED"
+        }
+        res = my_account.update_styleguide(styleguide_pk, data_up)
+        my_account.delete_styleguide(styleguide_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_styleguide(self):
+        """ Test that 204 is returned """
+
+        styleguide_pk = self._create_styleguide_return_pk()
+        res = my_account.delete_styleguide(styleguide_pk)
+
+        self.assertEqual(res['status'], 204)
+
 
 if __name__ == '__main__':
     unittest.main()
