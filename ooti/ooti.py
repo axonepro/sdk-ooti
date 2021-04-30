@@ -79,14 +79,20 @@ class Auth(object):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_projects_list(self):
-        """ Get the projects list """
+    def get_projects_list(self, team_pk=None):
+        """ Get the projects list 
+
+        Keywords arguments:
+        team_pk -- pk of a team to get the project list of a specific team
+        """
 
         route = 'v1/projects/list/{0}/'.format(self.org_pk)
+        if team_pk is not None:
+            route += '{0}/'.format(team_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return {'status': response.status_code, 'data': json.loads(response.content)['results']}
 
-    def create_project(self, data):
+    def create_project(self, data):  # Error 500
         """ Create a new project
 
         Keyword arguments:
@@ -109,6 +115,46 @@ class Auth(object):
 
         route = 'v1/projects/list/{0}/'.format(self.org_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_project_fee_summary(self, id):
+        """ Get the project fee summary
+
+        Keyword arguments:
+        id -- the id of the project
+        """
+
+        route = 'v1/projects/fee-summary/{0}/'.format(id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_project_revenue(self, id):
+        """ Get the list of project revenues by years and by months
+
+        Keywords arguments:
+        id -- the id of the project
+        """
+        route = 'v1/projects/revenue/{0}/'.format(id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_project_available_clients(self, id):
+        """ Get the list of clients avalaible (clients that are not already participating in the project)
+        Return the list of clients with their display name and pk
+
+        Keywords arguments:
+        id -- the id of the project
+        """
+
+        route = 'v1/projects/available-clients/{0}/'.format(id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_projects_list_deliverables(self):
+        """ Get the list of projects and their associated deliverables where the current user is a member of """
+
+        route = 'v1/projects/deliverables/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def get_project_users_list(self, id):
@@ -178,6 +224,66 @@ class Auth(object):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
+    def get_project_tags_list(self):
+        """ Get the list of tags """
+
+        route = 'v1/projects/tags/list/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_project_tag(self, data):
+        """ Create a new tag 
+
+        Keywords arguments:
+        data -- content of the tag to be created :
+        {
+            "name": "new tag", (required)
+            "group": group_id, (optional)
+            "projects": [project_id, project_id, ...] (optional) # list of projects to add the tag
+        }
+        """
+
+        route = 'v1/projects/tags/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_project_tag_details(self, tag_pk):
+        """ Get project tag details 
+
+        Keywords arguments:
+        tag_pk -- pk of the tag
+        """
+        route = 'v1/projects/tags/{0}/'.format(tag_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_project_tag_details(self, tag_pk, data):
+        """ Update project tag details 
+
+        Keywords arguments:
+        tag_pk -- pk of the tag
+        data -- content of the update :
+        {
+            "name": "new name",
+            "projects": [project_id, project_id, ...]
+        }
+        """
+
+        route = 'v1/projects/tags/{0}/'.format(tag_pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_project_tag(self, tag_pk):
+        """ Delete project tag 
+
+        Keywords arguments:
+        tag_pk -- pk of the tag to be deleted
+        """
+
+        route = 'v1/projects/tags/{0}/'.format(tag_pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
     #### Orgusers ####
 
     def get_orgusers_list(self):
@@ -185,7 +291,7 @@ class Auth(object):
 
         route = 'v1/orgusers/list/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return self.process_response(response)
+        return self.process_response(response, True)
 
     def get_orguser_details(self, pk):
         """ Get the orguser details
@@ -324,7 +430,7 @@ class Auth(object):
 
         route = 'v1/teams/users/list/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return self.process_response(response)
+        return self.process_response(response, True)
 
     def get_team_user_details(self, orguser_pk):  # same thing as get_orguser_details ?
         """ Get the orguser details related to the team he is in
@@ -439,7 +545,6 @@ class Auth(object):
 
     #### Phases ####
 
-
     def get_phase_details(self, pk):
         """Get the phase details
         Keyword arguments:
@@ -520,6 +625,7 @@ class Auth(object):
 ##### INVOICING #####
 
     #### Invoices ####
+
 
     def get_invoice_details(self, pk):
         """Get the invoice details
@@ -935,6 +1041,7 @@ class Auth(object):
 
     #### Expenses ####
 
+
     def get_expenses_list(self):
         """ Get the expenses list """
 
@@ -956,6 +1063,7 @@ class Auth(object):
 ##### COLLABORATION #####
 
     #### Contact ####
+
 
     def get_contacts_list(self, project_pk=None):
         """ Get the contacts list
