@@ -38,6 +38,68 @@ class Auth(object):
 
 ##### AUTH #####
 
+    ##### Invitation #####
+
+    def get_invitations_list(self):
+        """ Get the list of invitations """
+
+        route = 'v1/invitations/list/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def get_team_invitations_list(self, team_pk):
+        """ Get the list of invitations of a specific team 
+
+        Keywords arguments:
+        team_pk -- pk of the team
+        """
+
+        route = 'v1/invitations/list/{0}/{1}/'.format(self.org_pk, team_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def get_invitation_details(self, pk):
+        """ Get the invitation details
+
+        Keywords arguments:
+        pk -- pk of the invitation
+        """
+        route = 'v1/invitations/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def create_invitation(self, pk, data):  # which pk ? create orguser before ?
+        """ Create a new invitation """
+
+        route = 'v1/invitations/{0}/'.format(pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def update_invitation_details(self, pk, data):
+        """ Update invitation informations
+
+        Keywords arguments:
+        pk -- pk of the invitation
+        data -- content of the update :
+        {
+            "email": "emailchanged@mail.com
+        }
+        """
+
+        route = 'v1/invitations/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_invitation(self, pk):
+        """ Delete the invitation
+
+        Keywords arguments:
+        pk -- pk of the invitation
+        """
+        route = 'v1/invitations/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
     ##### Projects #####
 
     def get_project_details(self, id):
@@ -401,13 +463,14 @@ class Auth(object):
             "all_permissions": true,
             "is_default": true,
             "permissions": [
-
+                id,
+                ...
             ]
         }
         """
 
         route = 'v1/permissions/list/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     def get_permissions_map(self):
@@ -428,7 +491,8 @@ class Auth(object):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def update_permission_details(self, id, data):
+    # "permissions" & "all_permissions" easily modifiable - potential security problem ?
+    def update_permissions_details(self, id, data):
         """ Update permissions set details
 
         Keywords arguments:
@@ -442,16 +506,17 @@ class Auth(object):
             "all_permissions": true,
             "is_default": true,
             "permissions": [
-
+                id,
+                ...
             ]
         }
         """
 
         route = 'v1/permissions/{0}/'.format(id)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def delete_permission(self, id):
+    def delete_permissions(self, id):
         """ Delete permissions set
 
         Keywords arguments:
@@ -673,7 +738,6 @@ class Auth(object):
 
     #### Phases ####
 
-
     def get_phase_details(self, pk):
         """Get the phase details
         Keyword arguments:
@@ -754,6 +818,7 @@ class Auth(object):
 ##### INVOICING #####
 
     #### Invoices ####
+
 
     def get_invoice_details(self, pk):
         """Get the invoice details
@@ -1169,6 +1234,7 @@ class Auth(object):
 
     #### Expenses ####
 
+
     def get_expenses_list(self):
         """ Get the expenses list """
 
@@ -1190,6 +1256,7 @@ class Auth(object):
 ##### COLLABORATION #####
 
     #### Contact ####
+
 
     def get_contacts_list(self, project_pk=None):
         """ Get the contacts list
