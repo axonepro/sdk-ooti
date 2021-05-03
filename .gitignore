@@ -7,3 +7,4 @@ __pycache__/
 main.py
 .env
 test_sdk.py
+projects_list.xls

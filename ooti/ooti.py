@@ -152,7 +152,19 @@ class Auth(object):
         if team_pk is not None:
             route += '{0}/'.format(team_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        return self.process_response(response, True)
+
+    def export_projects_list(self):
+        """ Export all project's fees into .xls file """
+
+        route = 'v1/projects/list/access/'
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_access_projects_list(self):  # what is access on OOTI ?
+
+        route = 'v1/projects/export/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
 
     def create_project(self, data):  # Error 500
         """ Create a new project
@@ -283,6 +295,72 @@ class Auth(object):
         """
 
         route = 'v1/projects/users/{0}/'.format(user_pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_project_tags_groups_list(self):
+        """ Get the list of groups of project tags """
+
+        route = 'v1/projects/tags/groups/list/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_project_tags_group(self, data):
+        """ Create a new group of project tags
+
+        Keywords arguments:
+        data -- data of the new group to be created :
+        {
+            "name": "New group",
+            "tags": [
+                tag_pk,
+                ...
+            ]
+        }
+        """
+
+        route = 'v1/projects/tags/groups/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_project_tags_group_details(self, group_pk):
+        """ Get the details about the group of project tags
+
+        Keywords arguments:
+        group_pk -- pk of the group of project tags
+        """
+
+        route = 'v1/projects/tags/groups/{0}/'.format(group_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_project_tags_group_details(self, group_pk, data):
+        """ Update the group
+
+        Keywords arguments:
+        group_pk -- pk of the group of project tags
+        data -- content of the update :
+        {
+            "name": "New group name",
+            "tags": [
+                tag_pk,
+                ...
+            ]
+        }
+        """
+
+        route = 'v1/projects/tags/groups/{0}/'.format(group_pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_project_tags_group_details(self, group_pk):
+        """ Delete the group of project tags 
+
+        Keywords arguments:
+        group_pk -- pk of the group of project tags
+        """
+
+        route = 'v1/projects/tags/groups/{0}/'.format(group_pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -738,6 +816,7 @@ class Auth(object):
 
     #### Phases ####
 
+
     def get_phase_details(self, pk):
         """Get the phase details
         Keyword arguments:
@@ -818,7 +897,6 @@ class Auth(object):
 ##### INVOICING #####
 
     #### Invoices ####
-
 
     def get_invoice_details(self, pk):
         """Get the invoice details
@@ -1234,7 +1312,6 @@ class Auth(object):
 
     #### Expenses ####
 
-
     def get_expenses_list(self):
         """ Get the expenses list """
 
@@ -1256,7 +1333,6 @@ class Auth(object):
 ##### COLLABORATION #####
 
     #### Contact ####
-
 
     def get_contacts_list(self, project_pk=None):
         """ Get the contacts list
