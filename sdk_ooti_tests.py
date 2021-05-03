@@ -1050,7 +1050,114 @@ class Tests(unittest.TestCase):
 
 ##### DELIVERABLES #####
 
+    #### Zones ####
+    def _create_zone_return_pk(self):
+        """ Create a zone and return the pk """
+
+        area_pk = self._create_area_return_pk()
+
+        data = {
+            "name": "UNITTEST",
+            "area": area_pk,
+            "progress": 0,
+            "is_annex": True,
+            "internal_code": "string",
+            "client_code": "string",
+            "surface_area": 0,
+            "default_surface_price": 0,
+            "num_units": 0
+        }
+
+        res = my_account.create_zone(area_pk, data)
+        return {"pk": res['data']['id'], "area_pk": area_pk}
+
+    def test_export_zones(self):
+        """ Test that 200 is returned """
+        res = my_account.export_phase(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_zones_list(self):
+        """ Test that 200 is returned """
+        area_pk = self._create_area_return_pk()
+
+        res = my_account.get_zones_list(area_pk)
+        my_account.delete_area(area_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_zone(self):
+        """ Test that 201 is returned """
+
+        area_pk = self._create_area_return_pk()
+
+        data = {
+            "name": "string",
+            "area": area_pk,
+            "progress": 0,
+            "is_annex": True,
+            "internal_code": "string",
+            "client_code": "string",
+            "surface_area": 0,
+            "default_surface_price": 0,
+            "num_units": 0
+        }
+
+        res = my_account.create_zone(area_pk, data)
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_zone_details(self):
+        """ Test that 200 is returned """
+        res_create = self._create_zone_return_pk()
+
+        res = my_account.get_zone_details(res_create['pk'])
+
+        my_account.delete_zone(res_create['pk'])
+        my_account.delete_area(res_create['area_pk'])
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_zone(self):
+        """ Test that 200 is returned """
+        res_create = self._create_zone_return_pk()
+
+        data_up = {
+            "name": "update"
+        }
+
+        res = my_account.update_zone(res_create['pk'], data_up)
+
+        my_account.delete_zone(res_create['pk'])
+        my_account.delete_area(res_create['area_pk'])
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_zone(self):
+        """ Test that 204 is returned """
+        area_pk = self._create_area_return_pk()
+
+        data = {
+            "name": "string",
+            "area": area_pk,
+            "progress": 0,
+            "is_annex": True,
+            "internal_code": "string",
+            "client_code": "string",
+            "surface_area": 0,
+            "default_surface_price": 0,
+            "num_units": 0
+        }
+
+        zone_pk = my_account.create_zone(area_pk, data)['data']['id']
+        res = my_account.delete_zone(zone_pk)
+
+        my_account.delete_area(area_pk)
+
+        self.assertEqual(res['status'], 204)
+
     #### Areas ####
+
     def _create_area_return_pk(self):
         """ Create an area and return the pk """
 
@@ -1202,6 +1309,67 @@ class Tests(unittest.TestCase):
         }
 
         res = my_account.update_milestone(milestone_pk, data)
+
+        self.assertEqual(res['status'], 200)
+
+    #### Fees ####
+    def test_get_fees_bracket_list(self):
+        """ Test that 200 is returned """
+        res = my_account.get_fees_bracket_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_export_project_fees(self):
+        """ Test that 200 is returned """
+        res = my_account.export_project_fees(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_fee_project_version_list(self):
+        """ Test that 200 is returned """
+        res = my_account.get_fee_project_version_list()
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_fees_list(self):
+        """ Test that 200 is returned """
+        res = my_account.get_fees_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_fees_projection_list(self):
+        """ Test that 200 is returned """
+        res = my_account.get_fees_projection_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_fees_project_list(self):
+        """ Test that 200 is returned """
+        res = my_account.get_projects_list()
+
+        self.assertEqual(res['status'], 200)
+
+    def test_validate_fees_costs(self):
+        """ Test that 200 is returned """
+        res = my_account.validation_fees_costs(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_validate_fees_ffne(self):
+        """ Test that 200 is returned """
+        res = my_account.validation_fees_ffne(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_validate_fees_production(self):
+        """ Test that 200 is returned """
+        res = my_account.validation_fees_production(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_fees_zones_list(self):
+        """ Test that 200 is returend """
+        res = my_account.get_fees_zones_list()
 
         self.assertEqual(res['status'], 200)
 
