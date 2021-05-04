@@ -35,7 +35,7 @@ class Deliverables(Helper):
         area_pk -- the pk of the area
         """
 
-        route = 'v1/zones/list/{0}/'.format(area_pk)
+        route = 'v1/zones/list/{0}/?page_size=999999'.format(area_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -400,7 +400,7 @@ class Deliverables(Helper):
         project_pk -- pk of the project
         """
 
-        route = 'v1/fees/bracket/list/{0}/'.format(project_pk)
+        route = 'v1/fees/bracket/list/{0}/?page_size=999999'.format(project_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -479,7 +479,7 @@ class Deliverables(Helper):
     def get_fee_project_version_list(self):
         """ Get fee project version list """
 
-        route = 'v1/fees/fee-project-version/list/{0}/'.format(self.org_pk)
+        route = 'v1/fees/fee-project-version/list/{0}/?page_size=999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -557,7 +557,7 @@ class Deliverables(Helper):
 
     def create_fee(self, project_pk, data):
         """ Create a fee
-        #! Cannot test, type is unknown
+        #TODO : add tests, type is not required
         Keyword arguments:
 
         project_pk -- pk of the project
@@ -584,14 +584,14 @@ class Deliverables(Helper):
         project_pk -- pk of the project
         """
 
-        route = 'v1/fees/projections/list/{0}/'.format(project_pk)
+        route = 'v1/fees/projections/list/{0}/?page_size=999999'.format(project_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def get_fees_project_list(self):
         """ Get fees project list """
 
-        route = 'v1/fees/projects/list/{0}/'.format(self.org_pk)
+        route = 'v1/fees/projects/list/{0}/?page_size=999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -829,7 +829,7 @@ class Deliverables(Helper):
         project_pk -- pk of the project
         """
 
-        route = 'v1/fees/zones/list/{0}/'.format(self.org_pk)
+        route = 'v1/fees/zones/list/{0}/?page_size=999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -979,7 +979,7 @@ class Deliverables(Helper):
         project_pk -- the pk of the project
         """
 
-        route = 'v1/plans/list/{0}/'.format(project_pk)
+        route = 'v1/plans/list/{0}/?page_size=999999'.format(project_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -1028,13 +1028,13 @@ class Deliverables(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def update_plan(self, project_pk, data):
+    def update_plan(self, plan_pk, data):
         """ Update plan
         #! Cannot test, cannot create plan
 
         Keyword arguments:
 
-        project_pk -- the pk of the project
+        plan_pk -- the pk of the plan
         data -- data create :
             {
                 "zone": 0,
@@ -1057,7 +1057,7 @@ class Deliverables(Helper):
             }
         """
 
-        route = 'v1/plans/{0}/'.format(project_pk)
+        route = 'v1/plans/{0}/'.format(plan_pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
@@ -1070,6 +1070,104 @@ class Deliverables(Helper):
         """
 
         route = 'v1/plans/{0}/'.format(plan_pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    #### Prescription ####
+
+    def get_prescriptions_list(self, project_pk):
+        """ Get prescription list
+
+        Keyword arguments:
+
+        project_pk -- the pk of the project
+        """
+
+        route = 'v1/prescriptions/list/{0}/?page_size=999999'.format(project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_prescription(self, project_pk, data):
+        """ Create prescription
+
+        Keyword arguments:
+
+        project_pk -- the pk of the project
+        data -- data create :
+            {
+                "fee_pct": "string",
+                "fee": 0,
+                "date": "string",
+                "description": "string",
+                "supplier": "string",
+                "supplier_contact": "string",
+                "supplier_phone": "string",
+                "supplier_email": "string",
+                "notes": "string",
+                "is_valid": true,
+                "is_ordered": true,
+                "is_invoiced": true,
+                "file": "string",
+                "area": 0,
+                "type": "string"
+            }
+        """
+
+        route = 'v1/prescriptions/list/{0}/'.format(project_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_prescriptions_details(self, pk):
+        """ Get plans details 
+
+        Keyword arguments:
+
+        pk -- the pk of the prescription
+        """
+
+        route = 'v1/prescriptions/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_prescriptions(self, pk, data):
+        """ Update prescriptions
+
+        Keyword arguments:
+
+        pk -- the pk of the prescription
+        data -- data create :
+            {
+                "fee_pct": "string",
+                "fee": 0,
+                "date": "string",
+                "description": "string",
+                "supplier": "string",
+                "supplier_contact": "string",
+                "supplier_phone": "string",
+                "supplier_email": "string",
+                "notes": "string",
+                "is_valid": true,
+                "is_ordered": true,
+                "is_invoiced": true,
+                "file": "string",
+                "area": 0,
+                "type": "string"
+            }
+        """
+
+        route = 'v1/prescriptions/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_prescription(self, pk):
+        """ Delete prescription
+
+        Keyword arguments:
+
+        pk -- the pk of the prescription
+        """
+
+        route = 'v1/prescriptions/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
