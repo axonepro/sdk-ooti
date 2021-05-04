@@ -13,6 +13,10 @@ class Costs(Helper):
         self._csrf_token = _csrf_token
         self.headers = headers
 
+    #### Costs ####
+
+    #### Employees ####
+
     #### Expenses ####
 
     def get_expenses_list(self):
@@ -32,3 +36,7 @@ class Costs(Helper):
         route = 'v1/expenses/{0}'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
+
+    #### Freelancers ####
+
+    #### Jobs ####

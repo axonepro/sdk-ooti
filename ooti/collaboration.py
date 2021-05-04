@@ -13,25 +13,109 @@ class Collaboration(Helper):
         self._csrf_token = _csrf_token
         self.headers = headers
 
-    #### Contact ####
+    #### Contacts ####
 
-    def get_contacts_list(self, project_pk=None):
+    # POST on v1/contacts/list-action/{org_pk}/ ? Error 500
+
+    def get_contact_categories_list(self, project_id=None):
+        """ Get the list of categories of contact
+
+        Keywords arguments:
+        project_id -- id of the project if the category is specific to a project
+        """
+
+        route = 'v1/contacts/categories/{0}/'.format(self.org_pk)
+        if project_id is not None:
+            route += '{0}/'.format(project_id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_contact_category(self, data, project_id=None):
+        """ Create a new category for contacts
+
+        Keywords arguments:
+        project_id -- id of the project if the category is specific to a project
+        data -- data of the new category to be created:
+        {
+            "name": "new category",
+            "count": 2,
+            "permissionssets": [
+                permissionset_pk,
+                ...
+            ]
+        }
+        """
+        route = 'v1/contacts/categories/{0}/'.format(self.org_pk)
+        if project_id is not None:
+            route += '{0}/'.format(project_id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def get_contact_category_details(self, category_pk):
+        """ Get the contact category details
+
+        Keywords arguments:
+        category_pk -- the pk of the contact
+        """
+
+        route = 'v1/contacts/category/{0}/'.format(category_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_contact_category_details(self, category_pk, data):
+        """ Update the contact category details
+
+        Keywords arguments:
+        category_pk -- the pk of the contact category
+        data -- content of the update:
+        {
+            "name": "new name",
+            "count": 1,
+            "permissionssets": [
+                permissionsset_pk,
+                ...
+            ]
+        }
+        """
+
+        route = 'v1/contacts/category/{0}/'.format(category_pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_contact_category(self, category_pk):
+        """ Delete the contact
+
+        Keywords arguments:
+        category_pk -- the pk of the contact category
+        """
+
+        route = 'v1/contacts/category/{0}/'.format(category_pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_contact_list_action(self):
+
+        route = 'v1/contacts/list-action/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_contacts_list(self, project_id=None):
         """ Get the contacts list
 
-        project_pk -- the pk of the contacts' project (optional)
+        project_id -- id of the contacts' project (optional)
         """
 
         route = 'v1/contacts/list/{0}/'.format(self.org_pk)
-        if project_pk is not None:
-            route += '{0}/'.format(project_pk)
+        if project_id is not None:
+            route += '{0}/'.format(project_id)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        return self.process_response(response, True)
 
-    def create_contact(self, data, project_pk=None):
+    def create_contact(self, data, project_id=None):
         """ Create a new contact
 
         Keywords arguments:
-        project_pk -- the pk of the contact's project (optional)
+        project_id -- id of the contact's project (optional)
         data -- data to create:
             {   
                 "name": "string" (required),
@@ -44,23 +128,23 @@ class Collaboration(Helper):
         """
 
         route = 'v1/contacts/list/{0}/'.format(self.org_pk)
-        if project_pk is not None:
-            route += '{0}/'.format(project_pk)
+        if project_id is not None:
+            route += '{0}/'.format(project_id)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_number_uncategorized_contacts(self, team_pk=None, project_pk=None):
+    def get_number_uncategorized_contacts(self, team_pk=None, project_id=None):
         """ Return the number of uncategorized contacts """
 
         route = 'v1/contacts/uncategorized/count/{0}/'.format(self.org_pk)
         parameters = ''
-        if team_pk is not None or project_pk is not None:
+        if team_pk is not None or project_id is not None:
             parameters = '?'
             if team_pk is not None:
                 parameters += 'team={0}'.format(team_pk)
-                if project_pk is not None:
+                if project_id is not None:
                     parameters += '&'
-            if project_pk is not None:
+            if project_id is not None:
                 parameters += 'project={0}'.format(team_pk)
         response = requests.get('{0}{1}{2}'.format(self.base_url, route, parameters), headers=self.headers)
         return self.process_response(response)
@@ -81,7 +165,7 @@ class Collaboration(Helper):
 
         Keywords arguments:
         pk -- the pk of the contact
-        data -- data to update, example value:
+        data -- content of the update:
         {
             "name": "string",
             "first_name": "string",
@@ -106,7 +190,7 @@ class Collaboration(Helper):
 
         route = 'v1/contacts/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {"status": response.status_code, "data": json.loads(response.content)}
+        return self.process_response(response)
 
     def delete_contact(self, pk):
         """ Delete the contact
@@ -117,17 +201,203 @@ class Collaboration(Helper):
 
         route = 'v1/contacts/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        if(response.status_code == 204):
-            return {'status': response.status_code, 'data': 'Contact deleted'}
-        else:
-            return self.process_response(response)
+        return self.process_response(response)
 
-    #### Task ####
+    #### Newsletters ####
 
-    def empty_tasks_trash(self, project_pk):
+    def get_newsletters_list(self):
+        """ Get the list of newsletters """
+
+        route = 'v1/newsletters/list/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_newsletters(self, data):
+        """ Create a new newsletter
+
+        Keywords arguments:
+        data -- data of the new newsletter to be created:
+        {
+            "template": 0,
+            "receivers": [
+                orguser_pk,
+                ...
+            ],
+            "name": "string",
+            "start_date": "string",
+            "end_date": "string",
+            "time": "string",
+            "type": "string",
+            "frequency": 0,
+            "all_users_are_receivers": true
+        }
+        """
+
+        route = 'v1/newsletters/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_newsletter_details(self, pk):
+        """ Get newsletter details
+
+        Keywords arguments:
+        pk -- pk of the newsletter
+        """
+
+        route = 'v1/newsletters/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_newsletter_details(self, pk, data):
+        """ Update newsletter details
+
+        Keywords arguments:
+        pk -- pk of the newsletter
+        data -- content of the update:
+        {
+            "template": 0,
+            "receivers": [
+                orguser_pk,
+                ...
+            ],
+            "name": "string",
+            "start_date": "string",
+            "end_date": "string",
+            "time": "string",
+            "type": "string",
+            "frequency": 0,
+            "all_users_are_receivers": true
+        }
+        """
+
+        route = 'v1/newsletters/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_newsletter(self, pk):
+        """ Delete the newsletter 
+
+        Keywords arguments:
+        pk -- pk of the newsletter
+        """
+
+        route = 'v1/newsletters/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    #### Note ####
+
+    def get_notes_list(self):
+        """ Get the list of notes """
+
+        route = 'v1/notes/list/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_note(self, data):
+        """ Create a new note
+
+        Keywords arguments:
+        data -- data of the new note to be created:
+        {
+            "text": "string",
+            "title": "string",
+            "is_pinned": true,
+            "project": project_pk,
+            "orguser": orguser_pk,
+            "is_public": true,
+            "entire_project": true,
+            "followers": [
+                orguser_pk,
+                ...
+            ]
+        }
+        """
+
+        route = 'v1/notes/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_note_details(self, pk):
+        """ Get note details
+
+        Keywords arguments:
+        pk -- pk of the note
+        """
+
+        route = 'v1/notes/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_note_details(self, pk, data):
+        """ Update note details
+
+        Keywords arguments:
+        pk -- pk of the note
+        data -- content of the update:
+        {
+            "text": "string",
+            "title": "string",
+            "is_pinned": true,
+            "project": project_pk,
+            "orguser": orguser_pk,
+            "is_public": true,
+            "entire_project": true,
+            "followers": [
+                orguser_pk,
+                ...
+            ]
+        }
+        """
+
+        route = 'v1/notes/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_note(self, pk):
+        """ Delete the note
+
+        Keywords arguments:
+        pk -- pk of the note
+        """
+
+        route = 'v1/notes/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    #### Notifications ####
+
+    # PATCH on v1/notifications/digest-config/{org_pk}/ ?
+
+    def get_notifications_config(self):
+        """ Get the notifications config of the organization """
+
+        route = 'v1/notifications/digest-config/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_notifications_config(self, data):  # not tested
+        """ Update the notifications config of the organization 
+
+        Keywords arguments:
+        data -- content of the update
+        {
+
+        }
+        """
+
+        route = 'v1/notifications/digest-config/{0}/'.format(self.org_pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    #### Posts ###
+
+    #### Tasks ####
+
+    def empty_tasks_trash(self, project_id):
         """ Set delete all not-completed archived tasks in project """
 
-        route = 'v1/tasks/empty-trash/{0}/'.format(project_pk)
+        route = 'v1/tasks/empty-trash/{0}/'.format(project_id)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -156,18 +426,40 @@ class Collaboration(Helper):
         return self.process_response(response)
 
     def get_task_label_details(self, label_pk):
+        """ Get the task label details
+
+        Keywords arguments:
+        label_pk -- pk of the task label
+        """
 
         route = 'v1/tasks/label/{0}/'.format(label_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def update_task_label_details(self, label_pk, data):
+        """ Update the task label details
+
+        Keywords arguments:
+        label_pk -- pk of the task label
+        data -- content of the update:
+        {
+            "creator": orguser_pk,
+            "team": team_pk,
+            "title": "new title",
+            "description": "description updated"
+        }
+        """
 
         route = 'v1/tasks/label/{0}/'.format(label_pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     def delete_task_label(self, label_pk):
+        """ Delete the task label details
+
+        Keywords arguments:
+        label_pk -- pk of the task label
+        """
 
         route = 'v1/tasks/label/{0}/'.format(label_pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
