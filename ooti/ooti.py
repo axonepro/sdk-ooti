@@ -1,8 +1,11 @@
 import requests
 import json
 
+
 from .auth import Auth
 from .helper import Helper
+from .invoicing import Invoicing
+from .deliverables import Deliverables
 
 
 class Auth(Helper):
@@ -15,6 +18,7 @@ class Auth(Helper):
         self.access_token = None
         self._csrf_token = None
         self.headers = None
+
         self.Auth = None
         self.Costs = None
         self.Collaboration = None
@@ -572,7 +576,7 @@ class Auth(Helper):
             ]
         }
         """
-
+        
         route = 'v1/permissions/list/{0}/'.format(self.org_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
@@ -1284,34 +1288,40 @@ class Auth(Helper):
         pk -- the pk of the currency
         """
 
-        route = 'v1/currencies/{0}'.format(pk)
+        route = 'v1/organizations/membership/'
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {"status": response.status_code, "data": json.loads(response.content)}
+        self.org_pk = json.loads(response.content)['organizations'][0]['id']
+        teams = json.loads(response.content)['organizations'][0]['teams']
+        self.teams_pk = []
+        for team in range(len(teams)):
+            self.teams_pk.append({key: teams[team][key] for key in ('id', 'title')})
+        return response.status_code
 
-    def delete_currency(self, pk):
-        """ Delete a currency
-        Keyword arguments:
-        pk -- the pk of the currency
-        """
+    #### Token ####
 
-        route = 'v1/currencies/{0}'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        if(response.status_code == 204):
-            return {"status": 204, "data": "Currency deleted"}
+    def __get_token(self):
+        route = 'v1/token-auth/'
+        headers = {
+            'Accept': 'application/json'
+        }
+        data = {
+            'username': self.username,
+            'password': self.password
+        }
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=headers, data=data)
+        self.access_token = json.loads(response.content)['token']
+        self.headers = {
+            'Authorization': 'JWT {0}'.format(self.access_token),
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-Token': self._csrf_token
+        }
+        return response.status_code
 
-    def create_currency(self, data):
-        """ Create a currency
-        Keyword arguments:
-        data -- data to create, required fields : 
-            {
-                "name": "string",
-                "longname": "string",
-                "decimal_points": 0,
-                "symbol": "string"
-            }
-        """
-
-        route = 'v1/currencies/list/'
+        route = 'v1/token-refresh/'
+        data = {
+            'token': self.access_token
+        }
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return {"status": response.status_code, "data": json.loads(response.content)}
 
@@ -1348,6 +1358,7 @@ class Auth(Helper):
 
     def get_expenses_details(self, pk):
         """Get the expense details
+
         Keyword arguments:
         pk -- the pk of the expense
         """
@@ -1365,6 +1376,7 @@ class Auth(Helper):
     def get_contacts_list(self, project_pk=None):
         """ Get the contacts list
         project_pk -- the pk of the contacts' project (optional)
+
         """
 
         route = 'v1/contacts/list/{0}/'.format(self.org_pk)
@@ -1376,7 +1388,7 @@ class Auth(Helper):
     def get_contact_details(self, pk):
         """ Get the contact details
         Keywords arguments:
-        pk -- the pk of the contact
+        pk - - the pk of the contact
         """
 
         route = 'v1/contacts/{0}/'.format(pk)
@@ -1386,8 +1398,8 @@ class Auth(Helper):
     def update_contact_details(self, pk, data):
         """ Update the contact details
         Keywords arguments:
-        pk -- the pk of the contact
-        data -- data to update, example value:
+        pk - - the pk of the contact
+        data - - data to update, example value:
         {
             "name": "string",
             "first_name": "string",
@@ -1404,8 +1416,8 @@ class Auth(Helper):
             "province1": "string",
             "country1": "string",
             "job_title": "string",
-            "client": [ (ids of the clients associated with this contact)
-                "string" 
+            "client": [(ids of the clients associated with this contact)
+                "string"
             ]
         }
         """
@@ -1417,9 +1429,9 @@ class Auth(Helper):
     def create_contact(self, data, project_pk=None):
         """ Create contact
         Keywords arguments:
-        project_pk -- the pk of the contact's project (optional)
-        data -- data to create:
-            {   
+        project_pk - - the pk of the contact's project(optional)
+        data - - data to create:
+            {
                 "name": "string" (required),
                 "first_name": "string" (optional),
                 "last_name": "string" (optional),
@@ -1441,7 +1453,7 @@ class Auth(Helper):
     def delete_contact(self, pk):
         """ Delete the contact
         Keywords arguments:
-        pk -- the pk of the contact
+        pk - - the pk of the contact
         """
 
         route = 'v1/contacts/{0}/'.format(pk)
@@ -1450,6 +1462,7 @@ class Auth(Helper):
             return {'status': response.status_code, 'data': 'Contact deleted'}
         else:
             return self.process_response(response)
+
 
     #### Task ####
 

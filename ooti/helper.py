@@ -7,8 +7,10 @@ class Helper(object):
 
     def process_response(self, response, results=None):
         """ Process the response and return it
+
         :param: response is the response from the API
         :param: results is saying if we just want the results field of the response
+
         :return: {status, data} or {status} if data is not JSON serializable
         """
         try:
