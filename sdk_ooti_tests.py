@@ -1345,7 +1345,7 @@ class Tests(unittest.TestCase):
 
     def test_get_fees_project_list(self):
         """ Test that 200 is returned """
-        res = my_account.Deliverables.get_projects_list()
+        res = my_account.Deliverables.get_fees_project_list()
 
         self.assertEqual(res['status'], 200)
 
