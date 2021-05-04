@@ -47,15 +47,15 @@ class Deliverables(Helper):
         area_pk -- the pk of the project
         data -- data create : 
         {
-            "name": "string",
-            "area": 0,
+            "name": "string" (in UI),
+            "area": 0 (required),
             "progress": 0,
             "is_annex": true,
-            "internal_code": "string",
-            "client_code": "string",
-            "surface_area": 0,
-            "default_surface_price": 0,
-            "num_units": 0
+            "internal_code": "string" (in UI),
+            "client_code": "string" (in UI),
+            "surface_area": 0 (in UI),
+            "default_surface_price": 0 (in UI),
+            "num_units": 0 (in UI)
         }
         """
 
@@ -145,10 +145,10 @@ class Deliverables(Helper):
         project_pk -- pk of the project
         data -- data create:
             {
-                "name": "string",
+                "name": "string" (in UI),
                 "project": 0,
-                "internal_code": "string",
-                "client_code": "string"
+                "internal_code": "string" (in UI),
+                "client_code": "string" (in UI)
             }
         """
         route = 'v1/areas/list/{0}/'.format(project_pk)
@@ -985,7 +985,7 @@ class Deliverables(Helper):
 
     def create_plan(self, project_pk, data):
         """ Create plan
-
+        #! Cannot test, code is required and unknown
         Keyword arguments:
 
         project_pk -- the pk of the project
@@ -1017,6 +1017,7 @@ class Deliverables(Helper):
 
     def get_plan_details(self, plan_pk):
         """ Get plans details 
+        #! Cannot test, cannot create plan
 
         Keyword arguments:
 
@@ -1029,6 +1030,7 @@ class Deliverables(Helper):
 
     def update_plan(self, project_pk, data):
         """ Update plan
+        #! Cannot test, cannot create plan
 
         Keyword arguments:
 
@@ -1061,7 +1063,7 @@ class Deliverables(Helper):
 
     def delete_plan(self, plan_pk):
         """ Delete plan
-
+        #! Cannot test, cannot create plan
         Keyword arguments:
 
         plan_pk -- the pk of the plan
