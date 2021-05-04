@@ -1052,7 +1052,10 @@ class Tests(unittest.TestCase):
 
     #### Zones ####
     def _create_zone_return_pk(self):
-        """ Create a zone and return the pk """
+        """ Create a zone and return the pk 
+
+        :return: {"pk": zone_pk, "area_pk": area_pk}
+        """
 
         area_pk = self._create_area_return_pk()
 
@@ -1313,6 +1316,19 @@ class Tests(unittest.TestCase):
         self.assertEqual(res['status'], 200)
 
     #### Fees ####
+    def _create_fee_return_pk(self):
+        """ Create a fee and return pk """
+
+        data = {
+            "title": "string",
+            "amount_base": 0,
+            "amount_current": 0,
+            "progress": 0,
+            "in_timeline": True
+        }
+
+        return my_account.Deliverables.create_fee(project_pk, data)['data']['pk']
+
     def test_get_fees_bracket_list(self):
         """ Test that 200 is returned """
         res = my_account.Deliverables.get_fees_bracket_list(project_pk)
@@ -1336,6 +1352,21 @@ class Tests(unittest.TestCase):
         res = my_account.Deliverables.get_fees_list(project_pk)
 
         self.assertEqual(res['status'], 200)
+
+    def test_create_fee(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "title": "string",
+            "amount_base": 0,
+            "amount_current": 0,
+            "progress": 0,
+            "in_timeline": True
+        }
+
+        res = my_account.Deliverables.create_fee(project_pk, data)
+
+        self.assertEqual(res['status'], 201)
 
     def test_get_fees_projection_list(self):
         """ Test that 200 is returned """
@@ -1444,13 +1475,97 @@ class Tests(unittest.TestCase):
     #     }
 
     #     res = my_account.Deliverables.create_plan(project_pk, data)
-    #     print(res)
 
     #     my_account.Deliverables.delete_zone(zone_pk['pk'])
     #     my_account.Deliverables.delete_area(zone_pk['area_pk'])
     #     # my_account.Deliverables.delete_plan(res['data']['pk'])
 
     #     self.assertEqual(res['status'], 201)
+
+    #### Prescription ####
+    def _create_prescription_return_pk(self):
+        """ Create a prescription and return pk 
+
+        :return: {"pk": pk, "area_pk": area_pk, "fee_pk": fee_pk}
+
+        """
+
+        fee_pk = self._create_fee_return_pk()
+        area_pk = self._create_area_return_pk()
+
+        data = {
+            "fee_pct": "10",
+            "fee": fee_pk,
+            "date": "04-05-2021",
+            "description": "UNITTEST",
+            "area": area_pk,
+        }
+
+        pk = my_account.Deliverables.create_prescription(project_pk, data)['data']['id']
+        return {"pk": pk, "area_pk": area_pk, "fee_pk": fee_pk}
+
+    def test_get_prescription_list(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_prescriptions_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_prescription(self):
+        """ Test that 201 is returned """
+
+        fee_pk = self._create_fee_return_pk()
+        area_pk = self._create_area_return_pk()
+
+        data = {
+            "fee_pct": "10",
+            "fee": fee_pk,
+            "date": "04-05-2021",
+            "description": "UNITTEST",
+            "area": area_pk,
+        }
+
+        res = my_account.Deliverables.create_prescription(project_pk, data)
+        my_account.Deliverables.delete_prescription(res['data']['id'])
+        my_account.Deliverables.delete_area(area_pk)
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_prescription_details(self):
+        """ Test that 200 is returned """
+
+        res_creation = self._create_prescription_return_pk()
+
+        res = my_account.Deliverables.get_prescriptions_details(res_creation['pk'])
+        my_account.Deliverables.delete_prescription(res_creation['pk'])
+        my_account.Deliverables.delete_area(res_creation['area_pk'])
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_prescription(self):
+        """ Test that 200 is returned """
+
+        res_creation = self._create_prescription_return_pk()
+
+        data = {
+            "description": "UPDATED"
+        }
+
+        res = my_account.Deliverables.update_prescriptions(res_creation['pk'], data)
+        my_account.Deliverables.delete_prescription(res_creation['pk'])
+        my_account.Deliverables.delete_area(res_creation['area_pk'])
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_prescription(self):
+        """ Test that 204 is returned """
+
+        res_creation = self._create_prescription_return_pk()
+
+        res = my_account.Deliverables.delete_prescription(res_creation['pk'])
+
+        my_account.Deliverables.delete_area(res_creation['area_pk'])
+
+        self.assertEqual(res['status'], 204)
 
 
 if __name__ == '__main__':
