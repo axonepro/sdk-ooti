@@ -1,7 +1,7 @@
 import requests
 import json
 
-from .helper import Helper
+from helper import Helper
 
 
 class Invoicing(Helper):
