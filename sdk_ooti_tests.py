@@ -15,7 +15,7 @@ my_account = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
 my_account.connect()
 
 team_pk = my_account.teams_pk[0]['id']
-currency_pk = my_account.get_currencies_list()['data'][0]['pk']
+currency_pk = my_account.Invoicing.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.get_projects_list()['data'][0]['id']
 
 
@@ -23,7 +23,7 @@ class Tests(unittest.TestCase):
     def _create_invoice_return_pk(self):
         """ Create and return the pk of an invoice """
 
-        client_info = my_account.get_clients_list(team_pk)['data'][0]
+        client_info = my_account.Invoicing.get_clients_list(team_pk)['data'][0]
 
         invoice = {
             "client": client_info['pk'],
@@ -33,7 +33,7 @@ class Tests(unittest.TestCase):
             "type": 4
         }
 
-        invoice_pk = my_account.create_invoice(team_pk, invoice)['data']['pk']
+        invoice_pk = my_account.Invoicing.create_invoice(team_pk, invoice)['data']['pk']
         return invoice_pk
 
 ##### INVOICING #####
@@ -44,7 +44,7 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        res_get = my_account.get_invoices_list()
+        res_get = my_account.Invoicing.get_invoices_list()
 
         self.assertEqual(res_get['status'], 200)
 
@@ -52,8 +52,8 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        invoice_pk = my_account.get_invoices_list()['data'][0]['pk']
-        res_details = my_account.get_invoice_details(invoice_pk)
+        invoice_pk = my_account.Invoicing.get_invoices_list()['data'][0]['pk']
+        res_details = my_account.Invoicing.get_invoice_details(invoice_pk)
 
         self.assertEqual(res_details['status'], 200)
 
@@ -61,7 +61,7 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        res_sent_valid = my_account.get_invoices_sent_valid_list(team_pk)
+        res_sent_valid = my_account.Invoicing.get_invoices_sent_valid_list(team_pk)
 
         self.assertEqual(res_sent_valid['status'], 200)
 
@@ -69,7 +69,7 @@ class Tests(unittest.TestCase):
         """ Test that 201 is returned """
         # * OK
 
-        client_info = my_account.get_clients_list(team_pk)['data'][0]
+        client_info = my_account.Invoicing.get_clients_list(team_pk)['data'][0]
 
         invoice = {
             "client": client_info['pk'],
@@ -79,7 +79,7 @@ class Tests(unittest.TestCase):
             "type": 4
         }
 
-        res_creation = my_account.create_invoice(team_pk, invoice)
+        res_creation = my_account.Invoicing.create_invoice(team_pk, invoice)
 
         self.assertEqual(res_creation['status'], 201)
 
@@ -94,7 +94,7 @@ class Tests(unittest.TestCase):
             "references": "This is my new reference!!!",
             "purchase_order": "Hey this is the purchase order"
         }
-        res_update = my_account.update_invoice(invoice_pk, invoice_updated)
+        res_update = my_account.Invoicing.update_invoice(invoice_pk, invoice_updated)
 
         self.assertEqual(res_update['status'], 200)
 
@@ -104,7 +104,7 @@ class Tests(unittest.TestCase):
 
         invoice_pk = self._create_invoice_return_pk()
 
-        res_validate = my_account.validate_invoice(invoice_pk)
+        res_validate = my_account.Invoicing.validate_invoice(invoice_pk)
 
         self.assertEqual(res_validate['status'], 200)
 
@@ -114,7 +114,7 @@ class Tests(unittest.TestCase):
 
         invoice_pk = self._create_invoice_return_pk()
 
-        res_send = my_account.send_invoice(invoice_pk)
+        res_send = my_account.Invoicing.send_invoice(invoice_pk)
 
         self.assertEqual(res_send['status'], 200)
 
@@ -124,7 +124,7 @@ class Tests(unittest.TestCase):
 
         invoice_pk = self._create_invoice_return_pk()
 
-        res_close = my_account.cancel_invoice(invoice_pk)
+        res_close = my_account.Invoicing.cancel_invoice(invoice_pk)
 
         self.assertEqual(res_close['status'], 200)
 
@@ -133,7 +133,7 @@ class Tests(unittest.TestCase):
         # * OK
 
         invoice_pk = self._create_invoice_return_pk()
-        res_items = my_account.get_invoice_items(invoice_pk)
+        res_items = my_account.Invoicing.get_invoice_items(invoice_pk)
 
         self.assertEqual(res_items['status'], 200)
 
@@ -149,7 +149,7 @@ class Tests(unittest.TestCase):
             "amount": 1000
         }
 
-        res_creation = my_account.create_invoice_item(invoice_pk, invoice_item)
+        res_creation = my_account.Invoicing.create_invoice_item(invoice_pk, invoice_item)
 
         self.assertEqual(res_creation['status'], 201)
 
@@ -165,13 +165,13 @@ class Tests(unittest.TestCase):
             "amount": 1000
         }
 
-        invoice_item_pk = my_account.create_invoice_item(invoice_pk, invoice_item)['data']['pk']
+        invoice_item_pk = my_account.Invoicing.create_invoice_item(invoice_pk, invoice_item)['data']['pk']
 
         invoice_item_updated = {
             "amount": 1200
         }
 
-        res_update = my_account.update_invoice_item(invoice_item_pk, invoice_item_updated)
+        res_update = my_account.Invoicing.update_invoice_item(invoice_item_pk, invoice_item_updated)
 
         self.assertEqual(res_update['status'], 200)
 
@@ -186,9 +186,9 @@ class Tests(unittest.TestCase):
             "amount": 1000
         }
 
-        invoice_item_pk = my_account.create_invoice_item(invoice_pk, invoice_item)['data']['pk']
+        invoice_item_pk = my_account.Invoicing.create_invoice_item(invoice_pk, invoice_item)['data']['pk']
 
-        res_delete = my_account.delete_invoice_item(invoice_item_pk)
+        res_delete = my_account.Invoicing.delete_invoice_item(invoice_item_pk)
 
         self.assertEqual(res_delete['status'], 204)
 
@@ -198,13 +198,13 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        res = my_account.get_credit_notes_list()
+        res = my_account.Invoicing.get_credit_notes_list()
 
         self.assertEqual(res['status'], 200)
 
     def test_get_credit_notes_sent_valid(self):
         """ Test that 200 is returned """
-        res = my_account.get_credit_notes_sent_valid_list(team_pk)
+        res = my_account.Invoicing.get_credit_notes_sent_valid_list(team_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -214,7 +214,7 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        res_payments = my_account.get_payments_list()
+        res_payments = my_account.Invoicing.get_payments_list()
 
         self.assertEqual(res_payments['status'], 200)
 
@@ -222,8 +222,8 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        payment_pk = my_account.get_payments_list()['data'][0]['pk']
-        res_details = my_account.get_payment_details(payment_pk)
+        payment_pk = my_account.Invoicing.get_payments_list()['data'][0]['pk']
+        res_details = my_account.Invoicing.get_payment_details(payment_pk)
 
         self.assertEqual(res_details['status'], 200)
 
@@ -239,8 +239,8 @@ class Tests(unittest.TestCase):
             "amount": 1000
         }
 
-        res_creation_item = my_account.create_invoice_item(invoice_pk, invoice_item)
-        my_account.validate_invoice(invoice_pk)
+        res_creation_item = my_account.Invoicing.create_invoice_item(invoice_pk, invoice_item)
+        my_account.Invoicing.validate_invoice(invoice_pk)
 
         payment = {
             "date": "21-04-2021",
@@ -250,7 +250,7 @@ class Tests(unittest.TestCase):
             "team": team_pk
         }
 
-        res_creation_payment = my_account.create_payment(team_pk, payment)
+        res_creation_payment = my_account.Invoicing.create_payment(team_pk, payment)
 
         self.assertEqual(res_creation_payment['status'], 201)
 
@@ -265,8 +265,8 @@ class Tests(unittest.TestCase):
             "amount": 1000
         }
 
-        res_creation_item = my_account.create_invoice_item(invoice_pk, invoice_item)
-        my_account.validate_invoice(invoice_pk)
+        res_creation_item = my_account.Invoicing.create_invoice_item(invoice_pk, invoice_item)
+        my_account.Invoicing.validate_invoice(invoice_pk)
 
         payment = {
             "date": "21-04-2021",
@@ -276,10 +276,10 @@ class Tests(unittest.TestCase):
             "team": team_pk
         }
 
-        payment_pk = my_account.create_payment(team_pk, payment)['data']['pk']
+        payment_pk = my_account.Invoicing.create_payment(team_pk, payment)['data']['pk']
         payment['date'] = '20-04-2021'
 
-        res_update_payment = my_account.update_payment(payment_pk, payment)
+        res_update_payment = my_account.Invoicing.update_payment(payment_pk, payment)
 
         self.assertEqual(res_update_payment['status'], 200)
 
@@ -294,8 +294,8 @@ class Tests(unittest.TestCase):
             "amount": 1000
         }
 
-        res_creation_item = my_account.create_invoice_item(invoice_pk, invoice_item)
-        my_account.validate_invoice(invoice_pk)
+        res_creation_item = my_account.Invoicing.create_invoice_item(invoice_pk, invoice_item)
+        my_account.Invoicing.validate_invoice(invoice_pk)
 
         payment = {
             "date": "21-04-2021",
@@ -305,14 +305,14 @@ class Tests(unittest.TestCase):
             "team": team_pk
         }
 
-        payment_pk = my_account.create_payment(team_pk, payment)['data']['pk']
+        payment_pk = my_account.Invoicing.create_payment(team_pk, payment)['data']['pk']
 
         update = {
             "amount": 200
         }
 
-        my_account.update_payment(payment_pk, update)
-        res_update_amount_invoice = my_account.update_payment_invoice(payment_pk, update)
+        my_account.Invoicing.update_payment(payment_pk, update)
+        res_update_amount_invoice = my_account.Invoicing.update_payment_invoice(payment_pk, update)
 
         self.assertEqual(res_update_amount_invoice['status'], 200)
 
@@ -322,7 +322,7 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        res = my_account.get_currencies_list()
+        res = my_account.Invoicing.get_currencies_list()
         self.assertEqual(res['status'], 200)
 
     def test_create_currency(self):
@@ -336,7 +336,7 @@ class Tests(unittest.TestCase):
             "symbol": "^"
         }
 
-        res = my_account.create_currency(currency)
+        res = my_account.Invoicing.create_currency(currency)
         self.assertEqual(res['status'], 201)
 
     def test_get_currency_details(self):
@@ -344,11 +344,11 @@ class Tests(unittest.TestCase):
         # * OK
 
         # get an id
-        res_get = my_account.get_currencies_list()
+        res_get = my_account.Invoicing.get_currencies_list()
         id_currency = res_get["data"][0]['pk']
 
         # get details
-        res_details = my_account.get_currency_details(id_currency)
+        res_details = my_account.Invoicing.get_currency_details(id_currency)
         self.assertEqual(res_details["status"], 200)
 
     def test_update_currency(self):
@@ -362,10 +362,10 @@ class Tests(unittest.TestCase):
             "symbol": "^"
         }
 
-        pk_currency = my_account.create_currency(currency)['data']['pk']
+        pk_currency = my_account.Invoicing.create_currency(currency)['data']['pk']
         currency["decimal_points"] = 2
 
-        res_update = my_account.update_currency(pk_currency, currency)
+        res_update = my_account.Invoicing.update_currency(pk_currency, currency)
         self.assertEqual(res_update['status'], 200)
 
     def test_delete_currency(self):
@@ -379,8 +379,8 @@ class Tests(unittest.TestCase):
             "symbol": "^"
         }
 
-        pk_currency = my_account.create_currency(currency)['data']['pk']
-        res_del = my_account.delete_currency(pk_currency)
+        pk_currency = my_account.Invoicing.create_currency(currency)['data']['pk']
+        res_del = my_account.Invoicing.delete_currency(pk_currency)
 
         self.assertEqual(res_del['status'], 204)
 
@@ -390,7 +390,7 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        res_get = my_account.get_clients_list(team_pk)
+        res_get = my_account.Invoicing.get_clients_list(team_pk)
 
         self.assertEqual(res_get['status'], 200)
 
@@ -398,10 +398,10 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        res_get_list = my_account.get_clients_list(team_pk)
+        res_get_list = my_account.Invoicing.get_clients_list(team_pk)
 
         client_pk = res_get_list['data'][0]['pk']
-        res_get = my_account.get_clients_details(client_pk)
+        res_get = my_account.Invoicing.get_clients_details(client_pk)
 
         self.assertEqual(res_get['status'], 200)
 
@@ -418,7 +418,7 @@ class Tests(unittest.TestCase):
             "tags": []
         }
 
-        res_creation = my_account.create_client(client)
+        res_creation = my_account.Invoicing.create_client(client)
 
         self.assertEqual(res_creation['status'], 201)
 
@@ -435,11 +435,11 @@ class Tests(unittest.TestCase):
             "tags": []
         }
 
-        client_pk = my_account.create_client(client)['data']['pk']
+        client_pk = my_account.Invoicing.create_client(client)['data']['pk']
 
         client["billing_address"] = "Update unittest address"
 
-        res_update = my_account.update_client(client_pk, client)
+        res_update = my_account.Invoicing.update_client(client_pk, client)
 
         self.assertEqual(res_update['status'], 200)
 
@@ -456,8 +456,8 @@ class Tests(unittest.TestCase):
             "tags": []
         }
 
-        client_pk = my_account.create_client(client)['data']['pk']
-        res_delete = my_account.delete_client(client_pk)
+        client_pk = my_account.Invoicing.create_client(client)['data']['pk']
+        res_delete = my_account.Invoicing.delete_client(client_pk)
         self.assertEqual(res_delete['status'], 204)
 
     #### Emails ####
@@ -476,14 +476,14 @@ class Tests(unittest.TestCase):
             "name_from": "Vincent de OOTI"
         }
 
-        email_pk = my_account.create_email(my_account.teams_pk, email)['data']['id']
+        email_pk = my_account.Invoicing.create_email(my_account.Invoicing.teams_pk, email)['data']['id']
         return email_pk
 
     def test_get_emails_list(self):
         """ Test that 200 is returned """
         # * OK
 
-        res = my_account.get_emails_list()
+        res = my_account.Invoicing.get_emails_list()
 
         self.assertEqual(res['status'], 200)
 
@@ -500,8 +500,8 @@ class Tests(unittest.TestCase):
             "name_from": "Vincent de OOTI"
         }
 
-        res_creation = my_account.create_email(my_account.teams_pk, email)
-        my_account.delete_email(res_creation['data']['id'])
+        res_creation = my_account.Invoicing.create_email(my_account.Invoicing.teams_pk, email)
+        my_account.Invoicing.delete_email(res_creation['data']['id'])
 
         self.assertEqual(res_creation['status'], 201)
 
@@ -510,8 +510,8 @@ class Tests(unittest.TestCase):
         # * OK
 
         email_pk = self._create_email_return_pk()
-        res = my_account.get_email_details(email_pk)
-        my_account.delete_email(email_pk)
+        res = my_account.Invoicing.get_email_details(email_pk)
+        my_account.Invoicing.delete_email(email_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -522,8 +522,8 @@ class Tests(unittest.TestCase):
         email_pk = self._create_email_return_pk()
 
         data = {'name': 'UNITTEST - update'}
-        res = my_account.update_email(email_pk, data)
-        my_account.delete_email(email_pk)
+        res = my_account.Invoicing.update_email(email_pk, data)
+        my_account.Invoicing.delete_email(email_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -532,7 +532,7 @@ class Tests(unittest.TestCase):
         # * OK
 
         email_pk = self._create_email_return_pk()
-        res = my_account.delete_email(email_pk)
+        res = my_account.Invoicing.delete_email(email_pk)
 
         self.assertEqual(res['status'], 204)
 
@@ -541,8 +541,8 @@ class Tests(unittest.TestCase):
         # * OK
 
         email_pk = self._create_email_return_pk()
-        res = my_account.send_test_email(email_pk)
-        my_account.delete_email(email_pk)
+        res = my_account.Invoicing.send_test_email(email_pk)
+        my_account.Invoicing.delete_email(email_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -551,7 +551,7 @@ class Tests(unittest.TestCase):
         # * OK
 
         email_pk = self._create_email_return_pk()
-        res = my_account.apply_email(email_pk)
+        res = my_account.Invoicing.apply_email(email_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -570,14 +570,14 @@ class Tests(unittest.TestCase):
             "port": 0
         }
 
-        smtp_pk = my_account.create_email_smtp(data)['data']['id']
+        smtp_pk = my_account.Invoicing.create_email_smtp(data)['data']['id']
         return smtp_pk
 
     def test_get_emails_smtp(self):
         """ Test that 200 is returned """
         # * OK
 
-        res = my_account.get_emails_smtp_list()
+        res = my_account.Invoicing.get_emails_smtp_list()
 
         self.assertEqual(res['status'], 200)
 
@@ -595,8 +595,8 @@ class Tests(unittest.TestCase):
             "port": 0
         }
 
-        res = my_account.create_email_smtp(data)
-        my_account.delete_email_smtp(res['data']['id'])
+        res = my_account.Invoicing.create_email_smtp(data)
+        my_account.Invoicing.delete_email_smtp(res['data']['id'])
 
         self.assertEqual(res['status'], 201)
 
@@ -606,8 +606,8 @@ class Tests(unittest.TestCase):
 
         smtp_pk = self._create_email_smtp_return_pk()
 
-        res = my_account.get_email_smtp_details(smtp_pk)
-        my_account.delete_email_smtp(smtp_pk)
+        res = my_account.Invoicing.get_email_smtp_details(smtp_pk)
+        my_account.Invoicing.delete_email_smtp(smtp_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -618,7 +618,7 @@ class Tests(unittest.TestCase):
         smtp_pk = self._create_email_smtp_return_pk()
 
         data = {"from_name": "UNITTEST - Update"}
-        res = my_account.update_email_smtp(smtp_pk, data)
+        res = my_account.Invoicing.update_email_smtp(smtp_pk, data)
 
         self.assertEqual(res['status'], 200)
 
@@ -627,7 +627,7 @@ class Tests(unittest.TestCase):
         # * OK
 
         smtp_pk = self._create_email_smtp_return_pk()
-        res = my_account.delete_email_smtp(smtp_pk)
+        res = my_account.Invoicing.delete_email_smtp(smtp_pk)
 
         self.assertEqual(res['status'], 204)
 
@@ -635,9 +635,9 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
 
         smtp_pk = self._create_email_smtp_return_pk()
-        res = my_account.send_test_email_smtp(smtp_pk)
+        res = my_account.Invoicing.send_test_email_smtp(smtp_pk)
 
-        my_account.delete_email_smtp(smtp_pk)
+        my_account.Invoicing.delete_email_smtp(smtp_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -651,14 +651,14 @@ class Tests(unittest.TestCase):
             "name": "UNITTEST"
         }
 
-        folder_pk = my_account.create_folder(project_pk, folder)['data']['pk']
+        folder_pk = my_account.Invoicing.create_folder(project_pk, folder)['data']['pk']
         return folder_pk
 
     def test_get_folders_list(self):
         """ Test that 200 is returned """
         # * OK
 
-        res = my_account.get_folder_list(project_pk)
+        res = my_account.Invoicing.get_folder_list(project_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -668,8 +668,8 @@ class Tests(unittest.TestCase):
 
         folder_pk = self._create_folder_return_pk()
 
-        res = my_account.get_folder_details(folder_pk)
-        my_account.delete_folder(folder_pk)
+        res = my_account.Invoicing.get_folder_details(folder_pk)
+        my_account.Invoicing.delete_folder(folder_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -681,8 +681,8 @@ class Tests(unittest.TestCase):
             "name": "UNITTEST"
         }
 
-        res = my_account.create_folder(project_pk, folder)
-        my_account.delete_folder(res['data']['pk'])
+        res = my_account.Invoicing.create_folder(project_pk, folder)
+        my_account.Invoicing.delete_folder(res['data']['pk'])
 
         self.assertEqual(res['status'], 201)
 
@@ -696,8 +696,8 @@ class Tests(unittest.TestCase):
             "name": "UNITTEST - UPDATE"
         }
 
-        res = my_account.update_folder(folder_pk, folder_updated)
-        my_account.delete_folder(folder_pk)
+        res = my_account.Invoicing.update_folder(folder_pk, folder_updated)
+        my_account.Invoicing.delete_folder(folder_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -706,7 +706,7 @@ class Tests(unittest.TestCase):
         # * OK
 
         folder_pk = self._create_folder_return_pk()
-        res = my_account.delete_folder(folder_pk)
+        res = my_account.Invoicing.delete_folder(folder_pk)
 
         self.assertEqual(res['status'], 204)
 
@@ -715,7 +715,7 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        res = my_account.get_files_list(project_pk)
+        res = my_account.Invoicing.get_files_list(project_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -723,8 +723,8 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        file_pk = my_account.get_files_list(project_pk)['data'][0]['pk']
-        res = my_account.get_file_details(file_pk)
+        file_pk = my_account.Invoicing.get_files_list(project_pk)['data'][0]['pk']
+        res = my_account.Invoicing.get_file_details(file_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -733,7 +733,7 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        res = my_account.get_banks_list()
+        res = my_account.Invoicing.get_banks_list()
 
         self.assertEqual(res['status'], 200)
 
@@ -741,8 +741,8 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        bank_pk = my_account.get_banks_list()['data'][0]['id']
-        res = my_account.get_bank_details(bank_pk)
+        bank_pk = my_account.Invoicing.get_banks_list()['data'][0]['id']
+        res = my_account.Invoicing.get_bank_details(bank_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -761,8 +761,8 @@ class Tests(unittest.TestCase):
             "projects": [str(project_pk)]
         }
 
-        res = my_account.create_bank(data)
-        my_account.delete_bank(res['data']['id'])
+        res = my_account.Invoicing.create_bank(data)
+        my_account.Invoicing.delete_bank(res['data']['id'])
 
         self.assertEqual(res['status'], 201)
 
@@ -781,14 +781,14 @@ class Tests(unittest.TestCase):
             "projects": [str(project_pk)]
         }
 
-        bank_pk = my_account.create_bank(bank)['data']['id']
+        bank_pk = my_account.Invoicing.create_bank(bank)['data']['id']
 
         updated_bank = {
             "name": "UNITTEST - update"
         }
 
-        res = my_account.update_bank(bank_pk, updated_bank)
-        my_account.delete_bank(bank_pk)
+        res = my_account.Invoicing.update_bank(bank_pk, updated_bank)
+        my_account.Invoicing.delete_bank(bank_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -807,8 +807,8 @@ class Tests(unittest.TestCase):
             "projects": [str(project_pk)]
         }
 
-        bank_pk = my_account.create_bank(bank)['data']['id']
-        res = my_account.delete_bank(bank_pk)
+        bank_pk = my_account.Invoicing.create_bank(bank)['data']['id']
+        res = my_account.Invoicing.delete_bank(bank_pk)
 
         self.assertEqual(res['status'], 204)
 
@@ -826,14 +826,14 @@ class Tests(unittest.TestCase):
             "lang": "fr"
         }
 
-        res = my_account.create_report(report)['data']['pk']
+        res = my_account.Invoicing.create_report(report)['data']['pk']
         return res
 
     def test_get_reports_list(self):
         """ Test that 200 is returned """
         # * OK
 
-        res = my_account.get_reports_list()
+        res = my_account.Invoicing.get_reports_list()
 
         self.assertEqual(res['status'], 200)
 
@@ -841,7 +841,7 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        res = my_account.get_reports_project_list(project_pk)
+        res = my_account.Invoicing.get_reports_project_list(project_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -856,7 +856,7 @@ class Tests(unittest.TestCase):
             "lang": "fr"
         }
 
-        res = my_account.create_report(report)
+        res = my_account.Invoicing.create_report(report)
 
         self.assertEqual(res['status'], 201)
 
@@ -865,8 +865,8 @@ class Tests(unittest.TestCase):
         # * OK
 
         report_pk = self._create_report_return_pk()
-        res = my_account.get_report_details(report_pk)
-        my_account.delete_report(report_pk)
+        res = my_account.Invoicing.get_report_details(report_pk)
+        my_account.Invoicing.delete_report(report_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -880,8 +880,8 @@ class Tests(unittest.TestCase):
             "name": "UPDATED UNITTEST"
         }
 
-        res = my_account.update_report(report_pk, report_up)
-        my_account.delete_report(report_pk)
+        res = my_account.Invoicing.update_report(report_pk, report_up)
+        my_account.Invoicing.delete_report(report_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -896,7 +896,7 @@ class Tests(unittest.TestCase):
             "project": project_pk
         }
 
-        res = my_account.generate_report(data)
+        res = my_account.Invoicing.generate_report(data)
 
         self.assertEqual(res['status'], 200)
 
@@ -912,13 +912,13 @@ class Tests(unittest.TestCase):
             "orientation": "portrait"
         }
 
-        return my_account.create_template(team_pk, template)['data']['pk']
+        return my_account.Invoicing.create_template(team_pk, template)['data']['pk']
 
     def test_get_templates_list(self):
         """ Test that 200 is returned """
         # * OK
 
-        res = my_account.get_templates_list(team_pk)
+        res = my_account.Invoicing.get_templates_list(team_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -928,7 +928,7 @@ class Tests(unittest.TestCase):
 
         template_pk = self._create_template_return_pk()
 
-        res = my_account.get_template_details(template_pk)
+        res = my_account.Invoicing.get_template_details(template_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -943,7 +943,7 @@ class Tests(unittest.TestCase):
             "orientation": "portrait"
         }
 
-        res = my_account.create_template(team_pk, template)
+        res = my_account.Invoicing.create_template(team_pk, template)
 
         self.assertEqual(res['status'], 201)
 
@@ -957,8 +957,8 @@ class Tests(unittest.TestCase):
             "name": "UPDATED"
         }
 
-        res = my_account.update_template(template_pk, template_up)
-        my_account.delete_template(template_pk)
+        res = my_account.Invoicing.update_template(template_pk, template_up)
+        my_account.Invoicing.delete_template(template_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -967,7 +967,7 @@ class Tests(unittest.TestCase):
         # * OK
 
         template_pk = self._create_template_return_pk()
-        res = my_account.delete_template(template_pk)
+        res = my_account.Invoicing.delete_template(template_pk)
 
         self.assertEqual(res['status'], 204)
 
@@ -976,10 +976,10 @@ class Tests(unittest.TestCase):
         # * OK
 
         template_pk = self._create_template_return_pk()
-        res = my_account.duplicate_template(template_pk)
+        res = my_account.Invoicing.duplicate_template(template_pk)
 
-        my_account.delete_template(template_pk)
-        my_account.delete_template(res['data']['pk'])
+        my_account.Invoicing.delete_template(template_pk)
+        my_account.Invoicing.delete_template(res['data']['pk'])
 
         self.assertEqual(res['status'], 201)
 
@@ -992,13 +992,13 @@ class Tests(unittest.TestCase):
             "name": "UNITTEST"
         }
 
-        return my_account.create_styleguide(data)['data']['id']
+        return my_account.Invoicing.create_styleguide(data)['data']['id']
 
     def test_get_styleguides_list(self):
         """ Test that 200 is returned"""
         # * OK
 
-        res = my_account.get_styleguides_list()
+        res = my_account.Invoicing.get_styleguides_list()
 
         self.assertEqual(res['status'], 200)
 
@@ -1010,8 +1010,8 @@ class Tests(unittest.TestCase):
             "name": "UNITTEST"
         }
 
-        res = my_account.create_styleguide(data)
-        my_account.delete_styleguide(res['data']['id'])
+        res = my_account.Invoicing.create_styleguide(data)
+        my_account.Invoicing.delete_styleguide(res['data']['id'])
 
         self.assertEqual(res['status'], 201)
 
@@ -1020,8 +1020,8 @@ class Tests(unittest.TestCase):
         # * OK
 
         styleguide_pk = self._create_styleguide_return_pk()
-        res = my_account.get_styleguide_details(styleguide_pk)
-        my_account.delete_styleguide(styleguide_pk)
+        res = my_account.Invoicing.get_styleguide_details(styleguide_pk)
+        my_account.Invoicing.delete_styleguide(styleguide_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -1034,8 +1034,8 @@ class Tests(unittest.TestCase):
         data_up = {
             "name": "UNITTEST - UPDATED"
         }
-        res = my_account.update_styleguide(styleguide_pk, data_up)
-        my_account.delete_styleguide(styleguide_pk)
+        res = my_account.Invoicing.update_styleguide(styleguide_pk, data_up)
+        my_account.Invoicing.delete_styleguide(styleguide_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -1044,7 +1044,7 @@ class Tests(unittest.TestCase):
         # * OK
 
         styleguide_pk = self._create_styleguide_return_pk()
-        res = my_account.delete_styleguide(styleguide_pk)
+        res = my_account.Invoicing.delete_styleguide(styleguide_pk)
 
         self.assertEqual(res['status'], 204)
 
@@ -1068,12 +1068,12 @@ class Tests(unittest.TestCase):
             "num_units": 0
         }
 
-        res = my_account.create_zone(area_pk, data)
+        res = my_account.Deliverables.create_zone(area_pk, data)
         return {"pk": res['data']['id'], "area_pk": area_pk}
 
     def test_export_zones(self):
         """ Test that 200 is returned """
-        res = my_account.export_phase(project_pk)
+        res = my_account.Deliverables.export_phase(project_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -1081,8 +1081,8 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         area_pk = self._create_area_return_pk()
 
-        res = my_account.get_zones_list(area_pk)
-        my_account.delete_area(area_pk)
+        res = my_account.Deliverables.get_zones_list(area_pk)
+        my_account.Deliverables.delete_area(area_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -1103,7 +1103,7 @@ class Tests(unittest.TestCase):
             "num_units": 0
         }
 
-        res = my_account.create_zone(area_pk, data)
+        res = my_account.Deliverables.create_zone(area_pk, data)
 
         self.assertEqual(res['status'], 201)
 
@@ -1111,10 +1111,10 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         res_create = self._create_zone_return_pk()
 
-        res = my_account.get_zone_details(res_create['pk'])
+        res = my_account.Deliverables.get_zone_details(res_create['pk'])
 
-        my_account.delete_zone(res_create['pk'])
-        my_account.delete_area(res_create['area_pk'])
+        my_account.Deliverables.delete_zone(res_create['pk'])
+        my_account.Deliverables.delete_area(res_create['area_pk'])
 
         self.assertEqual(res['status'], 200)
 
@@ -1126,10 +1126,10 @@ class Tests(unittest.TestCase):
             "name": "update"
         }
 
-        res = my_account.update_zone(res_create['pk'], data_up)
+        res = my_account.Deliverables.update_zone(res_create['pk'], data_up)
 
-        my_account.delete_zone(res_create['pk'])
-        my_account.delete_area(res_create['area_pk'])
+        my_account.Deliverables.delete_zone(res_create['pk'])
+        my_account.Deliverables.delete_area(res_create['area_pk'])
 
         self.assertEqual(res['status'], 200)
 
@@ -1149,10 +1149,10 @@ class Tests(unittest.TestCase):
             "num_units": 0
         }
 
-        zone_pk = my_account.create_zone(area_pk, data)['data']['id']
-        res = my_account.delete_zone(zone_pk)
+        zone_pk = my_account.Deliverables.create_zone(area_pk, data)['data']['id']
+        res = my_account.Deliverables.delete_zone(zone_pk)
 
-        my_account.delete_area(area_pk)
+        my_account.Deliverables.delete_area(area_pk)
 
         self.assertEqual(res['status'], 204)
 
@@ -1167,12 +1167,12 @@ class Tests(unittest.TestCase):
             "surface_area": 30
         }
 
-        return my_account.create_areas(project_pk, area)['data']['id']
+        return my_account.Deliverables.create_areas(project_pk, area)['data']['id']
 
     def test_get_areas_list(self):
         """ Test that 200 is returned """
         # * OK
-        res = my_account.get_areas_list(project_pk)
+        res = my_account.Deliverables.get_areas_list(project_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -1186,8 +1186,8 @@ class Tests(unittest.TestCase):
             "surface_area": 30
         }
 
-        res = my_account.create_areas(project_pk, area)
-        my_account.delete_area(res['data']['id'])
+        res = my_account.Deliverables.create_areas(project_pk, area)
+        my_account.Deliverables.delete_area(res['data']['id'])
 
         self.assertEqual(res['status'], 201)
 
@@ -1197,8 +1197,8 @@ class Tests(unittest.TestCase):
 
         area_pk = self._create_area_return_pk()
 
-        res = my_account.get_areas_details(area_pk)
-        my_account.delete_area(area_pk)
+        res = my_account.Deliverables.get_areas_details(area_pk)
+        my_account.Deliverables.delete_area(area_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -1212,8 +1212,8 @@ class Tests(unittest.TestCase):
     #         "name": "UPDATE",
     #     }
 
-    #     res = my_account.create_areas(area_pk, area_up)
-    #     my_account.delete_area(area_pk)
+    #     res = my_account.Deliverables.create_areas(area_pk, area_up)
+    #     my_account.Deliverables.delete_area(area_pk)
 
     #     self.assertEqual(res['status'], 200)
 
@@ -1222,7 +1222,7 @@ class Tests(unittest.TestCase):
         # * OK
 
         area_pk = self._create_area_return_pk()
-        res = my_account.delete_area(area_pk)
+        res = my_account.Deliverables.delete_area(area_pk)
 
         self.assertEqual(res['status'], 204)
 
@@ -1231,7 +1231,7 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        res = my_account.get_phases_list(project_pk)
+        res = my_account.Deliverables.get_phases_list(project_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -1239,7 +1239,7 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        res = my_account.get_phases_projections_list(project_pk)
+        res = my_account.Deliverables.get_phases_projections_list(project_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -1247,7 +1247,7 @@ class Tests(unittest.TestCase):
         """ Test that 200 is returned """
         # * OK
 
-        res = my_account.export_phase(project_pk)
+        res = my_account.Deliverables.export_phase(project_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -1263,13 +1263,13 @@ class Tests(unittest.TestCase):
             "in_timeline": True
         }
 
-        return my_account.create_milestone(data)['data']['pk']
+        return my_account.Deliverables.create_milestone(data)['data']['pk']
 
     def test_get_milestones_list(self):
         """ Test that 200 is returned """
         # * OK
 
-        res = my_account.get_milestones_list()
+        res = my_account.Deliverables.get_milestones_list()
 
         self.assertEqual(res['status'], 200)
 
@@ -1278,7 +1278,7 @@ class Tests(unittest.TestCase):
     #     #! Do not pass, 403
 
     #     milestone_pk = self._create_milestone_return_pk()
-    #     res = my_account.get_milestone_details(milestone_pk)
+    #     res = my_account.Deliverables.get_milestone_details(milestone_pk)
 
     #     self.assertEqual(res['status'], 200)
 
@@ -1294,7 +1294,7 @@ class Tests(unittest.TestCase):
             "in_timeline": True
         }
 
-        res = my_account.create_milestone(data)
+        res = my_account.Deliverables.create_milestone(data)
 
         self.assertEqual(res['status'], 201)
 
@@ -1308,70 +1308,149 @@ class Tests(unittest.TestCase):
             "title": "UPDATE"
         }
 
-        res = my_account.update_milestone(milestone_pk, data)
+        res = my_account.Deliverables.update_milestone(milestone_pk, data)
 
         self.assertEqual(res['status'], 200)
 
     #### Fees ####
     def test_get_fees_bracket_list(self):
         """ Test that 200 is returned """
-        res = my_account.get_fees_bracket_list(project_pk)
+        res = my_account.Deliverables.get_fees_bracket_list(project_pk)
 
         self.assertEqual(res['status'], 200)
 
     def test_export_project_fees(self):
         """ Test that 200 is returned """
-        res = my_account.export_project_fees(project_pk)
+        res = my_account.Deliverables.export_project_fees(project_pk)
 
         self.assertEqual(res['status'], 200)
 
     def test_get_fee_project_version_list(self):
         """ Test that 200 is returned """
-        res = my_account.get_fee_project_version_list()
+        res = my_account.Deliverables.get_fee_project_version_list()
 
         self.assertEqual(res['status'], 200)
 
     def test_get_fees_list(self):
         """ Test that 200 is returned """
-        res = my_account.get_fees_list(project_pk)
+        res = my_account.Deliverables.get_fees_list(project_pk)
 
         self.assertEqual(res['status'], 200)
 
     def test_get_fees_projection_list(self):
         """ Test that 200 is returned """
-        res = my_account.get_fees_projection_list(project_pk)
+        res = my_account.Deliverables.get_fees_projection_list(project_pk)
 
         self.assertEqual(res['status'], 200)
 
     def test_get_fees_project_list(self):
         """ Test that 200 is returned """
-        res = my_account.get_projects_list()
+        res = my_account.Deliverables.get_projects_list()
 
         self.assertEqual(res['status'], 200)
 
     def test_validate_fees_costs(self):
         """ Test that 200 is returned """
-        res = my_account.validation_fees_costs(project_pk)
+        res = my_account.Deliverables.validation_fees_costs(project_pk)
 
         self.assertEqual(res['status'], 200)
 
     def test_validate_fees_ffne(self):
         """ Test that 200 is returned """
-        res = my_account.validation_fees_ffne(project_pk)
+        res = my_account.Deliverables.validation_fees_ffne(project_pk)
 
         self.assertEqual(res['status'], 200)
 
     def test_validate_fees_production(self):
         """ Test that 200 is returned """
-        res = my_account.validation_fees_production(project_pk)
+        res = my_account.Deliverables.validation_fees_production(project_pk)
 
         self.assertEqual(res['status'], 200)
 
     def test_get_fees_zones_list(self):
         """ Test that 200 is returend """
-        res = my_account.get_fees_zones_list()
+        res = my_account.Deliverables.get_fees_zones_list()
 
         self.assertEqual(res['status'], 200)
+
+    #### Plans ####
+    # def _create_plan_return_pk(self):
+    #     """ Create plan and return pk """
+
+    #     zone_pk = self._create_zone_return_pk()
+
+    #     data = {
+    #         "zone": zone_pk['pk'],
+    #         "name_fr": "string",
+    #         "name_en": "string",
+    #         "plan_format": "string",
+    #         "scale": "string",
+    #         "level": "string",
+    #         "lot": 0,
+    #         "is_default": True,
+    #         "progress": 0,
+    #         "sub_zone_code": "string",
+    #         "plan_code": "string",
+    #         "project": project_pk,
+    #         "area": zone_pk['area_pk'],
+    #         "code": "string",
+    #         "custom_field_1": "string",
+    #         "custom_field_2": "string",
+    #         "custom_field_3": "string"
+    #     }
+
+    #     res = my_account.Deliverables.create_plan(project_pk, data)['data']['id']
+
+    #     return {"pk": res, "area_pk": area_pk, "zone_pk": zone_pk}
+
+    def test_get_plans_list_action(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_plans_list_action(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_plans_list_action(self):
+        """ Test that 201 is returned """
+        res = my_account.Deliverables.create_plans_list_action(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_plans_list(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_plans_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    # def test_create_plan(self):
+    #     """ Test that 201 is returned """
+
+    #     zone_pk = self._create_zone_return_pk()
+
+    #     data = {
+    #         "zone": zone_pk['pk'],
+    #         "name_fr": "string",
+    #         "name_en": "string",
+    #         "plan_format": "string",
+    #         "scale": "string",
+    #         "level": "string",
+    #         "lot": 0,
+    #         "is_default": True,
+    #         "progress": 0,
+    #         "sub_zone_code": "string",
+    #         "plan_code": "string",
+    #         "project": project_pk,
+    #         "area": zone_pk['area_pk'],
+    #         "code": "client"
+    #     }
+
+    #     res = my_account.Deliverables.create_plan(project_pk, data)
+    #     print(res)
+
+    #     my_account.Deliverables.delete_zone(zone_pk['pk'])
+    #     my_account.Deliverables.delete_area(zone_pk['area_pk'])
+    #     # my_account.Deliverables.delete_plan(res['data']['pk'])
+
+    #     self.assertEqual(res['status'], 201)
 
 
 if __name__ == '__main__':
