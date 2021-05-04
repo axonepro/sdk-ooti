@@ -43,7 +43,7 @@ class Auth(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def create_invitation(self, pk, data):  # which pk ? create orguser before ?
+    def create_invitation(self, pk, data):  # which pk ? already tested with orguser
         """ Create a new invitation """
 
         route = 'v1/invitations/{0}/'.format(pk)
@@ -405,6 +405,8 @@ class Auth(Helper):
 
     #### Orgusers ####
 
+    # POST on v1/orgusers/invite/ ?
+
     def get_orgusers_list(self):
         """ Get the list of users in the organization """
 
@@ -678,7 +680,7 @@ class Auth(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    # "permissions" & "all_permissions" easily modifiable - potential security problem ?
+    # Test to modify "permissions" & "all_permissions" without being superadmin
     def update_permissions_details(self, id, data):
         """ Update permissions set details
 
@@ -716,6 +718,8 @@ class Auth(Helper):
 
     #### Profile ####
 
+    # POST on profile preferences v1/profiles/preferences/ ?
+
     def get_profile_preferences(self):
         """ Get profile preferences """
 
@@ -745,9 +749,10 @@ class Auth(Helper):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    # post method on profile preferences ?
-
     #### Team #####
+
+    # POST & DELETE on v1/teams/users/bulk/add/{org_pk}/ ?
+    # POST on v1/teams/staff/{id}/ ?
 
     def get_teams_list(self):
         """ Get the list of teams """
@@ -755,6 +760,13 @@ class Auth(Helper):
         route = 'v1/teams/list/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)  # no 'results' key
+
+    def get_teams_access_list(self):
+        """ Get teams orguser has or has not access to """
+
+        route = 'v1/teams/list/access/'
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
 
     def create_team(self, data):
         """ Create a new team 
