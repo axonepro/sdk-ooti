@@ -1,7 +1,7 @@
 import requests
 import json
 
-from .helper import Helper
+from helper import Helper
 
 
 class Collaboration(Helper):
@@ -26,6 +26,44 @@ class Collaboration(Helper):
             route += '{0}/'.format(project_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+
+    def create_contact(self, data, project_pk=None):
+        """ Create a new contact
+
+        Keywords arguments:
+        project_pk -- the pk of the contact's project (optional)
+        data -- data to create:
+            {   
+                "name": "string" (required),
+                "first_name": "string" (optional),
+                "last_name": "string" (optional),
+                "email": "string" (optional),
+                "mobile_phone": "string" (optional),
+                "job_title": "string" (optional)
+            }
+        """
+
+        route = 'v1/contacts/list/{0}/'.format(self.org_pk)
+        if project_pk is not None:
+            route += '{0}/'.format(project_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_number_uncategorized_contacts(self, team_pk=None, project_pk=None):
+        """ Return the number of uncategorized contacts """
+
+        route = 'v1/contacts/uncategorized/count/{0}/'.format(self.org_pk)
+        parameters = ''
+        if team_pk is not None or project_pk is not None:
+            parameters = '?'
+            if team_pk is not None:
+                parameters += 'team={0}'.format(team_pk)
+                if project_pk is not None:
+                    parameters += '&'
+            if project_pk is not None:
+                parameters += 'project={0}'.format(team_pk)
+        response = requests.get('{0}{1}{2}'.format(self.base_url, route, parameters), headers=self.headers)
+        return self.process_response(response)
 
     def get_contact_details(self, pk):
         """ Get the contact details
@@ -69,31 +107,6 @@ class Collaboration(Helper):
         route = 'v1/contacts/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return {"status": response.status_code, "data": json.loads(response.content)}
-
-    def create_contact(self, data, project_pk=None):
-        """ Create a new contact
-
-        Keywords arguments:
-        project_pk -- the pk of the contact's project (optional)
-        data -- data to create:
-            {   
-                "name": "string" (required),
-                "first_name": "string" (optional),
-                "last_name": "string" (optional),
-                "email": "string" (optional),
-                "mobile_phone": "string" (optional),
-                "job_title": "string" (optional)
-            }
-        """
-
-        route = 'v1/contacts/list/{0}/'.format(self.org_pk)
-        if project_pk is not None:
-            route += '{0}/'.format(project_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        if(response.status_code != 500):
-            return {'status': response.status_code, 'data': json.loads(response.content)['results']}
-        else:
-            return {'status': response.status_code}
 
     def delete_contact(self, pk):
         """ Delete the contact

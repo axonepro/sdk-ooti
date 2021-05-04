@@ -2,13 +2,15 @@ import requests
 import json
 
 
-from .auth import Auth
-from .helper import Helper
-from .invoicing import Invoicing
-from .deliverables import Deliverables
+from auth import Auth
+from costs import Costs
+from helper import Helper
+from invoicing import Invoicing
+from deliverables import Deliverables
+from collaboration import Collaboration
 
 
-class Auth(Helper):
+class Sdk(Helper):
     def __init__(self, username, password):
         self.username = username
         self.password = password
@@ -576,7 +578,7 @@ class Auth(Helper):
             ]
         }
         """
-        
+
         route = 'v1/permissions/list/{0}/'.format(self.org_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
@@ -1462,7 +1464,6 @@ class Auth(Helper):
             return {'status': response.status_code, 'data': 'Contact deleted'}
         else:
             return self.process_response(response)
-
 
     #### Task ####
 

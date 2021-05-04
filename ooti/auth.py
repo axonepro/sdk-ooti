@@ -1,7 +1,7 @@
 import requests
 import json
 
-from .helper import Helper
+from helper import Helper
 
 
 class Auth(Helper):
@@ -442,7 +442,7 @@ class Auth(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def create_orguser(self, data):
+    def create_orguser(self, data):  # Error 500
         """ Create a new user in the organization 
 
         data -- content of the orguser to be created:
