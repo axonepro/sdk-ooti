@@ -942,7 +942,7 @@ class Tests(unittest.TestCase):
         my_account.Deliverables.delete_zone(res_zone_pk['pk'])
         my_account.Deliverables.delete_area(res_zone_pk['area_pk'])
 
-        self.assertEqual(res['status'], 201)
+        self.assertEqual(res['status'], 200)
 
     def test_get_defaults_plan_details(self):
         """ Test that 200 is returned """
@@ -987,6 +987,69 @@ class Tests(unittest.TestCase):
     #     my_account.Deliverables.delete_area(res_creation['area_pk'])
 
     #     self.assertEqual(res['status'], 204)
+
+    #### Documents ####
+    def _create_document_return_pk(self):
+        """ Create a document a return pk """
+
+        data = {
+            "name": "UNITTEST",
+            "price": 10,
+            "annexes": []
+        }
+
+        return my_account.Deliverables.create_document(project_pk, data)['data']['id']
+
+    def test_get_documents_list(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_documents_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_document(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "name": "UNITTEST",
+            "price": 10,
+            "annexes": []
+        }
+
+        res = my_account.Deliverables.create_document(project_pk, data)
+        my_account.Deliverables.delete_document(res['data']['id'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_documents_details(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_document_return_pk()
+
+        res = my_account.Deliverables.get_document_details(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_document(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_document_return_pk()
+
+        data = {
+            "name": "UPDATED"
+        }
+
+        res = my_account.Deliverables.update_document(pk, data)
+        my_account.Deliverables.delete_document(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_document(self):
+        """ Test that 204 is returned """
+
+        pk = self._create_document_return_pk()
+        res = my_account.Deliverables.delete_document(pk)
+
+        self.assertEqual(res['status'], 204)
 
 
 if __name__ == '__main__':
