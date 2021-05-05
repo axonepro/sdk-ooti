@@ -375,34 +375,24 @@ class Tests(unittest.TestCase):
         self.assertEqual(res['status'], 200)
 
     #### Plans ####
-    # def _create_plan_return_pk(self):
-    #     """ Create plan and return pk """
+    def _create_plan_return_pk(self):
+        """ Create plan and return pk """
 
-    #     zone_pk = self._create_zone_return_pk()
+        data = {
+            "name_fr": "UNITTEST",
+            "name_en": "UNITTEST",
+            "plan_format": "A1",
+            "scale": "1/50e",
+            "level": "000",
+            "lot": 10,
+            "code": "pln",
+            "custom_field_1": "",
+            "custom_field_2": "",
+            "custom_field_3": "",
+            "org": my_account.org_pk
+        }
 
-    #     data = {
-    #         "zone": zone_pk['pk'],
-    #         "name_fr": "string",
-    #         "name_en": "string",
-    #         "plan_format": "string",
-    #         "scale": "string",
-    #         "level": "string",
-    #         "lot": 0,
-    #         "is_default": True,
-    #         "progress": 0,
-    #         "sub_zone_code": "string",
-    #         "plan_code": "string",
-    #         "project": project_pk,
-    #         "area": zone_pk['area_pk'],
-    #         "code": "string",
-    #         "custom_field_1": "string",
-    #         "custom_field_2": "string",
-    #         "custom_field_3": "string"
-    #     }
-
-    #     res = my_account.Deliverables.create_plan(project_pk, data)['data']['id']
-
-    #     return {"pk": res, "area_pk": area_pk, "zone_pk": zone_pk}
+        return my_account.Deliverables.create_plan(project_pk, data)['data']['id']
 
     def test_get_plans_list_action(self):
         """ Test that 200 is returned """
@@ -422,35 +412,52 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 200)
 
-    # def test_create_plan(self):
-    #     """ Test that 201 is returned """
+    def test_create_plan(self):
+        """ Test that 201 is returned """
 
-    #     zone_pk = self._create_zone_return_pk()
+        data = {
+            "name_fr": "UNITTEST",
+            "name_en": "UNITTEST",
+            "plan_format": "A1",
+            "scale": "1/50e",
+            "level": "000",
+            "lot": 10,
+            "code": "pln",
+            "custom_field_1": "",
+            "custom_field_2": "",
+            "custom_field_3": "",
+            "org": my_account.org_pk
+        }
 
-    #     data = {
-    #         "zone": zone_pk['pk'],
-    #         "name_fr": "string",
-    #         "name_en": "string",
-    #         "plan_format": "string",
-    #         "scale": "string",
-    #         "level": "string",
-    #         "lot": 0,
-    #         "is_default": True,
-    #         "progress": 0,
-    #         "sub_zone_code": "string",
-    #         "plan_code": "string",
-    #         "project": project_pk,
-    #         "area": zone_pk['area_pk'],
-    #         "code": "client"
-    #     }
+        res = my_account.Deliverables.create_plan(project_pk, data)
 
-    #     res = my_account.Deliverables.create_plan(project_pk, data)
+        my_account.Deliverables.delete_plan(res['data']['id'])
 
-    #     my_account.Deliverables.delete_zone(zone_pk['pk'])
-    #     my_account.Deliverables.delete_area(zone_pk['area_pk'])
-    #     # my_account.Deliverables.delete_plan(res['data']['pk'])
+        self.assertEqual(res['status'], 201)
 
-    #     self.assertEqual(res['status'], 201)
+    def test_update_plan(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_plan_return_pk()
+
+        data = {
+            "name_fr": "UPDATED",
+        }
+
+        res = my_account.Deliverables.update_plan(pk, data)
+
+        my_account.Deliverables.delete_plan(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_plan(self):
+        """ Test that 204 is returned """
+
+        pk = self._create_plan_return_pk()
+
+        res = my_account.Deliverables.delete_plan(pk)
+
+        self.assertEqual(res['status'], 204)
 
     #### Prescription ####
     def _create_prescription_return_pk(self):
@@ -919,7 +926,7 @@ class Tests(unittest.TestCase):
 
     def test_create_defaults_plan_team(self):
         """ Test that 201 is returned """
-        #! Pass but returns a 200 and a list of objects
+        #! Pass but returns a 200 and a list of objects / Do not return anything in the list
 
         plansets_pk = self._create_plansets_return_pk()
         res_zone_pk = self._create_zone_return_pk()
@@ -936,8 +943,9 @@ class Tests(unittest.TestCase):
         }
 
         res = my_account.Deliverables.create_defaults_plan_team(team_pk, data)
+        print(res)
 
-        my_account.Deliverables.delete_defaults_plan(res['data'][0]['id'])
+        # my_account.Deliverables.delete_defaults_plan(res['data'][0]['id'])
         my_account.Deliverables.delete_defaults_plansets(plansets_pk)
         my_account.Deliverables.delete_zone(res_zone_pk['pk'])
         my_account.Deliverables.delete_area(res_zone_pk['area_pk'])
@@ -1050,6 +1058,8 @@ class Tests(unittest.TestCase):
         res = my_account.Deliverables.delete_document(pk)
 
         self.assertEqual(res['status'], 204)
+
+    #### Contracts ####
 
 
 if __name__ == '__main__':
