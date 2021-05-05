@@ -559,7 +559,7 @@ class Deliverables(Helper):
 
     def create_fee(self, project_pk, data):
         """ Create a fee
-        # TODO : add tests, type is not required
+        
         Keyword arguments:
 
         project_pk -- pk of the project
