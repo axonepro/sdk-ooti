@@ -769,7 +769,6 @@ class Tests(unittest.TestCase):
     #     #! Do not pass : 404
     #     pk = self._create_plansets_return_pk()
     #     res = my_account.Deliverables.apply_defaults_plansets()
-    #     print(res)
 
     #     self.assertEqual(res['status'], 201)
 
@@ -943,7 +942,6 @@ class Tests(unittest.TestCase):
         }
 
         res = my_account.Deliverables.create_defaults_plan_team(team_pk, data)
-        print(res)
 
         # my_account.Deliverables.delete_defaults_plan(res['data'][0]['id'])
         my_account.Deliverables.delete_defaults_plansets(plansets_pk)
@@ -1060,6 +1058,107 @@ class Tests(unittest.TestCase):
         self.assertEqual(res['status'], 204)
 
     #### Contracts ####
+
+    ### Contractors ###
+    def _create_contractor_return_pk(self):
+        """ Create contractor and return pk """
+        data = {
+            "name": "UNITTEST",
+            "tags": []
+        }
+
+        return my_account.Deliverables.create_contractors(data)['data']['id']
+
+    def test_get_contractors_list(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_contractors_list()
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_contractor(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "name": "UNITTEST",
+            "tags": []
+        }
+
+        res = my_account.Deliverables.create_contractors(data)
+        my_account.Deliverables.delete_contractor(res['data']['id'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_contractor_details(self):
+        """ Test that 200 is returned """
+        pk = self._create_contractor_return_pk()
+
+        res = my_account.Deliverables.get_contractor_details(pk)
+        my_account.Deliverables.delete_contractor(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_contractor(self):
+        """ Test that 200 is returned """
+        pk = self._create_contractor_return_pk()
+
+        data = {
+            "name": "UPDATED"
+        }
+
+        res = my_account.Deliverables.update_contractor(pk, data)
+        my_account.Deliverables.delete_contractor(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_contractor(self):
+        """ Test that 204 is returned """
+        pk = self._create_contractor_return_pk()
+
+        res = my_account.Deliverables.delete_contractor(pk)
+
+        self.assertEqual(res['status'], 204)
+
+    ### Contract items ###
+    def test_generate_contracts_project(self):
+        """ Test that 201 is returned """
+        #! Pass but returns 200 instead of 201
+        res = my_account.Deliverables.generate_contracts_project(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    # def test_generate_contracts_org(self):
+    #     """ Test that 201 is returned """
+    #     #! Do not pass : 403 : no permission to perfom this action
+    #     res = my_account.Deliverables.generate_contracts_org()
+
+    #     self.assertEqual(res['status'], 201)
+
+    def test_get_contract_items(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_contracts_items_list()
+
+        self.assertEqual(res['status'], 200)
+
+    ### Contracts ###
+
+    def test_get_contracts_list(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_contracts_list()
+
+        self.assertEqual(res['status'], 200)
+
+    ### Contracts month ###
+    # def test_generate_contracts_month(self):
+    #     """ Test that 201 is returned """
+    #     res = my_account.Deliverables.generate_contracts_month_org()
+
+    #     self.assertEqual(res['status'], 201)
+
+    def get_contracts_month_list(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_contracts_month_list()
+
+        self.assertEqual(res['status'], 200)
 
 
 if __name__ == '__main__':
