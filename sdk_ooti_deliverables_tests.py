@@ -17,6 +17,7 @@ my_account.connect()
 team_pk = my_account.teams_pk[0]['id']
 currency_pk = my_account.Invoicing.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.get_projects_list()['data'][0]['id']
+fee_project = my_account.Deliverables.get_fees_project_list_projects(project_pk)['data'][0]['id']
 
 
 class Tests(unittest.TestCase):
@@ -1159,6 +1160,220 @@ class Tests(unittest.TestCase):
         res = my_account.Deliverables.get_contracts_month_list()
 
         self.assertEqual(res['status'], 200)
+
+    #### Revisions ####
+
+    ### Annexes ###
+    def test_get_revisions_annexes_team_project(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_revisions_annexes_team_project(team_pk, project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_annex_revision(self):
+        """ Test that 201 is returned """
+
+        pk = self._create_annexe_return_pk()
+
+        data = {
+            "is_valid": False,
+            "is_mockup": False,
+            "date": "05-05-2021",
+            "annex": pk,
+            "progress": 80
+        }
+
+        res = my_account.Deliverables.create_annexe_revision(team_pk, project_pk, data)
+        my_account.Deliverables.delete_revisions_annexe_detail(res['data']['id'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_delete_annex_revision(self):
+        """ Test that 201 is returned """
+
+        pk_annex = self._create_annexe_return_pk()
+
+        data = {
+            "is_valid": False,
+            "is_mockup": False,
+            "date": "05-05-2021",
+            "annex": pk_annex,
+            "progress": 80
+        }
+
+        pk = my_account.Deliverables.create_annexe_revision(team_pk, project_pk, data)['data']['id']
+        res = my_account.Deliverables.delete_revisions_annexe_detail(pk)
+
+        self.assertEqual(res['status'], 204)
+
+    ### Documents ###
+
+    def test_get_revisions_documents_team_project(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_revisions_documents_team_project(team_pk, project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_document_revision(self):
+        """ Test that 201 is returned """
+        pk = self._create_document_return_pk()
+
+        data = {
+            "is_valid": False,
+            "is_mockup": False,
+            "date": "05-05-2021",
+            "doc": pk,
+            "progress": 80
+        }
+
+        res = my_account.Deliverables.create_document_revision(team_pk, project_pk, data)
+
+        self.assertEqual(res['status'], 201)
+
+    def test_delete_document_revision(self):
+        """ Test that 204 is returned """
+
+        pk_doc = self._create_document_return_pk()
+
+        data = {
+            "is_valid": False,
+            "is_mockup": False,
+            "date": "05-05-2021",
+            "doc": pk_doc,
+            "progress": 80
+        }
+
+        pk = my_account.Deliverables.create_document_revision(team_pk, project_pk, data)['data']['id']
+        res = my_account.Deliverables.delete_revisions_document_detail(pk)
+
+        self.assertEqual(res['status'], 204)
+
+    ### Fee items ###
+    def test_get_revisions_fee_items_team_project(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_revisions_fee_items_team_project(team_pk, project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    ### Phases ###
+    def test_get_revisions_phases_team_project(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_revisions_phases_team_project(team_pk, project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    ### Plans ###
+    def test_get_revisions_plans_team_project(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_revisions_plans_team_project(team_pk, project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    #! Plan phase are not plans. (See phases)
+    # def test_create_plan_revision(self):
+    #     """ Test that 201 is returned """
+
+    #     pk = self._create_plan_return_pk()
+
+    #     data = {
+    #         "is_valid": False,
+    #         "is_mockup": False,
+    #         "date": "05-05-2021",
+    #         "plan_phase": pk,
+    #         "progress": 80
+    #     }
+
+    #     res = my_account.Deliverables.create_plan_revision(team_pk, project_pk, data)
+    #     print(res)
+    #     my_account.Deliverables.delete_revisions_plan_detail(res['data']['pk'])
+
+    #     self.assertEqual(res['status'], 201)
+
+    # def test_delete_plan_revision(self):
+    #     """ Test that 204 is returned """
+
+    #     pk_plan = self._create_plan_return_pk()
+
+    #     data = {
+    #         "is_valid": False,
+    #         "is_mockup": False,
+    #         "date": "05-05-2021",
+    #         "plan_phase": pk_plan,
+    #         "progress": 80
+    #     }
+
+    #     pk = my_account.Deliverables.create_plan_revision(team_pk, project_pk, data)['data']['id']
+    #     res = my_account.Deliverables.delete_revisions_plan_detail(pk)
+
+    #     self.assertEqual(res['status'], 204)
+
+    #### Annexes ####
+    def _create_annexe_return_pk(self):
+        """ Create annexe and return pk """
+
+        data = {
+            "title": "UNITTEST",
+            "annex_type": "time",
+            "total_fees": 1,
+            "description": "UNITTEST",
+            "date": "06-05-2021"
+        }
+
+        return my_account.Deliverables.create_annexe(project_pk, data)['data']['id']
+
+    def test_get_annexes_list(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_annexes_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_annexe(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "title": "UNITTEST",
+            "annex_type": "time",
+            "total_fees": 1,
+            "description": "UNITTEST",
+            "date": "06-05-2021"
+        }
+
+        res = my_account.Deliverables.create_annexe(project_pk, data)
+        my_account.Deliverables.delete_annexe(res['data']['id'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_annexe_details(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_annexe_return_pk()
+        res = my_account.Deliverables.get_annexe_details(pk)
+        my_account.Deliverables.delete_annexe(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_annexe(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_annexe_return_pk()
+
+        data = {
+            "title": "UPDATED"
+        }
+
+        res = my_account.Deliverables.update_annexe(pk, data)
+        my_account.Deliverables.delete_annexe(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_annexe(self):
+        """ Test that 204 is returned """
+
+        pk = self._create_annexe_return_pk()
+
+        res = my_account.Deliverables.delete_annexe(pk)
+
+        self.assertEqual(res['status'], 204)
 
 
 if __name__ == '__main__':
