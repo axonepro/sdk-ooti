@@ -586,3 +586,147 @@ class Costs(Helper):
         route = 'v1/jobs/list/{0}/'.format(self.org_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
+
+    def get_jobs_months_list(self):
+        """ Get the list of jobs months """
+
+        route = 'v1/jobs/month/list/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_jobs_month(self, data):
+        """ Create a new jobs month 
+
+        Keywords arguments:
+        data -- data of the jobs month to be created:
+        {
+            "job": job_id,
+            "year": 0,
+            "month": 0,
+            "start_date": "string",
+            "end_date": "string",
+            "is_past": true,
+            "is_present": true,
+            "is_future": true,
+            "budget": 0,
+            "actual": 0,
+            "pct": 0
+        }
+        """
+
+        route = 'v1/jobs/month/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_jobs_month_details(self, month_id):
+        """ Get the jobs month details
+
+        Keywords arguments:
+        month_id -- id of the jobs month
+        """
+
+        route = 'v1/jobs/month/{0}/'.format(self.month_id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_jobs_month_details(self, month_id, data):
+        """ Update the jobs month details
+
+        Keywords arguments:
+        month_id -- id of the jobs month
+        data -- content of the update:
+        {
+            "job": job_id,
+            "year": 0,
+            "month": 0,
+            "start_date": "string",
+            "end_date": "string",
+            "is_past": true,
+            "is_present": true,
+            "is_future": true,
+            "budget": 0,
+            "actual": 0,
+            "pct": 0
+        }
+        """
+
+        route = 'v1/jobs/month/{0}/'.format(self.month_id)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_jobs_month(self, month_id):
+        """ Delete the jobs month 
+
+        Keywords arguments:
+        month_id -- id of the jobs month
+        """
+
+        route = 'v1/jobs/month/{0}/'.format(self.month_id)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_job_details(self, id):
+        """ Get the job details
+
+        Keywords arguments:
+        id -- id of the job
+        """
+
+        route = 'v1/jobs/{0}/'.format(self.id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_job_details(self, id, data):
+        """ Update the job details
+
+        Keywords arguments:
+        id -- id of the job
+        data -- content of the update:
+        {
+            "title": "string",
+            "orguser": 0,
+            "project": 0,
+            "freelancer": 0,
+            "contractor": 0,
+            "budget": 0,
+            "budget_ref": 0,
+            "currency": 0,
+            "currency_rate": 0,
+            "amount": 0,
+            "amount_ref": 0,
+            "annexes": [
+                "string"
+            ],
+            "phases": [
+                "string"
+            ],
+            "type": "string",
+            "doc": 0,
+            "lot": 0,
+            "description": "string",
+            "is_annex": true,
+            "file": "string",
+            "subtotal": 0,
+            "forecast_type": "string",
+            "date": "string",
+            "start_date": "string",
+            "end_date": "string",
+            "tax": 0,
+            "balance": 0
+        }
+        """
+
+        route = 'v1/jobs/{0}/'.format(self.id)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_job(self, id):
+        """ Delete the job
+
+        Keywords arguments:
+        id -- id of the job
+        """
+
+        route = 'v1/jobs/{0}/'.format(self.id)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
