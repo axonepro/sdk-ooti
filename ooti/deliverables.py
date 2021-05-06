@@ -394,6 +394,8 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     #### Fees ####
+
+    ### Fees bracket list ###
     def get_fees_bracket_list(self, project_pk):
         """ Get fees brackets
 
@@ -467,6 +469,7 @@ class Deliverables(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
+    ### Project fees ###
     def export_project_fees(self, project_pk):
         """ Export all project's fees into .xls file
 
@@ -545,6 +548,8 @@ class Deliverables(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
+    ### Fees ###
+    #! Not tested (all but GET requests)
     def get_fees_list(self, project_pk):
         """ Get fees list
 
@@ -578,6 +583,55 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
+    def get_fee_details(self, fee_pk):
+        """ Get fee zone details
+        #! Cannot test, fee_pk is missing
+
+        Keyword arguments:
+
+        fee_pk -- pk of the fee
+        """
+
+        route = 'v1/fees/{0}/'.format(fee_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_fee(self, fee_pk):
+        """ Update a fee
+        #! Cannot test, fee_pk is missing
+
+        Keyword arguments:
+
+        fee_pk -- pk of the fee
+        data -- data update:
+            {
+                "title": "string",
+                "amount_base": 0,
+                "amount_current": 0,
+                "type": "string",
+                "is_mockup": true,
+                "progress": 0,
+                "in_timeline": true
+            }
+        """
+        route = 'v1/fees/zones/{0}/'.format(fee_pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_fee_details(self, fee_pk):
+        """ Delete fee
+        #! Cannot test, fee_pk is missing
+
+        Keyword arguments:
+
+        fee_pk -- pk of the fee
+        """
+
+        route = 'v1/fees/{0}/'.format(fee_pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    ### Fees projection ###
     def get_fees_projection_list(self, project_pk):
         """ Get fees projection list
 
@@ -590,10 +644,23 @@ class Deliverables(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
+    ### Fees project ###
     def get_fees_project_list(self):
         """ Get fees project list """
 
         route = 'v1/fees/projects/list/{0}/?page_size=999999'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def get_fees_project_list_projects(self, project_pk):
+        """ Get fees project list for a given project 
+
+        Keyword arguments :
+
+        project_pk -- pk of the project 
+        """
+
+        route = 'v1/fees/projects/list/{0}/?page_size=999999&project={1}'.format(self.org_pk, project_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -718,6 +785,7 @@ class Deliverables(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
+    ### Fees revision ###
     def get_fees_revision(self, fee_pk):
         """ Get fees revision
         #! Canno test, cannot create fee
@@ -790,6 +858,7 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
+    ### Fees validate ###
     def validation_fees_costs(self, project_pk):
         """ Validate fees costs
 
@@ -823,6 +892,7 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
+    # Fees zones
     def get_fees_zones_list(self):
         """ Get fees list
 
@@ -896,54 +966,6 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/zones/{0}/'.format(fee_zone_pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return self.process_response(response)
-
-    def get_fee_details(self, fee_pk):
-        """ Get fee zone details
-        #! Cannot test, fee_pk is missing
-
-        Keyword arguments:
-
-        fee_pk -- pk of the fee
-        """
-
-        route = 'v1/fees/{0}/'.format(fee_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return self.process_response(response)
-
-    def update_fee(self, fee_pk):
-        """ Update a fee
-        #! Cannot test, fee_pk is missing
-
-        Keyword arguments:
-
-        fee_pk -- pk of the fee
-        data -- data update:
-            {
-                "title": "string",
-                "amount_base": 0,
-                "amount_current": 0,
-                "type": "string",
-                "is_mockup": true,
-                "progress": 0,
-                "in_timeline": true
-            }
-        """
-        route = 'v1/fees/zones/{0}/'.format(fee_pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return self.process_response(response)
-
-    def get_fee_details(self, fee_pk):
-        """ Delete fee
-        #! Cannot test, fee_pk is missing
-
-        Keyword arguments:
-
-        fee_pk -- pk of the fee
-        """
-
-        route = 'v1/fees/{0}/'.format(fee_pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -2169,41 +2191,296 @@ class Deliverables(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
+    #### Revisions ####
+
+    ### Annexes ###
+
+    def delete_revisions_annexe_detail(self, pk):
+        """ Delete revision annexe detail
+        Keyword arguments:
+
+        pk -- the pk of the annex revision
+        """
+
+        route = 'v1/revisions/annexes/detail/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_revisions_annexes_team_project(self, team_pk, project_pk):
+        """ Get annexes revisions team project 
+
+        Keyword arguments:
+
+        team_pk -- pk of the team
+        project_pk -- pk of the project
+
+        """
+
+        route = 'v1/revisions/annexes/{0}/{1}/?page_size=999999'.format(team_pk, project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_annexe_revision(self, team_pk, project_pk, data):
+        """ Create an annexe revision team project
+
+        Keyword arguments:
+
+        data -- data create : 
+            {
+                "progress": 0,
+                "date": "string",
+                "annex": 0,
+                "reviewer": 0,
+                "validator": 0,
+                "is_valid": true
+            }
+        """
+
+        route = 'v1/revisions/annexes/{0}/{1}/'.format(team_pk, project_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    ### Documents ###
+
+    def delete_revisions_document_detail(self, pk):
+        """ Delete revision documents detail
+        Keyword arguments:
+
+        pk -- the pk of the document revision
+        """
+
+        route = 'v1/revisions/documents/detail/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_revisions_documents_team_project(self, team_pk, project_pk):
+        """ Get documents revisions team project 
+
+        Keyword arguments:
+
+        team_pk -- pk of the team
+        project_pk -- pk of the project
+
+        """
+
+        route = 'v1/revisions/documents/{0}/{1}/?page_size=999999'.format(team_pk, project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_document_revision(self, team_pk, project_pk, data):
+        """ Create an documents revision team project
+
+        Keyword arguments:
+
+        data -- data create : 
+            {
+                "progress": 0,
+                "date": "string",
+                "doc": 0,
+                "reviewer": 0,
+                "validator": 0
+            }
+        """
+
+        route = 'v1/revisions/documents/{0}/{1}/'.format(team_pk, project_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    ### Fee_items ###
+
+    def delete_revisions_fee_items_detail(self, pk):
+        """ Delete revision fee_items detail
+        #! Not tested, cannot create fee items
+        Keyword arguments:
+
+        pk -- the pk of the fee_items revision
+        """
+
+        route = 'v1/revisions/fee_items/detail/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_revisions_fee_items_team_project(self, team_pk, project_pk):
+        """ Get fee_items revisions team project 
+
+        Keyword arguments:
+
+        team_pk -- pk of the team
+        project_pk -- pk of the project
+
+        """
+
+        route = 'v1/revisions/fee_items/{0}/{1}/?page_size=999999'.format(team_pk, project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_fee_items_revision(self, team_pk, project_pk, data):
+        """ Create an fee_items revision team project
+        #! Not tested, cannot create fee items
+
+        Keyword arguments:
+
+        data -- data create : 
+            {
+                "fee_item": 0,
+                "progress": 0,
+                "date": "string",
+                "reviewer": 0,
+                "validator": 0,
+                "is_valid": true
+            }
+        """
+
+        route = 'v1/revisions/fee_items/{0}/{1}/'.format(team_pk, project_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    ### Phases ###
+
+    def delete_revisions_phases_detail(self, pk):
+        """ Delete revision phases detail
+        #! Cannot test because cannot create phase
+        Keyword arguments:
+
+        pk -- the pk of the phases revision
+        """
+
+        route = 'v1/revisions/phases/detail/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_revisions_phases_team_project(self, team_pk, project_pk):
+        """ Get phases revisions team project 
+
+        Keyword arguments:
+
+        team_pk -- pk of the team
+        project_pk -- pk of the project
+
+        """
+
+        route = 'v1/revisions/phases/{0}/{1}/?page_size=999999'.format(team_pk, project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_phase_revision(self, team_pk, project_pk, data):
+        """ Create an phases revision team project
+        #! Cannot test because cannot create phase
+
+        Keyword arguments:
+
+        data -- data create : 
+            {
+                "fee_item": 0,
+                "progress": 0,
+                "date": "string",
+                "reviewer": 0,
+                "validator": 0,
+                "is_valid": true
+            }
+        """
+
+        route = 'v1/revisions/phases/{0}/{1}/'.format(team_pk, project_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    ### Plans ###
+
+    def delete_revisions_plan_detail(self, pk):
+        """ Delete revision plans detail
+        Keyword arguments:
+
+        pk -- the pk of the plans revision
+        """
+
+        route = 'v1/revisions/plans/detail/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_revisions_plans_team_project(self, team_pk, project_pk):
+        """ Get plans revisions team project 
+
+        Keyword arguments:
+
+        team_pk -- pk of the team
+        project_pk -- pk of the project
+
+        """
+
+        route = 'v1/revisions/plans/{0}/{1}/?page_size=999999'.format(team_pk, project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_plan_revision(self, team_pk, project_pk, data):
+        """ Create an plans revision team project
+
+        Keyword arguments:
+
+        data -- data create : 
+            {
+                "progress": 0,
+                "date": "string",
+                "plan_phase": 0,
+                "reviewer": 0,
+                "validator": 0
+            }
+        """
+
+        route = 'v1/revisions/plans/{0}/{1}/'.format(team_pk, project_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
     #### Annexes ####
 
     def get_annexes_list(self, project_pk):
         """Get the annexes list
 
         Keyword arguments:
-        project_pk - - the pk of the project
+        project_pk -- the pk of the project
         """
 
         route = 'v1/annexes/list/{0}/'.format(project_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        return self.process_response(response, True)
 
     def get_annexe_details(self, pk):
         """Get the annexe details
 
         Keyword arguments:
-        pk - - the pk of the annexe
+        pk -- the pk of the annexe
         """
 
         route = 'v1/annexes/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
+        return self.process_response(response)
 
     def create_annexe(self, project_pk, data):
         """Create an payment
 
         Keyword arguments:
-        project_pk - - the pk of the project
-        data - - data to create
+        project_pk -- the pk of the project
+        data -- data create : 
+        {
+            "phases": [
+                "string"
+            ],
+            "zone": 0,
+            "document": 0,
+            "title": "string",
+            "date": "string",
+            "description": "string",
+            "enter_hours": true,
+            "progress": 0,
+            "in_timeline": true,
+            "in_budget": true
+            "annex_time": "string" ("time", "other", "transport"),
+            "total_fees": 0,
+        }
         """
 
         route = 'v1/annexes/list/{0}/'.format(project_pk)
-        parameters = '?phase='
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
 
     def update_annexe(self, pk, data):
         """Update the annexe details
@@ -2215,3 +2492,26 @@ class Deliverables(Helper):
         route = 'v1/annexes/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return {'status': response.status_code, 'data': json.loads(response.content)}
+
+    def delete_annexe(self, pk):
+        """Delete annexe
+
+        Keyword arguments:
+
+        pk -- the pk of the annexe
+        """
+
+        route = 'v1/annexes/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_annexes_projections_list(self, project_pk):
+        """Get the annexes list
+
+        Keyword arguments:
+        project_pk -- the pk of the project
+        """
+
+        route = 'v1/annexes/projections/list/{0}/'.format(project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
