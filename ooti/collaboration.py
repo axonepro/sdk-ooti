@@ -3,6 +3,13 @@ import json
 
 from helper import Helper
 
+""" TO DO
+
+- Finish contacts (POST on v1/contacts/list-action/{org_pk}/) Error 500
+- Finish notifications (PATCH on v1/notifications/digest-config/{org_pk}/)
+
+"""
+
 
 class Collaboration(Helper):
     def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers):

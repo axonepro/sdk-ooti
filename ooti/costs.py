@@ -3,6 +3,14 @@ import json
 
 from helper import Helper
 
+""" TO DO 
+
+- Finish jobs (POST on v1/jobs/invoices/items/generate/{org_pk}/)
+- Finish expenses
+- Informations about copy & set functions in costs
+
+"""
+
 
 class Costs(Helper):
     def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers):
@@ -14,6 +22,8 @@ class Costs(Helper):
         self.headers = headers
 
     #### Costs ####
+
+    # copy & set funcions ?
 
     def copy_costs_fee_allocations_from_contract_hours(self, project_id):  # ?
 
@@ -381,7 +391,11 @@ class Costs(Helper):
 
     #### Expenses ####
 
-    # see questions below
+    # POST on v1/expenses/groups/create-multiple-expenses/{id}/ ?
+
+    # POST on v1/expenses/groups/list/action/{org_pk}/ ?
+
+    # DELETE on v1/expenses/{expense_group_pk}/versions/{version_pk}/delete/ ?
 
     def get_expenses_categories_list(self):
         """ Get the list of expenses categories """
@@ -448,10 +462,6 @@ class Costs(Helper):
         route = 'v1/expenses/category/{0}'.format(category_pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
-
-    # POST on v1/expenses/groups/create-multiple-expenses/{id}/ ?
-
-    # POST on v1/expenses/groups/list/action/{org_pk}/ ?
 
     def get_expenses_groups_list(self, team_pk=None):
         """ Get the list of expenses groups
@@ -550,8 +560,6 @@ class Costs(Helper):
         route = 'v1/expenses/pdf_count/{0}/'.format(id)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
-
-    # DELETE on v1/expenses/{expense_group_pk}/versions/{version_pk}/delete/ ?
 
     def get_expenses_details(self, pk):
         """Get the expense details

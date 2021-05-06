@@ -3,6 +3,17 @@ import json
 
 from helper import Helper
 
+""" TO DO
+
+- Test create invitation (which pk)
+- Error 500 create project
+- Can't find access project on OOTI
+- Finish orgusers (POST on v1/orgusers/invite/)
+- Finish profiles (POST on v1/profiles/preferences/)
+- Finish teams (POST & DELETE on v1/teams/users/bulk/add/{org_pk}/ & POST on v1/teams/staff/{id}/)
+
+"""
+
 
 class Auth(Helper):
     def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers):
