@@ -15,6 +15,178 @@ class Costs(Helper):
 
     #### Costs ####
 
+    def copy_costs_fee_allocations_from_contract_hours(self, project_id):  # ?
+
+        route = 'v1/costs/copy-fee-allocations-from-contract-hours/{0}/'.format(project_id)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def copy_costs_fee_allocations_from_subcontractor_fees(self, project_id):  # ?
+
+        route = 'v1/costs/copy-fee-allocations-from-subcontractor-fees/{0}/'.format(project_id)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def copy_costs_previous_year(self):  # ?
+
+        route = 'v1/costs/copy-prev-year/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_costs_months_list(self):
+        """ Get the list of costs month """
+
+        route = 'v1/costs/month/list/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_costs_month(self, data):
+        """ Create a new costs month
+
+        Keywords arguments:
+        data -- data of the new cost to be created:
+        {
+            "fixed_cost": cost_id,
+            "team": team_pk,
+            "amount_budgeted": 0,
+            "amount_actual": 0,
+            "year": 0,
+            "month": 0
+        }
+        """
+
+        route = 'v1/costs/month/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_costs_month_details(self, month_id):
+        """ Get the costs month details
+
+        Keywords arguments:
+        month_id -- id of the month
+        """
+
+        route = 'v1/costs/month/{0}/'.format(month_id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_costs_month_details(self, month_id, data):
+        """ Update the costs month details
+
+        Keywords arguments:
+        month_id -- id of the month
+        data -- content of the update:
+        {
+            "fixed_cost": cost_id,
+            "team": 0,
+            "amount_budgeted": 0,
+            "amount_actual": 0,
+            "year": 0,
+            "month": 0
+        }
+        """
+
+        route = 'v1/costs/month/{0}/'.format(month_id)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_costs_month(self, month_id):
+        """ Delete the costs month
+
+        Keywords arguments:
+        month_id -- id of the month
+        """
+
+        route = 'v1/costs/month/{0}/'.format(month_id)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def set_costs_annual_budget(self, cost_id):  # ?
+
+        route = 'v1/costs/set-annual-budget/{0}/'.format(cost_id)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_costs_list(self):
+        """ Get the list of costs """
+
+        route = 'v1/costs/list/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_cost(self, data):
+        """ Create a new cost
+
+        Keywords arguments:
+        data -- data of the new cost to be created:
+        {
+            "amount_actual": 0,
+            "amount_budgeted": 0,
+            "description": "string",
+            "type": "monthly",
+            "month": 0,
+            "title": "string",
+            "year": 0,
+            "team": team_pk,
+            "months": [
+                month_id,
+                ...
+            ]
+        }
+        """
+
+        route = 'v1/costs/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_cost_details(self, id):
+        """ Get the cost details
+
+        Keywords arguments:
+        id -- id of the cost
+        """
+
+        route = 'v1/costs/{0}/'.format(id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_cost_details(self, id, data):
+        """ Update costs month
+
+        Keywords arguments:
+        id -- id of the cost
+        data -- content of the update:
+        {
+            "amount_actual": 0,
+            "amount_budgeted": 0,
+            "description": "string",
+            "type": "monthly",
+            "month": 0,
+            "title": "string",
+            "year": 0,
+            "team": team_pk,
+            "months": [
+                month_id,
+                ...
+            ]
+        }
+        """
+
+        route = 'v1/costs/{0}/'.format(id)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_cost(self, id):
+        """ Delete the cost
+
+        Keywords arguments:
+        id -- id of the cost
+        """
+
+        route = 'v1/costs/{0}/'.format(id)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
     #### Employees ####
 
     def get_employees_contracts_list(self):
