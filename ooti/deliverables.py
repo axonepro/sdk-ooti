@@ -199,11 +199,25 @@ class Deliverables(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
+    def get_phases_list_fee_project(self, project_pk, fee_project):
+        """Get the planphases list
+
+        Keyword arguments:
+
+        project_pk -- the pk of the project
+        fee_project -- pk of the fee project
+        """
+
+        route = 'v1/phases/list/{0}/?page_size=999999&fee_project={1}'.format(project_pk, fee_project)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
     def get_phase_details(self, pk):
         """Get the phase details
+
         Keyword arguments:
+
         pk -- the pk of the phase
-        data -- data to update
         """
 
         route = 'v1/phases/{0}/'.format(pk)
@@ -212,7 +226,7 @@ class Deliverables(Helper):
 
     def create_phase(self, project_pk, data):
         """ Create an area
-        #! Cannot test because fee_project is missing
+
         Keyword arguments:
 
         project_pk -- pk of the project
@@ -233,15 +247,14 @@ class Deliverables(Helper):
 
     def delete_phase(self, pk):
         """ Delete a phase """
-        #! Cannot test because cannot create obj (fee_project)
 
-        route = 'v1/phase/{0}/'.format(pk)
+        route = 'v1/phases/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def update_phase(self, pk, data):
         """Update the phase
-        #! Cannot test because cannot create obj (fee_project)
+
         Keyword arguments:
 
         pk -- the pk of the phase
@@ -255,17 +268,6 @@ class Deliverables(Helper):
 
         route = 'v1/phases/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return self.process_response(response)
-
-    def delete_custom_phase(self, project_pk):
-        """ Delete custom phase and use default
-        #! Cannot test because cannot create obj (fee_project)
-        Keyword arguments:
-
-        pk -- pk of the project
-        """
-        route = 'v1/phases/delete/{0}/'.format(project_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def get_phases_projections_list(self, project_pk):
@@ -311,6 +313,49 @@ class Deliverables(Helper):
 
         route = 'v1/phases/export/{0}/'.format(project_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_phase_planphase_details(self, pk):
+        """Get the planphase details
+
+        Keyword arguments:
+
+        pk -- the pk of the phase
+        """
+
+        route = 'v1/phases/planphases/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def delete_phase_planphase(self, pk):
+        """Delete planphase
+
+        Keyword arguments:
+
+        pk -- the pk of the phase
+        """
+
+        route = 'v1/phases/planphases/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_phase_planphase(self, pk, data):
+        """Update planphase
+
+        Keyword arguments:
+
+        pk -- the pk of the phase
+        data -- data update : 
+            {
+                "is_active": true,
+                "is_immediate": true,
+                "zone_phase": 0,
+                "progress": 0
+            }
+        """
+
+        route = 'v1/phases/planphases/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     #### Milestones ####
@@ -395,7 +440,7 @@ class Deliverables(Helper):
 
     #### Fees ####
 
-    ### Fees bracket list ###
+    ### Fees bracket ###
     def get_fees_bracket_list(self, project_pk):
         """ Get fees brackets
 
@@ -410,7 +455,6 @@ class Deliverables(Helper):
 
     def create_fees_bracket(self, project_pk, data):
         """ Create a fee bracket
-        #! Cannot test, fee_project missing
         Keyword arguments:
 
         project_pk -- pk of the project
@@ -427,24 +471,23 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_fees_bracket_details(self, fee_bracket_pk):
+    def get_fees_bracket_details(self, pk):
         """ Get fee bracket details
-        #! Cannot test, fee_project missing to create obj
 
         Keyword arguments:
 
-        fee_bracket_pk -- pk of the fee bracket
+        pk -- pk of the fee bracket
         """
-        route = 'v1/fees/bracket/{0}/'.format(fee_bracket_pk)
+        route = 'v1/fees/bracket/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def update_fees_bracket(self, fee_bracket_pk, data):
+    def update_fees_bracket(self, pk, data):
         """ Update a fee bracket
-        #! Cannot test, fee_project missing to create obj
+
         Keyword arguments:
 
-        fee_bracket_pk -- pk of the fee bracket
+        pk -- pk of the fee bracket
         data -- data update:
             {
                 "fee_project": 0,
@@ -454,22 +497,22 @@ class Deliverables(Helper):
                 "fees": 0
             }
         """
-        route = 'v1/fees/bracket/{0}/'.format(fee_bracket_pk)
+        route = 'v1/fees/bracket/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def delete_fees_bracket(self, data):
+    def delete_fees_bracket(self, pk):
         """ Delete a fee bracket
-        #! Cannot test, fee_project missing to create obj
+
         Keyword arguments:
 
-        fee_bracket_pk -- pk of the fee bracket
+        pk -- pk of the fee bracket
         """
-        route = 'v1/fees/bracket/{0}/'.format(fee_bracket_pk)
+        route = 'v1/fees/bracket/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    ### Project fees ###
+    ### Fee project version ###
     def export_project_fees(self, project_pk):
         """ Export all project's fees into .xls file
 
@@ -490,7 +533,7 @@ class Deliverables(Helper):
 
     def create_fee_project_version(self, data):
         """ Create a fee project version
-        #! Cannot test, fee_project missing
+
         Keyword arguments:
 
         data -- data create:
@@ -505,24 +548,24 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_fee_project_version_details(self, fee_project_version_pk):
+    def get_fee_project_version_details(self, pk):
         """ Get fee project version details
-        #! Cannot test, fee_project missing to create obj
+
         Keyword arguments:
 
-        fee_project_version_pk -- pk of the fee project version
+        pk -- pk of the fee project version
         """
 
-        route = 'v1/fees/fee-project-version/{0}/'.format(fee_project_version_pk)
+        route = 'v1/fees/fee-project-version/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def update_fee_project_version(self, fee_project_version_pk, data):
+    def update_fee_project_version(self, pk, data):
         """ Update a fee project version
-        #! Cannot test, fee_project missing to create obj
+
         Keyword arguments:
 
-        fee_project_version_pk -- pk of the fee project version
+        pk -- pk of the fee project version
         data -- data update:
             {
                 "title": "string",
@@ -531,25 +574,23 @@ class Deliverables(Helper):
                 "data": {}
             }
         """
-        route = 'v1/fees/fee-project-version/{0}/'.format(fee_project_version_pk)
+        route = 'v1/fees/fee-project-version/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def delete_fee_project_version(self, fee_project_version_pk):
+    def delete_fee_project_version(self, pk):
         """ Get fee project version details
-        #! Cannot test, fee_project missing to create obj
 
         Keyword arguments:
 
-        fee_project_version_pk -- pk of the fee project version
+        pk -- pk of the fee project version
         """
 
-        route = 'v1/fees/fee-project-version/{0}/'.format(fee_project_version_pk)
+        route = 'v1/fees/fee-project-version/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     ### Fees ###
-    #! Not tested (all but GET requests)
     def get_fees_list(self, project_pk):
         """ Get fees list
 
@@ -583,26 +624,24 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_fee_details(self, fee_pk):
+    def get_fee_details(self, pk):
         """ Get fee zone details
-        #! Cannot test, fee_pk is missing
 
         Keyword arguments:
 
-        fee_pk -- pk of the fee
+        pk -- pk of the fee
         """
 
-        route = 'v1/fees/{0}/'.format(fee_pk)
+        route = 'v1/fees/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def update_fee(self, fee_pk):
+    def update_fee(self, pk, data):
         """ Update a fee
-        #! Cannot test, fee_pk is missing
 
         Keyword arguments:
 
-        fee_pk -- pk of the fee
+        pk -- pk of the fee
         data -- data update:
             {
                 "title": "string",
@@ -614,20 +653,19 @@ class Deliverables(Helper):
                 "in_timeline": true
             }
         """
-        route = 'v1/fees/zones/{0}/'.format(fee_pk)
+        route = 'v1/fees/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_fee_details(self, fee_pk):
+    def delete_fee(self, pk):
         """ Delete fee
-        #! Cannot test, fee_pk is missing
 
         Keyword arguments:
 
-        fee_pk -- pk of the fee
+        pk -- pk of the fee
         """
 
-        route = 'v1/fees/{0}/'.format(fee_pk)
+        route = 'v1/fees/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -666,7 +704,7 @@ class Deliverables(Helper):
 
     def create_fee_project(self, data):
         """ Create a fee project
-        #! Cannot test: {'status': 403, 'data': {'detail': 'You do not have permission to perform this action.'}}
+
         Keyword arguments:
 
         data -- data create:
@@ -699,43 +737,44 @@ class Deliverables(Helper):
                 "co_contractors_enabled": true,
                 "subcontractors_enabled": true,
                 "total_advance_payment": 0,
-                "mandate_fees_enabled": true
+                "mandate_fees_enabled": true,
+                "project": 0
             }
         """
         route = 'v1/fees/projects/list/{0}/'.format(self.org_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_fees_projects_update(self, fee_project_pk):
+    def get_fees_projects_update(self, pk):
         """ Get fees projects update
-        #! Cannot test, cannot create obj
+
         Keyword arguments:
 
-        fee_project_pk -- pk of the fee project
+        pk -- pk of the fee project
         """
 
-        route = 'v1/fees/projects/update/{0}/'.format(fee_project_pk)
+        route = 'v1/fees/projects/update/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_fees_project_details(self, feep_project_pk):
+    def get_fees_project_details(self, pk):
         """ Get fees projects
-        #! Cannot test, cannot create obj
+
         Keyword arguments:
 
-        feep_project_pk -- pk of the fee project
+        pk -- pk of the fee project
         """
 
-        route = 'v1/fees/projects/{0}/'.format(feep_project_pk)
+        route = 'v1/fees/projects/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def update_fee_project(self, fee_project_pk, data):
+    def update_fee_project(self, pk, data):
         """ Update a fee project
-        #! Cannot test, cannot create obj
+
         Keyword arguments:
 
-        fee_project_pk -- pk of the fee project
+        pk -- pk of the fee project
         data -- data create:
             {
                 "title": "string",
@@ -769,26 +808,25 @@ class Deliverables(Helper):
                 "mandate_fees_enabled": true
             }
         """
-        route = 'v1/fees/projects/{0}/'.format(fee_project_pk)
+        route = 'v1/fees/projects/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def delete_fee_project(self, feep_project_pk):
+    def delete_fee_project(self, pk):
         """ Get fees projects
-        #! Cannot test, cannot create obj
+
         Keyword arguments:
 
-        feep_project_pk -- pk of the fee project
+        pk -- pk of the fee project
         """
 
-        route = 'v1/fees/projects/list/{0}/'.format(feep_project_pk)
+        route = 'v1/fees/projects/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     ### Fees revision ###
-    def get_fees_revision(self, fee_pk):
+    def get_fees_revision_details(self, fee_pk):
         """ Get fees revision
-        #! Canno test, cannot create fee
 
         Keyword arguments:
 
@@ -801,7 +839,6 @@ class Deliverables(Helper):
 
     def update_fee_revision(self, fee_revision_pk):
         """ Update a fee revision
-        #! Canno test, cannot create fee revision
 
         Keyword arguments:
 
@@ -818,7 +855,6 @@ class Deliverables(Helper):
 
     def delete_fee_revision(self, fee_revision_pk):
         """ Get fees revision
-        #! Canno test, cannot create fee revision
 
         Keyword arguments:
 
@@ -831,7 +867,8 @@ class Deliverables(Helper):
 
     def get_fees_revisions_item_details(self, fee_item_pk):
         """ Get fees revisions for fee item
-        #! Canno test, cannot create fee item
+
+        Note that "fee_item" is a fee 
 
         Keyword arguments:
 
@@ -844,7 +881,8 @@ class Deliverables(Helper):
 
     def create_fee_revisions_item(self, fee_item_pk, data):
         """ Create a fee revision fee item
-        #! Canno test, cannot create fee item
+
+        Note that "fee_item" is a fee 
 
         Keyword arguments:
 
@@ -905,9 +943,9 @@ class Deliverables(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
-    def create_fee_zones(self, fee_item_pk, data):
+    def create_fee_zones(self, data):
         """ Create a fee zone
-        #! Cannot test, fee_project is missing
+
         Keyword arguments:
 
         data -- data create:
@@ -919,13 +957,12 @@ class Deliverables(Helper):
                 "rendering": 0
             }
         """
-        route = 'v1/fees/revisions/{0}/'.format(fee_item_pk)
+        route = 'v1/fees/zones/list/{0}/'.format(self.org_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     def get_fees_zone_details(self, fee_zone_pk):
         """ Get fee zone details
-        #! Cannot test, no fee_project to create obj
 
         Keyword arguments:
 
@@ -936,9 +973,8 @@ class Deliverables(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def update_fee_zone(self, fee_zone_pk):
+    def update_fee_zone(self, fee_zone_pk, data):
         """ Update a fee zone
-        #! Cannot test, no fee_project to create obj
 
         Keyword arguments:
 
@@ -958,7 +994,6 @@ class Deliverables(Helper):
 
     def delete_fees_zone(self, fee_zone_pk):
         """ Delete fee zone
-        #! Cannot test, no fee_project to create obj
 
         Keyword arguments:
 
@@ -1007,6 +1042,18 @@ class Deliverables(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
+    def get_plans_planphases_list(self, project_pk):
+        """ Get plans planphases list
+
+        Keyword arguments:
+
+        project_pk -- the pk of the project
+        """
+
+        route = 'v1/plans/list/{0}/?page_size=999999&plan_phases=true'.format(project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
     def create_plan(self, project_pk, data):
         """ Create plan
 
@@ -1048,7 +1095,7 @@ class Deliverables(Helper):
         plan_pk -- the pk of the plan
         """
 
-        route = 'v1/plans/{0}/'.format(plan_pk)
+        route = 'v1/plans/{0}/?plan_phases=true'.format(plan_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -1924,7 +1971,7 @@ class Deliverables(Helper):
 
     def create_contracts_items(self, data):
         """ Create a contract item
-        #! Cannot test because cannot create contract
+
         Keyword arguments:
 
         data -- data create : 
@@ -1947,7 +1994,7 @@ class Deliverables(Helper):
 
     def get_contract_item_details(self, pk):
         """ Get contract item details
-        #! Cannot test because cannot create contract
+
 
         Keyword arguments:
 
@@ -1960,7 +2007,6 @@ class Deliverables(Helper):
 
     def update_contract_item(self, pk, data):
         """ Update a contract item
-        #! Cannot test because cannot create contract
 
         Keyword arguments:
 
@@ -1985,7 +2031,6 @@ class Deliverables(Helper):
 
     def delete_contract_item(self, pk):
         """ Delete a contract item
-        #! Cannot test because cannot create contract
 
         Keyword arguments:
 
@@ -2007,7 +2052,6 @@ class Deliverables(Helper):
     def create_contract(self, data):
         """ Create a contract
         #! A contract can be added to a fee_project under review only. 
-        #! Cannot test because cannot get fee_project based on a project 
 
         Keyword arguments:
 
@@ -2035,7 +2079,6 @@ class Deliverables(Helper):
 
     def get_contract_details(self, pk):
         """ Get contract details
-        #! Cannot test because cannot create contract
 
         Keyword arguments:
 
@@ -2048,7 +2091,6 @@ class Deliverables(Helper):
 
     def update_contract(self, pk, data):
         """ Update a contract
-        #! Cannot test because cannot create contract
 
         Keyword arguments:
 
@@ -2075,7 +2117,7 @@ class Deliverables(Helper):
 
     def delete_contract(self, pk):
         """ Delete contract 
-        #! Cannot test because cannot create contract
+
         Keyword arguments:
 
         pk -- the pk of the contract
@@ -2088,7 +2130,6 @@ class Deliverables(Helper):
     ### Contract month ###
     def generate_contracts_month_org(self, contract_pk):
         """ Generate contract month 
-        #! Cannot test because cannot create contract
 
         Keyword arguments:
 
@@ -2112,7 +2153,6 @@ class Deliverables(Helper):
 
     def create_contracts_month(self, data):
         """ Create a contract month
-         #! Cannot test because cannot create contract
 
         Keyword arguments:
 
@@ -2139,7 +2179,6 @@ class Deliverables(Helper):
 
     def get_contract_month_details(self, pk):
         """ Get contract details
-         #! Cannot test because cannot create contract
 
         Keyword arguments:
 
@@ -2152,7 +2191,6 @@ class Deliverables(Helper):
 
     def update_contracts_month(self, pk, data):
         """ Create a contract month
-         #! Cannot test because cannot create contract
 
         Keyword arguments:
 
@@ -2175,12 +2213,11 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/month/{0}/'.format(pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     def delete_contract_month(self, pk):
         """ Delete contract month
-         #! Cannot test because cannot create contract
 
         Keyword arguments:
 
@@ -2290,7 +2327,6 @@ class Deliverables(Helper):
 
     def delete_revisions_fee_items_detail(self, pk):
         """ Delete revision fee_items detail
-        #! Not tested, cannot create fee items
         Keyword arguments:
 
         pk -- the pk of the fee_items revision
@@ -2316,7 +2352,6 @@ class Deliverables(Helper):
 
     def create_fee_items_revision(self, team_pk, project_pk, data):
         """ Create an fee_items revision team project
-        #! Not tested, cannot create fee items
 
         Keyword arguments:
 
@@ -2339,7 +2374,7 @@ class Deliverables(Helper):
 
     def delete_revisions_phases_detail(self, pk):
         """ Delete revision phases detail
-        #! Cannot test because cannot create phase
+
         Keyword arguments:
 
         pk -- the pk of the phases revision
@@ -2365,13 +2400,12 @@ class Deliverables(Helper):
 
     def create_phase_revision(self, team_pk, project_pk, data):
         """ Create an phases revision team project
-        #! Cannot test because cannot create phase
 
         Keyword arguments:
 
         data -- data create : 
             {
-                "fee_item": 0,
+                "phase": 0,
                 "progress": 0,
                 "date": "string",
                 "reviewer": 0,
