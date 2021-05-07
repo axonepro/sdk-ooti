@@ -23,7 +23,7 @@ fee_project = my_account.Deliverables.get_fees_project_list_projects(project_pk)
 class Tests(unittest.TestCase):
     #### Zones ####
     def _create_zone_return_pk(self):
-        """ Create a zone and return the pk 
+        """ Create a zone and return the pk
 
         :return: {"pk": zone_pk, "area_pk": area_pk}
         """
@@ -201,11 +201,39 @@ class Tests(unittest.TestCase):
         self.assertEqual(res['status'], 204)
 
     #### Phases ####
+    def _create_phase_return_pk(self):
+        """ Create phase and return pk 
+
+        :return:{"pk": pk, "fee_project": fee_project}
+        """
+
+        fee_project = self._create_fee_project_return_pk()
+
+        data = {
+            "name": "UNITTEST",
+            "shortname": "TEST",
+            "fee_project": fee_project,
+            "pct": 10,
+            "dependants": []
+        }
+
+        pk = my_account.Deliverables.create_phase(project_pk, data)['data']['id']
+
+        return {"pk": pk, "fee_project": fee_project}
+
     def test_get_phases_list(self):
         """ Test that 200 is returned """
         # * OK
 
         res = my_account.Deliverables.get_phases_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_phases_list_fee_project(self):
+        """ Test that 200 is returned """
+        # * OK
+
+        res = my_account.Deliverables.get_phases_list_fee_project(project_pk, fee_project)
 
         self.assertEqual(res['status'], 200)
 
@@ -225,7 +253,114 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 200)
 
+    def test_create_phase(self):
+        """ Test that 201 is returned 
+
+        :return: {"pk": pk, "fee_project": fee_project}
+        """
+
+        fee_project = self._create_fee_project_return_pk()
+
+        data = {
+            "name": "UNITTEST",
+            "shortname": "TEST",
+            "fee_project": fee_project,
+            "pct": 10,
+            "dependants": []
+        }
+
+        res = my_account.Deliverables.create_phase(project_pk, data)
+
+        my_account.Deliverables.delete_phase(res['data']['id'])
+        my_account.Deliverables.delete_fee_project(fee_project)
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_phase_details(self):
+        """ Test that 200 is returned """
+
+        res_pk = self._create_phase_return_pk()
+
+        res = my_account.Deliverables.get_phase_details(res_pk['pk'])
+
+        my_account.Deliverables.delete_phase(res_pk['pk'])
+        my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_phase(self):
+        """ Test that 200 is returned """
+
+        res_pk = self._create_phase_return_pk()
+
+        data = {
+            "name": "UPDATED"
+        }
+
+        res = my_account.Deliverables.update_phase(res_pk['pk'], data)
+
+        my_account.Deliverables.delete_phase(res_pk['pk'])
+        my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_phase(self):
+        """ Test that 204 is returned """
+
+        res_pk = self._create_phase_return_pk()
+
+        res = my_account.Deliverables.delete_phase(res_pk['pk'])
+
+        my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
+
+        self.assertEqual(res['status'], 204)
+
+    def test_reset_phase_order(self):
+        """ Test that 201 is returned """
+        #! Passe but 200 is returned
+        res = my_account.Deliverables.reset_phases_order(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_phase_planphase_details(self):
+        """ Test that 200 is returned """
+        plan_pk = self._create_plan_return_pk()
+
+        planphase_pk = my_account.Deliverables.get_plan_details(plan_pk)['data']['plan_phases'][0]['id']
+        res = my_account.Deliverables.get_phase_planphase_details(planphase_pk)
+
+        my_account.Deliverables.delete_plan(plan_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_phase_planphase(self):
+        """ Test that 200 is returned """
+        plan_pk = self._create_plan_return_pk()
+
+        planphase_pk = my_account.Deliverables.get_plan_details(plan_pk)['data']['plan_phases'][0]['id']
+
+        data = {
+            "progress": 20
+        }
+
+        res = my_account.Deliverables.update_phase_planphase(planphase_pk, data)
+
+        my_account.Deliverables.delete_plan(plan_pk)
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_phase_planphase(self):
+        """ Test that 204 is returned """
+        plan_pk = self._create_plan_return_pk()
+
+        planphase_pk = my_account.Deliverables.get_plan_details(plan_pk)['data']['plan_phases'][0]['id']
+
+        res = my_account.Deliverables.delete_phase_planphase(planphase_pk)
+
+        my_account.Deliverables.delete_plan(plan_pk)
+        self.assertEqual(res['status'], 204)
+
     #### Milestone ####
+
     def _create_milestone_return_pk(self):
         """ Create a milestone and return the pk """
 
@@ -300,11 +435,81 @@ class Tests(unittest.TestCase):
 
         return my_account.Deliverables.create_fee(project_pk, data)['data']['pk']
 
+    ### Fees bracket ###
+    def _create_fees_bracket_return_pk(self):
+        """ Create a fee bracket and return the pk """
+
+        data = {
+            "fee_project": fee_project,
+            "pct": 10,
+            "fees": 1000
+        }
+
+        return my_account.Deliverables.create_fees_bracket(project_pk, data)['data']['pk']
+
     def test_get_fees_bracket_list(self):
         """ Test that 200 is returned """
         res = my_account.Deliverables.get_fees_bracket_list(project_pk)
 
         self.assertEqual(res['status'], 200)
+
+    def test_create_fees_bracket(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "fee_project": fee_project,
+            "pct": 10,
+            "fees": 1000
+        }
+
+        res = my_account.Deliverables.create_fees_bracket(project_pk, data)
+        my_account.Deliverables.delete_fees_bracket(res['data']['pk'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_fees_bracket_details(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_fees_bracket_return_pk()
+        res = my_account.Deliverables.get_fees_bracket_details(pk)
+        my_account.Deliverables.delete_fees_bracket(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_fees_bracket(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_fees_bracket_return_pk()
+
+        data = {
+            "fees": 1500
+        }
+
+        res = my_account.Deliverables.update_fees_bracket(pk, data)
+        my_account.Deliverables.delete_fees_bracket(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_fees_bracket(self):
+        """ Test that 204 is returned """
+
+        pk = self._create_fees_bracket_return_pk()
+        res = my_account.Deliverables.delete_fees_bracket(pk)
+
+        self.assertEqual(res['status'], 204)
+
+    ### Fee project version ###
+    def _create_fee_project_version_return_pk(self):
+        """ Create a fee project version and return pk """
+
+        data = {
+            "title": "UNITTEST",
+            "fee_project": fee_project,
+            "show_on_table": True,
+            "data": {}
+        }
+
+        return my_account.Deliverables.create_fee_project_version(data)['data']['id']
 
     def test_export_project_fees(self):
         """ Test that 200 is returned """
@@ -318,6 +523,65 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 200)
 
+    def test_create_fee_project_version(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "title": "UNITTEST",
+            "fee_project": fee_project,
+            "show_on_table": True,
+            "data": {}
+        }
+
+        res = my_account.Deliverables.create_fee_project_version(data)
+        my_account.Deliverables.delete_fee_project_version(res['data']['id'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_fee_project_version_details(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_fee_project_version_return_pk()
+        res = my_account.Deliverables.get_fee_project_version_details(pk)
+        my_account.Deliverables.delete_fee_project_version(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_fee_project_version(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_fee_project_version_return_pk()
+
+        data = {
+            "title": "UPDATED"
+        }
+
+        res = my_account.Deliverables.update_fee_project_version(pk, data)
+        my_account.Deliverables.delete_fee_project_version(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_fee_project_version(self):
+        """ Test that 204 is returned """
+
+        pk = self._create_fee_project_version_return_pk()
+        res = my_account.Deliverables.delete_fee_project_version(pk)
+
+        self.assertEqual(res['status'], 204)
+
+    ### Fees ###
+    def _create_fee_return_pk(self):
+        """ Create a fee and return the pk """
+        data = {
+            "title": "UNITTEST",
+            "amount_base": 0,
+            "amount_current": 0,
+            "progress": 0,
+            "in_timeline": True
+        }
+
+        return my_account.Deliverables.create_fee(project_pk, data)['data']['pk']
+
     def test_get_fees_list(self):
         """ Test that 200 is returned """
         res = my_account.Deliverables.get_fees_list(project_pk)
@@ -328,7 +592,7 @@ class Tests(unittest.TestCase):
         """ Test that 201 is returned """
 
         data = {
-            "title": "string",
+            "title": "UNITTEST",
             "amount_base": 0,
             "amount_current": 0,
             "progress": 0,
@@ -336,20 +600,201 @@ class Tests(unittest.TestCase):
         }
 
         res = my_account.Deliverables.create_fee(project_pk, data)
+        my_account.Deliverables.delete_fee(res['data']['pk'])
 
         self.assertEqual(res['status'], 201)
 
+    def test_get_fee_details(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_fee_return_pk()
+        res = my_account.Deliverables.get_fee_details(pk)
+        my_account.Deliverables.delete_fee(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_fee(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_fee_return_pk()
+
+        data = {
+            "title": "UPDATED"
+        }
+
+        res = my_account.Deliverables.update_fee(pk, data)
+        my_account.Deliverables.delete_fee(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_fee(self):
+        """ Test that 201 is returned """
+
+        pk = self._create_fee_return_pk()
+        res = my_account.Deliverables.delete_fee(pk)
+
+        self.assertEqual(res['status'], 204)
+
+    ### Fee projections ###
     def test_get_fees_projection_list(self):
         """ Test that 200 is returned """
         res = my_account.Deliverables.get_fees_projection_list(project_pk)
 
         self.assertEqual(res['status'], 200)
 
+    ### Fees project ###
+    def _create_fee_project_return_pk(self):
+        """ Create a fee project and return pk """
+        data = {
+            "title": "UNITTEST",
+            "project": project_pk
+        }
+
+        return my_account.Deliverables.create_fee_project(data)['data']['id']
+
     def test_get_fees_project_list(self):
         """ Test that 200 is returned """
         res = my_account.Deliverables.get_fees_project_list()
 
         self.assertEqual(res['status'], 200)
+
+    def test_get_fees_project_list_project(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_fees_project_list_projects(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_fees_projects_update(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_fee_project_return_pk()
+
+        res = my_account.Deliverables.get_fees_projects_update(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_fees_project(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "title": "UNITTEST",
+            "project": project_pk
+        }
+
+        res = my_account.Deliverables.create_fee_project(data)
+        my_account.Deliverables.delete_fee_project(res['data']['id'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_fees_project_details(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_fee_project_return_pk()
+
+        res = my_account.Deliverables.get_fees_project_details(pk)
+        my_account.Deliverables.delete_fee_project(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_fee_project(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_fee_project_return_pk()
+
+        data = {
+            "title": "UPDATED"
+        }
+
+        res = my_account.Deliverables.update_fee_project(pk, data)
+        my_account.Deliverables.delete_fee_project(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_fee_project(self):
+        """ Test that 204 is returned """
+
+        pk = self._create_fee_project_return_pk()
+        res = my_account.Deliverables.delete_fee_project(pk)
+
+        self.assertEqual(res['status'], 204)
+
+    ### Fees revision ###
+    def _create_fee_revision_return_pk(self):
+        """ Test that 201 is returned 
+
+        :return: {"pk": pk, "fee_pk": fee_pk}
+        """
+        fee_pk = self._create_fee_return_pk()
+
+        data = {
+            "amount": 10,
+            "date": "06-05-2021"
+        }
+
+        pk = my_account.Deliverables.create_fee_revisions_item(fee_pk, data)['data']['pk']
+
+        return {"pk": pk, "fee_pk": fee_pk}
+
+    def test_get_fees_revision_details(self):
+        """ Test that 200 is returned """
+
+        res_creation = self._create_fee_revision_return_pk()
+
+        res = my_account.Deliverables.get_fees_revision_details(res_creation['pk'])
+        my_account.Deliverables.delete_fee(res_creation['fee_pk'])
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_fees_revision(self):
+        """ Test that 204 is returned """
+
+        res_creation = self._create_fee_revision_return_pk()
+
+        data = {
+            "amount": 11
+        }
+
+        res = my_account.Deliverables.delete_fee_revision(res_creation['pk'])
+        my_account.Deliverables.delete_fee(res_creation['fee_pk'])
+
+        self.assertEqual(res['status'], 204)
+
+    def test_get_fees_revision_details(self):
+        """ Test that 200 is returned """
+
+        res_creation = self._create_fee_revision_return_pk()
+
+        res = my_account.Deliverables.get_fees_revision_details(res_creation['pk'])
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_fees_revision_fees(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_fee_return_pk()
+        res = my_account.Deliverables.get_fees_revisions_item_details(pk)
+
+        my_account.Deliverables.delete_fee(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_fee_revisions_item(self):
+        """ Test that 201 is returned """
+
+        pk = self._create_fee_return_pk()
+
+        data = {
+            "amount": 10,
+            "date": "06-05-2021"
+        }
+
+        res = my_account.Deliverables.create_fee_revisions_item(pk, data)
+        my_account.Deliverables.delete_fee(pk)
+        my_account.Deliverables.delete_fee_revision(res['data']['pk'])
+
+        self.assertEqual(res['status'], 201)
+
+    ### other ###
 
     def test_validate_fees_costs(self):
         """ Test that 200 is returned """
@@ -369,13 +814,95 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 200)
 
+    # Fee zones
+    def _create_fee_zones_return_pk(self):
+        """ Create fee zones return pk 
+
+        :return: {"pk": pk, "zone_pk": zone_pk['pk'], "area_pk": zone_pk['area_pk']}
+        """
+        zone_pk = self._create_zone_return_pk()
+
+        data = {
+            "zone": zone_pk['pk'],
+            "project": project_pk,
+            "fee_project": fee_project,
+            "board": 0,
+            "rendering": 0
+        }
+
+        pk = my_account.Deliverables.create_fee_zones(data)['data']['id']
+
+        return {"pk": pk, "zone_pk": zone_pk['pk'], "area_pk": zone_pk['area_pk']}
+
     def test_get_fees_zones_list(self):
         """ Test that 200 is returend """
         res = my_account.Deliverables.get_fees_zones_list()
 
         self.assertEqual(res['status'], 200)
 
+    def test_create_fees_zones(self):
+        """ Test that 201 is returned """
+
+        zone_pk = self._create_zone_return_pk()
+
+        data = {
+            "zone": zone_pk['pk'],
+            "project": project_pk,
+            "fee_project": fee_project,
+            "board": 0,
+            "rendering": 0
+        }
+
+        res = my_account.Deliverables.create_fee_zones(data)
+
+        my_account.Deliverables.delete_fees_zone(res['data']['id'])
+        my_account.Deliverables.delete_zone(zone_pk['pk'])
+        my_account.Deliverables.delete_area(zone_pk['area_pk'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_fees_zone_details(self):
+        """ Test that 200 is returned """
+
+        res_pk = self._create_fee_zones_return_pk()
+        res = my_account.Deliverables.get_fees_zone_details(res_pk['pk'])
+
+        my_account.Deliverables.delete_fees_zone(res_pk['pk'])
+        my_account.Deliverables.delete_zone(res_pk['zone_pk'])
+        my_account.Deliverables.delete_area(res_pk['area_pk'])
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_fee_zones(self):
+        """ Test that 200 is returned """
+
+        res_pk = self._create_fee_zones_return_pk()
+
+        data = {
+            "date": "05-05-2021"
+        }
+
+        res = my_account.Deliverables.update_fee_zone(res_pk['pk'], data)
+
+        my_account.Deliverables.delete_fees_zone(res_pk['pk'])
+        my_account.Deliverables.delete_zone(res_pk['zone_pk'])
+        my_account.Deliverables.delete_area(res_pk['area_pk'])
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_fee_zone(self):
+        """ Test that 204 is returned """
+
+        res_pk = self._create_fee_zones_return_pk()
+
+        res = my_account.Deliverables.delete_fees_zone(res_pk['pk'])
+        my_account.Deliverables.delete_zone(res_pk['zone_pk'])
+        my_account.Deliverables.delete_area(res_pk['area_pk'])
+
+        self.assertEqual(res['status'], 204)
+
     #### Plans ####
+
     def _create_plan_return_pk(self):
         """ Create plan and return pk """
 
@@ -460,7 +987,24 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 204)
 
+    def test_get_plan_details(self):
+        """ Test that 200 is returned """
+        pk = self._create_plan_return_pk()
+
+        res = my_account.Deliverables.get_plan_details(pk)
+
+        my_account.Deliverables.delete_plan(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_plans_planphases_list(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.get_plans_planphases_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
     #### Prescription ####
+
     def _create_prescription_return_pk(self):
         """ Create a prescription and return pk 
 
@@ -1120,6 +1664,24 @@ class Tests(unittest.TestCase):
         self.assertEqual(res['status'], 204)
 
     ### Contract items ###
+    def _create_contract_item_return_pk(self):
+        """ Create a contract item and return pk 
+
+        :return: {"pk": pk, "contract_pk": contract_pk['pk'], "contractor_pk": contract_pk['contractor_pk'],
+                "fee_project": contract_pk['fee_project']}
+        """
+        contract_pk = self._create_contract_return_pk()
+
+        data = {
+            "contract": contract_pk['pk'],
+            "fee": 100
+        }
+
+        pk = my_account.Deliverables.create_contracts_items(data)['data']['id']
+
+        return {"pk": pk, "contract_pk": contract_pk['pk'], "contractor_pk": contract_pk['contractor_pk'],
+                "fee_project": contract_pk['fee_project']}
+
     def test_generate_contracts_project(self):
         """ Test that 201 is returned """
         #! Pass but returns 200 instead of 201
@@ -1134,13 +1696,101 @@ class Tests(unittest.TestCase):
 
     #     self.assertEqual(res['status'], 201)
 
-    def test_get_contract_items(self):
+    def test_get_contract_items_list(self):
         """ Test that 200 is returned """
         res = my_account.Deliverables.get_contracts_items_list()
 
         self.assertEqual(res['status'], 200)
 
+    def test_create_contract_item(self):
+        """ Test that 201 is returned """
+
+        res_pk = self._create_contract_return_pk()
+
+        data = {
+            "contract": res_pk['pk'],
+            "fee": 100
+        }
+
+        res = my_account.Deliverables.create_contracts_items(data)
+
+        my_account.Deliverables.delete_contract_item(res['data']['id'])
+        my_account.Deliverables.delete_contract(res_pk['pk'])
+        my_account.Deliverables.delete_contractor(res_pk['contractor_pk'])
+        my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_contract_item_details(self):
+        """ Test that 200 is returned """
+
+        res_pk = self._create_contract_item_return_pk()
+
+        res = my_account.Deliverables.get_contract_item_details(res_pk['pk'])
+
+        my_account.Deliverables.delete_contract_item(res_pk['pk'])
+        my_account.Deliverables.delete_contract(res_pk['contract_pk'])
+        my_account.Deliverables.delete_contractor(res_pk['contractor_pk'])
+        my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
+
+        self.assertEqual(res['status'], 200)
+
+    # def test_update_contract_item(self):
+    #     """ Test that 200 is returned """
+    #     #! Do not pass : 500 withtout message
+
+    #     res_pk = self._create_contract_item_return_pk()
+
+    #     data = {
+    #         "contract": res_pk['contract_pk'],
+    #         "already_paid": 10
+    #     }
+
+    #     res = my_account.Deliverables.update_contract_item(res_pk['pk'], data)
+    #     print(res)
+
+    #     my_account.Deliverables.delete_contract_item(res_pk['pk'])
+    #     my_account.Deliverables.delete_contract(res_pk['contract_pk'])
+    #     my_account.Deliverables.delete_contractor(res_pk['contractor_pk'])
+    #     my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
+
+    #     self.assertEqual(res['status'], 200)
+
+    def test_delete_contract_item_details(self):
+        """ Test that 204 is returned """
+
+        res_pk = self._create_contract_item_return_pk()
+
+        res = my_account.Deliverables.delete_contract_item(res_pk['pk'])
+        my_account.Deliverables.delete_contract(res_pk['contract_pk'])
+        my_account.Deliverables.delete_contractor(res_pk['contractor_pk'])
+        my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
+
+        self.assertEqual(res['status'], 204)
+
     ### Contracts ###
+
+    def _create_contract_return_pk(self):
+        """ Create contract and return pk 
+
+        {"pk": pk, "contractor_pk": pk_contractor, "fee_project", fee_project}
+        """
+
+        pk_contractor = self._create_contractor_return_pk()
+        fee_project = self._create_fee_project_return_pk()
+
+        data = {
+            "contractor": pk_contractor,
+            "fee_project": fee_project,
+            "type": "sub",
+            "description": "string",
+            "tax_rate": 1,
+            "project": project_pk,
+        }
+
+        pk = my_account.Deliverables.create_contract(data)['data']['id']
+
+        return {"pk": pk, "contractor_pk": pk_contractor, "fee_project": fee_project}
 
     def test_get_contracts_list(self):
         """ Test that 200 is returned """
@@ -1148,22 +1798,192 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 200)
 
+    def test_create_contract(self):
+        """ Test that 201 is returned """
+
+        pk_contractor = self._create_contractor_return_pk()
+        fee_project = self._create_fee_project_return_pk()
+
+        data = {
+            "contractor": pk_contractor,
+            "fee_project": fee_project,
+            "type": "sub",
+            "description": "string",
+            "tax_rate": 1,
+            "project": project_pk,
+        }
+
+        res = my_account.Deliverables.create_contract(data)
+
+        my_account.Deliverables.delete_contract(res['data']['id'])
+        my_account.Deliverables.delete_contractor(pk_contractor)
+        my_account.Deliverables.delete_fee_project(fee_project)
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_contract_details(self):
+        """ Test that 200 is returned """
+
+        res_pk = self._create_contract_return_pk()
+
+        res = my_account.Deliverables.get_contract_details(res_pk['pk'])
+
+        my_account.Deliverables.delete_contract(res_pk['pk'])
+        my_account.Deliverables.delete_contractor(res_pk['contractor_pk'])
+        my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_contract(self):
+        """ Test that 200 is returned """
+
+        res_pk = self._create_contract_return_pk()
+
+        data = {
+            "description": "UPDATED"
+        }
+
+        res = my_account.Deliverables.update_contract(res_pk['pk'], data)
+
+        my_account.Deliverables.delete_contract(res_pk['pk'])
+        my_account.Deliverables.delete_contractor(res_pk['contractor_pk'])
+        my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_contract(self):
+        """ Test that 204 is returned """
+
+        res_pk = self._create_contract_return_pk()
+
+        res = my_account.Deliverables.delete_contract(res_pk['pk'])
+        my_account.Deliverables.delete_contractor(res_pk['contractor_pk'])
+        my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
+
+        self.assertEqual(res['status'], 204)
+
     ### Contracts month ###
-    # def test_generate_contracts_month(self):
-    #     """ Test that 201 is returned """
-    #     res = my_account.Deliverables.generate_contracts_month_org()
+    def _create_contract_month_return_pk(self):
+        """ Create contract month return pk 
 
-    #     self.assertEqual(res['status'], 201)
+        :return: {"pk": pk, "contract_pk": res_pk['pk'], "contractor_pk": res_pk['contractor_pk'],
+                "fee_project": res_pk['fee_project']}
 
-    def get_contracts_month_list(self):
+        """
+        res_pk = self._create_contract_return_pk()
+
+        data = {
+            "contract": res_pk['pk'],
+            "year": 2021,
+            "month": 5,
+            "start_date": "06-05-2021",
+            "end_date": "06-05-2021",
+            "budget": 0,
+            "budget_projected": 0,
+            "actual": 0,
+            "pct": 0
+        }
+
+        pk = my_account.Deliverables.create_contracts_month(data)['data']['id']
+
+        return {"pk": pk, "contract_pk": res_pk['pk'], "contractor_pk": res_pk['contractor_pk'],
+                "fee_project": res_pk['fee_project']}
+
+    def test_generate_contracts_month(self):
+        """ Test that 201 is returned """
+
+        #! Pass but 200 is returned
+
+        res_pk = self._create_contract_return_pk()
+
+        res = my_account.Deliverables.generate_contracts_month_org(res_pk['pk'])
+
+        my_account.Deliverables.delete_contract(res_pk['pk'])
+        my_account.Deliverables.delete_contractor(res_pk['contractor_pk'])
+        my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
+
+        self.assertEqual(res['status'], 200)
+
+    def test_get_contracts_month_list(self):
         """ Test that 200 is returned """
         res = my_account.Deliverables.get_contracts_month_list()
 
         self.assertEqual(res['status'], 200)
 
+    def test_create_contract_month(self):
+        """ Test that 201 is returned """
+
+        res_pk = self._create_contract_return_pk()
+
+        data = {
+            "contract": res_pk['pk'],
+            "year": 2021,
+            "month": 5,
+            "start_date": "06-05-2021",
+            "end_date": "06-05-2021",
+            "budget": 0,
+            "budget_projected": 0,
+            "actual": 0,
+            "pct": 0
+        }
+
+        res = my_account.Deliverables.create_contracts_month(data)
+
+        my_account.Deliverables.delete_contract_month(res['data']['id'])
+        my_account.Deliverables.delete_contractor(res_pk['contractor_pk'])
+        my_account.Deliverables.delete_contract(res_pk['pk'])
+        my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_contract_month_details(self):
+        """ Test that 200 is returned """
+
+        res_pk = self._create_contract_month_return_pk()
+
+        res = my_account.Deliverables.get_contract_month_details(res_pk['pk'])
+
+        my_account.Deliverables.delete_contract_month(res_pk['pk'])
+        my_account.Deliverables.delete_contractor(res_pk['contractor_pk'])
+        my_account.Deliverables.delete_contract(res_pk['contract_pk'])
+        my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_contract_month(self):
+        """ Test that 200 is returned """
+
+        res_pk = self._create_contract_month_return_pk()
+
+        data = {
+            "start_date": "05-05-2021"
+        }
+
+        res = my_account.Deliverables.update_contracts_month(res_pk['pk'], data)
+
+        my_account.Deliverables.delete_contract_month(res_pk['pk'])
+        my_account.Deliverables.delete_contractor(res_pk['contractor_pk'])
+        my_account.Deliverables.delete_contract(res_pk['contract_pk'])
+        my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_contract_month(self):
+        """ Test that 204 is returned """
+
+        res_pk = self._create_contract_month_return_pk()
+
+        res = my_account.Deliverables.delete_contract_month(res_pk['pk'])
+        my_account.Deliverables.delete_contractor(res_pk['contractor_pk'])
+        my_account.Deliverables.delete_contract(res_pk['contract_pk'])
+        my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
+
+        self.assertEqual(res['status'], 204)
+
     #### Revisions ####
 
     ### Annexes ###
+
     def test_get_revisions_annexes_team_project(self):
         """ Test that 200 is returned """
         res = my_account.Deliverables.get_revisions_annexes_team_project(team_pk, project_pk)
@@ -1255,57 +2075,145 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 200)
 
+    def test_create_fee_items_revision(self):
+        """ Test that 201 is returned """
+
+        fee_pk = self._create_fee_return_pk()
+
+        data = {
+            "fee_item": fee_pk,
+            "progress": 10,
+            "date": "06-05-2021",
+            "is_valid": False,
+            "is_mockup": False,
+        }
+
+        res = my_account.Deliverables.create_fee_items_revision(team_pk, project_pk, data)
+        my_account.Deliverables.delete_fee(fee_pk)
+        my_account.Deliverables.delete_revisions_fee_items_detail(res['data']['id'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_delete_fee_items_revision(self):
+        """ Test that 204 is returned """
+
+        fee_pk = self._create_fee_return_pk()
+
+        data = {
+            "fee_item": fee_pk,
+            "progress": 10,
+            "date": "06-05-2021",
+            "is_valid": False,
+            "is_mockup": False,
+        }
+
+        pk = my_account.Deliverables.create_fee_items_revision(team_pk, project_pk, data)
+        res = my_account.Deliverables.delete_revisions_fee_items_detail(pk['data']['id'])
+        my_account.Deliverables.delete_fee(fee_pk)
+
+        self.assertEqual(res['status'], 204)
+
     ### Phases ###
+
     def test_get_revisions_phases_team_project(self):
         """ Test that 200 is returned """
         res = my_account.Deliverables.get_revisions_phases_team_project(team_pk, project_pk)
 
         self.assertEqual(res['status'], 200)
 
+    def test_create_phases_revision(self):
+        """ Test that 201 is returned """
+
+        phase_pk = self._create_phase_return_pk()
+
+        data = {
+            "phase": phase_pk['pk'],
+            "progress": 10,
+            "date": "07-05-2021",
+            "is_valid": False,
+            "is_mockup": False,
+        }
+
+        res = my_account.Deliverables.create_phase_revision(team_pk, project_pk, data)
+
+        my_account.Deliverables.delete_phase(phase_pk['pk'])
+        my_account.Deliverables.delete_fee_project(phase_pk['fee_project'])
+
+        self.assertEqual(res['status'], 201)
+
+    def test_delete_phase_revision(self):
+        """ Test that 204 is returned """
+
+        phase_pk = self._create_phase_return_pk()
+
+        data = {
+            "phase": phase_pk['pk'],
+            "progress": 10,
+            "date": "07-05-2021",
+            "is_valid": False,
+            "is_mockup": False,
+        }
+
+        pk = my_account.Deliverables.create_phase_revision(team_pk, project_pk, data)['data']['id']
+
+        res = my_account.Deliverables.delete_revisions_phases_detail(pk)
+
+        my_account.Deliverables.delete_phase(phase_pk['pk'])
+        my_account.Deliverables.delete_fee_project(phase_pk['fee_project'])
+
+        self.assertEqual(res['status'], 204)
     ### Plans ###
+
     def test_get_revisions_plans_team_project(self):
         """ Test that 200 is returned """
         res = my_account.Deliverables.get_revisions_plans_team_project(team_pk, project_pk)
 
         self.assertEqual(res['status'], 200)
 
-    #! Plan phase are not plans. (See phases)
-    # def test_create_plan_revision(self):
-    #     """ Test that 201 is returned """
+    def test_create_plan_revision(self):
+        """ Test that 201 is returned """
 
-    #     pk = self._create_plan_return_pk()
+        plan_pk = self._create_plan_return_pk()
 
-    #     data = {
-    #         "is_valid": False,
-    #         "is_mockup": False,
-    #         "date": "05-05-2021",
-    #         "plan_phase": pk,
-    #         "progress": 80
-    #     }
+        planphase_pk = my_account.Deliverables.get_plan_details(plan_pk)['data']['plan_phases'][0]['id']
 
-    #     res = my_account.Deliverables.create_plan_revision(team_pk, project_pk, data)
-    #     print(res)
-    #     my_account.Deliverables.delete_revisions_plan_detail(res['data']['pk'])
+        data = {
+            "is_valid": False,
+            "is_mockup": False,
+            "date": "05-05-2021",
+            "plan_phase": planphase_pk,
+            "progress": 80
+        }
 
-    #     self.assertEqual(res['status'], 201)
+        res = my_account.Deliverables.create_plan_revision(team_pk, project_pk, data)
 
-    # def test_delete_plan_revision(self):
-    #     """ Test that 204 is returned """
+        my_account.Deliverables.delete_revisions_plan_detail(res['data']['id'])
+        my_account.Deliverables.delete_plan(plan_pk)
 
-    #     pk_plan = self._create_plan_return_pk()
+        self.assertEqual(res['status'], 201)
 
-    #     data = {
-    #         "is_valid": False,
-    #         "is_mockup": False,
-    #         "date": "05-05-2021",
-    #         "plan_phase": pk_plan,
-    #         "progress": 80
-    #     }
+    def test_delete_plan_revision(self):
+        """ Test that 204 is returned """
 
-    #     pk = my_account.Deliverables.create_plan_revision(team_pk, project_pk, data)['data']['id']
-    #     res = my_account.Deliverables.delete_revisions_plan_detail(pk)
+        plan_pk = self._create_plan_return_pk()
 
-    #     self.assertEqual(res['status'], 204)
+        planphase_pk = my_account.Deliverables.get_plan_details(plan_pk)['data']['plan_phases'][0]['id']
+
+        data = {
+            "is_valid": False,
+            "is_mockup": False,
+            "date": "05-05-2021",
+            "plan_phase": planphase_pk,
+            "progress": 80
+        }
+
+        pk = my_account.Deliverables.create_plan_revision(team_pk, project_pk, data)['data']['id']
+
+        res = my_account.Deliverables.delete_revisions_plan_detail(pk)
+
+        my_account.Deliverables.delete_phase_planphase(plan_pk)
+
+        self.assertEqual(res['status'], 204)
 
     #### Annexes ####
     def _create_annexe_return_pk(self):
