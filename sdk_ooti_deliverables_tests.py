@@ -145,14 +145,13 @@ class Tests(unittest.TestCase):
 
     def test_get_areas_list(self):
         """ Test that 200 is returned """
-        # * OK
+
         res = my_account.Deliverables.get_areas_list(project_pk)
 
         self.assertEqual(res['status'], 200)
 
     def test_create_area(self):
         """ Test that 201 is returned """
-        # * OK
 
         area = {
             "name": "UNITTEST",
@@ -167,7 +166,6 @@ class Tests(unittest.TestCase):
 
     def test_get_area_details(self):
         """ Test that 200 is returned """
-        # * OK
 
         area_pk = self._create_area_return_pk()
 
@@ -193,7 +191,6 @@ class Tests(unittest.TestCase):
 
     def test_delete_area(self):
         """ Test that 204 is returned """
-        # * OK
 
         area_pk = self._create_area_return_pk()
         res = my_account.Deliverables.delete_area(area_pk)
@@ -223,7 +220,6 @@ class Tests(unittest.TestCase):
 
     def test_get_phases_list(self):
         """ Test that 200 is returned """
-        # * OK
 
         res = my_account.Deliverables.get_phases_list(project_pk)
 
@@ -231,7 +227,6 @@ class Tests(unittest.TestCase):
 
     def test_get_phases_list_fee_project(self):
         """ Test that 200 is returned """
-        # * OK
 
         res = my_account.Deliverables.get_phases_list_fee_project(project_pk, fee_project)
 
@@ -239,7 +234,6 @@ class Tests(unittest.TestCase):
 
     def test_get_phases_projections_list(self):
         """ Test that 200 is returned """
-        # * OK
 
         res = my_account.Deliverables.get_phases_projections_list(project_pk)
 
@@ -247,7 +241,6 @@ class Tests(unittest.TestCase):
 
     def test_export_phase(self):
         """ Test that 200 is returned """
-        # * OK
 
         res = my_account.Deliverables.export_phase(project_pk)
 
@@ -376,7 +369,6 @@ class Tests(unittest.TestCase):
 
     def test_get_milestones_list(self):
         """ Test that 200 is returned """
-        # * OK
 
         res = my_account.Deliverables.get_milestones_list()
 
@@ -393,7 +385,6 @@ class Tests(unittest.TestCase):
 
     def test_create_milestone(self):
         """ Test that 201 is returned """
-        # * OK
 
         data = {
             "title": "UNITTEST",
@@ -409,7 +400,6 @@ class Tests(unittest.TestCase):
 
     def test_update_milestone(self):
         """ Test that 200 is returned """
-        # * OK
 
         milestone_pk = self._create_milestone_return_pk()
 
