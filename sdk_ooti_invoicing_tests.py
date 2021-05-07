@@ -42,7 +42,6 @@ class Tests(unittest.TestCase):
 
     def test_get_invoices_list(self):
         """ Test that 200 is returned """
-        # * OK
 
         res_get = my_account.Invoicing.get_invoices_list()
 
@@ -50,7 +49,6 @@ class Tests(unittest.TestCase):
 
     def test_get_invoice_details(self):
         """ Test that 200 is returned """
-        # * OK
 
         invoice_pk = my_account.Invoicing.get_invoices_list()['data'][0]['pk']
         res_details = my_account.Invoicing.get_invoice_details(invoice_pk)
@@ -59,7 +57,6 @@ class Tests(unittest.TestCase):
 
     def test_get_invoices_sent_valid_list(self):
         """ Test that 200 is returned """
-        # * OK
 
         res_sent_valid = my_account.Invoicing.get_invoices_sent_valid_list(team_pk)
 
@@ -67,7 +64,6 @@ class Tests(unittest.TestCase):
 
     def test_create_invoice(self):
         """ Test that 201 is returned """
-        # * OK
 
         client_info = my_account.Invoicing.get_clients_list(team_pk)['data'][0]
 
@@ -85,7 +81,6 @@ class Tests(unittest.TestCase):
 
     def test_update_invoice(self):
         """ Test that 200 is returned """
-        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
 
@@ -100,7 +95,6 @@ class Tests(unittest.TestCase):
 
     def test_validate_invoice(self):
         """ Test that 200 is returned """
-        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
 
@@ -110,7 +104,6 @@ class Tests(unittest.TestCase):
 
     def test_send_invoice(self):
         """ Test that 200 is returned """
-        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
 
@@ -120,7 +113,6 @@ class Tests(unittest.TestCase):
 
     def test_close_invoice(self):
         """ Test that 200 is returned """
-        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
 
@@ -130,7 +122,6 @@ class Tests(unittest.TestCase):
 
     def test_get_invoice_items(self):
         """ Test that 200 is returned """
-        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
         res_items = my_account.Invoicing.get_invoice_items(invoice_pk)
@@ -139,7 +130,6 @@ class Tests(unittest.TestCase):
 
     def test_create_invoice_item(self):
         """ Test that 201 is returned """
-        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
 
@@ -155,7 +145,6 @@ class Tests(unittest.TestCase):
 
     def test_update_invoice_item(self):
         """ Test that 200 is returned """
-        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
 
@@ -177,7 +166,6 @@ class Tests(unittest.TestCase):
 
     def test_delete_invoice_item(self):
         """ Test that 204 is returned """
-        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
         invoice_item = {
@@ -196,7 +184,6 @@ class Tests(unittest.TestCase):
 
     def test_get_credit_notes(self):
         """ Test that 200 is returned """
-        # * OK
 
         res = my_account.Invoicing.get_credit_notes_list()
 
@@ -212,7 +199,6 @@ class Tests(unittest.TestCase):
 
     def test_get_payments_list(self):
         """ Test that 200 is returned """
-        # * OK
 
         res_payments = my_account.Invoicing.get_payments_list()
 
@@ -220,7 +206,6 @@ class Tests(unittest.TestCase):
 
     def test_get_payments_details(self):
         """ Test that 200 is returned """
-        # * OK
 
         payment_pk = my_account.Invoicing.get_payments_list()['data'][0]['pk']
         res_details = my_account.Invoicing.get_payment_details(payment_pk)
@@ -229,7 +214,6 @@ class Tests(unittest.TestCase):
 
     def test_create_payment(self):
         """ Test that 201 is returned """
-        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
 
@@ -256,7 +240,6 @@ class Tests(unittest.TestCase):
 
     def test_update_payment(self):
         """ Test that 200 is returned """
-        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
         invoice_item = {
@@ -285,7 +268,6 @@ class Tests(unittest.TestCase):
 
     def test_update_amount_payment_invoice(self):
         """ Test that 200 is returned """
-        # * OK
 
         invoice_pk = self._create_invoice_return_pk()
         invoice_item = {
@@ -320,14 +302,12 @@ class Tests(unittest.TestCase):
 
     def test_get_currencies_list(self):
         """ Test that 200 is returned """
-        # * OK
 
         res = my_account.Invoicing.get_currencies_list()
         self.assertEqual(res['status'], 200)
 
     def test_create_currency(self):
         """ Test that 201 is returned """
-        # * OK
 
         currency = {
             "name": "MYCURR",
@@ -341,7 +321,6 @@ class Tests(unittest.TestCase):
 
     def test_get_currency_details(self):
         """ Test that 200 is returned """
-        # * OK
 
         # get an id
         res_get = my_account.Invoicing.get_currencies_list()
@@ -353,7 +332,6 @@ class Tests(unittest.TestCase):
 
     def test_update_currency(self):
         """ Test that 200 is returned """
-        # * OK
 
         currency = {
             "name": "MYUPD",
@@ -370,7 +348,6 @@ class Tests(unittest.TestCase):
 
     def test_delete_currency(self):
         """ Test that 204 is returned """
-        # * OK
 
         currency = {
             "name": "MYDEL",
@@ -388,7 +365,6 @@ class Tests(unittest.TestCase):
 
     def test_get_clients_list(self):
         """ Test that 200 is returned """
-        # * OK
 
         res_get = my_account.Invoicing.get_clients_list(team_pk)
 
@@ -396,7 +372,6 @@ class Tests(unittest.TestCase):
 
     def test_get_client_details(self):
         """ Test that 200 is returned """
-        # * OK
 
         res_get_list = my_account.Invoicing.get_clients_list(team_pk)
 
@@ -407,7 +382,6 @@ class Tests(unittest.TestCase):
 
     def test_create_client(self):
         """ Test that 201 is returned """
-        # * OK
 
         client = {
             "name": "UNITTEST",
@@ -424,7 +398,6 @@ class Tests(unittest.TestCase):
 
     def test_update_client(self):
         """ Test that 200 is returned """
-        # * OK
 
         client = {
             "name": "UNITTEST_UPDATE",
@@ -445,7 +418,6 @@ class Tests(unittest.TestCase):
 
     def test_delete_client(self):
         """ Test that 204 is returned """
-        # * OK
 
         client = {
             "name": "UNITTEST_DELETE",
@@ -465,7 +437,6 @@ class Tests(unittest.TestCase):
     ### Classic ###
     def _create_email_return_pk(self):
         """ Create an email template and return the pk """
-        # * OK
 
         email = {
             "name": "UNITTEST",
@@ -481,7 +452,6 @@ class Tests(unittest.TestCase):
 
     def test_get_emails_list(self):
         """ Test that 200 is returned """
-        # * OK
 
         res = my_account.Invoicing.get_emails_list()
 
@@ -489,7 +459,6 @@ class Tests(unittest.TestCase):
 
     def test_create_email(self):
         """ Test that 201 is returned """
-        # * OK
 
         email = {
             "name": "UNITTEST",
@@ -507,7 +476,6 @@ class Tests(unittest.TestCase):
 
     def test_get_emails_details(self):
         """ Test that 200 is returned """
-        # * OK
 
         email_pk = self._create_email_return_pk()
         res = my_account.Invoicing.get_email_details(email_pk)
@@ -517,7 +485,6 @@ class Tests(unittest.TestCase):
 
     def test_update_email(self):
         """ Test that 200 is returned """
-        # * OK
 
         email_pk = self._create_email_return_pk()
 
@@ -529,7 +496,6 @@ class Tests(unittest.TestCase):
 
     def test_delete_email(self):
         """ Test that 204 is returned """
-        # * OK
 
         email_pk = self._create_email_return_pk()
         res = my_account.Invoicing.delete_email(email_pk)
@@ -538,7 +504,6 @@ class Tests(unittest.TestCase):
 
     def test_send_test_email(self):
         """ Test that 200 is returned """
-        # * OK
 
         email_pk = self._create_email_return_pk()
         res = my_account.Invoicing.send_test_email(email_pk)
@@ -548,7 +513,6 @@ class Tests(unittest.TestCase):
 
     def test_apply_email(self):
         """ Test that 200 is returned """
-        # * OK
 
         email_pk = self._create_email_return_pk()
         res = my_account.Invoicing.apply_email(email_pk)
@@ -558,7 +522,6 @@ class Tests(unittest.TestCase):
     ### smtp ###
     def _create_email_smtp_return_pk(self):
         """ Create email smtp and return pk """
-        # * OK
 
         data = {
             "from_name": "UNITTEST",
@@ -575,7 +538,6 @@ class Tests(unittest.TestCase):
 
     def test_get_emails_smtp(self):
         """ Test that 200 is returned """
-        # * OK
 
         res = my_account.Invoicing.get_emails_smtp_list()
 
@@ -583,7 +545,6 @@ class Tests(unittest.TestCase):
 
     def test_create_email_smtp(self):
         """ Test that 201 is returned """
-        # * OK
 
         data = {
             "from_name": "UNITTEST",
@@ -602,7 +563,6 @@ class Tests(unittest.TestCase):
 
     def test_get_email_smtp_details(self):
         """ Test that 200 is returned """
-        # * OK
 
         smtp_pk = self._create_email_smtp_return_pk()
 
@@ -613,7 +573,6 @@ class Tests(unittest.TestCase):
 
     def test_update_email_smtp(self):
         """ Test that 200 is returned """
-        # * OK
 
         smtp_pk = self._create_email_smtp_return_pk()
 
@@ -624,7 +583,6 @@ class Tests(unittest.TestCase):
 
     def test_delete_email_smtp(self):
         """ Test that 204 is returned """
-        # * OK
 
         smtp_pk = self._create_email_smtp_return_pk()
         res = my_account.Invoicing.delete_email_smtp(smtp_pk)
@@ -656,7 +614,6 @@ class Tests(unittest.TestCase):
 
     def test_get_folders_list(self):
         """ Test that 200 is returned """
-        # * OK
 
         res = my_account.Invoicing.get_folder_list(project_pk)
 
@@ -664,7 +621,6 @@ class Tests(unittest.TestCase):
 
     def test_get_folder_details(self):
         """ Test that 200 is returned """
-        # * OK
 
         folder_pk = self._create_folder_return_pk()
 
@@ -675,7 +631,6 @@ class Tests(unittest.TestCase):
 
     def test_create_folder(self):
         """ Test that 201 is returned """
-        # * OK
 
         folder = {
             "name": "UNITTEST"
@@ -688,7 +643,6 @@ class Tests(unittest.TestCase):
 
     def test_update_folder(self):
         """ Test that 201 is returned """
-        # * OK
 
         folder_pk = self._create_folder_return_pk()
 
@@ -703,7 +657,6 @@ class Tests(unittest.TestCase):
 
     def test_delete_folder(self):
         """ Test that 200 is returned """
-        # * OK
 
         folder_pk = self._create_folder_return_pk()
         res = my_account.Invoicing.delete_folder(folder_pk)
@@ -713,7 +666,6 @@ class Tests(unittest.TestCase):
     ### Files ###
     def test_get_files_list(self):
         """ Test that 200 is returned """
-        # * OK
 
         res = my_account.Invoicing.get_files_list(project_pk)
 
@@ -721,7 +673,6 @@ class Tests(unittest.TestCase):
 
     def test_get_files_details(self):
         """ Test that 200 is returned """
-        # * OK
 
         file_pk = my_account.Invoicing.get_files_list(project_pk)['data'][0]['pk']
         res = my_account.Invoicing.get_file_details(file_pk)
@@ -731,7 +682,6 @@ class Tests(unittest.TestCase):
     #### Banks ####
     def test_get_banks_list(self):
         """ Test that 200 is returned """
-        # * OK
 
         res = my_account.Invoicing.get_banks_list()
 
@@ -739,7 +689,6 @@ class Tests(unittest.TestCase):
 
     def test_get_banks_details(self):
         """ Test that 200 is returned """
-        # * OK
 
         bank_pk = my_account.Invoicing.get_banks_list()['data'][0]['id']
         res = my_account.Invoicing.get_bank_details(bank_pk)
@@ -748,7 +697,6 @@ class Tests(unittest.TestCase):
 
     def test_create_bank(self):
         """ Test that 201 is returned """
-        # * OK
 
         data = {
             "name": "UNITTEST",
@@ -768,7 +716,6 @@ class Tests(unittest.TestCase):
 
     def test_update_bank(self):
         """ Test that 200 is returned """
-        # * OK
 
         bank = {
             "name": "UNITTEST",
@@ -794,7 +741,6 @@ class Tests(unittest.TestCase):
 
     def test_delete_bank(self):
         """ Test that 204 is returned """
-        # * OK
 
         bank = {
             "name": "UNITTEST",
@@ -817,7 +763,6 @@ class Tests(unittest.TestCase):
     ### Reports ###
     def _create_report_return_pk(self):
         """ Create a report and return the pk """
-        # * OK
 
         report = {
             "name": "UNITTEST",
@@ -831,7 +776,6 @@ class Tests(unittest.TestCase):
 
     def test_get_reports_list(self):
         """ Test that 200 is returned """
-        # * OK
 
         res = my_account.Invoicing.get_reports_list()
 
@@ -839,7 +783,6 @@ class Tests(unittest.TestCase):
 
     def test_get_reports_project_list(self):
         """ Test that 200 is returned """
-        # * OK
 
         res = my_account.Invoicing.get_reports_project_list(project_pk)
 
@@ -847,7 +790,6 @@ class Tests(unittest.TestCase):
 
     def test_create_reports(self):
         """ Test that 201 is returned """
-        # * OK
 
         report = {
             "name": "UNITTEST_billed_progress",
@@ -862,7 +804,6 @@ class Tests(unittest.TestCase):
 
     def test_get_report_details(self):
         """ Test that 200 is returned """
-        # * OK
 
         report_pk = self._create_report_return_pk()
         res = my_account.Invoicing.get_report_details(report_pk)
@@ -872,7 +813,6 @@ class Tests(unittest.TestCase):
 
     def update_report(self):
         """ Test that 200 is returned """
-        # * OK
 
         report_pk = self._create_report_return_pk()
 
@@ -887,7 +827,6 @@ class Tests(unittest.TestCase):
 
     def generate_report(self):
         """ Test that 200 is returned """
-        # * OK
 
         report_pk = self._create_report_return_pk()
 
@@ -903,7 +842,6 @@ class Tests(unittest.TestCase):
     ### Templates ###
     def _create_template_return_pk(self):
         """ Create a template and return the pk """
-        # * OK
 
         template = {
             "name": "UNITTEST",
@@ -916,7 +854,6 @@ class Tests(unittest.TestCase):
 
     def test_get_templates_list(self):
         """ Test that 200 is returned """
-        # * OK
 
         res = my_account.Invoicing.get_templates_list(team_pk)
 
@@ -924,7 +861,6 @@ class Tests(unittest.TestCase):
 
     def test_get_template_details(self):
         """ Test that 200 is returned """
-        # * OK
 
         template_pk = self._create_template_return_pk()
 
@@ -934,7 +870,6 @@ class Tests(unittest.TestCase):
 
     def test_create_template(self):
         """ Test that 201 is returned """
-        # * OK
 
         template = {
             "name": "UNITTEST",
@@ -949,7 +884,6 @@ class Tests(unittest.TestCase):
 
     def test_update_template(self):
         """ Test that 200 is returned """
-        # * OK
 
         template_pk = self._create_template_return_pk()
 
@@ -964,7 +898,6 @@ class Tests(unittest.TestCase):
 
     def test_delete_template(self):
         """ Test that 204 is returned """
-        # * OK
 
         template_pk = self._create_template_return_pk()
         res = my_account.Invoicing.delete_template(template_pk)
@@ -973,7 +906,6 @@ class Tests(unittest.TestCase):
 
     def test_duplicate_template(self):
         """ Test that 201 is returned """
-        # * OK
 
         template_pk = self._create_template_return_pk()
         res = my_account.Invoicing.duplicate_template(template_pk)
@@ -986,7 +918,6 @@ class Tests(unittest.TestCase):
     #### Styleguides ####
     def _create_styleguide_return_pk(self):
         """ Create a styleguide and return pk """
-        # * OK
 
         data = {
             "name": "UNITTEST"
@@ -996,7 +927,6 @@ class Tests(unittest.TestCase):
 
     def test_get_styleguides_list(self):
         """ Test that 200 is returned"""
-        # * OK
 
         res = my_account.Invoicing.get_styleguides_list()
 
@@ -1004,7 +934,6 @@ class Tests(unittest.TestCase):
 
     def test_create_styleguide(self):
         """ Test that 201 is returned """
-        # * OK
 
         data = {
             "name": "UNITTEST"
@@ -1017,7 +946,6 @@ class Tests(unittest.TestCase):
 
     def test_get_styleguide_details(self):
         """ Test that 200 is returned """
-        # * OK
 
         styleguide_pk = self._create_styleguide_return_pk()
         res = my_account.Invoicing.get_styleguide_details(styleguide_pk)
@@ -1027,7 +955,6 @@ class Tests(unittest.TestCase):
 
     def test_update_styleguide(self):
         """ Test that 200 is returned """
-        # * OK
 
         styleguide_pk = self._create_styleguide_return_pk()
 
@@ -1041,7 +968,6 @@ class Tests(unittest.TestCase):
 
     def test_delete_styleguide(self):
         """ Test that 204 is returned """
-        # * OK
 
         styleguide_pk = self._create_styleguide_return_pk()
         res = my_account.Invoicing.delete_styleguide(styleguide_pk)
