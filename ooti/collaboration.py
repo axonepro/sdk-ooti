@@ -5,8 +5,7 @@ from helper import Helper
 
 """ TO DO
 
-- Finish contacts (POST on v1/contacts/list-action/{org_pk}/) Error 500
-- Finish notifications (PATCH on v1/notifications/digest-config/{org_pk}/)
+- ERROR 500 : Contacts (POST on v1/contacts/list-action/{org_pk}/)
 
 """
 
@@ -21,8 +20,6 @@ class Collaboration(Helper):
         self.headers = headers
 
     #### Contacts ####
-
-    # POST on v1/contacts/list-action/{org_pk}/ ? Error 500
 
     def get_contact_categories_list(self, project_id=None):
         """ Get the list of categories of contact
@@ -374,8 +371,6 @@ class Collaboration(Helper):
 
     #### Notifications ####
 
-    # PATCH on v1/notifications/digest-config/{org_pk}/ ?
-
     def get_notifications_config(self):
         """ Get the notifications config of the organization """
 
@@ -383,13 +378,41 @@ class Collaboration(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def update_notifications_config(self, data):  # not tested
+    def update_notifications_config(self, data):  # "off"/? - "on" and "active" rejected
         """ Update the notifications config of the organization 
 
         Keywords arguments:
         data -- content of the update
         {
-
+            daily_time": "18:00:00",
+            "weekly_time": null,
+            "weekday": 5,
+            "expense_reports_submissions": "off",
+            "expense_reports_submissions_email": false,
+            "expense_reports_validations": "off",
+            "expense_reports_validations_email": false,
+            "expense_reports_reimbursal": "off",
+            "expense_reports_reimbursal_email": false,
+            "time_off_submissions": "off",
+            "time_off_submissions_email": false,
+            "time_off_validations": "off",
+            "time_off_validations_email": false,
+            "time_entry_refusals": "off",
+            "time_entry_refusals_email": false,
+            "invoices_sent": "off",
+            "invoices_sent_email": false,
+            "invoices_paid": "off",
+            "invoices_paid_email": false,
+            "post_posted": "off",
+            "post_posted_email": false,
+            "project_fees_changed": "off",
+            "project_fees_changed_email": false,
+            "project_dates_changed": "off",
+            "project_dates_changed_email": false,
+            "invitations_accepted": "off",
+            "invitations_accepted_email": false,
+            "permissions_changed": "off",
+            "permissions_changed_email": false
         }
         """
 

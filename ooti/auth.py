@@ -5,12 +5,20 @@ from helper import Helper
 
 """ TO DO
 
-- Test create invitation (which pk)
-- Error 500 create project
-- Can't find access project on OOTI
-- Finish orgusers (POST on v1/orgusers/invite/)
-- Finish profiles (POST on v1/profiles/preferences/)
-- Finish teams (POST & DELETE on v1/teams/users/bulk/add/{org_pk}/ & POST on v1/teams/staff/{id}/)
+- Invitations:
+    - ERROR 404 : create invitation (which pk ?)
+    When inviting on OOTI 'v1/invitations/{id}/' is not called
+
+- Projects:
+    - ERROR 500 : create project
+    - Can't find access project on OOTI
+
+- Profiles:
+    - POST on v1/profiles/preferences/ ?
+
+- Teams:
+    - ERROR 500 : (POST & DELETE on v1/teams/users/bulk/add/{org_pk}/)
+    - Can't find staff on OOTI (POST on v1/teams/staff/{id}/) which id ?
 
 """
 
@@ -54,7 +62,7 @@ class Auth(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def create_invitation(self, pk, data):  # which pk ? already tested with orguser
+    def create_invitation(self, pk, data):  # which pk ? already tested with orguser_pk and team_pk
         """ Create a new invitation """
 
         route = 'v1/invitations/{0}/'.format(pk)
@@ -191,6 +199,13 @@ class Auth(Helper):
         route = 'v1/projects/fee-summary/{0}/'.format(id)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
+
+    def get_project_list_access(self):
+        """ ? """
+
+        route = 'v1/projects/list/access/'
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
 
     def get_project_revenue(self, id):
         """ Get the list of project revenues by years and by months
@@ -416,8 +431,6 @@ class Auth(Helper):
 
     #### Orgusers ####
 
-    # POST on v1/orgusers/invite/ ?
-
     def get_orgusers_list(self):
         """ Get the list of users in the organization """
 
@@ -440,6 +453,22 @@ class Auth(Helper):
         xls_file = open('orgusers_list.xls', 'wb')
         xls_file.write(response.content)
         xls_file.close()
+        return self.process_response(response)
+
+    def invite_orguser(self, pk, team_pk):
+        """ Send an invitation to the orguser
+
+        Keywords arguments:
+        pk -- pk of the orguser
+        team_pk -- pk of the team
+        """
+
+        route = 'v1/orgusers/invite/'
+        data = {
+            'orguser': pk,
+            'team': team_pk
+        }
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     def get_orguser_details(self, pk):
@@ -729,8 +758,6 @@ class Auth(Helper):
 
     #### Profile ####
 
-    # POST on profile preferences v1/profiles/preferences/ ?
-
     def get_profile_preferences(self):
         """ Get profile preferences """
 
@@ -761,9 +788,6 @@ class Auth(Helper):
         return self.process_response(response)
 
     #### Team #####
-
-    # POST & DELETE on v1/teams/users/bulk/add/{org_pk}/ ?
-    # POST on v1/teams/staff/{id}/ ?
 
     def get_teams_list(self):
         """ Get the list of teams """
@@ -817,15 +841,54 @@ class Auth(Helper):
         pk -- pk of the team where to add the user
         data -- details about the user to add (pk, permissionsset, role, ...):
         {
-            "orguser": orguser_pk,  # pk of the user to add
+            "orguser": orguser_pk,
             "permissionsset: permissionsset_pk,
             "role": role_pk
-            "team"
+            "team": team_pk
         }
         """
 
         route = 'v1/teams/users/list/{0}/'.format(pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def add_team_user_to_multiple_projects(self, data):  # Error 500
+        """ Add a user to multiple teams at once
+
+        Keywords arguments:
+        data -- pk of the projects and pk of the orguser to add :
+        {
+            "orguser": orguser_pk,
+            "teams": [
+
+            ]
+            "projects": [
+                project_id,
+                ...
+            ]
+        }
+        """
+
+        route = 'v1/teams/users/bulk/add/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def remove_team_user_to_multiple_projects(self, data):  # Error 500
+        """ Remove a user from multiple teams at once
+
+        Keywords arguments:
+        data -- pk of the projects and pk of the orguser to remove :
+        {
+            "orguser": orguser_pk,
+            "projects": [
+                project_id,
+                ...
+            ]
+        }
+        """
+
+        route = 'v1/teams/users/bulk/delete/{0}/'.format(self.org_pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     def get_team_user_details(self, user_pk):  # same thing as get_orguser_details ?
@@ -855,7 +918,7 @@ class Auth(Helper):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def delete_team_user(self, user_pk):
+    def remove_team_user(self, user_pk):
         """ Delete a user from the team """
 
         route = 'v1/teams/users/{0}/'.format(user_pk)

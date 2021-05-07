@@ -5,9 +5,16 @@ from helper import Helper
 
 """ TO DO 
 
-- Finish jobs (POST on v1/jobs/invoices/items/generate/{org_pk}/)
-- Finish expenses
-- Informations about copy & set functions in costs
+- Jobs
+    - ERROR 404 : (POST on v1/jobs/invoices/items/generate/{org_pk}/)
+
+- Expenses
+    - ERROR 500 : (POST on v1/expenses/groups/list/action/{org_pk}/)
+    - Which "id" ? (POST on v1/expenses/groups/create-multiple-expenses/{id}/)
+    - DELETE on v1/expenses/{expense_group_pk}/versions/{version_pk}/delete/ ?
+    
+- Costs
+    - copy & set functions in costs ?
 
 """
 
@@ -391,10 +398,6 @@ class Costs(Helper):
 
     #### Expenses ####
 
-    # POST on v1/expenses/groups/create-multiple-expenses/{id}/ ?
-
-    # POST on v1/expenses/groups/list/action/{org_pk}/ ?
-
     # DELETE on v1/expenses/{expense_group_pk}/versions/{version_pk}/delete/ ?
 
     def get_expenses_categories_list(self):
@@ -706,8 +709,6 @@ class Costs(Helper):
         return self.process_response(response)
 
     #### Jobs ####
-
-    # POST on v1/jobs/invoices/items/generate/{org_pk}/ ?
 
     def get_jobs_invoices_items_list(self):
         """ Get the list of jobs invoices items """
