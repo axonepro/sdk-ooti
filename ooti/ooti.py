@@ -4,6 +4,7 @@ import json
 from .helper import Helper
 from .invoicing import Invoicing
 from .deliverables import Deliverables
+from .time import Time
 
 
 class Auth(Helper):
@@ -27,6 +28,9 @@ class Auth(Helper):
 
         self.Deliverables = Deliverables(self.base_url, self.org_pk, self.teams_pk,
                                          self.access_token, self._csrf_token, self.headers)
+
+        self.Time = Time(self.base_url, self.org_pk, self.teams_pk,
+                         self.access_token, self._csrf_token,  self.headers)
 
 
 ##### AUTH #####
