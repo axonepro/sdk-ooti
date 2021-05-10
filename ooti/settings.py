@@ -9,9 +9,11 @@ from helper import Helper
     - ERROR 404 v1/celery_tasks/last/{org_pk}/
 
 - Custom fields : needs a Pro subscription to create one
+    - ERROR 500 : create a customfield
 - Imports:
-    - ERROR 403 v1/imports/counts/
-    -
+    - ERROR 403 : GET v1/imports/counts/
+    - ERROR 400 ("Type is required"): GET & POST v1/imports/import/{org_pk}/
+    - POST on v1/imports/{id}/map-columns/ ?
 
 """
 
@@ -107,7 +109,7 @@ class Settings(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
-    def create_customfield(self, data):
+    def create_customfield(self, data):  # Error 500
         """ Create a new customfield 
 
         Keywords arguments:
@@ -118,11 +120,11 @@ class Settings(Helper):
             "default_value": "string",
             "is_required": false,
             "admin_only": false,
-            "permissionssets: [
+            "permissionssets": [
                 permissionsset_pk,
                 ...
             ],
-            "permissionssets_can_edit: [
+            "permissionssets_can_edit": [
                 permissionsset_pk,
                 ...
             ]
@@ -191,7 +193,7 @@ class Settings(Helper):
 
     #### Imports ####
 
-    def get_imports_count(self):
+    def get_imports_count(self):  # Error 403
         """ Get the number of imports """
 
         route = 'v1/imports/counts/'
@@ -248,6 +250,228 @@ class Settings(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
+    def get_imports_list(self):
+        """ Get the list of imports """
+
+        route = 'v1/imports/list/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_import(self, data):
+        """ Create a new import
+
+        Keywords arguments:
+        data -- data of the new import to be created:
+        {
+            "data": {
+
+            } 
+            "type":
+        }
+        """
+
+        route = 'v1/imports/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_import_details(self, id):
+        """ Get the import details
+
+        Keywords arguments:
+        id -- id of the import
+        """
+
+        route = 'v1/imports/{0}/'.format(id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_import_details(self, id, data):
+        """ Update the import details
+
+        Keywords arguments:
+        id -- id of the import
+        data -- content of the update
+        """
+
+        route = 'v1/imports/{0}/'.format(id)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_import(self, id):
+        """ Delete the import 
+
+        Keywords arguments:
+        id -- id of the import
+        """
+
+        route = 'v1/imports/{0}/'.format(id)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
     #### Inbound emails ####
 
+    def get_inbound_emails_list(self):
+        """ Get the list of inbound emails """
+
+        route = 'v1/inbound_emails/list/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_inbound_email(self, data):
+        """ Create a new inbound email
+
+        Keywords arguments:
+        data -- data of the new inbound email to be created:
+        {
+            "project": project_id, (required)
+            "invoice": invoice_pk,,
+            "received_at": "string",
+            "to_address": "string",
+            "from_address": "string",
+            "reply_to_address": "string",
+            "cc_address": "string",
+            "bcc_address": "string",
+            "subject": "string",
+            "body": "string"
+        }
+        """
+
+        route = 'v1/inbound_emails/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_inbound_email_details(self, id):
+        """ Get the inbound email details
+
+        Keywords arguments:
+        id -- id of the inbound email
+        """
+
+        route = 'v1/inbound_emails/{0}/'.format(id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_inbound_email_details(self, id, data):
+        """ Update the inbound email details
+
+        Keywords arguments:
+        id -- id of the inbound email
+        data -- content of the update:
+        {
+            "project": project_id,
+            "invoice": invoice_pk,
+            "received_at": "string",
+            "to_address": "string",
+            "from_address": "string",
+            "reply_to_address": "string",
+            "cc_address": "string",
+            "bcc_address": "string",
+            "subject": "string",
+            "body": "string"
+        }
+        """
+
+        route = 'v1/inbound_emails/{0}/'.format(id)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_inbound_email(self, id):
+        """ Delete the inbound email
+
+        Keywords arguments:
+        id -- id of the inbound email
+        """
+
+        route = 'v1/inbound_emails/{0}/'.format(id)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
     #### Tags ####
+
+    def get_tags_list(self):
+        """ Get the list of tags """
+
+        route = 'v1/tags/list/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_tag(self, data):
+        """ Create a new tag 
+
+        Keywords arguments:
+        data -- data of the new tag to be created:
+        {
+            "name": "string",
+            "contacts": [
+                contact_pk,
+                ...
+            ],
+            "contractors": [
+                contractor_pk
+            ],
+            "clients": [
+                client_pk,
+                ...
+            ],
+            "orgusers": [
+                orguser_pk,
+                ...
+            ]
+        }
+        """
+
+        route = 'v1/tags/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_tag_details(self, id):
+        """ Get the tag details
+
+        Keywords arguments:
+        id -- id of the tag
+        """
+
+        route = 'v1/tags/{0}/'.format(id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_tag_details(self, id, data):
+        """ Update the tag details
+
+        Keywords arguments:
+        id -- id of the tag
+        data -- content of the update:
+        {
+            "name": "string",
+            "contacts": [
+                contact_pk,
+                ...
+            ],
+            "contractors": [
+                contractor_pk
+            ],
+            "clients": [
+                client_pk,
+                ...
+            ],
+            "orgusers": [
+                orguser_pk,
+                ...
+            ]
+        }
+        """
+
+        route = 'v1/tags/{0}/'.format(id)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_tag(self, id):
+        """ Delete the tag
+
+        Keywords arguments:
+        id -- id of the tag
+        """
+
+        route = 'v1/tags/{0}/'.format(id)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
