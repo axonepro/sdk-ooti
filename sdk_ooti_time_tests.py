@@ -180,7 +180,6 @@ class Tests(unittest.TestCase):
         self.assertEqual(res['status'], 204)
 
     ### Hourslogs ###
-    #! Get the week pk
     def _create_timelogs_hourslogs_return_pk(self):
         """ Create hourslogs and return pk """
 
