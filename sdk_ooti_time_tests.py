@@ -328,7 +328,6 @@ class Tests(unittest.TestCase):
     #     }
 
     #     res = my_account.Time.create_timeoff_balance_list(team_pk, data)
-    #     print(res)
 
     #     self.assertEqual(res['status'], 201)
 
@@ -343,7 +342,6 @@ class Tests(unittest.TestCase):
     #     }
 
     #     res = my_account.Time.create_timeoff_requests_action(team_pk, data)
-    #     print(res)
 
     #     self.assertEqual(res['status'], 201)
 
@@ -833,6 +831,147 @@ class Tests(unittest.TestCase):
     #     res = my_account.Time.get_users_scheduling_timeline()
 
     #     self.assertEqual(res['status'], 200)
+
+    #### Roles ####
+    def _create_roles_return_pk(self):
+        """ Create role and return pk """
+
+        data = {
+            "title": "UNITTEST"
+        }
+
+        return my_account.Time.create_roles(data)['data']['pk']
+
+    def _create_roles_project_return_pk(self):
+        """ Create role project and return pk """
+
+        pk = self._create_roles_return_pk()
+
+        data = {
+            "project": project_pk,
+            "billable_per_hour": 1,
+            "role": pk
+        }
+
+        return my_account.Time.create_roles_project(data)['data']['id']
+
+    def test_get_roles_list(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_roles_list()
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_roles(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "title": "UNITTEST"
+        }
+
+        res = my_account.Time.create_roles(data)
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_roles_project_list(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_roles_project_list()
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_roles_project(self):
+        """ Test that 201 is returned """
+
+        pk = self._create_roles_return_pk()
+
+        data = {
+            "project": project_pk,
+            "billable_per_hour": 1,
+            "role": pk
+        }
+
+        res = my_account.Time.create_roles_project(data)
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_roles_project_details(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_roles_project_return_pk()
+
+        res = my_account.Time.get_roles_project_details(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_roles_project(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_roles_project_return_pk()
+
+        data = {
+            "billable_per_hour": 2
+        }
+
+        res = my_account.Time.update_roles_project(pk, data)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_roles_project(self):
+        """ Test that 204 is returned """
+
+        pk = self._create_roles_project_return_pk()
+
+        res = my_account.Time.delete_roles_project(pk)
+
+        self.assertEqual(res['status'], 204)
+
+    # def test_create_bulk_action_add_roles(self):
+    #     #! 500
+    #     """ Test that 201 is returned """
+
+    #     res = my_account.Time.create_bulk_action_add_roles()
+
+    #     self.assertEqual(res['status'], 201)
+
+    # def test_delete_bulk_action_add_roles(self):
+    #     #! 500
+    #     """ Test that 204 is returned """
+
+    #     res = my_account.Time.delete_bulk_action_add_roles()
+
+    #     self.assertEqual(res['status'], 204)
+
+    def test_get_roles_details(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_roles_return_pk()
+
+        res = my_account.Time.get_roles_details(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_roles(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_roles_return_pk()
+
+        data = {
+            "title": "UPDATED"
+        }
+
+        res = my_account.Time.update_roles(pk, data)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_roles(self):
+        """ Test that 204 is returned """
+
+        pk = self._create_roles_return_pk()
+
+        res = my_account.Time.delete_roles(pk)
+
+        self.assertEqual(res['status'], 204)
 
 
 if __name__ == '__main__':
