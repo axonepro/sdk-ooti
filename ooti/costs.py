@@ -3,7 +3,7 @@ import json
 
 from helper import Helper
 
-""" TO DO 
+"""
 
 - Jobs
     - ERROR 404 : (POST on v1/jobs/invoices/items/generate/{org_pk}/)

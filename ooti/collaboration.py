@@ -3,9 +3,10 @@ import json
 
 from helper import Helper
 
-""" TO DO
+"""
 
-- ERROR 500 : Contacts (POST on v1/contacts/list-action/{org_pk}/)
+- Contacts
+    - ERROR 500 : POST on v1/contacts/list-action/{org_pk}/
 
 """
 
