@@ -364,8 +364,8 @@ class Time(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
-    #### Timeoff ###
-    def get_timelogs_my_timeoff_requests(self, team_pk):
+    ### Timeoff ###
+    def get_timelogs_my_timeoff_requests_list(self, team_pk):
         """ Get my timeoff requests 
 
         Keyword arguments :
@@ -410,7 +410,7 @@ class Time(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response, True)
 
-    def get_timelogs_timeoff_requests(self, team_pk):
+    def get_timelogs_timeoff_requests_list(self, team_pk):
         """ Get timeoff requests 
 
         Keyword arguments :
@@ -454,28 +454,40 @@ class Time(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response, True)
 
-    def create_timeoff_balance_list(self, team_pk):
+    def create_timeoff_balance_list(self, team_pk, data):
         """ Create timeoff balance list 
 
         Keyword arguments :
 
         team_pk -- pk of the team
+        data -- data create : 
+        {
+            "orguser": 0,
+            "start_date": "string",
+            "end_date": "string"
+        }
         """
 
         route = 'v1/timelogs/timeoff-balance/list/{0}/?page_size=999999'.format(team_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def create_timeoff_requests_action(self, team_pk):
+    def create_timeoff_requests_action(self, team_pk, data):
         """ Create timeoff request action
 
         Keyword arguments :
 
         team_pk -- pk of the team
+        data -- data create : 
+        {
+            "orguser": 0,
+            "start_date": "string",
+            "end_date": "string"
+        }
         """
 
         route = 'v1/timelogs/timeoff-balance/list/{0}/?page_size=999999'.format(team_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     def get_timelogs_timeoff_requests_details(self, pk):
@@ -518,8 +530,8 @@ class Time(Helper):
             }
         """
 
-        route = 'v1/timelogs/timeoff-requests/{0}/'.format(team_pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        route = 'v1/timelogs/timeoff-requests/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     def delete_timelogs_timeoff_requests(self, pk):
