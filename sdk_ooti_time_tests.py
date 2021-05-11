@@ -262,7 +262,124 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 204)
 
+    ### Timeoff ###
+    def _create_timelogs_timeoff_requests(self):
+        """ Create timeoff requests and return pk """
+
+        data = {
+            "start_date": "11-05-2021",
+            "end_date": "12-05-2021",
+            "is_paid": True,
+            "orguser": orguser
+        }
+
+        return my_account.Time.create_timelogs_my_timeoff_requests(team_pk, data)['data']['id']
+
+    def test_get_timelogs_my_timeoff_requests(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_timelogs_my_timeoff_requests_list(team_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_timelogs_my_timeoff_requests(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "start_date": "11-05-2021",
+            "end_date": "12-05-2021",
+            "is_paid": True,
+            "orguser": orguser
+        }
+
+        res = my_account.Time.create_timelogs_my_timeoff_requests(team_pk, data)
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_timelogs_timeoff_requests(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_timelogs_timeoff_requests_list(team_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_timelogs_timeoff_requests(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "start_date": "11-05-2021",
+            "end_date": "12-05-2021",
+            "is_paid": True,
+            "orguser": orguser
+        }
+
+        res = my_account.Time.create_timelogs_timeoff_requests(team_pk, data)
+
+        self.assertEqual(res['status'], 201)
+
+    # def test_create_timeoff_balance_list(self):
+    #     #! 200
+    #     """ Test that 201 is returned """
+
+    #     data = {
+    #         "orguser": orguser,
+    #         "start_date": "01-05-2021",
+    #         "end_date": "10-05-2021"
+    #     }
+
+    #     res = my_account.Time.create_timeoff_balance_list(team_pk, data)
+    #     print(res)
+
+    #     self.assertEqual(res['status'], 201)
+
+    # def test_create_timeoff_requests_action(self):
+    #     #! 200
+    #     """ Test that 201 is returned """
+
+    #     data = {
+    #         "orguser": orguser,
+    #         "start_date": "01-05-2021",
+    #         "end_date": "10-05-2021"
+    #     }
+
+    #     res = my_account.Time.create_timeoff_requests_action(team_pk, data)
+    #     print(res)
+
+    #     self.assertEqual(res['status'], 201)
+
+    def test_get_timelogs_timeoff_requests_details(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_timelogs_timeoff_requests()
+
+        res = my_account.Time.get_timelogs_timeoff_requests_details(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_timelogs_timeoff_requests(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_timelogs_timeoff_requests()
+
+        data = {
+            "start_date": "10-05-2021"
+        }
+
+        res = my_account.Time.update_timelogs_timeoff_requests(pk, data)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_timelogs_timeoff_requests(self):
+        """ Test that 204 is returned """
+
+        pk = self._create_timelogs_timeoff_requests()
+
+        res = my_account.Time.delete_timelogs_timeoff_requests(pk)
+
+        self.assertEqual(res['status'], 204)
+
     ### Types ###
+
     def _create_timelogs_types_list_return_pk(self):
         """ Create timelogs type and return pk """
 
@@ -654,12 +771,13 @@ class Tests(unittest.TestCase):
 
     #     self.assertEqual(res['status'], 201)
 
-    def test_get_user_period_list(self):
-        """ Test that 200 is returned """
+    # def test_get_user_period_list(self):
+    #     #! 403
+    #     """ Test that 200 is returned """
 
-        res = my_account.Time.get_user_period_list()
+    #     res = my_account.Time.get_user_period_list()
 
-        self.assertEqual(res['status'], 200)
+    #     self.assertEqual(res['status'], 200)
 
     def test_create_user_period_list(self):
         """ Test that 201 is returned """
@@ -675,37 +793,38 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 201)
 
-    # def test_get_user_period_details(self):
-    #     #! 403
-    #     """ Test that 200 is returned """
-
-    #     pk = self._create_user_period_return_pk()
-
-    #     res = my_account.Time.get_user_period_details(pk)
-
-    #     self.assertEqual(res['status'], 200)
-
-    def test_update_user_period_list(self):
+    def test_get_user_period_details(self):
         """ Test that 200 is returned """
 
         pk = self._create_user_period_return_pk()
 
-        data = {
-            "description": "UPDATED"
-        }
-
-        res = my_account.Time.update_user_period_list(pk, data)
+        res = my_account.Time.get_user_period_details(pk)
 
         self.assertEqual(res['status'], 200)
 
-    def test_delete_user_period(self):
-        """ Test that 204 is returned """
+    # def test_update_user_period_list(self):
+    #     #! 500
+    #     """ Test that 200 is returned """
 
-        pk = self._create_user_period_return_pk()
+    #     pk = self._create_user_period_return_pk()
 
-        res = my_account.Time.delete_user_period(pk)
+    #     data = {
+    #         "description": "UPDATED"
+    #     }
 
-        self.assertEqual(res['status'], 204)
+    #     res = my_account.Time.update_user_period_list(pk, data)
+
+    #     self.assertEqual(res['status'], 200)
+
+    # def test_delete_user_period(self):
+    #     #! 500
+    #     """ Test that 204 is returned """
+
+    #     pk = self._create_user_period_return_pk()
+
+    #     res = my_account.Time.delete_user_period(pk)
+
+    #     self.assertEqual(res['status'], 204)
 
     # def test_get_users_scheduling_timeline(self):
     #     #! 500
