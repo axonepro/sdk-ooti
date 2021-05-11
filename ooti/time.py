@@ -1355,3 +1355,76 @@ class Time(Helper):
         route = 'v1/roles/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
+
+    #### Trips ####
+    def get_trips_list(self):
+        """ Get trips list """
+
+        route = 'v1/trips/list/{0}/?page_size=999999'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_trip(self, data):
+        """ Create trip  
+
+        Keyword arguments:
+
+        data -- data create:
+        {
+            "team": 0,
+            "project": 0,
+            "orguser": 0,
+            "start_date": "string",
+            "end_date": "string",
+            "notes": "string"
+        }
+        """
+
+        route = 'v1/trips/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_trips_details(self, pk):
+        """ Get trip details 
+
+        Keyword arguments:
+
+        pk -- pk of the rtrip
+        """
+
+        route = 'v1/trips/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_trip(self, pk, data):
+        """ Update trip 
+
+        Keyword arguments:
+
+        pk -- pk of the trip
+        data -- data create:
+        {
+            "team": 0,
+            "project": 0,
+            "orguser": 0,
+            "start_date": "string",
+            "end_date": "string",
+            "notes": "string"
+        }
+        """
+
+        route = 'v1/trips/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_trip(self, pk):
+        """ Delete trip 
+
+        Keyword arguments:
+
+        pk -- pk of the trip
+        """
+
+        route = 'v1/trips/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
