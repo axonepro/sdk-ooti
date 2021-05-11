@@ -973,6 +973,80 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 204)
 
+    #### Trips ####
+    # def _create_trip_return_pk(self):
+    #     #! Cannot create, 403
+    #     """ Create a trip and return pk """
+
+    #     data = {
+    #         "team": team_pk,
+    #         "project": project_pk,
+    #         "orguser": orguser,
+    #         "start_date": "11-05-2021",
+    #         "end_date": "11-06-2021",
+    #         "notes": "UNITTEST"
+    #     }
+
+    #     return my_account.Time.create_trip(data)['data']['id']
+
+    def test_get_trips_list(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_trips_list()
+
+        self.assertEqual(res['status'], 200)
+
+    # def test_create_trip(self):
+    #     #! 403
+    #     """ Test that 201 is returned """
+
+    #     data = {
+    #         "team": team_pk,
+    #         "project": project_pk,
+    #         "orguser": orguser,
+    #         "start_date": "11-05-2021",
+    #         "end_date": "11-06-2021",
+    #         "notes": "UNITTEST"
+    #     }
+
+    #     res = my_account.Time.create_trip(data)
+
+    #     self.assertEqual(res['status'], 201)
+
+    # def test_get_trips_details(self):
+    #     #! Cannot create trip : 403
+    #     """ Test that 200 is returned """
+
+    #     pk = self._create_trip_return_pk()
+
+    #     res = my_account.Time.get_trips_details(pk)
+
+    #     self.assertEqual(res['status'], 200)
+
+    # def test_update_trip(self):
+    #     #! Cannot create trip : 403
+    #     """ Test that 200 is returned """
+
+    #     pk = self._create_trip_return_pk()
+
+    #     data = {
+    #         "notes": "UPDATED"
+    #     }
+
+    #     res = my_account.Time.update_trip(pk, data)
+
+    #     self.assertEqual(res['status'], 200)
+
+    # def test_delete_trip(self):
+    #     #! Cannot create trip : 403
+    #     """ Test that 204 is returned """
+
+    #     pk = self._create_trip_return_pk()
+
+    #     res = my_account.Time.delete_trip(pk)
+
+    #     self.assertEqual(res['status'], 204)
+
 
 if __name__ == '__main__':
     unittest.main()
