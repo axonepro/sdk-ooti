@@ -506,6 +506,215 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 204)
 
+    #### Timeperiods ####
+    def _create_annexe_return_pk(self):
+        """ Create annexe and return pk """
+
+        data = {
+            "title": "UNITTEST",
+            "annex_type": "time",
+            "total_fees": 1,
+            "description": "UNITTEST",
+            "date": "06-05-2021"
+        }
+
+        return my_account.Deliverables.create_annexe(project_pk, data)['data']['id']
+
+    def _create_role_annex_period_return_pk(self):
+        """ Create role annex period and return pk """
+
+        pk_annex = self._create_annexe_return_pk()
+
+        data = {
+            "orgusers": [
+                orguser
+            ],
+            "annex": pk_annex
+        }
+
+        return my_account.Time.create_timeperiods_role_annex_periods(data)['data']['pk']
+
+    def _create_user_period_return_pk(self):
+        """ Create user period and return pk """
+
+        data = {
+            "orguser": orguser,
+            "team": team_pk,
+            "project": project_pk,
+            "description": "string",
+        }
+
+        return my_account.Time.create_user_period_list(data)['data']['pk']
+
+    def test_get_timeperiods_dashboard_scheduling_timeline(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_timeperiods_dashboard_scheduling_timeline()
+
+        self.assertEqual(res['status'], 200)
+
+    # def test_get_timeperiods_resource_planning_timeline(self):
+    #     #! 500
+    #     """ Test that 200 is returned """
+
+    #     res = my_account.Time.get_timeperiods_resource_planning_timeline()
+
+    #     self.assertEqual(res['status'], 200)
+
+    # def test_create_timeperiods_resource_planning_timeline(self):
+    #     #! 403
+    #     """ Test that 201 is returned """
+
+    #     res = my_account.Time.create_timeperiods_resource_planning_timeline()
+
+    #     self.assertEqual(res['status'], 201)
+
+    def test_get_timeperiods_resources_timeline(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_timeperiods_resources_timeline(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    # def test_get_timeperiods_role_annex_periods(self):
+    #     """ Test that 200 is returned """
+    #     #! 403
+
+    #     res = my_account.Time.get_timeperiods_role_annex_periods()
+
+    #     self.assertEqual(res['status'], 200)
+
+    def test_create_timeperiods_role_annex_periods(self):
+        """ Test that 201 is returned """
+
+        pk_annex = self._create_annexe_return_pk()
+
+        data = {
+            "orgusers": [
+                orguser
+            ],
+            "annex": pk_annex
+        }
+
+        res = my_account.Time.create_timeperiods_role_annex_periods(data)
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_timeperiods_role_annex_period_details(self):
+        """ Test that 200 is returned """
+
+        pk_role_annex_period = self._create_role_annex_period_return_pk()
+
+        res = my_account.Time.get_timeperiods_role_annex_period_details(pk_role_annex_period)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_timeperiods_role_annex_period(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_role_annex_period_return_pk()
+
+        data = {
+            "budget_pct": 1
+        }
+
+        res = my_account.Time.update_timeperiods_role_annex_period(pk, data)
+
+        self.assertEqual(res['status'], 200)
+
+    # def test_delete_timeperiods_role_annex_period(self):
+    #     #! 500
+    #     """ Test that 204 is returned """
+
+    #     pk = self._create_role_annex_period_return_pk()
+
+    #     res = my_account.Time.delete_timeperiods_role_annex_period(pk)
+    #     self.assertEqual(res['status'], 204)
+
+    # def test_create_timeperiods_scheduling_timeline_actions(self):
+    #     #! 200 no body
+    #     """ Test that 201 is returned """
+
+    #     res = my_account.Time.create_timeperiods_scheduling_timeline_actions(project_pk)
+
+    #     self.assertEqual(res['status'], 201)
+
+    def test_get_timeperiods_scheduling_timeline_actions(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_timeperiods_scheduling_timeline_actions(project_pk)
+
+        self.assertEqual(res['status'], 200)
+
+    # def test_create_user_period_action(self):
+    #     #! 200 no body
+    #     """ Test that 201 is returned """
+
+    #     res = my_account.Time.create_user_period_action()
+
+    #     self.assertEqual(res['status'], 201)
+
+    def test_get_user_period_list(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_user_period_list()
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_user_period_list(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "orguser": orguser,
+            "team": team_pk,
+            "project": project_pk,
+            "description": "string",
+        }
+
+        res = my_account.Time.create_user_period_list(data)
+
+        self.assertEqual(res['status'], 201)
+
+    # def test_get_user_period_details(self):
+    #     #! 403
+    #     """ Test that 200 is returned """
+
+    #     pk = self._create_user_period_return_pk()
+
+    #     res = my_account.Time.get_user_period_details(pk)
+
+    #     self.assertEqual(res['status'], 200)
+
+    def test_update_user_period_list(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_user_period_return_pk()
+
+        data = {
+            "description": "UPDATED"
+        }
+
+        res = my_account.Time.update_user_period_list(pk, data)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_user_period(self):
+        """ Test that 204 is returned """
+
+        pk = self._create_user_period_return_pk()
+
+        res = my_account.Time.delete_user_period(pk)
+
+        self.assertEqual(res['status'], 204)
+
+    # def test_get_users_scheduling_timeline(self):
+    #     #! 500
+    #     """ Test that 200 is returned """
+
+    #     res = my_account.Time.get_users_scheduling_timeline()
+
+    #     self.assertEqual(res['status'], 200)
+
 
 if __name__ == '__main__':
     unittest.main()
