@@ -915,7 +915,136 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 201)
 
+    #### Revenue ####
+    def _create_revenue_return_pk(self):
+        """ Create revenue and return pk"""
+
+        data = {
+            "month": 5,
+            "team": team_pk,
+            "title": "UNITTEST",
+            "months": []
+        }
+
+        return my_account.Invoicing.create_revenue(data)['data']['id']
+
+    #! 500
+    # def _create_revenue_month_return_pk(self):
+    #     """ Create revenue month and return pk"""
+
+    #     data = {
+    #         "team": team_pk,
+    #     }
+
+    #     return my_account.Invoicing.create_revenue_month(data)['data']['id']
+
+    def test_get_revenue_list(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Invoicing.get_revenue_list()
+
+        self.assertEqual(res['status'], 200)
+
+    def test_create_revenue(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "month": 5,
+            "team": team_pk,
+            "title": "UNITTEST",
+            "months": []
+        }
+
+        res = my_account.Invoicing.create_revenue(data)
+
+        self.assertEqual(res['status'], 201)
+
+    def test_get_revenue_details(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_revenue_return_pk()
+
+        res = my_account.Invoicing.get_revenue_details(pk)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_update_revenue(self):
+        """ Test that 200 is returned """
+
+        pk = self._create_revenue_return_pk()
+
+        data = {
+            "title": "UPDATED"
+        }
+
+        res = my_account.Invoicing.update_revenue(pk, data)
+
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_revenue(self):
+        """ Test that 204 is returned """
+
+        pk = self._create_revenue_return_pk()
+
+        res = my_account.Invoicing.delete_revenue(pk)
+
+        self.assertEqual(res['status'], 204)
+
+    def test_get_revenue_month_list(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Invoicing.get_revenue_month_list()
+
+        self.assertEqual(res['status'], 200)
+
+    # def test_create_revenue_month(self):
+    #     #! 500
+    #     """ Test that 201 is returned """
+
+    #     data = {
+    #         "team": team_pk
+    #     }
+
+    #     res = my_account.Invoicing.create_revenue_month(data)
+    #     print(res)
+
+    #     self.assertEqual(res['status'], 201)
+
+    #! 500 : cannot create obj
+
+    # def test_get_revenue_month_details(self):
+    #     """ Test that 200 is returned """
+
+    #     pk = self._create_revenue_month_return_pk()
+
+    #     res = my_account.Invoicing.get_revenue_month_details(pk)
+
+    #     self.assertEqual(res['status'], 200)
+
+    # def test_update_revenue_month(self):
+    #     """ Test that 200 is returned """
+
+    #     pk = self._create_revenue_month_return_pk()
+
+    #     data = {
+    #         "amont_actual": 1
+    #     }
+
+    #     res = my_account.Invoicing.update_revenue_month(pk, data)
+
+    #     self.assertEqual(res['status'], 200)
+
+    # def test_delete_revenue_month(self):
+    #     """ Test that 204 is returned """
+
+    #     pk = self._create_revenue_month_return_pk()
+
+    #     res = my_account.Invoicing.delete_revenue_month(pk)
+
+    #     self.assertEqual(res['status'], 204)
+
     #### Styleguides ####
+
     def _create_styleguide_return_pk(self):
         """ Create a styleguide and return pk """
 
