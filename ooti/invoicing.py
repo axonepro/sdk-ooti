@@ -1069,7 +1069,6 @@ class Invoicing(Helper):
         return self.process_response(response)
 
     #### Revenue ####
-    # TODO : To be completed later
     def get_revenue_list(self):
         """Get the revenue list """
 
@@ -1082,7 +1081,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of the revenue
+        pk -- pk of the revenue
         """
 
         route = 'v1/revenue/{0}/'.format(pk)
@@ -1090,12 +1089,11 @@ class Invoicing(Helper):
         return self.process_response(response)
 
     def create_revenue(self, data):
-        """ Create a template
+        """ Create a revenue
 
         Keyword arguments:
 
-        team_pk - - pk of the team
-        data - - data create:
+        data -- data create:
             {
                 "amount_actual": 0,
                 "amount_budgeted": 0,
@@ -1114,6 +1112,119 @@ class Invoicing(Helper):
 
         route = 'v1/revenue/list/{0}/'.format(self.org_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_revenue_month_list(self):
+        """Get the revenue month list """
+
+        route = 'v1/revenue/month/list/{0}/?page_size=999999'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_revenue_month(self, data):
+        """ Create a revenue month
+
+        Keyword arguments:
+
+        data -- data create:
+        {
+            "revenue_adjustment": 0,
+            "team": 0,
+            "project": 0,
+            "amount_budgeted": 0,
+            "amount_actual": 0,
+            "year": 0,
+            "month": 0
+        }
+            """
+
+        route = 'v1/revenue/month/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_revenue_month_details(self, pk):
+        """Get the revenue month details
+
+        Keyword arguments:
+
+        pk -- pk of the revenue month
+        """
+
+        route = 'v1/revenue/month/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_revenue_month(self, pk, data):
+        """ Update a revenue month
+
+        Keyword arguments:
+
+        pk -- pk of the revenue month
+        data -- data create:
+        {
+            "revenue_adjustment": 0,
+            "team": 0,
+            "project": 0,
+            "amount_budgeted": 0,
+            "amount_actual": 0,
+            "year": 0,
+            "month": 0
+        }
+            """
+
+        route = 'v1/revenue/month/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_revenue_month(self, pk):
+        """ Delete the revenue month
+
+        Keyword arguments:
+
+        pk -- pk of the revenue month
+        """
+
+        route = 'v1/revenue/month/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_revenue(self, pk, data):
+        """ Update a revenue
+
+        Keyword arguments:
+
+        pk -- pk of the revenue
+        data -- data update:
+            {
+                "amount_actual": 0,
+                "amount_budgeted": 0,
+                "description": "string",
+                "type": "string",
+                "month": 0,
+                "title": "string",
+                "year": 0,
+                "team": 0,
+                "project": 0,
+                "months": [
+                    "string"
+                ]
+            }
+            """
+
+        route = 'v1/revenue/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_revenue(self, pk):
+        """ Delete the revenue
+
+        Keyword arguments:
+
+        pk -- pk of the revenue
+        """
+
+        route = 'v1/revenue/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     #### Styleguides ####
