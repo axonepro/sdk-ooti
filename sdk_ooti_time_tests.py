@@ -22,6 +22,38 @@ orguser = my_account.get_organization_details()['data']['organizations'][0]['org
 
 week_pk = my_account.Time.get_timelogs_week_list()['data'][0]['id']
 
+"""
+
+#* Reports of bugs or failed tests 
+
+
+test_copy_previous_week -> 405
+test_create_timelogs_comments -> Unknown pk, what to used ?
+test_create_timelogs_delete_imported_worklogs_project-> 204
+test_get_timelogs_monthly_summary -> 403
+test_validate_timelogs -> 500
+test_get_timelogs_week_away -> 200
+test_create_timeoff_requests_action -> 200
+test_get_timelogs_week_away  -> 404
+test_get_timeperiods_resource_planning_timeline  -> 500
+test_create_timeperiods_resource_planning_timeline -> 403
+test_get_timeperiods_role_annex_periods -> 403
+test_delete_timeperiods_role_annex_period -> 500
+test_create_timeperiods_scheduling_timeline_actions -> 200 no body
+test_create_user_period_action -> 200 no body
+test_get_user_period_list -> 403
+test_update_user_period_list -> 500
+test_delete_user_period -> 500
+test_get_users_scheduling_timeline -> 500
+test_create_bulk_action_add_roles -> 500
+test_delete_bulk_action_add_roles -> 500
+test_create_trip -> 403
+test_get_trips_details -> 403
+test_update_trip -> 403
+test_delete_trip -> 403
+
+"""
+
 
 class Tests(unittest.TestCase):
     # def test_copy_previous_week(self):

@@ -18,6 +18,22 @@ team_pk = my_account.teams_pk[0]['id']
 currency_pk = my_account.Invoicing.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.get_projects_list()['data'][0]['id']
 
+"""
+
+#* Reports of bugs or failed tests 
+
+
+test_update_area -> 403
+test_get_milestone_details -> 403
+test_apply_defaults_phasesets -> 404
+test_apply_defaults_plansets -> 404
+test_duplicate_defaults_plan -> 500
+test_delete_defaults_plan -> 500
+test_generate_contracts_org -> 403
+test_update_contract_item -> 500
+
+"""
+
 
 class Tests(unittest.TestCase):
     def _create_invoice_return_pk(self):
