@@ -5,6 +5,8 @@ import json
 from auth import Auth
 from costs import Costs
 from helper import Helper
+from others import Others
+from settings import Settings
 from invoicing import Invoicing
 from deliverables import Deliverables
 from collaboration import Collaboration
@@ -23,6 +25,8 @@ class Sdk(Helper):
 
         self.Auth = None
         self.Costs = None
+        self.Others = None
+        self.Settings = None
         self.Collaboration = None
 
     def connect(self):
@@ -33,6 +37,10 @@ class Sdk(Helper):
                          self.access_token, self._csrf_token, self.headers)
         self.Costs = Costs(self.base_url, self.org_pk, self.teams_pk,
                            self.access_token, self._csrf_token, self.headers)
+        self.Others = Others(self.base_url, self.org_pk, self.teams_pk,
+                             self.access_token, self._csrf_token, self.headers)
+        self.Settings = Settings(self.base_url, self.org_pk, self.teams_pk,
+                                 self.access_token, self._csrf_token, self.headers)
         self.Collaboration = Collaboration(self.base_url, self.org_pk, self.teams_pk,
                                            self.access_token, self._csrf_token, self.headers)
 
