@@ -15,7 +15,7 @@ class Deliverables(Helper):
 
     #### Zones ####
 
-    def export_zones(self):
+    def export_zones(self, project_pk):
         """ Export zone
 
         Keyword arguments:
@@ -100,7 +100,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def delete_zone(self, pk):
-        """ Get the zone details
+        """ Delete zone
 
         Keyword arguments:
 
@@ -200,7 +200,7 @@ class Deliverables(Helper):
         return self.process_response(response, True)
 
     def get_phases_list_fee_project(self, project_pk, fee_project):
-        """Get the planphases list
+        """Get the phase list fee project
 
         Keyword arguments:
 
@@ -225,7 +225,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def create_phase(self, project_pk, data):
-        """ Create an area
+        """ Create a phase
 
         Keyword arguments:
 
@@ -295,16 +295,14 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def update_phases_progress(self):
-        """ Update progress of phases
-        #! Not working
-        """
+        """ Update progress of phase """
 
         route = 'v1/phases/update_progress/'
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def export_phase(self, project_pk):
-        """ Export phases
+        """ Export phase
 
         Keyword arguments:
 
@@ -316,7 +314,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def get_phase_planphase_details(self, pk):
-        """Get the planphase details
+        """ Get the planphase details
 
         Keyword arguments:
 
@@ -328,7 +326,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def delete_phase_planphase(self, pk):
-        """Delete planphase
+        """ Delete planphase
 
         Keyword arguments:
 
@@ -340,7 +338,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def update_phase_planphase(self, pk, data):
-        """Update planphase
+        """ Update planphase
 
         Keyword arguments:
 
@@ -442,7 +440,7 @@ class Deliverables(Helper):
 
     ### Fees bracket ###
     def get_fees_bracket_list(self, project_pk):
-        """ Get fees brackets
+        """ Get fees brackets list
 
         Keyword arguments:
 
@@ -625,7 +623,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def get_fee_details(self, pk):
-        """ Get fee zone details
+        """ Get fee details
 
         Keyword arguments:
 
@@ -758,7 +756,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def get_fees_project_details(self, pk):
-        """ Get fees projects
+        """ Get fees project details
 
         Keyword arguments:
 
@@ -813,7 +811,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def delete_fee_project(self, pk):
-        """ Get fees projects
+        """ Delete fee project
 
         Keyword arguments:
 
@@ -826,7 +824,7 @@ class Deliverables(Helper):
 
     ### Fees revision ###
     def get_fees_revision_details(self, fee_pk):
-        """ Get fees revision
+        """ Get fees revision details
 
         Keyword arguments:
 
@@ -837,7 +835,7 @@ class Deliverables(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def update_fee_revision(self, fee_revision_pk):
+    def update_fee_revision(self, fee_revision_pk, data):
         """ Update a fee revision
 
         Keyword arguments:
@@ -854,7 +852,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def delete_fee_revision(self, fee_revision_pk):
-        """ Get fees revision
+        """ Delete fees revision
 
         Keyword arguments:
 
@@ -866,7 +864,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def get_fees_revisions_item_details(self, fee_item_pk):
-        """ Get fees revisions for fee item
+        """ Get fees revisions item details
 
         Note that "fee_item" is a fee 
 
@@ -880,7 +878,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def create_fee_revisions_item(self, fee_item_pk, data):
-        """ Create a fee revision fee item
+        """ Create a fee revision item
 
         Note that "fee_item" is a fee 
 
@@ -932,7 +930,7 @@ class Deliverables(Helper):
 
     # Fees zones
     def get_fees_zones_list(self):
-        """ Get fees list
+        """ Get fees zones list
 
         Keyword arguments:
 
@@ -1188,7 +1186,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def get_prescriptions_details(self, pk):
-        """ Get plans details
+        """ Get prescription details
 
         Keyword arguments:
 
@@ -1438,7 +1436,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def create_defaults_phasesets_team(self, team_pk, data):
-        """ Create default phase for team
+        """ Create default phase sets for team
 
         Keyword arguments:
 
@@ -1593,7 +1591,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def update_defaults_plan(self, pk, data):
-        """ Update default plan details
+        """ Update default plan
 
         Keyword arguments:
 
@@ -1688,7 +1686,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def create_defaults_plansets_team(self, team_pk, data):
-        """ Create default plan et for team
+        """ Create default plan sets for team
 
         Keyword arguments:
 
@@ -1810,7 +1808,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def update_document(self, pk, data):
-        """ Create a docuemnt
+        """ Update a docuemnt
 
         Keyword arguments:
 
@@ -2145,7 +2143,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def get_contracts_month_list(self):
-        """ Get contracts list """
+        """ Get contracts month list """
 
         route = 'v1/contracts/month/list/{0}/?page_size=999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -2178,7 +2176,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def get_contract_month_details(self, pk):
-        """ Get contract details
+        """ Get contract month details
 
         Keyword arguments:
 
@@ -2280,7 +2278,7 @@ class Deliverables(Helper):
     ### Documents ###
 
     def delete_revisions_document_detail(self, pk):
-        """ Delete revision documents detail
+        """ Delete revision document details
         Keyword arguments:
 
         pk -- the pk of the document revision
@@ -2305,7 +2303,7 @@ class Deliverables(Helper):
         return self.process_response(response, True)
 
     def create_document_revision(self, team_pk, project_pk, data):
-        """ Create an documents revision team project
+        """ Create a documents revision team project
 
         Keyword arguments:
 
@@ -2327,6 +2325,7 @@ class Deliverables(Helper):
 
     def delete_revisions_fee_items_detail(self, pk):
         """ Delete revision fee_items detail
+        
         Keyword arguments:
 
         pk -- the pk of the fee_items revision
@@ -2399,7 +2398,7 @@ class Deliverables(Helper):
         return self.process_response(response, True)
 
     def create_phase_revision(self, team_pk, project_pk, data):
-        """ Create an phases revision team project
+        """ Create a phase revision team project
 
         Keyword arguments:
 
@@ -2422,6 +2421,7 @@ class Deliverables(Helper):
 
     def delete_revisions_plan_detail(self, pk):
         """ Delete revision plans detail
+        
         Keyword arguments:
 
         pk -- the pk of the plans revision
@@ -2446,7 +2446,7 @@ class Deliverables(Helper):
         return self.process_response(response, True)
 
     def create_plan_revision(self, team_pk, project_pk, data):
-        """ Create an plans revision team project
+        """ Create a plans revision team project
 
         Keyword arguments:
 
@@ -2467,7 +2467,7 @@ class Deliverables(Helper):
     #### Annexes ####
 
     def get_annexes_list(self, project_pk):
-        """Get the annexes list
+        """ Get the annexes list
 
         Keyword arguments:
         project_pk -- the pk of the project
@@ -2478,7 +2478,7 @@ class Deliverables(Helper):
         return self.process_response(response, True)
 
     def get_annexe_details(self, pk):
-        """Get the annexe details
+        """ Get the annexe details
 
         Keyword arguments:
         pk -- the pk of the annexe
@@ -2489,7 +2489,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def create_annexe(self, project_pk, data):
-        """Create an payment
+        """C reate a payment
 
         Keyword arguments:
         project_pk -- the pk of the project
@@ -2517,7 +2517,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def update_annexe(self, pk, data):
-        """Update the annexe details
+        """ Update the annexe
 
         Keyword arguments:
         pk - - the pk of the project
@@ -2528,7 +2528,7 @@ class Deliverables(Helper):
         return {'status': response.status_code, 'data': json.loads(response.content)}
 
     def delete_annexe(self, pk):
-        """Delete annexe
+        """ Delete annexe
 
         Keyword arguments:
 
@@ -2540,7 +2540,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     def get_annexes_projections_list(self, project_pk):
-        """Get the annexes list
+        """ Get the annexes projection list
 
         Keyword arguments:
         project_pk -- the pk of the project
