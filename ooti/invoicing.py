@@ -17,9 +17,9 @@ class Invoicing(Helper):
 
     def get_invoice_details(self, pk):
         """ Get the invoice details
-        
+
         Keyword arguments:
-        
+
         pk -- the pk of the invoice
         """
 
@@ -49,9 +49,9 @@ class Invoicing(Helper):
 
     def update_invoice(self, pk, data):
         """Create an invoice
-        
+
         Keyword arguments:
-        
+
         pk -- the pk of the invoice
         data -- data create:
             {
@@ -222,9 +222,9 @@ class Invoicing(Helper):
 
     def get_payment_details(self, pk):
         """ Get the payment details
-        
+
         Keyword arguments:
-        
+
         pk -- the pk of the payment
         """
 
@@ -241,9 +241,9 @@ class Invoicing(Helper):
 
     def update_payment(self, pk, data):
         """Create an payment
-        
+
         Keyword arguments:
-        
+
         pk -- the pk of the payment
         data -- data create:
             {
@@ -283,9 +283,9 @@ class Invoicing(Helper):
 
     def create_payment(self, team_pk, data):
         """Create an payment
-        
+
         Keyword arguments:
-        
+
         team_pk -- the pk of the team
         data -- data create:
             {
@@ -338,7 +338,7 @@ class Invoicing(Helper):
         """ Create client
 
         Keyword arguments:
-        
+
         data -- data create, required fields:
             {
                 "company_name": "string",
@@ -359,7 +359,7 @@ class Invoicing(Helper):
         """ Update client
 
         Keyword arguments:
-        
+
         pk -- pk of the client
         data -- data create, required fields:
             {
@@ -381,7 +381,7 @@ class Invoicing(Helper):
         """ Delete client
 
         Keyword arguments:
-        
+
         pk -- pk of the client
         """
         route = 'v1/clients/{0}/'.format(pk)
@@ -400,9 +400,9 @@ class Invoicing(Helper):
 
     def get_currency_details(self, pk):
         """ Get the currency details
-        
+
         Keyword arguments:
-        
+
         pk -- the pk of the currency
         """
 
@@ -472,9 +472,9 @@ class Invoicing(Helper):
 
     def get_email_details(self, pk):
         """ Get the email details
-        
+
         Keyword arguments:
-        
+
         pk -- the pk of the email
         """
         route = 'v1/emails/{0}/'.format(pk)
@@ -485,7 +485,7 @@ class Invoicing(Helper):
         """ Create an email
 
         Keyword arguments:
-        
+
         data -- data create, fields:
             {
                 "team": 0,
@@ -585,9 +585,9 @@ class Invoicing(Helper):
 
     def get_email_smtp_details(self, pk):
         """ Get the email smtp details
-        
+
         Keyword arguments:
-    
+
         pk -- the pk of the email smtp
         """
 
@@ -979,7 +979,7 @@ class Invoicing(Helper):
                 "project": 0 (project linked to the report)
             }
         """
-        route = 'v1/reports/generate/{0}'.format(self.org_pk)
+        route = 'v1/reports/generate/{0}/'.format(self.org_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
