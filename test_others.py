@@ -9,7 +9,7 @@ sdk = ooti.Auth(OOTI_USERNAME, OOTI_PASSWORD)
 sdk.connect()
 
 team_pk = sdk.teams_pk[0]['id']
-project_id = sdk.Auth.get_projects_list()['data'][0]['id']
+project_id = sdk.get_projects_list()['data'][0]['id']
 goal_id = sdk.Others.get_goals_list()['data'][0]['id']
 
 
@@ -76,7 +76,15 @@ class TestIndicators(unittest.TestCase):
         self.assertEqual(response['status'], 200)
 
 
+month_rule_id = 7
+month_ruleset_id = 6
+month_annex_id = 55
+month_fee_id = 1
+month_phase_id = 653977
+
+
 class TestProjections(unittest.TestCase):
+
     def test_get_component_metrics_widget(self):
         response = sdk.Others.get_component_metrics_widget()
         self.assertEqual(response['status'], 200)
@@ -91,7 +99,9 @@ class TestProjections(unittest.TestCase):
 
     def test_create_projections_forecast_month_rule(self):
         payload = {
-
+            "ruleset": 6,
+            "index": 1,
+            "pct": 1
         }
         response = sdk.Others.create_projections_forecast_month_rule(payload)
         self.assertEqual(response['status'], 201)
@@ -102,7 +112,9 @@ class TestProjections(unittest.TestCase):
 
     def test_update_projections_forecast_month_rule_details(self):
         payload = {
-
+            "ruleset": 6,
+            "index": 2,
+            "pct": 4
         }
         response = sdk.Others.update_projections_forecast_month_rule_details(month_rule_id, payload)
         self.assertEqual(response['status'], 200)
@@ -117,7 +129,8 @@ class TestProjections(unittest.TestCase):
 
     def test_create_projections_forecast_month_ruleset(self):
         payload = {
-
+            "name": "new ruleset",
+            "rules": []
         }
         response = sdk.Others.create_projections_forecast_month_ruleset(payload)
         self.assertEqual(response['status'], 201)
@@ -128,15 +141,312 @@ class TestProjections(unittest.TestCase):
 
     def test_update_projections_forecast_month_ruleset_details(self):
         payload = {
-
+            "name": "updated ruleset",
+            "rules": [
+                7
+            ]
         }
         response = sdk.Others.update_projections_forecast_month_ruleset_details(month_ruleset_id, payload)
         self.assertEqual(response['status'], 200)
 
     def test_delete_projections_forecast_month_rule(self):
-        response = sdk.Others.delete_projections_forecast_month_rule(month_ruleset_id)
+        response = sdk.Others.delete_projections_forecast_month_ruleset(month_ruleset_id)
         self.assertEqual(response['status'], 204)
+
+    def test_get_projections_month_annexes_list(self):
+        response = sdk.Others.get_projections_month_annexes_list(project_id)
+        self.assertEqual(response['status'], 200)
+
+    def test_create_projections_month_annex(self):
+        payload = {
+            "annex": 17,
+            "year": 2020,
+            "month": 1,
+            "start_date": "03-03-2020",
+            "end_date": "03-06-2020",
+            "is_past": True,
+            "pct": 10,
+            "billing_pct": 10,
+            "is_locked": True,
+            "mockup_pct": 0,
+            "mockup_is_locked": True,
+            "planned_invoicing": 0,
+            "actual_invoiced": 0,
+            "projected_invoiced": 0,
+            "cost_payroll_projected": 0
+        }
+        response = sdk.Others.create_projections_month_annex(project_id, payload)
+        self.assertEqual(response['status'], 201)
+
+    def get_projections_month_annex_details(self):
+        response = sdk.Others.get_projections_month_annex_details(month_annex_id)
+        self.assertEqual(response['status'], 200)
+
+    def test_update_projections_month_annex_details(self):
+        payload = {
+            "annex": 17,
+            "year": 2020,
+            "month": 3,
+            "start_date": "03-03-2020",
+            "end_date": "03-06-2020",
+            "is_past": True,
+            "pct": 10,
+            "billing_pct": 10,
+            "is_locked": True,
+            "mockup_pct": 0,
+            "mockup_is_locked": True,
+            "planned_invoicing": 0,
+            "actual_invoiced": 0,
+            "projected_invoiced": 0,
+            "cost_payroll_projected": 0
+        }
+        response = sdk.Others.update_projections_month_annex_details(month_annex_id, payload)
+        self.assertEqual(response['status'], 200)
+
+    def test_delete_projections_month_annex(self):
+        payload = {
+            "annex": 17,
+            "year": 2020,
+            "month": 7,
+            "start_date": "03-03-2020",
+            "end_date": "03-06-2020",
+            "is_past": True,
+            "pct": 10,
+            "billing_pct": 10,
+            "is_locked": True,
+            "mockup_pct": 0,
+            "mockup_is_locked": True,
+            "planned_invoicing": 0,
+            "actual_invoiced": 0,
+            "projected_invoiced": 0,
+            "cost_payroll_projected": 0
+        }
+        month_annex_id_deleted = sdk.Others.create_projections_month_annex(project_id, payload)['data']['id']
+        response = sdk.Others.delete_projections_month_annex(month_annex_id_deleted)
+        self.assertEqual(response['status'], 204)
+
+    def test_get_projections_month_fees_list(self):
+        response = sdk.Others.get_projections_month_fees_list(project_id)
+        self.assertEqual(response['status'], 200)
+
+    def test_create_projections_month_fee(self):
+        payload = {
+            "year": 2020,
+            "month": 10,
+            "start_date": "01-01-2020",
+            "end_date": "01-10-2020",
+            "is_past": True,
+            "is_locked": True,
+            "mockup_pct": 0,
+            "mockup_is_locked": True,
+            "pct": 10,
+            "billing_pct": 10,
+            "mockup_billing_pct": 5
+        }
+        response = sdk.Others.create_projections_month_fee(project_id, payload)
+        self.assertEqual(response['status'], 201)
+
+    def test_get_projections_month_fee_details(self):
+        response = sdk.Others.get_projections_month_fee_details(month_fee_id)
+        self.assertEqual(response['status'], 200)
+
+    def test_update_projections_month_fee_details(self):
+        payload = {
+            "fee": 1,
+            "year": 2020,
+            "month": 9,
+            "start_date": "01-01-2020",
+            "end_date": "01-09-2020",
+            "is_past": True,
+            "pct": 10,
+            "mockup_pct": 10,
+            "billing_pct": 10,
+            "mockup_billing_pct": 10,
+            "is_locked": True,
+            "mockup_is_locked": True
+        }
+        response = sdk.Others.update_projections_month_fee_details(month_fee_id, payload)
+        self.assertEqual(response['status'], 200)
+
+    def test_delete_projections_month_fee(self):
+        response = sdk.Others.delete_projections_month_fee(653977)
+        self.assertEqual(response['status'], 204)
+
+    def test_get_projections_month_phases_list(self):
+        response = sdk.Others.get_projections_month_phases_list(project_id)
+        self.assertEqual(response['status'], 200)
+
+    def test_create_projections_month_phase(self):
+        payload = {
+            "phase": 0,
+            "year": 0,
+            "month": 0,
+            "start_date": "string",
+            "end_date": "string",
+            "is_past": True,
+            "is_locked": True,
+            "mockup_pct": 0,
+            "mockup_is_locked": True,
+            "pct": 0,
+            "billing_pct": 0,
+            "mockup_billing_pct": 0
+        }
+        response = sdk.Others.create_projections_month_phase(project_id, payload)
+        self.assertEqual(response['status'], 201)
+
+    def test_get_projections_month_phase_details(self):
+        response = sdk.Others.get_projections_month_phase_details(month_phase_id)
+        self.assertEqual(response['status'], 200)
+
+    def test_update_projections_month_phase_details(self):
+        payload = {
+            "phase": 184893,
+            "year": 2020,
+            "month": 10,
+            "start_date": "01-01-2020",
+            "end_date": "01-10-2020",
+            "is_past": True,
+            "is_locked": True,
+            "mockup_pct": 0,
+            "mockup_is_locked": True,
+            "pct": 10,
+            "billing_pct": 10,
+            "mockup_billing_pct": 5
+        }
+        response = sdk.Others.update_projections_month_phase_details(month_phase_id, payload)
+        self.assertEqual(response['status'], 200)
+
+    def test_delete_projections_month_phase(self):
+        response = sdk.Others.delete_projections_month_phase(653978)
+        self.assertEqual(response['status'], 204)
+
+    # def test_create_projections_planning_deliverables_months_bulk_update(self):
+    #     #! 404
+    #     """ Test that 201 is returned """
+    #     res = sdk.Others.create_projections_planning_deliverables_months_bulk_update()
+    #     self.assertEqual(res['status'], 200)
+
+    def test_get_projections_reset_budget(self):
+        """ Test that 200 is returned """
+        res = sdk.Others.get_projections_reset_budget(project_id)
+        self.assertEqual(res['status'], 200)
+
+    def test_get_projections_roles_annex_list(self):
+        """ Test that 200 is returned """
+        res = sdk.Others.get_projections_roles_annex_list(project_id)
+        self.assertEqual(res['status'], 200)
+
+    # def test_get_projections_roles_annex_details(self):
+    #     """ Test that 200 is returned """
+    #     #! What pk
+    #     pk = 0
+    #     res = sdk.Others.get_projections_roles_annex_details(pk)
+    #     self.assertEqual(res['status'], 200)
+
+    # def test_update_projections_roles_annex(self):
+    #     """ Test that 200 is returned """
+    #     #! What pk
+    #     pk = 0
+    #     data = {
+    #     }
+    #     res = sdk.Others.update_projections_roles_annex(pk, data)
+    #     self.assertEqual(res['status'], 200)
+
+    # def test_delete_projections_roles_annex(self):
+    #     """ Test that 204 is returned """
+    #     #! What pk
+    #     pk = 0
+    #     res = sdk.Others.delete_projections_roles_annex(pk)
+    #     self.assertEqual(res['status'], 204)
+
+    def test_get_projections_roles_phase_list(self):
+        """ Test that 200 is returned """
+        res = sdk.Others.get_projections_roles_phase_list(project_id)
+        self.assertEqual(res['status'], 200)
+
+    # def test_get_projections_roles_phase_details(self):
+    #     """ Test that 200 is returned """
+    #     #! What pk
+    #     pk = 0
+    #     res = sdk.Others.get_projections_roles_phase_details(pk)
+    #     self.assertEqual(res['status'], 200)
+
+    # def test_update_projections_roles_phase(self):
+    #     """ Test that 200 is returned """
+    #     #! What pk
+    #     pk = 0
+    #     data = {
+    #     }
+    #     res = sdk.Others.update_projections_roles_phase(pk, data)
+    #     self.assertEqual(res['status'], 200)
+
+    # def test_delete_projections_roles_phase(self):
+    #     """ Test that 204 is returned """
+    #     #! What pk
+    #     pk = 0
+    #     res = sdk.Others.delete_projections_roles_phase(pk)
+    #     self.assertEqual(res['status'], 204)
+
+    def test_update_all_teamuser_months(self):
+        """ Test that 200 is returned """
+        res = sdk.Others.update_all_teamuser_months()
+        self.assertEqual(res['status'], 200)
+
+    def test_get_projections_update_project_budget(self):
+        """ Test that 200 is returned """
+        res = sdk.Others.get_projections_update_project_budget(project_id)
+        self.assertEqual(res['status'], 200)
+
+    def test_get_projections_update_project_projections(self):
+        """ Test that 200 is returned """
+        res = sdk.Others.get_projections_update_project_projections(project_id)
+        self.assertEqual(res['status'], 200)
+
+    def test_get_projections_update_projections(self):
+        """ Test that 200 is returned """
+        res = sdk.Others.get_projections_update_projections()
+        self.assertEqual(res['status'], 200)
+
+    def test_get_projections_users_annex_list(self):
+        """ Test that 200 is returned """
+        res = sdk.Others.get_projections_users_annex_list(project_id)
+        self.assertEqual(res['status'], 200)
+    # def test_get_projections_users_annex_details(self):
+    #     """ Test that 200 is returned """
+    #     #! what pk ?
+    #     pk = 0
+    #     res = sdk.Others.get_projections_users_annex_details(pk)
+    #     self.assertEqual(res['status'], 200)
+
+    # def test_update_projections_users_annex(self):
+    #     """ Test that 200 is returned """
+    #     #! what pk ?
+    #     pk = 0
+    #     data = {
+    #     }
+    #     res = sdk.Others.update_projections_users_annex(pk, data)
+    #     self.assertEqual(res['status'], 200)
+
+    def test_get_projections_users_phase_list(self):
+        """ Test that 200 is returned """
+        res = sdk.Others.get_projections_users_phase_list(project_id)
+        self.assertEqual(res['status'], 200)
+    # def test_get_projections_users_phase_details(self):
+    #     """ Test that 200 is returned """
+    #     #! what pk ?
+    #     pk = 0
+    #     res = sdk.Others.get_projections_users_phase_details(pk)
+    #     self.assertEqual(res['status'], 200)
+
+    # def test_update_projections_users_phase(self):
+    #     """ Test that 200 is returned """
+    #     #! what pk ?
+    #     pk = 0
+    #     data = {
+    #     }
+    #     res = sdk.Others.update_projections_users_phase(pk, data)
+    #     self.assertEqual(res['status'], 200)
 
 
 if __name__ == '__main__':
-    unittest.main(TestGoals())
+    unittest.main(TestProjections())

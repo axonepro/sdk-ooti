@@ -12,6 +12,9 @@ from .helper import Helper
 - Pipelines:
     - ERROR 403 on all endpoints
 
+- Projections:
+    - ERROR 500 : create_projections_month_fee
+    
 """
 
 
@@ -295,7 +298,7 @@ class Others(Helper):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def delete_projections_forecast_month_rule(self, month_ruleset_id):
+    def delete_projections_forecast_month_ruleset(self, month_ruleset_id):
         """ Delete the month rule 
 
         Keywords arguments:
@@ -535,4 +538,221 @@ class Others(Helper):
 
         route = 'v1/projections/months/phase/{0}/'.format(month_phase_id)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def create_projections_planning_deliverables_months_bulk_update(self):
+        """ Create projections planning deliverables months bulk update """
+        route = 'v1/projections/planning/deliverables/months/bulk-update/'
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_projections_reset_budget(self, project_pk):
+        """ Get projections reset budget
+        Keyword argument:
+        project_pk -- pk of the project
+        """
+        route = 'v1/projections/reset_budget/{0}/'.format(project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_projections_roles_annex_list(self, project_pk):
+        """ Get projections roles annex list
+        Keyword argument:
+        project_pk -- pk of the project
+        """
+        route = 'v1/projections/roles/annex/list/{0}/'.format(project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def get_projections_roles_annex_details(self, pk):
+        """ Get projections roles annex details
+        Keyword argument:
+        pk -- pk of the project projection role annex
+        """
+        route = 'v1/projections/roles/annex/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_projections_roles_annex(self, pk, data):
+        """ Update projections roles annex
+        Keyword argument:
+        pk -- pk of the project projection role annex
+        data -- data create :
+        {
+            "role": 0,
+            "annex": 0,
+            "pct": 0,
+            "hours_actual": 0,
+            "hours_budgeted": 0,
+            "hours_allocated": 0,
+            "hours_contract": 0,
+            "is_locked": true
+        }
+        """
+        route = 'v1/projections/roles/annex/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_projections_roles_annex(self, pk):
+        """ Delete projections roles annex
+        Keyword argument:
+        pk -- pk of the project projection role annex
+        """
+        route = 'v1/projections/roles/annex/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_projections_roles_phase_list(self, project_pk):
+        """ Get projections roles phase list
+        Keyword argument:
+        project_pk -- pk of the project
+        """
+        route = 'v1/projections/roles/phase/list/{0}/'.format(project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def get_projections_roles_phase_details(self, pk):
+        """ Get projections roles phase details
+        Keyword argument:
+        pk -- pk of the project projection role phase
+        """
+        route = 'v1/projections/roles/phase/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_projections_roles_phase(self, pk, data):
+        """ Update projections roles phase
+        Keyword argument:
+        pk -- pk of the project projection role phase
+        data -- data create :
+        {
+            "role": 0,
+            "phase": 0,
+            "pct": 0,
+            "hours_actual": 0,
+            "hours_budgeted": 0,
+            "hours_allocated": 0,
+            "hours_contract": 0,
+            "is_locked": true,
+            "mockup_pct": 0,
+            "mockup_is_locked": true
+        }
+        """
+        route = 'v1/projections/roles/phase/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_projections_roles_phase(self, pk):
+        """ Delete projections roles phase
+        Keyword argument:
+        pk -- pk of the project projection role phase
+        """
+        route = 'v1/projections/roles/phase/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_all_teamuser_months(self):
+        """ Update all teamuser months (post request) """
+        route = 'v1/projections/update_all_teamuser_months/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_projections_update_project_budget(self, project_pk):
+        """ Get projections update project budget 
+        Keyword argument:
+        project_pk -- pk of the project
+        """
+        route = 'v1/projections/update_project_budget/{0}/'.format(project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_projections_update_project_projections(self, project_pk):
+        """ Get projections update project projections 
+        Keyword argument:
+        project_pk -- pk of the project
+        """
+        route = 'v1/projections/update_project_projections/{0}/'.format(project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_projections_update_projections(self):
+        """ Get projections update projections """
+        route = 'v1/projections/update_projections/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_projections_users_annex_list(self, project_pk):
+        """ Get projections users annex list  
+        Keyword argument:
+        project_pk -- pk of the project
+        """
+        route = 'v1/projections/users/annex/list/{0}/'.format(project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_projections_users_annex_details(self, pk):
+        """ Get projections users annex details 
+        Keyword argument:
+        pk -- pk of the user annex 
+        """
+        route = 'v1/projections/users/annex/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_projections_users_annex(self, pk, data):
+        """ Get projections users annex 
+        Keyword argument:
+        pk -- pk of the user annex 
+        data -- data update :
+        {
+            "annex": 0,
+            "project_user": 0,
+            "pct": 0,
+            "is_locked": true,
+            "hours_actual": 0,
+            "hours_budgeted": 0,
+            "hours_allocated": 0
+        }
+        """
+        route = 'v1/projections/users/annex/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_projections_users_phase_list(self, project_pk):
+        """ Get projections users phase list 
+        Keyword argument:
+        project_pk -- pk of the project
+        """
+        route = 'v1/projections/users/phase/list/{0}/'.format(project_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def get_projections_users_phase_details(self, pk):
+        """ Get projections users phase details 
+        Keyword argument:
+        pk -- pk of the user phase
+        """
+        route = 'v1/projections/users/phase/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def update_projections_users_phase(self, pk, data):
+        """ Get projections users phase 
+        Keyword argument:
+        pk -- pk of the user phase 
+        data -- data update :
+        {
+            "phase": 0,
+            "project_user": 0,
+            "pct": 0,
+            "is_locked": true,
+            "mockup_pct": 0,
+            "mockup_is_locked": true,
+            "hours_actual": 0,
+            "hours_budgeted": 0,
+            "hours_allocated": 0
+        }
+        """
+        route = 'v1/projections/users/phase/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)

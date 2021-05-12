@@ -9,6 +9,25 @@ from .invoicing import Invoicing
 from .deliverables import Deliverables
 from .collaboration import Collaboration
 
+""" TO DO
+
+- Invitations:
+    - ERROR 404 : create invitation (which pk ?)
+    When inviting on OOTI 'v1/invitations/{id}/' is not called
+
+- Projects:
+    - ERROR 500 : create project
+    - Can't find access project on OOTI
+
+- Profiles:
+    - POST on v1/profiles/preferences/ ?
+
+- Teams:
+    - ERROR 500 : (POST & DELETE on v1/teams/users/bulk/add/{org_pk}/)
+    - Can't find staff on OOTI (POST on v1/teams/staff/{id}/) which id ?
+
+"""
+
 
 class Auth(Helper):
     def __init__(self, username, password):
