@@ -18,13 +18,13 @@ team_pk = my_account.teams_pk[0]['id']
 currency_pk = my_account.Invoicing.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.get_projects_list()['data'][0]['id']
 
-orguser = my_account.get_organization_details()['data']['organizations'][0]['orguser']['pk']
+orguser = my_account.get_user_organization_details()['data']['organizations'][0]['orguser']['pk']
 
 week_pk = my_account.Time.get_timelogs_week_list()['data'][0]['id']
 
 """
 
-#* Reports of bugs or failed tests 
+# * Reports of bugs or failed tests
 
 
 test_copy_previous_week -> 500
