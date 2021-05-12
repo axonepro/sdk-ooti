@@ -31,6 +31,8 @@ test_duplicate_defaults_plan -> 500
 test_delete_defaults_plan -> 500
 test_generate_contracts_org -> 403
 test_update_contract_item -> 500
+test_delete_file -> Cannot create file with SDK
+test_generate_report -> 200
 
 """
 
@@ -463,7 +465,7 @@ class Tests(unittest.TestCase):
             "name_from": "Vincent de OOTI"
         }
 
-        email_pk = my_account.Invoicing.create_email(my_account.Invoicing.teams_pk, email)['data']['id']
+        email_pk = my_account.Invoicing.create_email(email)['data']['id']
         return email_pk
 
     def test_get_emails_list(self):
@@ -485,7 +487,7 @@ class Tests(unittest.TestCase):
             "name_from": "Vincent de OOTI"
         }
 
-        res_creation = my_account.Invoicing.create_email(my_account.Invoicing.teams_pk, email)
+        res_creation = my_account.Invoicing.create_email(email)
         my_account.Invoicing.delete_email(res_creation['data']['id'])
 
         self.assertEqual(res_creation['status'], 201)
@@ -695,7 +697,18 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 200)
 
+    # def test_delete_file(self, pk):
+    #     #! Cannot create file with sdk
+    #     """ Test that 204 is returned """
+
+    #     pk = 0
+
+    #     res = my_account.Invoicing.delete_file(pk)
+
+    #     self.assertEqual(res['status'], 204)
+
     #### Banks ####
+
     def test_get_banks_list(self):
         """ Test that 200 is returned """
 
@@ -827,7 +840,7 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 200)
 
-    def update_report(self):
+    def test_update_report(self):
         """ Test that 200 is returned """
 
         report_pk = self._create_report_return_pk()
@@ -841,19 +854,30 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 200)
 
-    def generate_report(self):
-        """ Test that 200 is returned """
+    # def test_generate_report(self):
+    #     #! 200
+    #     """ Test that 201 is returned """
 
-        report_pk = self._create_report_return_pk()
+    #     report_pk = self._create_report_return_pk()
 
-        data = {
-            "pk": report_pk,
-            "project": project_pk
-        }
+    #     data = {
+    #         "pk": report_pk,
+    #         "project": project_pk
+    #     }
 
-        res = my_account.Invoicing.generate_report(data)
+    #     res = my_account.Invoicing.generate_report(data)
+    #     print(res)
 
-        self.assertEqual(res['status'], 200)
+    #     self.assertEqual(res['status'], 201)
+
+    def test_delete_report(self):
+        """ Test that 204 is returned """
+
+        pk = self._create_report_return_pk()
+
+        res = my_account.Invoicing.delete_report(pk)
+
+        self.assertEqual(res['status'], 204)
 
     ### Templates ###
     def _create_template_return_pk(self):
