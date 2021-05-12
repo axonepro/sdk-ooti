@@ -27,7 +27,7 @@ week_pk = my_account.Time.get_timelogs_week_list()['data'][0]['id']
 #* Reports of bugs or failed tests 
 
 
-test_copy_previous_week -> 405
+test_copy_previous_week -> 500
 test_create_timelogs_comments -> Unknown pk, what to used ?
 test_create_timelogs_delete_imported_worklogs_project-> 204
 test_get_timelogs_monthly_summary -> 403
@@ -51,14 +51,13 @@ test_create_trip -> 403
 test_get_trips_details -> 403
 test_update_trip -> 403
 test_delete_trip -> 403
-
 """
 
 
 class Tests(unittest.TestCase):
     # def test_copy_previous_week(self):
+    #     #! 500
     #     """ Test that 201 is returned """
-    #     #! Do not pass {'status': 405, 'data': {'detail': 'Method "GET" not allowed.'}}
 
     #     res = my_account.Time.copy_previous_week()
 
@@ -224,7 +223,7 @@ class Tests(unittest.TestCase):
 
         return my_account.Time.create_timelogs_hourslogs_list(team_pk, data)['data']['id']
 
-    def get_timelogs_hourslogs_list(self):
+    def test_get_timelogs_hourslogs_list(self):
         """ Test that 200 is returned """
 
         res = my_account.Time.get_timelogs_hourslogs_list(team_pk)
@@ -575,7 +574,7 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 200)
 
-    def update_timelogs_week(self):
+    def test_update_timelogs_week(self):
         """ Test that 200 is returned """
 
         pk = res = my_account.Time.get_timelogs_week_list("03-05-2021")['data'][0]['id']

@@ -17,9 +17,8 @@ class Time(Helper):
 
     def copy_previous_week(self):
         """ Copy previous week """
-        #! Not working, {'status': 405, 'data': {'detail': 'Method "GET" not allowed.'}}
 
-        route = 'v1/timelogs/actions/copy-previous-week/{0}'.format(self.org_pk)
+        route = 'v1/timelogs/actions/copy-previous-week/{0}/'.format(self.org_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -69,7 +68,6 @@ class Time(Helper):
 
     def create_timelogs_delete_imported_worklogs_project(self, project_pk):
         """ Create deleted/imported worklogs of a project
-        #! Returns a 204 status code
 
         Keyword arguments : 
 
@@ -83,7 +81,6 @@ class Time(Helper):
 
     def get_timelogs_monthly_summary(self):
         """ Get mothnly summary """
-        #! 403 : "detail": "You do not have permission to perform this action."
 
         route = 'v1/timelogs/monthly-summary/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -185,7 +182,7 @@ class Time(Helper):
         return self.process_response(response)
 
     def update_timelogs_holidays(self, pk, data):
-        """ Create holidays for a team
+        """ Update holidays for a team
 
         Keyword arguments : 
 
@@ -208,7 +205,7 @@ class Time(Helper):
         return self.process_response(response)
 
     def delete_timelogs_holidays(self, pk):
-        """ Create holidays for a team
+        """ Delete holidays for a team
 
         Keyword arguments : 
 
@@ -535,7 +532,7 @@ class Time(Helper):
         return self.process_response(response)
 
     def delete_timelogs_timeoff_requests(self, pk):
-        """ Get timeoff requests details 
+        """ Delete timeoff requests details 
 
         Keyword arguments:
 
@@ -766,7 +763,7 @@ class Time(Helper):
         return self.process_response(response)
 
     def delete_timelogs_week_config(self, pk):
-        """ Get week config details
+        """ Delete week config details
 
         Keyword arguments:
 
@@ -846,7 +843,7 @@ class Time(Helper):
         return self.process_response(response, True)
 
     def create_timelogs_worklogs(self, team_pk, data):
-        """ Get worklogs list 
+        """ Create worklogs 
 
         Keyword arguments:
 
@@ -932,7 +929,7 @@ class Time(Helper):
         return self.process_response(response)
 
     def delete_timelogs_worklogs(self, pk):
-        """ Get worklogs details 
+        """ Delete worklogs 
 
         Keyword arguments:
 
@@ -945,21 +942,20 @@ class Time(Helper):
 
     #### Timeperiods ####
     def get_timeperiods_dashboard_scheduling_timeline(self):
-        """ Get scheduling timeline """
+        """ Get dashboard scheduling timeline """
 
         route = 'v1/timeperiods/dashboard/scheduling/timeline/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def get_timeperiods_resource_planning_timeline(self):
-        """ Get planning timeline """
+        """ Get resource planning timeline """
 
         route = 'v1/timeperiods/resource-planning-timeline/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def create_timeperiods_resource_planning_timeline(self):
-        #! 403, not have permission
         """ Create planning timeline """
 
         route = 'v1/timeperiods/resource-planning-timeline/{0}/'.format(self.org_pk)
@@ -967,7 +963,7 @@ class Time(Helper):
         return self.process_response(response)
 
     def get_timeperiods_resources_timeline(self, project_pk):
-        """ Get scheduling timeline 
+        """ Get resources timeline 
 
         Keyword arguments: 
 
@@ -979,15 +975,14 @@ class Time(Helper):
         return self.process_response(response)
 
     def get_timeperiods_role_annex_periods(self):
-        #! 403, not have permission
-        """ Get week config list """
+        """ Get role annex periods list """
 
         route = 'v1/timeperiods/role-annex-periods/list/{0}/?page_size=999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
     def create_timeperiods_role_annex_periods(self, data):
-        """ Get week config list 
+        """ Create week config list 
 
         Keyword arguments:
 
@@ -1071,7 +1066,6 @@ class Time(Helper):
         return self.process_response(response)
 
     def create_timeperiods_scheduling_timeline_actions(self, project_pk):
-        #! 200, no body response
         """
         Get scheduling timeline actions for a project
 
@@ -1098,7 +1092,6 @@ class Time(Helper):
         return self.process_response(response)
 
     def create_user_period_action(self):
-        #! 200, no body response
         """ Create user period action """
 
         route = 'v1/timeperiods/user-period/list/action/{0}/'.format(self.org_pk)
@@ -1142,7 +1135,6 @@ class Time(Helper):
         return self.process_response(response)
 
     def get_user_period_details(self, pk):
-        #! 403
         """ Get user period details
 
         Keyword arguments:
@@ -1185,7 +1177,7 @@ class Time(Helper):
         return self.process_response(response)
 
     def delete_user_period(self, pk):
-        """ Get user period details
+        """ Delete user period details
 
         Keyword arguments:
 
@@ -1212,7 +1204,7 @@ class Time(Helper):
         return self.process_response(response, True)
 
     def create_roles(self, data):
-        """ Get roles list 
+        """ Create roles list 
 
         Keyword arguments:
 
