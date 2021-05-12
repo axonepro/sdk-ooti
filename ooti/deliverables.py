@@ -298,7 +298,7 @@ class Deliverables(Helper):
         """ Update progress of phase """
 
         route = 'v1/phases/update_progress/'
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def export_phase(self, project_pk):

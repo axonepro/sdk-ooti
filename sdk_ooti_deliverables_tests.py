@@ -26,7 +26,6 @@ fee_project = my_account.Deliverables.get_fees_project_list_projects(project_pk)
 
 test_update_area -> 403
 test_reset_phase_order -> 200
-test_update_phases_progress -> 405
 test_get_milestone_details -> 403
 test_apply_defaults_phasesets -> 404
 test_duplicate_defaults_phasesets -> 200
@@ -378,13 +377,12 @@ class Tests(unittest.TestCase):
         my_account.Deliverables.delete_plan(plan_pk)
         self.assertEqual(res['status'], 204)
 
-    # def test_update_phases_progress(self):
-    #     #! 405
-    #     """ Test that 200 is returned """
+    def test_update_phases_progress(self):
+        """ Test that 200 is returned """
 
-    #     res = my_account.Deliverables.update_phases_progress()
+        res = my_account.Deliverables.update_phases_progress()
 
-    #     self.assertEqual(res['status'], 200)
+        self.assertEqual(res['status'], 200)
 
     #### Milestone ####
 
