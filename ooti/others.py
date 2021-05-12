@@ -3,11 +3,14 @@ import json
 
 from requests.models import Response
 
-from helper import Helper
+from .helper import Helper
 
 """
 - Help:
-    - ERROR 403 POST & GET v1/help/manage/ 
+    - ERROR 403 POST & GET v1/help/manage/
+
+- Pipelines:
+    - ERROR 403 on all endpoints
 
 """
 
@@ -92,6 +95,7 @@ class Others(Helper):
     #### Indicators ####
 
     def get_indicators_financial_costs(self, team_pk=None, project_id=None):
+        """ Get financial costs indicators list """
 
         route = 'v1/indicators/financial/cost/{0}/'.format(self.org_pk)
         parameters = ''
@@ -107,12 +111,14 @@ class Others(Helper):
         return self.process_response(response)
 
     def get_indicators_financial_incomes(self):
+        """ Get financial incomes indicators list """
 
         route = 'v1/indicators/financial/income/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def get_indicators_financial_revenues(self, team_pk=None, project_id=None):
+        """ Get financial revenues indicators """
 
         route = 'v1/indicators/financial/cost/{0}/'.format(self.org_pk)
         parameters = ''
@@ -128,6 +134,7 @@ class Others(Helper):
         return self.process_response(response)
 
     def get_indicators_financial_summary(self, team_pk=None, project_id=None):
+        """ Get the financial indicators summary """
 
         route = 'v1/indicators/financial/summary/{0}/'.format(self.org_pk)
         parameters = ''
@@ -143,6 +150,7 @@ class Others(Helper):
         return self.process_response(response)
 
     def get_indicators_revenue(self):
+        """ Get the list of revenue indicators """
 
         route = 'v1/indicators/revenue/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -153,12 +161,18 @@ class Others(Helper):
     #### Projections ####
 
     def get_component_metrics_widget(self):
+        """ """
 
         route = 'v1/projections/components/metrics/widget/'
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def export_projections_project_fees(self, project_id):
+    def export_projections_project_timeline(self, project_id):
+        """ Export the project timeline into a .xls file
+
+        Keywords arguments:
+        project_id -- id of the project
+        """
 
         route = 'v1/projections/export/{0}/'.format(project_id)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -168,6 +182,7 @@ class Others(Helper):
         return self.process_response(response)
 
     def get_projections_forecast_month_rule_list(self):
+        """ Get the list of month rules """
 
         route = 'v1/projections/forecast-month-rule/list/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -190,6 +205,11 @@ class Others(Helper):
         return self.process_response(response)
 
     def get_projections_forecast_month_rule_details(self, month_rule_id):
+        """ Get the month rule details
+
+        Keywords arguments:
+        month_rule_id -- id of the month rule
+        """
 
         route = 'v1/projections/forecast-month-rule/{0}/'.format(month_rule_id)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -199,7 +219,7 @@ class Others(Helper):
         """ Update the month rule details
 
         Keywords arguments:
-        month_rule_id -- id of the month rule to
+        month_rule_id -- id of the month rule
         data -- content of the update:
         {
             "ruleset": ruleset_id,
@@ -212,13 +232,19 @@ class Others(Helper):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def delete_projections_forecast_month_rule_details(self, month_rule_id):
+    def delete_projections_forecast_month_rule(self, month_rule_id):
+        """ Delete the month rule
+
+        Keywords arguments:
+        month_rule_id -- id of the month rule
+        """
 
         route = 'v1/projections/forecast-month-rule/{0}/'.format(month_rule_id)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def get_projections_forecast_month_ruleset_list(self):
+        """ Get the list of month rulesets """
 
         route = 'v1/projections/forecast-month-ruleset/list/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -242,7 +268,11 @@ class Others(Helper):
         return self.process_response(response)
 
     def get_projections_forecast_month_ruleset_details(self, month_ruleset_id):
+        """ Get the month ruleset details
 
+        Keyword arguments:
+        month_rule_id -- id of the month rule
+        """
         route = 'v1/projections/forecast-month-ruleset/{0}/'.format(month_ruleset_id)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
@@ -251,7 +281,7 @@ class Others(Helper):
         """ Update the month ruleset details
 
         Keywords arguments:
-        month_rule_id -- id of the month rule to
+        month_rule_id -- id of the month rule to be created
         data -- content of the update:
         {
             "name": "string",
@@ -265,8 +295,244 @@ class Others(Helper):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def delete_projections_forecast_month_rule_details(self, month_ruleset_id):
+    def delete_projections_forecast_month_rule(self, month_ruleset_id):
+        """ Delete the month rule 
+
+        Keywords arguments:
+        month_ruleset_id -- id of the month ruleset
+        """
 
         route = 'v1/projections/forecast-month-ruleset/{0}/'.format(month_ruleset_id)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_projections_month_annexes_list(self, project_id):
+        """ Get the project month annexes list
+
+        Keywords arguments:
+        project_id -- id of the project
+        """
+
+        route = 'v1/projections/months/annex/list/{0}/'.format(project_id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_projections_month_annex(self, project_id, data):
+        """ Create a new project month annex 
+
+        Keywords arguments:
+        project_id -- id of the project
+        data -- data of the new project month annex to be created:
+        {
+            "annex": 0,
+            "year": 0,
+            "month": 0,
+            "start_date": "string",
+            "end_date": "string",
+            "is_past": true,
+            "is_present": true,
+            "is_future": true,
+            "pct": 0,
+            "billing_pct": 0,
+            "is_locked": true,
+            "mockup_pct": 0,
+            "mockup_is_locked": true,
+            "planned_invoicing": 0,
+            "actual_invoiced": 0,
+            "projected_invoiced": 0,
+            "cost_payroll_projected": 0
+        }
+        """
+
+        route = 'v1/projections/months/annex/list/{0}/'.format(project_id)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_projections_month_annex_details(self, month_annex_id):
+        """ Get the month annex details
+
+        Keywords arguments:
+        month_annex_id -- id of the month annex
+        """
+
+        route = 'v1/projections/months/annex/{0}/'.format(month_annex_id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_projections_month_annex_details(self, month_annex_id, data):
+        """ Update the month annex details
+
+        Keywords arguments:
+        month_annex_id -- id of the month annex
+        data -- content of the update:
+        {
+
+        }
+        """
+
+        route = 'v1/projections/months/annex/{0}/'.format(month_annex_id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_projections_month_annex(self, month_annex_id):
+        """ Delete the month annex
+
+        Keywords arguments:
+        month_annex_id -- id of the month annex
+        """
+
+        route = 'v1/projections/months/annex/{0}/'.format(month_annex_id)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_projections_month_fees_list(self, project_id):
+        """ Get the month fees
+
+        Keywords arguments:
+        project_id -- id of the project
+        """
+
+        route = 'v1/projections/months/fee/list/{0}/'.format(project_id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_projections_month_fee(self, project_id, data):
+        """ Create a new month fee
+
+        Keywords arguments:
+        project_id -- id of the project
+        data -- data of the new month fee to be created
+        {
+            "fee": 0,
+            "year": 0,
+            "month": 0,
+            "start_date": "string",
+            "end_date": "string",
+            "is_past": true,
+            "is_present": true,
+            "is_future": true,
+            "pct": 0,
+            "mockup_pct": 0,
+            "billing_pct": 0,
+            "mockup_billing_pct": 0,
+            "is_locked": true,
+            "mockup_is_locked": true
+        }
+        """
+
+        route = 'v1/projections/months/fee/list/{0}/'.format(project_id)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_projections_month_fee_details(self, month_fee_id):
+        """ Get the month fee details
+
+        Keywords arguments:
+        month_fee_id -- id of the month fee
+        """
+
+        route = 'v1/projections/months/fee/{0}/'.format(month_fee_id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_projections_month_fee_details(self, month_fee_id, data):
+        """ Update the month fee details
+
+        Keywords arguments:
+        month_fee_id -- id of the month fee
+        data -- content of the update:
+        {
+
+        }
+        """
+
+        route = 'v1/projections/months/fee/{0}/'.format(month_fee_id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_projections_month_fee(self, month_fee_id):
+        """ Delete the month fee
+
+        Keywords arguments:
+        month_fee_id -- id of the month fee
+        """
+
+        route = 'v1/projections/months/fee/{0}/'.format(month_fee_id)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_projections_month_phases_list(self, project_id):
+        """ Get the month phases list
+
+        Keywords arguments:
+        project_id -- id of the project
+        """
+
+        route = 'v1/projections/months/phase/list/{0}/'.format(project_id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_projections_month_phase(self, project_id, data):
+        """ Create a new month phase
+
+        Keywords arguments:
+        project_id -- id of the project
+        data -- data of the new month phase to be created
+        {
+            "phase": 0,
+            "year": 0,
+            "month": 0,
+            "start_date": "string",
+            "end_date": "string",
+            "is_past": true,
+            "is_present": true,
+            "is_future": true,
+            "is_locked": true,
+            "mockup_pct": 0,
+            "mockup_is_locked": true,
+            "pct": 0,
+            "billing_pct": 0,
+            "mockup_billing_pct": 0
+        }
+        """
+
+        route = 'v1/projections/months/phase/list/{0}/'.format(project_id)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_projections_month_phase_details(self, month_phase_id):
+        """ Get the month phase details
+
+        Keywords arguments:
+        month_phase_id -- id of the month phase
+        """
+
+        route = 'v1/projections/months/phase/{0}/'.format(month_phase_id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_projections_month_phase_details(self, month_phase_id, data):
+        """ Update the month phase details
+
+        Keywords arguments:
+        month_phase_id -- id of the month phase
+        data -- content of the update:
+        {
+
+        }
+        """
+
+        route = 'v1/projections/months/phase/{0}/'.format(month_phase_id)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_projections_month_phase(self, month_phase_id):
+        """ Delete month phase
+
+        Keywords arguments:
+        month_phase_id -- id of the month phase
+        """
+
+        route = 'v1/projections/months/phase/{0}/'.format(month_phase_id)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
