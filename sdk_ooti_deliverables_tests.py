@@ -25,13 +25,24 @@ fee_project = my_account.Deliverables.get_fees_project_list_projects(project_pk)
 
 
 test_update_area -> 403
+test_reset_phase_order -> 200
+test_update_phases_progress -> 405
 test_get_milestone_details -> 403
 test_apply_defaults_phasesets -> 404
+test_duplicate_defaults_phasesets -> 200
+test_create_defaults_phasesets_team -> 200
+test_create_defaults_phase_team -> 200
 test_apply_defaults_plansets -> 404
+test_duplicate_defaults_plansets -> 200
+test_create_defaults_plansets_team -> 200
 test_duplicate_defaults_plan -> 500
+test_create_defaults_plan_team -> 200
 test_delete_defaults_plan -> 500
+test_set_price_documents -> 500
+test_generate_contracts_project -> 200
 test_generate_contracts_org -> 403
 test_update_contract_item -> 500
+test_generate_contracts_month -> 200
 
 """
 
@@ -63,7 +74,7 @@ class Tests(unittest.TestCase):
 
     def test_export_zones(self):
         """ Test that 200 is returned """
-        res = my_account.Deliverables.export_phase(project_pk)
+        res = my_account.Deliverables.export_zones(project_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -147,7 +158,6 @@ class Tests(unittest.TestCase):
         self.assertEqual(res['status'], 204)
 
     #### Areas ####
-
     def _create_area_return_pk(self):
         """ Create an area and return the pk """
 
@@ -324,12 +334,12 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 204)
 
-    def test_reset_phase_order(self):
-        """ Test that 201 is returned """
-        #! Passe but 200 is returned
-        res = my_account.Deliverables.reset_phases_order(project_pk)
+    # def test_reset_phase_order(self):
+    #     #! 200 is returned
+    #     """ Test that 201 is returned """
+    #     res = my_account.Deliverables.reset_phases_order(project_pk)
 
-        self.assertEqual(res['status'], 200)
+    #     self.assertEqual(res['status'], 201)
 
     def test_get_phase_planphase_details(self):
         """ Test that 200 is returned """
@@ -367,6 +377,14 @@ class Tests(unittest.TestCase):
 
         my_account.Deliverables.delete_plan(plan_pk)
         self.assertEqual(res['status'], 204)
+
+    # def test_update_phases_progress(self):
+    #     #! 405
+    #     """ Test that 200 is returned """
+
+    #     res = my_account.Deliverables.update_phases_progress()
+
+    #     self.assertEqual(res['status'], 200)
 
     #### Milestone ####
 
@@ -426,6 +444,14 @@ class Tests(unittest.TestCase):
         res = my_account.Deliverables.update_milestone(milestone_pk, data)
 
         self.assertEqual(res['status'], 200)
+
+    def test_delete_milestone(self):
+        """ Test that 204 is returned """
+
+        milestone_pk = self._create_milestone_return_pk()
+        res = my_account.Deliverables.delete_milestone(milestone_pk)
+
+        self.assertEqual(res['status'], 204)
 
     #### Fees ####
     def _create_fee_return_pk(self):
@@ -765,15 +791,6 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 204)
 
-    def test_get_fees_revision_details(self):
-        """ Test that 200 is returned """
-
-        res_creation = self._create_fee_revision_return_pk()
-
-        res = my_account.Deliverables.get_fees_revision_details(res_creation['pk'])
-
-        self.assertEqual(res['status'], 200)
-
     def test_get_fees_revision_fees(self):
         """ Test that 200 is returned """
 
@@ -800,8 +817,19 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 201)
 
-    ### other ###
+    def test_update_fee_revision(self):
+        """ Test that 200 is returned """
 
+        pk = self._create_fee_revision_return_pk()['pk']
+
+        data = {
+            "amount": 0
+        }
+
+        res = my_account.Deliverables.update_fee_revision(pk, data)
+        self.assertEqual(res['status'], 200)
+
+    ### Fees validate ###
     def test_validate_fees_costs(self):
         """ Test that 200 is returned """
         res = my_account.Deliverables.validation_fees_costs(project_pk)
@@ -1115,14 +1143,14 @@ class Tests(unittest.TestCase):
 
     #     self.assertEqual(res['status'], 201)
 
-    def test_duplicate_defaults_phasesets(self):
-        """ Test that 201 is returned """
-        #! Pass, but returns 200 instead of 201
-        pk = self._create_phaseset_return_pk()
+    # def test_duplicate_defaults_phasesets(self):
+    #     #! 200
+    #     """ Test that 201 is returned """
+    #     pk = self._create_phaseset_return_pk()
 
-        res = my_account.Deliverables.duplicate_defaults_phasesets(pk)
+    #     res = my_account.Deliverables.duplicate_defaults_phasesets(pk)
 
-        self.assertEqual(res['status'], 200)
+    #     self.assertEqual(res['status'], 201)
 
     def test_get_defaults_phasesets_org_list(self):
         """ Test that 200 is returned """
@@ -1148,18 +1176,18 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 200)
 
-    def test_create_defaults_phasesets_team(self):
-        """ Test that 201 is returned """
-        #! Pass, but returns 200 instead of 201
+    # def test_create_defaults_phasesets_team(self):
+    #     #! 200
+    #     """ Test that 201 is returned """
 
-        data = {
-            "is_main": False,
-            "title": "UNITTEST"
-        }
+    #     data = {
+    #         "is_main": False,
+    #         "title": "UNITTEST"
+    #     }
 
-        res = my_account.Deliverables.create_defaults_phasesets_team(team_pk, data)
+    #     res = my_account.Deliverables.create_defaults_phasesets_team(team_pk, data)
 
-        self.assertEqual(res['status'], 200)
+    #     self.assertEqual(res['status'], 201)
 
     def test_get_defaults_phasesets_details(self):
         """ Test that 200 is returned """
@@ -1252,23 +1280,23 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 201)
 
-    def test_create_defaults_phase_team(self):
-        """ Test that 201 is returned """
-        #! Pass, but 200 is returned instead of 201
-        phaseset_pk = self._create_phaseset_return_pk()
+    # def test_create_defaults_phase_team(self):
+    #     #! 200
+    #     """ Test that 201 is returned """
+    #     phaseset_pk = self._create_phaseset_return_pk()
 
-        data = {
-            "name": "UNITTEST",
-            "shortname": "TEST",
-            "pct": 10,
-            "library": phaseset_pk,
-            "team": team_pk
-        }
+    #     data = {
+    #         "name": "UNITTEST",
+    #         "shortname": "TEST",
+    #         "pct": 10,
+    #         "library": phaseset_pk,
+    #         "team": team_pk
+    #     }
 
-        res = my_account.Deliverables.create_defaults_phase_team(team_pk, data)
-        my_account.Deliverables.delete_defaults_phasesets(phaseset_pk)
+    #     res = my_account.Deliverables.create_defaults_phase_team(team_pk, data)
+    #     my_account.Deliverables.delete_defaults_phasesets(phaseset_pk)
 
-        self.assertEqual(res['status'], 200)
+    #     self.assertEqual(res['status'], 201)
 
     def test_get_defaults_phase_details(self):
         """ Test that 200 is returned """
@@ -1323,14 +1351,14 @@ class Tests(unittest.TestCase):
 
     #     self.assertEqual(res['status'], 201)
 
-    def test_duplicate_defaults_plansets(self):
-        """ Test that 201 is returned """
-        #! Pass, but returns 200 instead of 201
-        pk = self._create_plansets_return_pk()
+    # def test_duplicate_defaults_plansets(self):
+    #     #! 200
+    #     """ Test that 201 is returned """
+    #     pk = self._create_plansets_return_pk()
 
-        res = my_account.Deliverables.duplicate_defaults_plansets(pk)
+    #     res = my_account.Deliverables.duplicate_defaults_plansets(pk)
 
-        self.assertEqual(res['status'], 200)
+    #     self.assertEqual(res['status'], 201)
 
     def test_get_defaults_plansets_org_list(self):
         """ Test that 200 is returned """
@@ -1354,18 +1382,18 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 200)
 
-    def test_create_defaults_plansets_team(self):
-        """ Test that 201 is returned """
-        #! Pass, but returns 200 instead of 201
+    # def test_create_defaults_plansets_team(self):
+    #     #! 200
+    #     """ Test that 201 is returned """
 
-        data = {
-            "is_main": False,
-            "title": "UNITTEST"
-        }
+    #     data = {
+    #         "is_main": False,
+    #         "title": "UNITTEST"
+    #     }
 
-        res = my_account.Deliverables.create_defaults_plansets_team(team_pk, data)
+    #     res = my_account.Deliverables.create_defaults_plansets_team(team_pk, data)
 
-        self.assertEqual(res['status'], 200)
+    #     self.assertEqual(res['status'], 201)
 
     def test_get_defaults_plansets_details(self):
         """ Test that 200 is returned """
@@ -1398,7 +1426,7 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 204)
 
-    ### Phases ###
+    ### Plans ###
     def _create_defaults_plan_return_pk(self):
         """ Create a default plan and return it 
 
@@ -1474,32 +1502,32 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 201)
 
-    def test_create_defaults_plan_team(self):
-        """ Test that 201 is returned """
-        #! Pass but returns a 200 and a list of objects / Do not return anything in the list
+    # def test_create_defaults_plan_team(self):
+    #     #! 200 and a list of objects / Do not return anything in the list
+    #     """ Test that 201 is returned """
 
-        plansets_pk = self._create_plansets_return_pk()
-        res_zone_pk = self._create_zone_return_pk()
+    #     plansets_pk = self._create_plansets_return_pk()
+    #     res_zone_pk = self._create_zone_return_pk()
 
-        data = {
-            "zone": res_zone_pk['pk'],
-            "name_fr": "string",
-            "name_en": "string",
-            "plan_format": "string",
-            "scale": "string",
-            "level": "string",
-            "name": "string",
-            "library": plansets_pk
-        }
+    #     data = {
+    #         "zone": res_zone_pk['pk'],
+    #         "name_fr": "string",
+    #         "name_en": "string",
+    #         "plan_format": "string",
+    #         "scale": "string",
+    #         "level": "string",
+    #         "name": "string",
+    #         "library": plansets_pk
+    #     }
 
-        res = my_account.Deliverables.create_defaults_plan_team(team_pk, data)
+    #     res = my_account.Deliverables.create_defaults_plan_team(team_pk, data)
 
-        # my_account.Deliverables.delete_defaults_plan(res['data'][0]['id'])
-        my_account.Deliverables.delete_defaults_plansets(plansets_pk)
-        my_account.Deliverables.delete_zone(res_zone_pk['pk'])
-        my_account.Deliverables.delete_area(res_zone_pk['area_pk'])
+    #     # my_account.Deliverables.delete_defaults_plan(res['data'][0]['id']) -> No id returned (see error)
+    #     my_account.Deliverables.delete_defaults_plansets(plansets_pk)
+    #     my_account.Deliverables.delete_zone(res_zone_pk['pk'])
+    #     my_account.Deliverables.delete_area(res_zone_pk['area_pk'])
 
-        self.assertEqual(res['status'], 200)
+    #     self.assertEqual(res['status'], 201)
 
     def test_get_defaults_plan_details(self):
         """ Test that 200 is returned """
@@ -1608,6 +1636,14 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(res['status'], 204)
 
+    # def test_set_price_documents(self):
+    #     #! 500
+    #     """ Test that 201 is returned """
+
+    #     res = my_account.Deliverables.set_price_documents(project_pk)
+
+    #     self.assertEqual(res['status'], 201)
+
     #### Contracts ####
 
     ### Contractors ###
@@ -1688,12 +1724,13 @@ class Tests(unittest.TestCase):
         return {"pk": pk, "contract_pk": contract_pk['pk'], "contractor_pk": contract_pk['contractor_pk'],
                 "fee_project": contract_pk['fee_project']}
 
-    def test_generate_contracts_project(self):
-        """ Test that 201 is returned """
-        #! Pass but returns 200 instead of 201
-        res = my_account.Deliverables.generate_contracts_project(project_pk)
+    # def test_generate_contracts_project(self):
+    #     #! 200
+    #     """ Test that 201 is returned """
 
-        self.assertEqual(res['status'], 200)
+    #     res = my_account.Deliverables.generate_contracts_project(project_pk)
+
+    #     self.assertEqual(res['status'], 201)
 
     # def test_generate_contracts_org(self):
     #     """ Test that 201 is returned """
@@ -1775,7 +1812,6 @@ class Tests(unittest.TestCase):
         self.assertEqual(res['status'], 204)
 
     ### Contracts ###
-
     def _create_contract_return_pk(self):
         """ Create contract and return pk 
 
@@ -1895,20 +1931,19 @@ class Tests(unittest.TestCase):
         return {"pk": pk, "contract_pk": res_pk['pk'], "contractor_pk": res_pk['contractor_pk'],
                 "fee_project": res_pk['fee_project']}
 
-    def test_generate_contracts_month(self):
-        """ Test that 201 is returned """
+    # def test_generate_contracts_month(self):
+    #     #! 200 is returned
+    #     """ Test that 201 is returned """
 
-        #! Pass but 200 is returned
+    #     res_pk = self._create_contract_return_pk()
 
-        res_pk = self._create_contract_return_pk()
+    #     res = my_account.Deliverables.generate_contracts_month_org(res_pk['pk'])
 
-        res = my_account.Deliverables.generate_contracts_month_org(res_pk['pk'])
+    #     my_account.Deliverables.delete_contract(res_pk['pk'])
+    #     my_account.Deliverables.delete_contractor(res_pk['contractor_pk'])
+    #     my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
 
-        my_account.Deliverables.delete_contract(res_pk['pk'])
-        my_account.Deliverables.delete_contractor(res_pk['contractor_pk'])
-        my_account.Deliverables.delete_fee_project(res_pk['fee_project'])
-
-        self.assertEqual(res['status'], 200)
+    #     self.assertEqual(res['status'], 201)
 
     def test_get_contracts_month_list(self):
         """ Test that 200 is returned """
@@ -2288,6 +2323,13 @@ class Tests(unittest.TestCase):
         res = my_account.Deliverables.delete_annexe(pk)
 
         self.assertEqual(res['status'], 204)
+
+    def test_get_annexes_projections_list(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Deliverables.get_annexes_projections_list(project_pk)
+
+        self.assertEqual(res['status'], 200)
 
 
 if __name__ == '__main__':
