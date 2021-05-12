@@ -1,18 +1,35 @@
 import requests
 import json
 
+from .costs import Costs
+from .helper import Helper
+from .others import Others
+from .settings import Settings
+from .invoicing import Invoicing
+from .deliverables import Deliverables
+from .collaboration import Collaboration
 
-from auth import Auth
-from costs import Costs
-from helper import Helper
-from others import Others
-from settings import Settings
-from invoicing import Invoicing
-from deliverables import Deliverables
-from collaboration import Collaboration
+""" TO DO
+
+- Invitations:
+    - ERROR 404 : create invitation (which pk ?)
+    When inviting on OOTI 'v1/invitations/{id}/' is not called
+
+- Projects:
+    - ERROR 500 : create project
+    - Can't find access project on OOTI
+
+- Profiles:
+    - POST on v1/profiles/preferences/ ?
+
+- Teams:
+    - ERROR 500 : (POST & DELETE on v1/teams/users/bulk/add/{org_pk}/)
+    - Can't find staff on OOTI (POST on v1/teams/staff/{id}/) which id ?
+
+"""
 
 
-class Sdk(Helper):
+class Auth(Helper):
     def __init__(self, username, password):
         self.username = username
         self.password = password
@@ -23,7 +40,6 @@ class Sdk(Helper):
         self._csrf_token = None
         self.headers = None
 
-        self.Auth = None
         self.Costs = None
         self.Others = None
         self.Settings = None
@@ -33,8 +49,6 @@ class Sdk(Helper):
         self.__get_csrf_token()
         self.__get_token()
         self.__get_org()
-        self.Auth = Auth(self.base_url, self.org_pk, self.teams_pk,
-                         self.access_token, self._csrf_token, self.headers)
         self.Costs = Costs(self.base_url, self.org_pk, self.teams_pk,
                            self.access_token, self._csrf_token, self.headers)
         self.Others = Others(self.base_url, self.org_pk, self.teams_pk,
@@ -43,24 +57,6 @@ class Sdk(Helper):
                                  self.access_token, self._csrf_token, self.headers)
         self.Collaboration = Collaboration(self.base_url, self.org_pk, self.teams_pk,
                                            self.access_token, self._csrf_token, self.headers)
-
-##### HELPER #####
-
-    def process_response(self, response, results=None):
-        """ Process the response and return it 
-        :param: reponse is the reponse from the API
-        :param: results is saying if we just want the results field of the reponse
-        :return: {status, data} or {status} if data is not JSON serializable
-        """
-        try:
-            if(results == None):
-                return {'status': response.status_code, 'data': json.loads(response.content)}
-            else:
-                return {'status': response.status_code, 'data': json.loads(response.content)['results']}
-        except ValueError:
-            return {'status': response.status_code}
-        except KeyError:
-            return self.process_response(response)
 
 ##### AUTH #####
 
@@ -94,7 +90,7 @@ class Sdk(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def create_invitation(self, pk, data):  # which pk ? create orguser before ?
+    def create_invitation(self, pk, data):  # which pk ? already tested with orguser_pk and team_pk
         """ Create a new invitation """
 
         route = 'v1/invitations/{0}/'.format(pk)
@@ -106,7 +102,7 @@ class Sdk(Helper):
 
         Keywords arguments:
         pk -- pk of the invitation
-        data -- content of the update :
+        data -- content of the update:
         {
             "email": "emailchanged@mail.com
         }
@@ -144,7 +140,7 @@ class Sdk(Helper):
 
         Keyword arguments:
         id -- the id of the project
-        data -- content of the update :
+        data -- content of the update:
         {
             "surface_area": 238,
             "surface_unit": "m",
@@ -181,7 +177,7 @@ class Sdk(Helper):
         return self.process_response(response, True)
 
     def export_projects_list(self):
-        """ Export all project's fees into .xls file """
+        """ Export the list of projects as a .xls file """
 
         route = 'v1/projects/export/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -200,7 +196,7 @@ class Sdk(Helper):
         """ Create a new project
 
         Keyword arguments:
-        data -- content of the project to be created :
+        data -- content of the project to be created:
         {
             "client": client_pk,
             "currency": curency_pk,
@@ -231,6 +227,13 @@ class Sdk(Helper):
         route = 'v1/projects/fee-summary/{0}/'.format(id)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
+
+    def get_project_list_access(self):
+        """ ? """
+
+        route = 'v1/projects/list/access/'
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
 
     def get_project_revenue(self, id):
         """ Get the list of project revenues by years and by months
@@ -288,7 +291,7 @@ class Sdk(Helper):
 
         Keyword arguments:
         id -- id of the project
-        data -- content of the user to add to the project :
+        data -- content of the user to add to the project:
         {
             "orguser": orguser_pk,
             "permissionsset": permission_pk,
@@ -306,7 +309,7 @@ class Sdk(Helper):
 
         Keyword arguments:
         user_pk -- pk of the user
-        data -- content of the update :
+        data -- content of the update:
         {
             "hours_actual": 10,
             "is_billable": False
@@ -339,7 +342,7 @@ class Sdk(Helper):
         """ Create a new group of project tags
 
         Keywords arguments:
-        data -- data of the new group to be created :
+        data -- data of the new group to be created:
         {
             "name": "New group",
             "tags": [
@@ -369,7 +372,7 @@ class Sdk(Helper):
 
         Keywords arguments:
         group_pk -- pk of the group of project tags
-        data -- content of the update :
+        data -- content of the update:
         {
             "name": "New group name",
             "tags": [
@@ -405,7 +408,7 @@ class Sdk(Helper):
         """ Create a new tag 
 
         Keywords arguments:
-        data -- content of the tag to be created :
+        data -- content of the tag to be created:
         {
             "name": "new tag", (required)
             "group": group_id, (optional)
@@ -432,7 +435,7 @@ class Sdk(Helper):
 
         Keywords arguments:
         tag_pk -- pk of the tag
-        data -- content of the update :
+        data -- content of the update:
         {
             "name": "new name",
             "projects": [project_id, project_id, ...]
@@ -463,6 +466,13 @@ class Sdk(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
+    def get_orgusers_count(self):
+        """ Get only the number of orguser inside the organization """
+
+        route = 'v1/orgusers/count/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
     def export_orgusers_list(self):
         """ Export the list of orgusers as a .xls file """
 
@@ -471,6 +481,22 @@ class Sdk(Helper):
         xls_file = open('orgusers_list.xls', 'wb')
         xls_file.write(response.content)
         xls_file.close()
+        return self.process_response(response)
+
+    def invite_orguser(self, pk, team_pk):
+        """ Send an invitation to the orguser
+
+        Keywords arguments:
+        pk -- pk of the orguser
+        team_pk -- pk of the team
+        """
+
+        route = 'v1/orgusers/invite/'
+        data = {
+            'orguser': pk,
+            'team': team_pk
+        }
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     def get_orguser_details(self, pk):
@@ -484,10 +510,10 @@ class Sdk(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def create_orguser(self, data):
+    def create_orguser(self, data):  # Error 500
         """ Create a new user in the organization 
 
-        data -- content of the orguser to be created :
+        data -- content of the orguser to be created:
         {
             "email": "testk@email.com",
             "first_name": "Julien",
@@ -509,7 +535,7 @@ class Sdk(Helper):
 
         Keywords arguments:
         pk -- pk of the orguser to update
-        data -- content of the update :
+        data -- content of the update:
         {
             "mobile": "012345678",
             "birthday": "16-04-2021"
@@ -540,11 +566,124 @@ class Sdk(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_organization_details(self, pk):
-        """ Get organizations details """
+    def get_organization_metrics(self):
+        """ Get the admin dashboard metrics """
+
+        route = 'v1/organizations/metrics/{0}/'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def get_organization_details(self, pk):  # put self.org_pk instead of letting the user choose the pk ?
+        """ Get organizations details 
+
+        Keywords arguments:
+        pk -- pk of the organizaton
+        """
 
         route = 'v1/organizations/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_organization_details(self, data):
+        """ Update organizations details 
+
+        Keywords arguments:
+        data - content of the update:
+        {
+            "name": "string",
+            "company_code": "string",
+            "address": "string",
+            "postal_code": "string",
+            "city": "string",
+            "province": "string",
+            "country": "string",
+            "currency": 0,
+            "banks": [
+                "string"
+            ],
+            "logo": "string",
+            "days_invoices_past_due": 0,
+            "fees_enabled": true,
+            "hours_enabled": true,
+            "expenses_enabled": true,
+            "blog_enabled": true,
+            "contacts_enabled": true,
+            "validation_enabled": true,
+            "invoicing_enabled": true,
+            "reports_enabled": true,
+            "files_enabled": true,
+            "deliverables_enabled": true,
+            "ffne_enabled": true,
+            "budgets_enabled": true,
+            "finance_enabled": true,
+            "tasks_enabled": true,
+            "leads_enabled": true,
+            "suppliers_enabled": true,
+            "personnel_enabled": true,
+            "freelancers_enabled": true,
+            "task_estimates_enabled": true,
+            "plan": "string",
+            "interval": "string",
+            "team_level_invoice_increment": true,
+            "plan_code_format": "string",
+            "can_customize_invoice_codes": true,
+            "default_vacation_type": 0,
+            "slug": "string",
+            "projections_enabled": true,
+            "insourcing_projections_enabled": true,
+            "invoice_increment_start": 0,
+            "accounting_period": "string",
+            "promo_code": "string",
+            "invoice_separator": "string",
+            "can_manage_vat": true,
+            "custom_fields_enabled": true,
+            "custom_fields_limit": 0,
+            "multi_client_billing_enabled": true,
+            "client_groups_enabled": true,
+            "trips_enabled": true,
+            "billable_calculation": "string",
+            "org_size": "string",
+            "org_type": "string",
+            "invoice_email_from": "string",
+            "invoice_email_from_display": "string",
+            "revenue_adjustment_enabled": true,
+            "resources_use_active_users": true,
+            "availability_enabled": true,
+            "availability_analytics_enabled": true,
+            "smtp_enabled": true,
+            "contractors_enabled": true,
+            "contractor_invoicing_enabled": true,
+            "subcontractor_planning_enabled": true,
+            "public_indices_enabled": true,
+            "annex_revisions_enabled": true,
+            "display_project_id": true,
+            "week_structure_configs_enabled": true,
+            "validate_weeks_automatically": true,
+            "close_weeks_automatically": true,
+            "split_recuperation": true,
+            "default_week_start_day": "string",
+            "timeoff_balances_enabled": true,
+            "exceptional_timeoff": true,
+            "partial_balance_accumulation_enabled": true,
+            "continous_credit_note_code": true,
+            "use_calculated_overtime": true,
+            "show_project_status": true,
+            "forecast_rules_enabled": true,
+            "mandate_fees_enabled": true,
+            "show_cost_exports": true,
+            "timeoff_drafts_enabled": true,
+            "managed_contracts_enabled": true,
+            "treatment_enabled": true,
+            "show_contractor_ibans": true,
+            "accounting_exports_enabled": true,
+            "deduct_direct_subcontractors": true,
+            "invoice_followups_enabled": true,
+            "production_revenue_enabled": true,
+            "with_unallocated_payroll": true
+        }
+        """
+        route = 'v1/organizations/{0}/'.format(self.org_pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     def __get_org(self):
@@ -572,7 +711,7 @@ class Sdk(Helper):
         """ Create a new set of permissions
 
         Keywords arguments:
-        data -- content of the permissions set to be created :
+        data -- content of the permissions set to be created:
         {
             "name": "Consultant", (required)
             "name_en": "Consultant",
@@ -609,13 +748,13 @@ class Sdk(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    # "permissions" & "all_permissions" easily modifiable - potential security problem ?
+    # Test to modify "permissions" & "all_permissions" without being superadmin
     def update_permissions_details(self, id, data):
         """ Update permissions set details
 
         Keywords arguments:
         id -- id of the permissions set
-        data -- content of the update :
+        data -- content of the update:
         {
             "name": "Boss",
             "name_en": "Boss",
@@ -665,7 +804,7 @@ class Sdk(Helper):
         """ Update current profile details 
 
         Keywords arguments:
-        data -- content of the update :
+        data -- content of the update:
         {
             "locale": "en",
             "show_sidemenu": False
@@ -676,8 +815,6 @@ class Sdk(Helper):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    # post method on profile preferences ?
-
     #### Team #####
 
     def get_teams_list(self):
@@ -687,11 +824,18 @@ class Sdk(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)  # no 'results' key
 
+    def get_teams_access_list(self):
+        """ Get teams orguser has or has not access to """
+
+        route = 'v1/teams/list/access/'
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
     def create_team(self, data):
         """ Create a new team 
 
         Keywords arguments:
-        data -- content of the team to be created :
+        data -- content of the team to be created:
         {
             "name": "Beta", (required)
             "currency": currency_pk,
@@ -723,17 +867,56 @@ class Sdk(Helper):
 
         Keywords arguments:
         pk -- pk of the team where to add the user
-        data -- details about the user to add (pk, permissionsset, role, ...) :
+        data -- details about the user to add (pk, permissionsset, role, ...):
         {
-            "orguser": orguser_pk,  # pk of the user to add
+            "orguser": orguser_pk,
             "permissionsset: permissionsset_pk,
             "role": role_pk
-            "team"
+            "team": team_pk
         }
         """
 
         route = 'v1/teams/users/list/{0}/'.format(pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def add_team_user_to_multiple_projects(self, data):  # Error 500
+        """ Add a user to multiple teams at once
+
+        Keywords arguments:
+        data -- pk of the projects and pk of the orguser to add :
+        {
+            "orguser": orguser_pk,
+            "teams": [
+
+            ]
+            "projects": [
+                project_id,
+                ...
+            ]
+        }
+        """
+
+        route = 'v1/teams/users/bulk/add/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def remove_team_user_to_multiple_projects(self, data):  # Error 500
+        """ Remove a user from multiple teams at once
+
+        Keywords arguments:
+        data -- pk of the projects and pk of the orguser to remove :
+        {
+            "orguser": orguser_pk,
+            "projects": [
+                project_id,
+                ...
+            ]
+        }
+        """
+
+        route = 'v1/teams/users/bulk/delete/{0}/'.format(self.org_pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     def get_team_user_details(self, user_pk):  # same thing as get_orguser_details ?
@@ -752,7 +935,7 @@ class Sdk(Helper):
 
         Keywords arguments:
         user_pk -- pk of the team user
-        data -- content of the update :
+        data -- content of the update:
         {
             "permissionsset": 16464,
             "team": team_pk
@@ -763,7 +946,7 @@ class Sdk(Helper):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def delete_team_user(self, user_pk):
+    def remove_team_user(self, user_pk):
         """ Delete a user from the team """
 
         route = 'v1/teams/users/{0}/'.format(user_pk)
@@ -786,7 +969,7 @@ class Sdk(Helper):
 
         Keywords arguments:
         pk -- pk of the team
-        data -- content of the update :
+        data -- content of the update:
         {
             "city": "Lyon",
             "address": "2 Avenue du Trône"
@@ -850,643 +1033,3 @@ class Sdk(Helper):
         }
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return response.status_code
-
-
-##### DELIVERABLES #####
-
-    #### Phases ####
-
-    def get_phase_details(self, pk):
-        """Get the phase details
-        Keyword arguments:
-        pk -- the pk of the phase
-        data -- data to update
-        """
-
-        route = 'v1/phases/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return self.process_response(response)
-
-    def update_phase_details(self, pk, data):
-        """Update the phase details
-        Keyword arguments:
-        pk -- the pk of the phase
-        data -- data to update
-        """
-
-        route = 'v1/phases/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return self.process_response(response)
-
-    def get_phases_list(self, project_pk):
-        """Get the phase list
-        Keyword arguments:
-        project_pk -- the pk of the project
-        """
-
-        route = 'v1/phases/list/{0}/'.format(project_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
-
-    #### Annexes ####
-
-    def get_annexes_list(self, project_pk):
-        """Get the annexes list
-        Keyword arguments:
-        project_pk -- the pk of the project
-        """
-
-        route = 'v1/annexes/list/{0}/'.format(project_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
-
-    def get_annex_details(self, pk):
-        """Get the annex details
-        Keyword arguments:
-        pk -- the pk of the annex
-        """
-
-        route = 'v1/annexes/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return self.process_response(response)
-
-    def create_annex(self, project_pk, data):
-        """Create an annex
-        Keyword arguments:
-        project_pk -- the pk of the project
-        data -- data to create
-        """
-
-        route = 'v1/annexes/list/{0}/'.format(project_pk)
-        parameters = '?phase='
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return self.process_response(response)
-
-    def update_annex(self, pk, data):
-        """Update the annex details
-        Keyword arguments:
-        pk -- the pk of the project
-        """
-
-        route = 'v1/annexes/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return self.process_response(response)
-
-
-##### INVOICING #####
-
-    #### Invoices ####
-
-
-    def get_invoice_details(self, pk):
-        """Get the invoice details
-        Keyword arguments:
-        pk -- the pk of the invoice
-        """
-
-        route = 'v1/invoices/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return self.process_response(response)
-
-    def get_invoices_list(self):
-        """Get the invoice list"""
-
-        route = 'v1/invoices/list/{0}/?page_size=999999'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
-
-    def get_invoices_sent_valid_list(self):
-        """ Get the sent and valid invoice list """
-
-        route = 'v1/invoices/list/{0}/?team={1}&page_size=999999&q=&is_sent=true&is_valid=true'.format(
-            self.org_pk, self.teams_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
-
-    def update_invoice(self, pk, data):
-        """Create an invoice
-        Keyword arguments:
-        pk -- the pk of the invoice
-        data -- data to create :
-            {
-                "invoice_date": "DD-MM-YYYY",
-                "billing_option": 0,
-                "bank": 0,
-                "purchase_order": "string",
-                "references": "string",
-                "is_valid": Boolean,
-                "is_sent": Boolean,
-                "multi_tax_enabled": Boolean (if invoice items have multi tax rates)
-            }
-        """
-
-        route = 'v1/invoices/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        if(response.status_code == 200):
-            return {'status': response.status_code}
-        else:
-            return self.process_response(response)
-
-    def create_invoice(self, team_pk, data):
-        """Create an invoice
-        Keyword arguments:
-        team_pk -- the pk of the team
-        data -- data to create :
-            {
-                "project": 0,
-                "type": 0,
-                "invoice_date": "DD-MM-YYYY",
-                "due_date": "DD-MM-YYYY"
-                "client_name": "string",
-                "client_address": "string",
-                "references": "string"
-                "team": 0
-            }
-            Note that for type 4 (other), project is not mandatory
-        """
-
-        route = 'v1/invoices/list/{0}/'.format(self.org_pk)
-        parameters = '?team={0}'.format(team_pk)
-        response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
-                                 headers=self.headers, data=json.dumps(data))
-        return self.process_response(response)
-
-    def validate_invoice(self, pk):
-        """Validate an invoice
-        Keyword arguments:
-        pk -- the pk of the invoice
-        """
-        data = {"is_valid": True}
-
-        route = 'v1/invoices/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return self.process_response(response)
-
-    def send_invoice(self, pk):
-        """Send an invoice
-        Keyword arguments:
-        pk -- the pk of the invoice
-        """
-        data = {"is_sent": True}
-
-        route = 'v1/invoices/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return self.process_response(response)
-
-    def cancel_invoice(self, pk):
-        """Cancel an invoice and create a credit note
-        Keyword arguments:
-        pk -- the pk of the invoice
-        """
-        data = {"is_closed": True}
-
-        route = 'v1/invoices/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        if(response.status_code == 200):
-            response_data = json.loads(response.content)
-            credit_note_pk = response_data['credit_note_url'].split('/')[4]
-        return {'status': response.status_code, 'data': credit_note_pk}
-
-    def get_invoice_items(self, pk):
-        """ Get invoice's items
-        Keyword arguments: 
-        pk -- invoice pk
-        """
-
-        route = 'v1/invoices/items/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return self.process_response(response)
-
-    def create_invoice_item(self, pk, data):
-        """ Create invoice's item
-        Keyword Arguments:
-        pk -- pk of the invoice
-        data -- data to create :
-            {
-                "descritpion": "string" (title of the item),
-                "subtitle": "string" (description of the item),
-                "amount": 0,
-                "tax_rate": 0.0 (if invoice.multi_tax_rate = True)
-                "tax": 0.0 (tax amount, if invoice.multi_tax_rate = True)
-            }
-        """
-
-        route = 'v1/invoices/items/{0}/'.format(pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        if(response.status_code not in [500]):
-            return self.process_response(response)
-        else:
-            return {'status': response.status_code}
-
-    def update_invoice_item(self, pk, data):
-        """ Update invoice's item
-        Keyword Arguments:
-        pk -- pk of the item
-        data -- data to update :
-            {
-                "descritpion": "string" (title of the item),
-                "subtitle": "string" (description of the item),
-                "amount": 0
-            }
-        """
-
-        route = 'v1/invoices/item/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-
-        if(response.status_code == 200):
-            return {'status': response.status_code}
-        else:
-            return self.process_response(response)
-
-    def delete_invoice_item(self, pk):
-        """ Update invoice's item
-        Keyword Arguments:
-        pk -- pk of the item
-        """
-
-        route = 'v1/invoices/item/{0}/'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        if(response.status_code not in [204]):
-            return self.process_response(response)
-        else:
-            return {'status': response.status_code}
-
-    #### Credit notes ####
-
-    def get_credit_notes_list(self):
-        """Get the invoice list"""
-
-        route = 'v1/invoices/list/{0}/?page_size=999999&type=9'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
-
-    def get_credit_notes_sent_valid_list(self):
-        """ Get the sent and valid invoice list """
-
-        route = 'v1/invoices/list/{0}/?team={1}&page_size=999999&q=&is_sent=true&is_valid=true&type=9'.format(
-            self.org_pk, self.teams_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
-
-    #### Payments ####
-
-    def get_payment_details(self, pk):
-        """Get the payment details
-        Keyword arguments:
-        pk -- the pk of the payment
-        """
-
-        route = 'v1/payments/{0}'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return self.process_response(response)
-
-    def get_payments_list(self):
-        """Get the payment list"""
-
-        route = 'v1/payments/list/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
-
-    def update_payment(self, pk, data):
-        """Create an payment
-        Keyword arguments:
-        pk -- the pk of the payment
-        data -- data to create : 
-            {
-                "date": "DD-MM-YYYY",
-                "amount": 0,
-                "currency": "string" (currency_pk),
-                "currency_rate": 0,
-                "type": "string",
-                "invoice": "string" (invoice_pk)
-                "team": "string" (team_pk),
-                "project": "string" (project_pk)
-            }
-        """
-
-        route = 'v1/payments/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return self.process_response(response)
-
-    def update_payment_invoice(self, pk, data):
-        """ Update payment's amount on invoice
-        Please do not call this function before update_payment. 
-        To make an update on a payment, first use the "update_payment" method. 
-        Then, update the amount on the invoice with this method. 
-        Keyword arguments :
-        pk -- pk of payment
-        data -- data to update : 
-            {
-                "amount": 0
-            }
-        """
-        route = 'v1/payments/invoice/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return self.process_response(response)
-
-    def create_payment(self, team_pk, data):
-        """Create an payment
-        Keyword arguments:
-        team_pk -- the pk of the team
-        data -- data to create : 
-            {
-                "date": "DD-MM-YYYY",
-                "amount": 0,
-                "currency": "string" (currency_pk),
-                "type": "string",
-                "invoice": "string" (invoice_pk)
-                "team": "string" (team_pk),
-                "project": "string" (project_pk) (no need of project for invoices of type 4)
-            }
-        """
-
-        route = 'v1/payments/list/{0}/'.format(self.org_pk)
-        parameters = '?team={0}'.format(team_pk)
-        response = requests.post('{0}{1}{2}'.format(self.base_url, route, parameters),
-                                 headers=self.headers, data=json.dumps(data))
-        return self.process_response(response)
-
-    ##### Clients #####
-
-    def get_clients_list(self, team_pk):
-        """Get the clients list
-        Keyword arguments:
-        pk -- the pk of the team
-        """
-
-        route = 'v1/clients/list/{0}/'.format(self.org_pk)
-        parameters = '?page_size=999999&team={0}'.format(team_pk)
-
-        response = requests.get('{0}{1}{2}'.format(self.base_url, route, parameters), headers=self.headers)
-        return {"status": response.status_code, "data": json.loads(response.content)['results']}
-
-    def get_clients_details(self, pk):
-        """Get the client details
-        Keyword arguments:
-        pk -- the pk of the client
-        """
-
-        route = 'v1/clients/{0}/'.format(pk)
-
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {"status": response.status_code, "data": json.loads(response.content)}
-
-    def create_client(self, data):
-        """ Create client 
-        Keyword arguments:
-        data -- data to create, required fields : 
-            {
-                "company_name": "string",
-                "number": "string",
-                "currency": "string" (currency_pk)
-                "billing_address": "string",
-                "team": "string",
-                "tags": []
-            }
-        """
-
-        route = 'v1/clients/list/{0}/'.format(self.org_pk)
-
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {"status": response.status_code, "data": json.loads(response.content)}
-
-    def update_client(self, pk, data):
-        """ Update client
-        Keyword arguments:
-        pk -- pk of the client 
-        data -- data to create, required fields : 
-            {
-                "company_name": "string",
-                "currency": "string" (currency_pk),
-                "number": "string",
-                "business_vat_id: "string",
-                "billing_address": "string",
-                "group": "?"
-                "address: "string"
-            }
-        """
-        route = 'v1/clients/{0}/'.format(pk)
-
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {"status": response.status_code, "data": json.loads(response.content)}
-
-    def delete_client(self, pk):
-        """ Delete client
-        Keyword arguments:
-        pk -- pk of the client
-        """
-        route = 'v1/clients/{0}/'.format(pk)
-
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        if(response.status_code == 204):
-            return {"status": response.status_code, "data": "Client deleted"}
-        else:
-            return {"status": response.status_code, "data": json.loads(response.content)}
-
-    ##### Currencies #####
-
-    def get_currencies_list(self):
-        """Get the currencies list """
-
-        route = 'v1/currencies/list/?page_size=200'
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {"status": response.status_code, "data": json.loads(response.content)['results']}
-
-    def get_currency_details(self, pk):
-        """ Get the currency details
-        Keyword arguments:
-        pk -- the pk of the currency
-        """
-
-        route = 'v1/organizations/membership/'
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        self.org_pk = json.loads(response.content)['organizations'][0]['id']
-        teams = json.loads(response.content)['organizations'][0]['teams']
-        self.teams_pk = []
-        for team in range(len(teams)):
-            self.teams_pk.append({key: teams[team][key] for key in ('id', 'title')})
-        return response.status_code
-
-    #### Token ####
-
-    def __get_token(self):
-        route = 'v1/token-auth/'
-        headers = {
-            'Accept': 'application/json'
-        }
-        data = {
-            'username': self.username,
-            'password': self.password
-        }
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=headers, data=data)
-        self.access_token = json.loads(response.content)['token']
-        self.headers = {
-            'Authorization': 'JWT {0}'.format(self.access_token),
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'X-CSRF-Token': self._csrf_token
-        }
-        return response.status_code
-
-        route = 'v1/token-refresh/'
-        data = {
-            'token': self.access_token
-        }
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {"status": response.status_code, "data": json.loads(response.content)}
-
-    def update_currency(self, pk, data):
-        """ Update a currency
-        Keyword arguments:
-        data -- data to create, required fields : 
-            {
-                "name": "string",
-                "longname": "string",
-                "decimal_points": 0,
-                "symbol": "string"
-            }
-        pk -- the pk of the currency
-        """
-
-        route = 'v1/currencies/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers,
-                                  data=json.dumps(data))
-        return {"status": response.status_code, "data": json.loads(response.content)}
-
-
-##### COSTS #####
-
-    #### Expenses ####
-
-
-    def get_expenses_list(self):
-        """ Get the expenses list """
-
-        route = 'v1/expenses/list/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
-
-    def get_expenses_details(self, pk):
-        """Get the expense details
-
-        Keyword arguments:
-        pk -- the pk of the expense
-        """
-
-        route = 'v1/expenses/{0}'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return self.process_response(response)
-
-
-##### COLLABORATION #####
-
-    #### Contact ####
-
-
-    def get_contacts_list(self, project_pk=None):
-        """ Get the contacts list
-        project_pk -- the pk of the contacts' project (optional)
-
-        """
-
-        route = 'v1/contacts/list/{0}/'.format(self.org_pk)
-        if project_pk is not None:
-            route += '{0}/'.format(project_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
-
-    def get_contact_details(self, pk):
-        """ Get the contact details
-        Keywords arguments:
-        pk - - the pk of the contact
-        """
-
-        route = 'v1/contacts/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return self.process_response(response)
-
-    def update_contact_details(self, pk, data):
-        """ Update the contact details
-        Keywords arguments:
-        pk - - the pk of the contact
-        data - - data to update, example value:
-        {
-            "name": "string",
-            "first_name": "string",
-            "last_name": "string",
-            "email": "string",
-            "mobile_phone": "string",
-            "office_phone": "string",
-            "home_phone": "string",
-            "fax": "string",
-            "website": "string",
-            "street1": "string",
-            "postal_code1": "string",
-            "city1": "string",
-            "province1": "string",
-            "country1": "string",
-            "job_title": "string",
-            "client": [(ids of the clients associated with this contact)
-                "string"
-            ]
-        }
-        """
-
-        route = 'v1/contacts/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        return {"status": response.status_code, "data": json.loads(response.content)}
-
-    def create_contact(self, data, project_pk=None):
-        """ Create contact
-        Keywords arguments:
-        project_pk - - the pk of the contact's project(optional)
-        data - - data to create:
-            {
-                "name": "string" (required),
-                "first_name": "string" (optional),
-                "last_name": "string" (optional),
-                "email": "string" (optional),
-                "mobile_phone": "string" (optional),
-                "job_title": "string" (optional)
-            }
-        """
-
-        route = 'v1/contacts/list/{0}/'.format(self.org_pk)
-        if project_pk is not None:
-            route += '{0}/'.format(project_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
-        if(response.status_code != 500):
-            return {'status': response.status_code, 'data': json.loads(response.content)['results']}
-        else:
-            return {'status': response.status_code}
-
-    def delete_contact(self, pk):
-        """ Delete the contact
-        Keywords arguments:
-        pk - - the pk of the contact
-        """
-
-        route = 'v1/contacts/{0}/'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        if(response.status_code == 204):
-            return {'status': response.status_code, 'data': 'Contact deleted'}
-        else:
-            return self.process_response(response)
-
-    #### Task ####
-
-    def get_tasks_list(self):
-        """ Get the tasks list """
-
-        route = 'v1/tasks/list/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        return self.process_response(response)
-
-
-##### TIME #####
-
-
-##### SETTINGS #####
-
-
-##### RANDOM #####
