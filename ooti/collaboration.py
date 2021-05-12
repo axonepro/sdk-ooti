@@ -1,7 +1,7 @@
 import requests
 import json
 
-from helper import Helper
+from .helper import Helper
 
 """
 
@@ -667,7 +667,7 @@ class Collaboration(Helper):
         """
 
         route = 'v1/posts/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     #### Tasks ####
@@ -802,14 +802,14 @@ class Collaboration(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_tasks_list_detail(self, list_pk):
+    def get_tasks_list_details(self, list_pk):
         """ Get the list of tasks details 
 
         Keywords arguments:
         list_pk -- the pk of list of tasks
         """
 
-        route = 'v1/tasks/lists/{0}/'.format(pk)
+        route = 'v1/tasks/lists/{0}/'.format(list_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -833,7 +833,7 @@ class Collaboration(Helper):
         }
         """
 
-        route = 'v1/tasks/lists/{0}/'.format(pk)
+        route = 'v1/tasks/lists/{0}/'.format(list_pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
@@ -844,7 +844,7 @@ class Collaboration(Helper):
         list_pk -- the pk of list of tasks
         """
 
-        route = 'v1/tasks/lists/{0}/'.format(pk)
+        route = 'v1/tasks/lists/{0}/'.format(list_pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
