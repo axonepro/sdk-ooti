@@ -16,9 +16,11 @@ class Invoicing(Helper):
     #### Invoices ####
 
     def get_invoice_details(self, pk):
-        """Get the invoice details
+        """ Get the invoice details
+
         Keyword arguments:
-        pk - - the pk of the invoice
+
+        pk -- the pk of the invoice
         """
 
         route = 'v1/invoices/{0}/'.format(pk)
@@ -26,7 +28,7 @@ class Invoicing(Helper):
         return self.process_response(response)
 
     def get_invoices_list(self):
-        """Get the invoice list"""
+        """ Get the invoice list """
 
         route = 'v1/invoices/list/{0}/?page_size=999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -37,7 +39,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        team_pk - - pk of the team
+        team_pk -- pk of the team
         """
 
         route = 'v1/invoices/list/{0}/?team={1}&page_size=999999&q=&is_sent=true&is_valid=true'.format(
@@ -47,9 +49,11 @@ class Invoicing(Helper):
 
     def update_invoice(self, pk, data):
         """Create an invoice
+
         Keyword arguments:
-        pk - - the pk of the invoice
-        data - - data to create:
+
+        pk -- the pk of the invoice
+        data -- data create:
             {
                 "invoice_date": "DD-MM-YYYY",
                 "billing_option": 0,
@@ -69,8 +73,8 @@ class Invoicing(Helper):
     def create_invoice(self, team_pk, data):
         """Create an invoice
         Keyword arguments:
-        team_pk - - the pk of the team
-        data - - data to create:
+        team_pk -- the pk of the team
+        data -- data create:
             {
                 "project": 0,
                 "type": 0,
@@ -94,7 +98,7 @@ class Invoicing(Helper):
     def validate_invoice(self, pk):
         """Validate an invoice
         Keyword arguments:
-        pk - - the pk of the invoice
+        pk -- the pk of the invoice
         """
         data = {"is_valid": True}
 
@@ -105,7 +109,7 @@ class Invoicing(Helper):
     def send_invoice(self, pk):
         """Send an invoice
         Keyword arguments:
-        pk - - the pk of the invoice
+        pk -- the pk of the invoice
         """
         data = {"is_sent": True}
 
@@ -116,7 +120,7 @@ class Invoicing(Helper):
     def cancel_invoice(self, pk):
         """Cancel an invoice and create a credit note
         Keyword arguments:
-        pk - - the pk of the invoice
+        pk -- the pk of the invoice
         """
         data = {"is_closed": True}
 
@@ -135,7 +139,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - invoice pk
+        pk -- invoice pk
         """
 
         route = 'v1/invoices/items/{0}/?page_size=999999'.format(pk)
@@ -147,8 +151,8 @@ class Invoicing(Helper):
 
         Keyword Arguments:
 
-        pk - - pk of the invoice
-        data - - data to create:
+        pk -- pk of the invoice
+        data -- data create:
             {
                 "descritpion": "string" (title of the item),
                 "subtitle": "string" (description of the item),
@@ -167,8 +171,8 @@ class Invoicing(Helper):
 
         Keyword Arguments:
 
-        pk - - pk of the item
-        data - - data to update:
+        pk -- pk of the item
+        data -- data update:
             {
                 "descritpion": "string" (title of the item),
                 "subtitle": "string" (description of the item),
@@ -185,7 +189,7 @@ class Invoicing(Helper):
 
         Keyword Arguments:
 
-        pk - - pk of the item
+        pk -- pk of the item
         """
 
         route = 'v1/invoices/item/{0}/'.format(pk)
@@ -195,7 +199,7 @@ class Invoicing(Helper):
     #### Credit notes ####
 
     def get_credit_notes_list(self):
-        """Get the invoice list"""
+        """ Get the invoice list """
 
         route = 'v1/invoices/list/{0}/?page_size=999999&type=9'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -206,7 +210,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        team_pk - - pk of the team
+        team_pk -- pk of the team
         """
 
         route = 'v1/invoices/list/{0}/?team={1}&page_size=999999&q=&is_sent=true&is_valid=true&type=9'.format(
@@ -217,9 +221,11 @@ class Invoicing(Helper):
     #### Payments ####
 
     def get_payment_details(self, pk):
-        """Get the payment details
+        """ Get the payment details
+
         Keyword arguments:
-        pk - - the pk of the payment
+
+        pk -- the pk of the payment
         """
 
         route = 'v1/payments/{0}'.format(pk)
@@ -235,9 +241,11 @@ class Invoicing(Helper):
 
     def update_payment(self, pk, data):
         """Create an payment
+
         Keyword arguments:
-        pk - - the pk of the payment
-        data - - data to create:
+
+        pk -- the pk of the payment
+        data -- data create:
             {
                 "date": "DD-MM-YYYY",
                 "amount": 0,
@@ -263,8 +271,8 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of payment
-        data - - data to update:
+        pk -- pk of payment
+        data -- data update:
             {
                 "amount": 0
             }
@@ -275,9 +283,11 @@ class Invoicing(Helper):
 
     def create_payment(self, team_pk, data):
         """Create an payment
+
         Keyword arguments:
-        team_pk - - the pk of the team
-        data - - data to create:
+
+        team_pk -- the pk of the team
+        data -- data create:
             {
                 "date": "DD-MM-YYYY",
                 "amount": 0,
@@ -302,8 +312,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - the pk of the team
-
+        pk -- the pk of the team
         """
 
         route = 'v1/clients/list/{0}/'.format(self.org_pk)
@@ -317,7 +326,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - the pk of the client
+        pk -- the pk of the client
         """
 
         route = 'v1/clients/{0}/'.format(pk)
@@ -329,7 +338,8 @@ class Invoicing(Helper):
         """ Create client
 
         Keyword arguments:
-        data - - data to create, required fields:
+
+        data -- data create, required fields:
             {
                 "company_name": "string",
                 "number": "string",
@@ -338,7 +348,6 @@ class Invoicing(Helper):
                 "team": "string",
                 "tags": []
             }
-
         """
 
         route = 'v1/clients/list/{0}/'.format(self.org_pk)
@@ -350,8 +359,9 @@ class Invoicing(Helper):
         """ Update client
 
         Keyword arguments:
-        pk - - pk of the client
-        data - - data to create, required fields:
+
+        pk -- pk of the client
+        data -- data create, required fields:
             {
                 "company_name": "string",
                 "currency": "string" (currency_pk),
@@ -371,7 +381,8 @@ class Invoicing(Helper):
         """ Delete client
 
         Keyword arguments:
-        pk - - pk of the client
+
+        pk -- pk of the client
         """
         route = 'v1/clients/{0}/'.format(pk)
 
@@ -389,8 +400,10 @@ class Invoicing(Helper):
 
     def get_currency_details(self, pk):
         """ Get the currency details
+
         Keyword arguments:
-        pk - - the pk of the currency
+
+        pk -- the pk of the currency
         """
 
         route = 'v1/currencies/{0}'.format(pk)
@@ -400,7 +413,7 @@ class Invoicing(Helper):
     def delete_currency(self, pk):
         """ Delete a currency
         Keyword arguments:
-        pk - - the pk of the currency
+        pk -- the pk of the currency
         """
 
         route = 'v1/currencies/{0}'.format(pk)
@@ -412,7 +425,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        data - - data to create, required fields:
+        data -- data create, required fields:
             {
                 "name": "string",
                 "longname": "string",
@@ -430,7 +443,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        data - - data to create, required fields:
+        data -- data create, required fields:
             {
                 "name": "string",
                 "longname": "string",
@@ -438,7 +451,7 @@ class Invoicing(Helper):
                 "symbol": "string"
             }
 
-        pk - - the pk of the currency
+        pk -- the pk of the currency
         """
 
         route = 'v1/currencies/{0}/'.format(pk)
@@ -451,29 +464,29 @@ class Invoicing(Helper):
     ### Classic ###
 
     def get_emails_list(self):
-        """Get the emails list"""
+        """ Get the emails list """
 
         route = 'v1/emails/list/{0}/?page_size=999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
     def get_email_details(self, pk):
-        """Get the email details
-        Keyword arguments:
-        pk - - the pk of the email
-        """
+        """ Get the email details
 
+        Keyword arguments:
+
+        pk -- the pk of the email
+        """
         route = 'v1/emails/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def create_email(self, team_pk, data):
+    def create_email(self, data):
         """ Create an email
 
         Keyword arguments:
 
-        team_pk - - the pk of the team
-        data - - data to create, fields:
+        data -- data create, fields:
             {
                 "team": 0,
                 "name": "string", (name of the template)
@@ -502,8 +515,8 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - the pk of the email template
-        data - - data to create, fields:
+        pk -- the pk of the email template
+        data -- data create, fields:
             {
                 "team": 0,
                 "name": "string", (name of the template)
@@ -532,7 +545,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of the email
+        pk -- pk of the email
         """
         route = 'v1/emails/{0}'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -543,7 +556,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - the pk of the email template
+        pk -- the pk of the email template
         """
 
         route = 'v1/emails/{0}/send-test/'.format(pk)
@@ -555,7 +568,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of the email template
+        pk -- pk of the email template
         """
         route = 'v1/emails/{0}/apply/'.format(pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -564,16 +577,18 @@ class Invoicing(Helper):
     ### smtp ###
 
     def get_emails_smtp_list(self):
-        """Get the emails list"""
+        """ Get the emails smtp list """
 
         route = 'v1/emails/smtp/list/{0}/?page_size=999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
     def get_email_smtp_details(self, pk):
-        """Get the email smtp details
+        """ Get the email smtp details
+
         Keyword arguments:
-        pk - - the pk of the email smtp
+
+        pk -- the pk of the email smtp
         """
 
         route = 'v1/emails/smtp/{0}/'.format(pk)
@@ -581,11 +596,11 @@ class Invoicing(Helper):
         return self.process_response(response)
 
     def create_email_smtp(self, data):
-        """ Create an email SMTP
+        """ Create an email smtp
 
         Keyword Arguments:
 
-        data - - data to create: fields:
+        data -- data create: fields:
            {
                "from_name": "string",
                "from_email": "string",
@@ -601,12 +616,12 @@ class Invoicing(Helper):
         return self.process_response(response)
 
     def update_email_smtp(self, pk, data):
-        """ Update an email SMTP
+        """ Update an email smtp
 
         Keyword arguments:
 
-        pk - - the pk of the email smtp
-        data - - data to create: fields:
+        pk -- the pk of the email smtp
+        data -- data create: fields:
            {
                "from_name": "string",
                "from_email": "string",
@@ -623,11 +638,11 @@ class Invoicing(Helper):
         return self.process_response(response)
 
     def delete_email_smtp(self, pk):
-        """Delete an email smtp
+        """ Delete an email smtp
 
         Keyword arguments:
 
-        pk - - pk of the email smtp
+        pk -- pk of the email smtp
         """
         route = 'v1/emails/smtp/{0}'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -638,7 +653,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - the pk of the email template
+        pk -- the pk of the email template
         """
 
         route = 'v1/emails/smtp/{0}/send-test/'.format(pk)
@@ -650,11 +665,11 @@ class Invoicing(Helper):
     ### Folders ###
 
     def get_folder_list(self, project_pk):
-        """Get the folder list
+        """ Get the folder list
 
         Keyword arguments:
 
-        project_pk - - pk of the project
+        project_pk -- pk of the project
         """
 
         route = 'v1/files/folder/list/{0}/?page_size=999999'.format(project_pk)
@@ -662,11 +677,11 @@ class Invoicing(Helper):
         return self.process_response(response, True)
 
     def get_folder_details(self, pk):
-        """Get the folder details
+        """ Get the folder details
 
         Keyword arguments:
 
-        pk - - pk of the folder
+        pk -- pk of the folder
         """
 
         route = 'v1/files/folder/{0}/'.format(pk)
@@ -678,8 +693,8 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        project_pk - - pk of the project
-        data - - data to be created:
+        project_pk -- pk of the project
+        data -- data to be created:
             {
                 "name": "string",
                 "name_en": "string",
@@ -696,8 +711,8 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of the folder
-        data - - data to be updated:
+        pk -- pk of the folder
+        data -- data to be updated:
             {
                 "name": "string",
                 "name_en": "string",
@@ -714,7 +729,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of the folder
+        pk -- pk of the folder
         """
         route = 'v1/files/folder/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -723,11 +738,11 @@ class Invoicing(Helper):
     ### Files ###
 
     def get_files_list(self, project_pk):
-        """Get the files list
+        """ Get the files list
 
         Keyword arguments:
 
-        project_pk - - pk of the project
+        project_pk -- pk of the project
         """
 
         route = 'v1/files/list/{0}/?page_size=999999'.format(project_pk)
@@ -735,11 +750,11 @@ class Invoicing(Helper):
         return self.process_response(response, True)
 
     def get_file_details(self, pk):
-        """Get the file details
+        """ Get the file details
 
         Keyword arguments:
 
-        pk - - pk of the file
+        pk -- pk of the file
         """
 
         route = 'v1/files/{0}/'.format(pk)
@@ -751,7 +766,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of the file
+        pk -- pk of the file
         """
 
         route = 'v1/files/{0}/'.format(pk)
@@ -761,18 +776,18 @@ class Invoicing(Helper):
     #### Banks ####
 
     def get_banks_list(self):
-        """Get the banks list """
+        """ Get the banks list """
 
         route = 'v1/banks/list/{0}/?page_size=999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
     def get_bank_details(self, pk):
-        """Get the bank details
+        """ Get the bank details
 
         Keyword arguments:
 
-        pk - - pk of the bank
+        pk -- pk of the bank
         """
 
         route = 'v1/banks/{0}/'.format(pk)
@@ -784,7 +799,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        data - - data to be created:
+        data -- data to be created:
             {
                 "name": "string",
                 "currency": 0,
@@ -801,11 +816,11 @@ class Invoicing(Helper):
         return self.process_response(response)
 
     def update_bank(self, pk, data):
-        """ Create a bank
+        """ Update a bank
 
         Keyword arguments:
 
-        data - - data to be created:
+        data -- data to be created:
             {
                 "name": "string",
                 "currency": 0,
@@ -826,7 +841,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of the bank
+        pk -- pk of the bank
         """
         route = 'v1/banks/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -837,25 +852,25 @@ class Invoicing(Helper):
     ### Reports ###
 
     def get_reports_list(self):
-        """Get the reports list """
+        """ Get the reports list """
 
         route = 'v1/reports/list/{0}/?page_size=999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
     def get_reports_project_list(self, project_pk):
-        """Get the reports list for a project"""
+        """ Get the reports list for a project """
 
         route = 'v1/reports/list/{0}/?page_size=999999&project={1}'.format(self.org_pk, project_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
     def get_report_details(self, pk):
-        """Get the report details
+        """ Get the report details
 
         Keyword arguments:
 
-        pk - - pk of the report
+        pk -- pk of the report
         """
 
         route = 'v1/reports/{0}/'.format(pk)
@@ -867,7 +882,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        data - - data to be created:
+        data -- data to be created:
         {
             "name": "string", (required)
             "project": 0, (required)
@@ -917,8 +932,8 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of the report
-        data - - data update:
+        pk -- pk of the report
+        data -- data update:
         {
             "name": "string", (required)
             "styleguide": 0,
@@ -947,24 +962,24 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of the report
+        pk -- pk of the report
         """
         route = 'v1/reports/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def generate_report(self, data):
-        """ Generate a report(already created)
+        """ Generate a report (report that is already created)
 
         Keyword arguments:
 
-        data - - data to be created:
+        data -- data to be created:
             {
                 "pk": 0 (pk of the report),
                 "project": 0 (project linked to the report)
             }
         """
-        route = 'v1/reports/generate/{0}'.format(self.org_pk)
+        route = 'v1/reports/generate/{0}/'.format(self.org_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
@@ -975,7 +990,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        team_pk - - pk of the team
+        team_pk -- pk of the team
         """
 
         route = 'v1/reports/templates/list/{0}/?page_size=999999'.format(team_pk)
@@ -987,7 +1002,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of the template
+        pk -- pk of the template
         """
 
         route = 'v1/reports/templates/{0}/'.format(pk)
@@ -999,8 +1014,8 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        team_pk - - pk of the team
-        data - - data create:
+        team_pk -- pk of the team
+        data -- data create:
             {
                 "name": "string", (required)
                 "type": "string", (required: "proprosal" or "progress")
@@ -1024,8 +1039,8 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of the template
-        data - - data update:
+        pk -- pk of the template
+        data -- data update:
             {
                 "name": "string", (required)
                 "type": "string", (required: "proprosal" or "progress")
@@ -1049,7 +1064,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of the template
+        pk -- pk of the template
          """
 
         route = 'v1/reports/templates/{0}/'.format(pk)
@@ -1061,7 +1076,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of the template
+        pk -- pk of the template
          """
 
         route = 'v1/reports/templates/duplicate/{0}/'.format(pk)
@@ -1069,20 +1084,19 @@ class Invoicing(Helper):
         return self.process_response(response)
 
     #### Revenue ####
-    # TODO : To be completed later
     def get_revenue_list(self):
-        """Get the revenue list """
+        """ Get the revenue list """
 
         route = 'v1/revenue/list/{0}/?page_size=999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
     def get_revenue_details(self, pk):
-        """Get the revenue details
+        """ Get the revenue details
 
         Keyword arguments:
 
-        pk - - pk of the revenue
+        pk -- pk of the revenue
         """
 
         route = 'v1/revenue/{0}/'.format(pk)
@@ -1090,12 +1104,11 @@ class Invoicing(Helper):
         return self.process_response(response)
 
     def create_revenue(self, data):
-        """ Create a template
+        """ Create a revenue
 
         Keyword arguments:
 
-        team_pk - - pk of the team
-        data - - data create:
+        data -- data create:
             {
                 "amount_actual": 0,
                 "amount_budgeted": 0,
@@ -1110,27 +1123,140 @@ class Invoicing(Helper):
                     "string"
                 ]
             }
-            """
+        """
 
         route = 'v1/revenue/list/{0}/'.format(self.org_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
+    def get_revenue_month_list(self):
+        """ Get the revenue month list """
+
+        route = 'v1/revenue/month/list/{0}/?page_size=999999'.format(self.org_pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response, True)
+
+    def create_revenue_month(self, data):
+        """ Create a revenue month
+
+        Keyword arguments:
+
+        data -- data create:
+        {
+            "revenue_adjustment": 0,
+            "team": 0,
+            "project": 0,
+            "amount_budgeted": 0,
+            "amount_actual": 0,
+            "year": 0,
+            "month": 0
+        }
+        """
+
+        route = 'v1/revenue/month/list/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_revenue_month_details(self, pk):
+        """Get the revenue month details
+
+        Keyword arguments:
+
+        pk -- pk of the revenue month
+        """
+
+        route = 'v1/revenue/month/{0}/'.format(pk)
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_revenue_month(self, pk, data):
+        """ Update a revenue month
+
+        Keyword arguments:
+
+        pk -- pk of the revenue month
+        data -- data create:
+        {
+            "revenue_adjustment": 0,
+            "team": 0,
+            "project": 0,
+            "amount_budgeted": 0,
+            "amount_actual": 0,
+            "year": 0,
+            "month": 0
+        }
+        """
+
+        route = 'v1/revenue/month/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_revenue_month(self, pk):
+        """ Delete the revenue month
+
+        Keyword arguments:
+
+        pk -- pk of the revenue month
+        """
+
+        route = 'v1/revenue/month/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def update_revenue(self, pk, data):
+        """ Update a revenue
+
+        Keyword arguments:
+
+        pk -- pk of the revenue
+        data -- data update:
+            {
+                "amount_actual": 0,
+                "amount_budgeted": 0,
+                "description": "string",
+                "type": "string",
+                "month": 0,
+                "title": "string",
+                "year": 0,
+                "team": 0,
+                "project": 0,
+                "months": [
+                    "string"
+                ]
+            }
+        """
+
+        route = 'v1/revenue/{0}/'.format(pk)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def delete_revenue(self, pk):
+        """ Delete the revenue
+
+        Keyword arguments:
+
+        pk -- pk of the revenue
+        """
+
+        route = 'v1/revenue/{0}/'.format(pk)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
     #### Styleguides ####
 
     def get_styleguides_list(self):
-        """Get the styleguide list """
+        """ Get the styleguide list """
 
         route = 'v1/styleguides/list/{0}/?page_size=999999'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
     def get_styleguide_details(self, pk):
-        """Get the styleguide details
+        """ Get the styleguide details
 
         Keyword arguments:
 
-        pk - - pk of the styleguide
+        pk -- pk of the styleguide
         """
 
         route = 'v1/styleguides/{0}/'.format(pk)
@@ -1142,7 +1268,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        data - - data create:
+        data -- data create:
             {
                 "name": "string"
             }
@@ -1157,8 +1283,8 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of the styleguide
-        data - - data create:
+        pk -- pk of the styleguide
+        data -- data create:
             {
                 "name": "string",
                 "type": "string" ("all", "report", "invoice", "proposal"),
@@ -1179,7 +1305,7 @@ class Invoicing(Helper):
 
         Keyword arguments:
 
-        pk - - pk of the styleguide
+        pk -- pk of the styleguide
         """
 
         route = 'v1/styleguides/{0}/'.format(pk)

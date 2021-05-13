@@ -8,25 +8,7 @@ from .settings import Settings
 from .invoicing import Invoicing
 from .deliverables import Deliverables
 from .collaboration import Collaboration
-
-""" TO DO
-
-- Invitations:
-    - ERROR 404 : create invitation (which pk ?)
-    When inviting on OOTI 'v1/invitations/{id}/' is not called
-
-- Projects:
-    - ERROR 500 : create project
-    - Can't find access project on OOTI
-
-- Profiles:
-    - POST on v1/profiles/preferences/ ?
-
-- Teams:
-    - ERROR 500 : (POST & DELETE on v1/teams/users/bulk/add/{org_pk}/)
-    - Can't find staff on OOTI (POST on v1/teams/staff/{id}/) which id ?
-
-"""
+from .time import Time
 
 
 class Auth(Helper):
@@ -51,12 +33,24 @@ class Auth(Helper):
         self.__get_org()
         self.Costs = Costs(self.base_url, self.org_pk, self.teams_pk,
                            self.access_token, self._csrf_token, self.headers)
+
         self.Others = Others(self.base_url, self.org_pk, self.teams_pk,
                              self.access_token, self._csrf_token, self.headers)
+
         self.Settings = Settings(self.base_url, self.org_pk, self.teams_pk,
                                  self.access_token, self._csrf_token, self.headers)
+
         self.Collaboration = Collaboration(self.base_url, self.org_pk, self.teams_pk,
                                            self.access_token, self._csrf_token, self.headers)
+
+        self.Invoicing = Invoicing(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers)
+
+        self.Deliverables = Deliverables(self.base_url, self.org_pk, self.teams_pk,
+                                         self.access_token, self._csrf_token, self.headers)
+
+        self.Time = Time(self.base_url, self.org_pk, self.teams_pk,
+                         self.access_token, self._csrf_token,  self.headers)
 
 ##### AUTH #####
 
