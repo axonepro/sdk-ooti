@@ -13,9 +13,6 @@ from .helper import Helper
     - Which "id" ? (POST on v1/expenses/groups/create-multiple-expenses/{id}/)
     - DELETE on v1/expenses/{expense_group_pk}/versions/{version_pk}/delete/ ?
     
-- Costs
-    - copy & set functions in costs ?
-
 """
 
 
