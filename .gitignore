@@ -13,3 +13,5 @@ test_collaboration.py
 projects_list.xls
 orgusers_list.xls
 project_11718_timeline.xls
+dist/
+ooti_api.egg-info/

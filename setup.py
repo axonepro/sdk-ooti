@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
-import sdk_ooti
+import ooti
 
 setup(
     name='ooti-api',
 
-    version=sdk_ooti.__version__,
+    version=ooti.__version__,
 
     packages=find_packages(),
 

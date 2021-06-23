@@ -156,10 +156,13 @@ axonepro.com can not be copied and/or distributed without the express permission
 French tuto: https://sametmax.com/creer-un-setup-py-et-mettre-sa-bibliotheque-python-en-ligne-sur-pypi/
 
 Twine documentation: https://twine.readthedocs.io/en/latest/
+
+update ooti package version
 ```sh
    python setup.py sdist bdist_wheel
    python3 -m twine check dist/*
    python3 -m twine upload -r pypi dist/*
+   python3 twine upload dist/* --skip-existing
 ```
 
 <!-- MARKDOWN LINKS & IMAGES -->
