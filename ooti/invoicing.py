@@ -406,7 +406,7 @@ class Invoicing(Helper):
         pk -- the pk of the currency
         """
 
-        route = 'v1/currencies/{0}'.format(pk)
+        route = 'v1/currencies/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -416,7 +416,7 @@ class Invoicing(Helper):
         pk -- the pk of the currency
         """
 
-        route = 'v1/currencies/{0}'.format(pk)
+        route = 'v1/currencies/{0}/'.format(pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -457,6 +457,7 @@ class Invoicing(Helper):
         route = 'v1/currencies/{0}/'.format(pk)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers,
                                   data=json.dumps(data))
+
         return self.process_response(response)
 
     #### Emails ####
