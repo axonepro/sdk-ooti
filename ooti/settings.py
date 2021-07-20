@@ -8,8 +8,6 @@ from .helper import Helper
     - ERROR 403 v1/celery_tasks/last/ 
     - ERROR 404 v1/celery_tasks/last/{org_pk}/
 
-- Custom fields : needs a Pro subscription to create one
-    - ERROR 500 : create a customfield
 - Imports:
     - ERROR 403 : GET v1/imports/counts/
     - ERROR 400 ("Type is required"): GET & POST v1/imports/import/{org_pk}/
@@ -121,11 +119,11 @@ class Settings(Helper):
             "is_required": false,
             "admin_only": false,
             "permissionssets": [
-                permissionsset_pk,
+                permissions_pk,
                 ...
             ],
             "permissionssets_can_edit": [
-                permissionsset_pk,
+                permissions_pk,
                 ...
             ]
         }

@@ -61,10 +61,10 @@ class Costs(Helper):
         """ Create a new costs month
 
         Keywords arguments:
-        data -- data of the new cost to be created:
+        data -- data of the new cost month to be created:
         {
-            "fixed_cost": cost_id,
-            "team": team_pk,
+            "fixed_cost": cost_id, # REQUIRED
+            "team": team_pk, # REQUIRED
             "amount_budgeted": 0,
             "amount_actual": 0,
             "year": 0,
@@ -137,6 +137,7 @@ class Costs(Helper):
         Keywords arguments:
         data -- data of the new cost to be created:
         {
+            "team": team_pk, # REQUIRED
             "amount_actual": 0,
             "amount_budgeted": 0,
             "description": "string",
@@ -144,7 +145,6 @@ class Costs(Helper):
             "month": 0,
             "title": "string",
             "year": 0,
-            "team": team_pk,
             "months": [
                 month_id,
                 ...
@@ -321,7 +321,7 @@ class Costs(Helper):
         Keywords arguments:
         data -- data of the new period to be created:
         {
-            "contract": contract_id,
+            "contract": contract_id, # REQUIRED
             "notes": "string",
             "start_date": "string",
             "end_date": "string",

@@ -15,7 +15,7 @@ class Auth(Helper):
     def __init__(self, username, password):
         self.username = username
         self.password = password
-        self.base_url = 'https://ooti-staging-3.herokuapp.com/api/'  # "https://app.ooti.co/api/"
+        self.base_url = 'http://127.0.0.1:8000/api/'  # 'https://ooti-staging-3.herokuapp.com/api/'  # "https://app.ooti.co/api/"
         self.org_pk = None
         self.teams_pk = None
         self.access_token = None
@@ -899,7 +899,7 @@ class Auth(Helper):
         """ Remove a user from multiple teams at once
 
         Keywords arguments:
-        data -- pk of the projects and pk of the orguser to remove :
+        data -- pks of the projects and pk of the orguser to remove :
         {
             "orguser": orguser_pk,
             "projects": [
