@@ -750,6 +750,18 @@ class Invoicing(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
+    def create_file(self, project_pk, data):
+        """ Create a file 
+
+        Keyword arguments:
+
+        project_pk -- pk of the project
+        """
+
+        route = 'v1/files/list/{0}/'.format(project_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response, True)
+
     def get_file_details(self, pk):
         """ Get the file details
 
@@ -984,7 +996,7 @@ class Invoicing(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    ### Templates ###
+    ### Reports Templates ###
 
     def get_templates_list(self, team_pk):
         """ Get list of templates
