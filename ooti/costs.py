@@ -9,12 +9,7 @@ from .helper import Helper
     - ERROR 404 : (POST on v1/jobs/invoices/items/generate/{org_pk}/)
 
 - Expenses
-    - ERROR 500 : (POST on v1/expenses/groups/list/action/{org_pk}/)
-    - Which "id" ? (POST on v1/expenses/groups/create-multiple-expenses/{id}/)
     - DELETE on v1/expenses/{expense_group_pk}/versions/{version_pk}/delete/ ?
-    
-- Costs
-    - copy & set functions in costs ?
 
 """
 
@@ -491,32 +486,47 @@ class Costs(Helper):
             route = 'v1/expenses/groups/v2/list/{0}/'.format(self.org_pk)
         else:
             route = 'v1/expenses/groups/list/{0}/'.format(team_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, json=json.dumps(data))
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_expenses_group_details(self, group_id):
+    def create_expenses_group_action(self, data):
+        """ Create an action
 
-        route = 'v1/expenses/groups/{group_id}/'
+        Keyword arguments:
+        {
+            'team': team_pk # REQUIRED
+            'is_treated': bool
+            'is_validated': bool
+        }
+        """
+
+        route = 'v1/expenses/groups/list/action/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        return self.process_response(response)
+
+    def get_expenses_group_details(self, expense_group_id):
+
+        route = 'v1/expenses/groups/{0}/'.format(expense_group_id)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def update_expenses_group_details(self, group_id, data):
+    def update_expenses_group_details(self, expense_group_id, data):
 
-        route = 'v1/expenses/groups/{group_id}/'
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, json=json.dumps(data))
+        route = 'v1/expenses/groups/{0}/'.format(expense_group_id)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def delete_expenses_group(self, group_id):
+    def delete_expenses_group(self, expense_group_id):
 
-        route = 'v1/expenses/groups/{group_id}/'
+        route = 'v1/expenses/groups/{0}/'.format(expense_group_id)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_expenses_list(self, team_pk=None, group_id=None):
+    def get_expenses_list(self, team_pk=None, expense_group_id=None):
         """ Get the expenses list """
 
-        if team_pk is not None and group_id is not None:
-            route = 'v1/expenses/list/{0}/{1}/'.format(team_pk, group_id)
+        if team_pk is not None and expense_group_id is not None:
+            route = 'v1/expenses/list/{0}/{1}/'.format(team_pk, expense_group_id)
         elif team_pk is not None:
             route = 'v1/expenses/my-groups/list/{0}/'.format(team_pk)
         else:
@@ -524,7 +534,7 @@ class Costs(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
-    def create_expense(self, data, team_pk=None, group_id=None):
+    def create_expense(self, data, team_pk=None, expense_group_id=None):
         """ Create a new expense
 
         Keywords arguments:
@@ -549,18 +559,24 @@ class Costs(Helper):
         }
         """
 
-        if team_pk is not None and group_id is not None:  # differences between the 3 ?
-            route = 'v1/expenses/list/{0}/{1}/'.format(team_pk, group_id)
+        if team_pk is not None and expense_group_id is not None:
+            route = 'v1/expenses/list/{0}/{1}/'.format(team_pk, expense_group_id)
         elif team_pk is not None:
             route = 'v1/expenses/my-groups/list/{0}/'.format(team_pk)
         else:
             route = 'v1/expenses/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, json=json.dumps(data))
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_expenses_pdf_count(self, id):  # which id ?
+    def add_multiple_expenses(self, expense_group_id, files):
 
-        route = 'v1/expenses/pdf_count/{0}/'.format(id)
+        route = 'v1/expenses/groups/create-multiple-expenses/{0}/'.format(expense_group_id)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=files)
+        return self.process_response(response)
+
+    def get_expenses_pdf_count(self, expense_group_id):
+
+        route = 'v1/expenses/pdf_count/{0}/'.format(expense_group_id)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
