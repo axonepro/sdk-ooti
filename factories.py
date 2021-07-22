@@ -177,10 +177,13 @@ def JobFactory(project_pk=None):
         return None
 
 
-def JobInvoiceFactory(team_pk=None):
+def JobInvoiceFactory(team_pk=None, contractor_id=None):
     if not team_pk:
         team_pk = TeamFactory()
+    if not contractor_id:
+        contractor_id = ContractorFactory()['id']
     payload = {
+        'contractor': contractor_id,
         'team': team_pk,
         'date': '19-03-2020',
         'amount': '10',
@@ -189,6 +192,7 @@ def JobInvoiceFactory(team_pk=None):
     if response['status'] == 201:
         return response['data']
     else:
+        print(response)
         return None
 
 
@@ -237,4 +241,17 @@ def GoalFactory(team_pk=None):
     if response['status'] == 201:
         return response['data']
     else:
+        return None
+
+
+def ContractorFactory():
+    payload = {
+        'name': 'contractor test',
+        'tags': [],
+    }
+    response = sdk.Deliverables.create_contractors(payload)
+    if response['status'] == 201:
+        return response['data']
+    else:
+        print(response)
         return None
