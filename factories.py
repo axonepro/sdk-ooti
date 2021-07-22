@@ -190,3 +190,51 @@ def JobInvoiceFactory(team_pk=None):
         return response['data']
     else:
         return None
+
+
+def TaskFactory():
+    payload = {'title': 'task test'}
+    response = sdk.Collaboration.create_task(payload)
+    if response['status'] == 201:
+        return response['data']
+    else:
+        return None
+
+
+def PostFactory():
+    payload = {
+        "title": "post test",
+    }
+    response = sdk.Collaboration.create_post(payload)
+    if response['status'] == 201:
+        return response['data']
+    else:
+        return None
+
+
+def AlbumFactory(post_pk=None):
+    if not post_pk:
+        post_pk = PostFactory()['pk']
+    payload = {
+        "post": post_pk,
+        "title": "album test",
+    }
+    response = sdk.Collaboration.create_posts_album(payload)
+    if response['status'] == 201:
+        return response['data']
+    else:
+        return None
+
+
+def GoalFactory(team_pk=None):
+    if not team_pk:
+        team_pk = TeamFactory()
+    payload = {
+        'team': team_pk,
+        'name': 'goal test'
+    }
+    response = sdk.Others.create_goal(payload)
+    if response['status'] == 201:
+        return response['data']
+    else:
+        return None

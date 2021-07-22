@@ -10,6 +10,8 @@ from .deliverables import Deliverables
 from .collaboration import Collaboration
 from .time import Time
 
+""" Create OrgUser ERROR 500 """
+
 
 class Auth(Helper):
     def __init__(self, username, password):
@@ -504,7 +506,7 @@ class Auth(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def create_orguser(self, data):  # Error 500
+    def create_orguser(self, data):
         """ Create a new user in the organization 
 
         data -- content of the orguser to be created:
@@ -567,7 +569,7 @@ class Auth(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_organization_details(self, pk):  # put self.org_pk instead of letting the user choose the pk ?
+    def get_organization_details(self, pk):
         """ Get organizations details 
 
         Keywords arguments:
@@ -742,7 +744,6 @@ class Auth(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    # Test to modify "permissions" & "all_permissions" without being superadmin
     def update_permissions_details(self, id, data):
         """ Update permissions set details
 
