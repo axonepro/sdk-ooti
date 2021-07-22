@@ -1,7 +1,7 @@
 from requests.api import delete
 from ooti import ooti
 import unittest
-from factories import EmployeeContractFactory, EmployeePeriodFactory, ExpenseGroupFactory, FreelancerFactory, JobFactory, JobInvoiceFactory, OrguserFactory, ProjectFactory, TeamFactory, CostFactory, CostMonthFactory
+from factories import ContractorFactory, EmployeeContractFactory, EmployeePeriodFactory, ExpenseGroupFactory, FreelancerFactory, JobFactory, JobInvoiceFactory, OrguserFactory, ProjectFactory, TeamFactory, CostFactory, CostMonthFactory
 
 OOTI_USERNAME = 'root@root.com'
 OOTI_PASSWORD = 'root'
@@ -244,6 +244,7 @@ class TestJobs(unittest.TestCase):
         cls.project = ProjectFactory()
         cls.job = JobFactory()
         cls.job_invoice = JobInvoiceFactory()
+        cls.contractor_id = ContractorFactory()['id']
 
     def test_create_job(self):
         payload = {
@@ -262,6 +263,7 @@ class TestJobs(unittest.TestCase):
 
     def test_create_job_invoice(self):
         payload = {
+            'contractor': self.contractor_id,
             'team': self.team_pk,
             'date': '19-03-2020',
             'amount': '10',
