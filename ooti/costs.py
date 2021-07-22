@@ -3,16 +3,6 @@ import json
 
 from .helper import Helper
 
-"""
-
-- Jobs
-    - ERROR 404 : (POST on v1/jobs/invoices/items/generate/{org_pk}/)
-
-- Expenses
-    - DELETE on v1/expenses/{expense_group_pk}/versions/{version_pk}/delete/ ?
-
-"""
-
 
 class Costs(Helper):
     def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers):
@@ -25,22 +15,43 @@ class Costs(Helper):
 
     #### Costs ####
 
-    # copy & set funcions ?
-
     def copy_costs_fee_allocations_from_contract_hours(self, project_id):  # ?
+        """ Copy cost fee allocations from contract hours
 
+        Keywords arguments:
+        project_id -- id of the project
+        data -- fee project to be copied
+        {
+            "fee_project": fee_project_pk
+        }
+        """
         route = 'v1/costs/copy-fee-allocations-from-contract-hours/{0}/'.format(project_id)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def copy_costs_fee_allocations_from_subcontractor_fees(self, project_id):  # ?
+        """ Copy cost fee allocations from subcontractor fees
 
+        Keywords arguments:
+        project_id -- id of the project
+        data -- fee project to be copied
+        {
+            "fee_project": fee_project_pk
+        }
+        """
         route = 'v1/costs/copy-fee-allocations-from-subcontractor-fees/{0}/'.format(project_id)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def copy_costs_previous_year(self):  # ?
+    def copy_costs_previous_year(self):
+        """ Copy costs from a previous year
 
+        Keywords arguments:
+        data -- year of the costs to be copied
+        {
+            "year": 0
+        }
+        """
         route = 'v1/costs/copy-prev-year/{0}/'.format(self.org_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
@@ -113,10 +124,18 @@ class Costs(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def set_costs_annual_budget(self, cost_id):  # ?
+    def set_costs_annual_budget(self, cost_id, data):
+        """ Set the cost annual budget
 
+        Keywords arguments:
+        cost_id -- id of the cost
+        data -- annual amount budgeted to be set:
+        {
+            "amount_budgeted": 0
+        }
+        """
         route = 'v1/costs/set-annual-budget/{0}/'.format(cost_id)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=data)
         return self.process_response(response)
 
     def get_costs_list(self):
@@ -292,7 +311,7 @@ class Costs(Helper):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def delete_employees_contracts(self, contract_id):
+    def delete_employees_contract(self, contract_id):
         """ Delete employees contract
 
         Keywords arguments:
@@ -739,7 +758,7 @@ class Costs(Helper):
         Keywords arguments:
         data -- data of the new jobs invoices item to be created:
         {
-            "invoice": invoice_id,
+            "invoice": invoice_id, # REQUIRED
             "project": project_id,
             "phases": [
                 phase_id,
@@ -778,8 +797,8 @@ class Costs(Helper):
         job_invoice_item_pk -- pk of the item
         data -- content of the update:
         {
-            "invoice": invoice_id,
-            "project": project_id,
+            "invoice": invoice_id, # REQUIRED
+            "project": project_id, 
             "phases": [
                 phase_id,
                 ...
@@ -823,6 +842,7 @@ class Costs(Helper):
         Keywords arguments:
         data -- data of the new jobs invoice to be created:
         {
+            "date": "string", # REQUIRED
             "job": job_pk,
             "orguser": orguser_pk,
             "team": team_pk,
@@ -845,7 +865,6 @@ class Costs(Helper):
             "is_validated": "string",
             "is_paid": true,
             "date_paid": "string",
-            "date": "string",
             "tax": 0,
             "description": "string",
             "number": "string",
@@ -911,7 +930,7 @@ class Costs(Helper):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_jobs_invoice_details(self, job_invoice_pk):
+    def delete_jobs_invoice(self, job_invoice_pk):
         """ Delete the jobs invoice
 
         Keywords arguments:
@@ -987,7 +1006,7 @@ class Costs(Helper):
         Keywords arguments:
         data -- data of the jobs month to be created:
         {
-            "job": job_id,
+            "job": job_id, # REQUIRED
             "year": 0,
             "month": 0,
             "start_date": "string",
@@ -1012,7 +1031,7 @@ class Costs(Helper):
         month_id -- id of the jobs month
         """
 
-        route = 'v1/jobs/month/{0}/'.format(self.month_id)
+        route = 'v1/jobs/month/{0}/'.format(month_id)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -1037,7 +1056,7 @@ class Costs(Helper):
         }
         """
 
-        route = 'v1/jobs/month/{0}/'.format(self.month_id)
+        route = 'v1/jobs/month/{0}/'.format(month_id)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
@@ -1048,7 +1067,7 @@ class Costs(Helper):
         month_id -- id of the jobs month
         """
 
-        route = 'v1/jobs/month/{0}/'.format(self.month_id)
+        route = 'v1/jobs/month/{0}/'.format(month_id)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -1059,7 +1078,7 @@ class Costs(Helper):
         id -- id of the job
         """
 
-        route = 'v1/jobs/{0}/'.format(self.id)
+        route = 'v1/jobs/{0}/'.format(id)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -1103,7 +1122,7 @@ class Costs(Helper):
         }
         """
 
-        route = 'v1/jobs/{0}/'.format(self.id)
+        route = 'v1/jobs/{0}/'.format(id)
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
@@ -1114,6 +1133,19 @@ class Costs(Helper):
         id -- id of the job
         """
 
-        route = 'v1/jobs/{0}/'.format(self.id)
+        route = 'v1/jobs/{0}/'.format(id)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        return self.process_response(response)
+
+    def generate_jobs_invoices_items(self, data):
+        """ Generate invoice items based on the job invoice contractor
+
+        Keywords arguments:
+        data -- :
+        {
+            "invoice": job_invoice_id
+        }
+        """
+        route = 'v1/jobs/invoices/items/generate/{0}/'.format(self.org_pk)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)

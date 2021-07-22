@@ -39,6 +39,19 @@ def TeamFactory():
     return response['data']['selected_team']
 
 
+def ProjectFactory(team_pk=None):
+    if not team_pk:
+        team_pk = TeamFactory()
+    payload = {
+        'project_title': 'project test',
+    }
+    response = sdk.create_project(payload)
+    if response['status'] == 201:
+        return response['data']
+    else:
+        return None
+
+
 def CostFactory(team_pk=None):
     if not team_pk:
         team_pk = TeamFactory()
@@ -144,6 +157,35 @@ def ExpenseGroupFactory(team_pk):
         'description': 'expense group test'
     }
     response = sdk.Costs.create_expenses_group(payload, team_pk=team_pk)
+    if response['status'] == 201:
+        return response['data']
+    else:
+        return None
+
+
+def JobFactory(project_pk=None):
+    if not project_pk:
+        project_pk = ProjectFactory()['id']
+    payload = {
+        'title': 'job test',
+        'project': project_pk,
+    }
+    response = sdk.Costs.create_job(payload)
+    if response['status'] == 201:
+        return response['data']
+    else:
+        return None
+
+
+def JobInvoiceFactory(team_pk=None):
+    if not team_pk:
+        team_pk = TeamFactory()
+    payload = {
+        'team': team_pk,
+        'date': '19-03-2020',
+        'amount': '10',
+    }
+    response = sdk.Costs.create_jobs_invoice(payload)
     if response['status'] == 201:
         return response['data']
     else:
