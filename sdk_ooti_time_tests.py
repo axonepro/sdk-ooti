@@ -1,5 +1,6 @@
 import unittest
 from ooti import ooti
+from test_helper import TestHelper
 
 # To read .env variables
 import os
@@ -22,36 +23,274 @@ orguser = my_account.get_user_organization_details()['data']['organizations'][0]
 
 week_pk = my_account.Time.get_timelogs_week_list()['data'][0]['id']
 
-"""
 
-# * Reports of bugs or failed tests
+class TestTimeperiods(unittest.TestCase):
+
+    @classmethod
+    def setUp(cls):
+        cls.testHelper = TestHelper(my_account)
+        cls.orguser_pk = my_account.get_user_organization_details()['data']['organizations'][0]['orguser']['pk']
+        cls.team_pk = my_account.teams_pk[0]['id']
+        # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
+        cls.project_pk = my_account.get_projects_list()['data'][0]['id']
+
+        cls.annex_pk = cls.testHelper._create_annex_return_pk(cls.project_pk)
+
+    #### Timeperiods ####
+
+    def test_get_timeperiods_dashboard_scheduling_timeline(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_timeperiods_dashboard_scheduling_timeline()
+        self.assertEqual(res['status'], 200)
+
+    def test_get_timeperiods_resource_planning_timeline(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_timeperiods_resource_planning_timeline()
+        self.assertEqual(res['status'], 200)
+
+    def test_create_timeperiods_resource_planning_timeline(self):
+        """ Test that 200 is returned """
+
+        data = {
+            "team": self.team_pk
+        }
+
+        res = my_account.Time.create_timeperiods_resource_planning_timeline(data)
+        self.assertEqual(res['status'], 200)
+
+    def test_get_timeperiods_resources_timeline(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_timeperiods_resources_timeline(self.project_pk)
+        self.assertEqual(res['status'], 200)
+
+    def test_create_timeperiods_scheduling_timeline_actions(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.create_timeperiods_scheduling_timeline_actions(self.project_pk)
+        self.assertEqual(res['status'], 200)
+
+    def test_get_timeperiods_scheduling_timeline_actions(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_timeperiods_scheduling_timeline_actions(self.project_pk)
+        self.assertEqual(res['status'], 200)
+
+    def test_create_user_period_action(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.create_user_period_action()
+        self.assertEqual(res['status'], 200)
+
+    def test_get_user_period_list(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_user_period_list(self.team_pk)
+        self.assertEqual(res['status'], 200)
+
+    def test_create_user_period_list(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "orguser": self.orguser_pk,
+            "team": self.team_pk,
+            "project": self.project_pk,
+            "description": "string",
+        }
+
+        res = my_account.Time.create_user_period_list(data)
+        self.assertEqual(res['status'], 201)
+
+    def test_get_user_period_details(self):
+        """ Test that 200 is returned """
+
+        user_period_pk = self.testHelper._create_user_period_return_pk(self.orguser_pk, self.team_pk, self.project_pk)
+        res = my_account.Time.get_user_period_details(user_period_pk)
+        self.assertEqual(res['status'], 200)
+
+    def test_update_user_period_list(self):
+        """ Test that 200 is returned """
+
+        data = {
+            "description": "UPDATED"
+        }
+
+        user_period_pk = self.testHelper._create_user_period_return_pk(self.orguser_pk, self.team_pk, self.project_pk)
+        res = my_account.Time.update_user_period_list(user_period_pk, data)
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_user_period(self):
+        """ Test that 204 is returned """
+
+        user_period_pk = self.testHelper._create_user_period_return_pk(self.orguser_pk, self.team_pk, self.project_pk)
+        res = my_account.Time.delete_user_period(user_period_pk)
+        self.assertEqual(res['status'], 204)
+
+    def test_get_users_scheduling_timeline(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_users_scheduling_timeline()
+        self.assertEqual(res['status'], 200)
 
 
-test_copy_previous_week -> 500
-test_create_timelogs_comments -> Unknown pk, what to used ?
-test_create_timelogs_delete_imported_worklogs_project-> 204
-test_get_timelogs_monthly_summary -> 403
-test_validate_timelogs -> 500
-test_get_timelogs_week_away -> 200
-test_create_timeoff_requests_action -> 200
-test_get_timelogs_week_away  -> 404
-test_get_timeperiods_resource_planning_timeline  -> 500
-test_create_timeperiods_resource_planning_timeline -> 403
-test_get_timeperiods_role_annex_periods -> 403
-test_delete_timeperiods_role_annex_period -> 500
-test_create_timeperiods_scheduling_timeline_actions -> 200 no body
-test_create_user_period_action -> 200 no body
-test_get_user_period_list -> 403
-test_update_user_period_list -> 500
-test_delete_user_period -> 500
-test_get_users_scheduling_timeline -> 500
-test_create_bulk_action_add_roles -> 500
-test_delete_bulk_action_add_roles -> 500
-test_create_trip -> 403
-test_get_trips_details -> 403
-test_update_trip -> 403
-test_delete_trip -> 403
-"""
+class TestRoles(unittest.TestCase):
+    @classmethod
+    def setUp(cls):
+        cls.testHelper = TestHelper(my_account)
+        cls.orguser_pk = my_account.get_user_organization_details()['data']['organizations'][0]['orguser']['pk']
+        cls.team_pk = my_account.teams_pk[0]['id']
+        # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
+        cls.project_pk = my_account.get_projects_list()['data'][0]['id']
+
+        cls.role_pk = cls.testHelper._create_roles_return_pk()
+        cls.project_role_pk = cls.testHelper._create_roles_project_return_pk(cls.project_pk, cls.role_pk)
+
+    def test_get_roles_list(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_roles_list()
+        self.assertEqual(res['status'], 200)
+
+    def test_create_roles(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "title": self.testHelper.create_name()
+        }
+
+        res = my_account.Time.create_roles(data)
+        self.assertEqual(res['status'], 201)
+
+    def test_get_roles_project_list(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_roles_project_list()
+        self.assertEqual(res['status'], 200)
+
+    def test_create_roles_project(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "project": self.project_pk,
+            "billable_per_hour": 1,
+            "role": self.role_pk,
+        }
+
+        res = my_account.Time.create_roles_project(data)
+        self.assertEqual(res['status'], 201)
+
+    def test_get_roles_project_details(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_roles_project_details(self.project_role_pk)
+        self.assertEqual(res['status'], 200)
+
+    def test_update_roles_project(self):
+        """ Test that 200 is returned """
+
+        data = {
+            "billable_per_hour": 2
+        }
+
+        res = my_account.Time.update_roles_project(self.project_role_pk, data)
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_roles_project(self):
+        """ Test that 204 is returned """
+
+        res = my_account.Time.delete_roles_project(self.project_role_pk)
+        self.assertEqual(res['status'], 204)
+
+    def test_create_bulk_action_add_roles(self):
+        """ Test that 201 is returned """
+
+        res = my_account.Time.create_bulk_action_add_roles(self.project_pk)
+        self.assertEqual(res['status'], 201)
+
+    def test_delete_bulk_action_add_roles(self):
+        """ Test that 204 is returned """
+
+        res = my_account.Time.delete_bulk_action_add_roles(self.project_pk)
+        self.assertEqual(res['status'], 204)
+
+    def test_get_roles_details(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_roles_details(self.role_pk)
+        self.assertEqual(res['status'], 200)
+
+    def test_update_roles(self):
+        """ Test that 200 is returned """
+
+        data = {
+            "title": self.testHelper.create_name()
+        }
+
+        res = my_account.Time.update_roles(self.role_pk, data)
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_roles(self):
+        """ Test that 204 is returned """
+
+        role_pk2 = self.testHelper._create_roles_return_pk()
+        res = my_account.Time.delete_roles(role_pk2)
+        self.assertEqual(res['status'], 204)
+
+
+class TestTrips(unittest.TestCase):
+    @classmethod
+    def setUp(cls):
+        cls.testHelper = TestHelper(my_account)
+        cls.orguser_pk = my_account.get_user_organization_details()['data']['organizations'][0]['orguser']['pk']
+        cls.team_pk = my_account.teams_pk[0]['id']
+        # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
+        cls.project_pk = my_account.get_projects_list()['data'][0]['id']
+        cls.trip_pk = cls.testHelper._create_trip_return_pk(cls.team_pk, cls.project_pk, cls.orguser_pk)
+
+    def test_get_trips_list(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_trips_list()
+        self.assertEqual(res['status'], 200)
+
+    def test_create_trip(self):
+        """ Test that 201 is returned """
+
+        data = {
+            "team": self.team_pk,
+            "project": self.project_pk,
+            "orguser": self.orguser_pk,
+            "start_date": "11-05-2021",
+            "end_date": "11-06-2021",
+            "notes": "UNITTEST"
+        }
+
+        res = my_account.Time.create_trip(data)
+        self.assertEqual(res['status'], 201)
+
+    def test_get_trips_details(self):
+        """ Test that 200 is returned """
+
+        res = my_account.Time.get_trips_details(self.trip_pk)
+        self.assertEqual(res['status'], 200)
+
+    def test_update_trip(self):
+        """ Test that 200 is returned """
+
+        data = {
+            "notes": "UPDATED"
+        }
+
+        res = my_account.Time.update_trip(self.trip_pk, data)
+        self.assertEqual(res['status'], 200)
+
+    def test_delete_trip(self):
+        """ Test that 204 is returned """
+
+        res = my_account.Time.delete_trip(self.trip_pk)
+        self.assertEqual(res['status'], 204)
 
 
 class Tests(unittest.TestCase):
@@ -651,432 +890,6 @@ class Tests(unittest.TestCase):
         res = my_account.Time.delete_timelogs_worklogs(pk)
 
         self.assertEqual(res['status'], 204)
-
-    #### Timeperiods ####
-    def _create_annexe_return_pk(self):
-        """ Create annexe and return pk """
-
-        data = {
-            "title": "UNITTEST",
-            "annex_type": "time",
-            "total_fees": 1,
-            "description": "UNITTEST",
-            "date": "06-05-2021"
-        }
-
-        return my_account.Deliverables.create_annexe(project_pk, data)['data']['id']
-
-    def _create_role_annex_period_return_pk(self):
-        """ Create role annex period and return pk """
-
-        pk_annex = self._create_annexe_return_pk()
-
-        data = {
-            "orgusers": [
-                orguser
-            ],
-            "annex": pk_annex
-        }
-
-        return my_account.Time.create_timeperiods_role_annex_periods(data)['data']['pk']
-
-    def _create_user_period_return_pk(self):
-        """ Create user period and return pk """
-
-        data = {
-            "orguser": orguser,
-            "team": team_pk,
-            "project": project_pk,
-            "description": "string",
-        }
-
-        return my_account.Time.create_user_period_list(data)['data']['pk']
-
-    def test_get_timeperiods_dashboard_scheduling_timeline(self):
-        """ Test that 200 is returned """
-
-        res = my_account.Time.get_timeperiods_dashboard_scheduling_timeline()
-
-        self.assertEqual(res['status'], 200)
-
-    # def test_get_timeperiods_resource_planning_timeline(self):
-    #     #! 500
-    #     """ Test that 200 is returned """
-
-    #     res = my_account.Time.get_timeperiods_resource_planning_timeline()
-
-    #     self.assertEqual(res['status'], 200)
-
-    # def test_create_timeperiods_resource_planning_timeline(self):
-    #     #! 403
-    #     """ Test that 201 is returned """
-
-    #     res = my_account.Time.create_timeperiods_resource_planning_timeline()
-
-    #     self.assertEqual(res['status'], 201)
-
-    def test_get_timeperiods_resources_timeline(self):
-        """ Test that 200 is returned """
-
-        res = my_account.Time.get_timeperiods_resources_timeline(project_pk)
-
-        self.assertEqual(res['status'], 200)
-
-    # def test_get_timeperiods_role_annex_periods(self):
-    #     """ Test that 200 is returned """
-    #     #! 403
-
-    #     res = my_account.Time.get_timeperiods_role_annex_periods()
-
-    #     self.assertEqual(res['status'], 200)
-
-    def test_create_timeperiods_role_annex_periods(self):
-        """ Test that 201 is returned """
-
-        pk_annex = self._create_annexe_return_pk()
-
-        data = {
-            "orgusers": [
-                orguser
-            ],
-            "annex": pk_annex
-        }
-
-        res = my_account.Time.create_timeperiods_role_annex_periods(data)
-
-        self.assertEqual(res['status'], 201)
-
-    def test_get_timeperiods_role_annex_period_details(self):
-        """ Test that 200 is returned """
-
-        pk_role_annex_period = self._create_role_annex_period_return_pk()
-
-        res = my_account.Time.get_timeperiods_role_annex_period_details(pk_role_annex_period)
-
-        self.assertEqual(res['status'], 200)
-
-    def test_update_timeperiods_role_annex_period(self):
-        """ Test that 200 is returned """
-
-        pk = self._create_role_annex_period_return_pk()
-
-        data = {
-            "budget_pct": 1
-        }
-
-        res = my_account.Time.update_timeperiods_role_annex_period(pk, data)
-
-        self.assertEqual(res['status'], 200)
-
-    # def test_delete_timeperiods_role_annex_period(self):
-    #     #! 500
-    #     """ Test that 204 is returned """
-
-    #     pk = self._create_role_annex_period_return_pk()
-
-    #     res = my_account.Time.delete_timeperiods_role_annex_period(pk)
-    #     self.assertEqual(res['status'], 204)
-
-    # def test_create_timeperiods_scheduling_timeline_actions(self):
-    #     #! 200 no body
-    #     """ Test that 201 is returned """
-
-    #     res = my_account.Time.create_timeperiods_scheduling_timeline_actions(project_pk)
-
-    #     self.assertEqual(res['status'], 201)
-
-    def test_get_timeperiods_scheduling_timeline_actions(self):
-        """ Test that 200 is returned """
-
-        res = my_account.Time.get_timeperiods_scheduling_timeline_actions(project_pk)
-
-        self.assertEqual(res['status'], 200)
-
-    # def test_create_user_period_action(self):
-    #     #! 200 no body
-    #     """ Test that 201 is returned """
-
-    #     res = my_account.Time.create_user_period_action()
-
-    #     self.assertEqual(res['status'], 201)
-
-    # def test_get_user_period_list(self):
-    #     #! 403
-    #     """ Test that 200 is returned """
-
-    #     res = my_account.Time.get_user_period_list()
-
-    #     self.assertEqual(res['status'], 200)
-
-    def test_create_user_period_list(self):
-        """ Test that 201 is returned """
-
-        data = {
-            "orguser": orguser,
-            "team": team_pk,
-            "project": project_pk,
-            "description": "string",
-        }
-
-        res = my_account.Time.create_user_period_list(data)
-
-        self.assertEqual(res['status'], 201)
-
-    def test_get_user_period_details(self):
-        """ Test that 200 is returned """
-
-        pk = self._create_user_period_return_pk()
-
-        res = my_account.Time.get_user_period_details(pk)
-
-        self.assertEqual(res['status'], 200)
-
-    # def test_update_user_period_list(self):
-    #     #! 500
-    #     """ Test that 200 is returned """
-
-    #     pk = self._create_user_period_return_pk()
-
-    #     data = {
-    #         "description": "UPDATED"
-    #     }
-
-    #     res = my_account.Time.update_user_period_list(pk, data)
-
-    #     self.assertEqual(res['status'], 200)
-
-    # def test_delete_user_period(self):
-    #     #! 500
-    #     """ Test that 204 is returned """
-
-    #     pk = self._create_user_period_return_pk()
-
-    #     res = my_account.Time.delete_user_period(pk)
-
-    #     self.assertEqual(res['status'], 204)
-
-    # def test_get_users_scheduling_timeline(self):
-    #     #! 500
-    #     """ Test that 200 is returned """
-
-    #     res = my_account.Time.get_users_scheduling_timeline()
-
-    #     self.assertEqual(res['status'], 200)
-
-    #### Roles ####
-    def _create_roles_return_pk(self):
-        """ Create role and return pk """
-
-        data = {
-            "title": "UNITTEST"
-        }
-
-        return my_account.Time.create_roles(data)['data']['pk']
-
-    def _create_roles_project_return_pk(self):
-        """ Create role project and return pk """
-
-        pk = self._create_roles_return_pk()
-
-        data = {
-            "project": project_pk,
-            "billable_per_hour": 1,
-            "role": pk
-        }
-
-        return my_account.Time.create_roles_project(data)['data']['id']
-
-    def test_get_roles_list(self):
-        """ Test that 200 is returned """
-
-        res = my_account.Time.get_roles_list()
-
-        self.assertEqual(res['status'], 200)
-
-    def test_create_roles(self):
-        """ Test that 201 is returned """
-
-        data = {
-            "title": "UNITTEST"
-        }
-
-        res = my_account.Time.create_roles(data)
-
-        self.assertEqual(res['status'], 201)
-
-    def test_get_roles_project_list(self):
-        """ Test that 200 is returned """
-
-        res = my_account.Time.get_roles_project_list()
-
-        self.assertEqual(res['status'], 200)
-
-    def test_create_roles_project(self):
-        """ Test that 201 is returned """
-
-        pk = self._create_roles_return_pk()
-
-        data = {
-            "project": project_pk,
-            "billable_per_hour": 1,
-            "role": pk
-        }
-
-        res = my_account.Time.create_roles_project(data)
-
-        self.assertEqual(res['status'], 201)
-
-    def test_get_roles_project_details(self):
-        """ Test that 200 is returned """
-
-        pk = self._create_roles_project_return_pk()
-
-        res = my_account.Time.get_roles_project_details(pk)
-
-        self.assertEqual(res['status'], 200)
-
-    def test_update_roles_project(self):
-        """ Test that 200 is returned """
-
-        pk = self._create_roles_project_return_pk()
-
-        data = {
-            "billable_per_hour": 2
-        }
-
-        res = my_account.Time.update_roles_project(pk, data)
-
-        self.assertEqual(res['status'], 200)
-
-    def test_delete_roles_project(self):
-        """ Test that 204 is returned """
-
-        pk = self._create_roles_project_return_pk()
-
-        res = my_account.Time.delete_roles_project(pk)
-
-        self.assertEqual(res['status'], 204)
-
-    # def test_create_bulk_action_add_roles(self):
-    #     #! 500
-    #     """ Test that 201 is returned """
-
-    #     res = my_account.Time.create_bulk_action_add_roles()
-
-    #     self.assertEqual(res['status'], 201)
-
-    # def test_delete_bulk_action_add_roles(self):
-    #     #! 500
-    #     """ Test that 204 is returned """
-
-    #     res = my_account.Time.delete_bulk_action_add_roles()
-
-    #     self.assertEqual(res['status'], 204)
-
-    def test_get_roles_details(self):
-        """ Test that 200 is returned """
-
-        pk = self._create_roles_return_pk()
-
-        res = my_account.Time.get_roles_details(pk)
-
-        self.assertEqual(res['status'], 200)
-
-    def test_update_roles(self):
-        """ Test that 200 is returned """
-
-        pk = self._create_roles_return_pk()
-
-        data = {
-            "title": "UPDATED"
-        }
-
-        res = my_account.Time.update_roles(pk, data)
-
-        self.assertEqual(res['status'], 200)
-
-    def test_delete_roles(self):
-        """ Test that 204 is returned """
-
-        pk = self._create_roles_return_pk()
-
-        res = my_account.Time.delete_roles(pk)
-
-        self.assertEqual(res['status'], 204)
-
-    #### Trips ####
-    # def _create_trip_return_pk(self):
-    #     #! Cannot create, 403
-    #     """ Create a trip and return pk """
-
-    #     data = {
-    #         "team": team_pk,
-    #         "project": project_pk,
-    #         "orguser": orguser,
-    #         "start_date": "11-05-2021",
-    #         "end_date": "11-06-2021",
-    #         "notes": "UNITTEST"
-    #     }
-
-    #     return my_account.Time.create_trip(data)['data']['id']
-
-    def test_get_trips_list(self):
-        """ Test that 200 is returned """
-
-        res = my_account.Time.get_trips_list()
-
-        self.assertEqual(res['status'], 200)
-
-    # def test_create_trip(self):
-    #     #! 403
-    #     """ Test that 201 is returned """
-
-    #     data = {
-    #         "team": team_pk,
-    #         "project": project_pk,
-    #         "orguser": orguser,
-    #         "start_date": "11-05-2021",
-    #         "end_date": "11-06-2021",
-    #         "notes": "UNITTEST"
-    #     }
-
-    #     res = my_account.Time.create_trip(data)
-
-    #     self.assertEqual(res['status'], 201)
-
-    # def test_get_trips_details(self):
-    #     #! Cannot create trip : 403
-    #     """ Test that 200 is returned """
-
-    #     pk = self._create_trip_return_pk()
-
-    #     res = my_account.Time.get_trips_details(pk)
-
-    #     self.assertEqual(res['status'], 200)
-
-    # def test_update_trip(self):
-    #     #! Cannot create trip : 403
-    #     """ Test that 200 is returned """
-
-    #     pk = self._create_trip_return_pk()
-
-    #     data = {
-    #         "notes": "UPDATED"
-    #     }
-
-    #     res = my_account.Time.update_trip(pk, data)
-
-    #     self.assertEqual(res['status'], 200)
-
-    # def test_delete_trip(self):
-    #     #! Cannot create trip : 403
-    #     """ Test that 204 is returned """
-
-    #     pk = self._create_trip_return_pk()
-
-    #     res = my_account.Time.delete_trip(pk)
-
-    #     self.assertEqual(res['status'], 204)
 
 
 if __name__ == '__main__':

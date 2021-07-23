@@ -955,11 +955,11 @@ class Time(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def create_timeperiods_resource_planning_timeline(self):
+    def create_timeperiods_resource_planning_timeline(self, data):
         """ Create planning timeline """
 
         route = 'v1/timeperiods/resource-planning-timeline/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     def get_timeperiods_resources_timeline(self, project_pk):
@@ -1098,10 +1098,10 @@ class Time(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_user_period_list(self):
+    def get_user_period_list(self, team_pk):
         """ Get user period list"""
 
-        route = 'v1/timeperiods/user-period/list/{0}/'.format(self.org_pk)
+        route = 'v1/timeperiods/user-period/list/{0}/?team={1}'.format(self.org_pk, team_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -1292,17 +1292,17 @@ class Time(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def create_bulk_action_add_roles(self):
+    def create_bulk_action_add_roles(self, project_pk):
         """ Create bulk action to add role to project """
 
-        route = 'v1/roles/roles/bulk/add/{0}/'.format(self.org_pk)
+        route = 'v1/roles/roles/bulk/add/{0}/?project={0}'.format(self.org_pk, project_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def delete_bulk_action_add_roles(self):
+    def delete_bulk_action_add_roles(self, project_pk):
         """ Delete bulk action to add role to project """
 
-        route = 'v1/roles/roles/bulk/delete/{0}/'.format(self.org_pk)
+        route = 'v1/roles/roles/bulk/delete/{0}/?project={0}'.format(self.org_pk, project_pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 

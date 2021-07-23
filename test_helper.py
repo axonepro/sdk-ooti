@@ -442,6 +442,68 @@ class TestHelper:
 
         return self.my_account.Deliverables.create_fee(project_pk, data)['data']['pk']
 
+    # Time
+    def _create_role_annex_period_return_pk(self, orguser_pk, annex_pk):
+        """ Create role annex period and return pk """
+
+        data = {
+            "orgusers": [
+                orguser_pk
+            ],
+            "annex": annex_pk,
+            "start_date": "06-05-2021",
+            "end_date": "06-05-2021"
+        }
+
+        return self.my_account.Time.create_timeperiods_role_annex_periods(data)['data']['pk']
+
+    def _create_user_period_return_pk(self, orguser_pk, team_pk, project_pk):
+        """ Create user period and return pk """
+
+        data = {
+            "orguser": orguser_pk,
+            "team": team_pk,
+            "project": project_pk,
+            "description": "string",
+        }
+
+        return self.my_account.Time.create_user_period_list(data)['data']['pk']
+
+    def _create_roles_return_pk(self):
+        """ Create role and return pk """
+
+        data = {
+            "title": self.create_name()
+        }
+
+        return self.my_account.Time.create_roles(data)['data']['pk']
+
+    def _create_roles_project_return_pk(self, project_pk, role_pk):
+        """ Create role project and return pk """
+
+        data = {
+            "project": project_pk,
+            "billable_per_hour": 1,
+            "role": role_pk,
+        }
+
+        res = self.my_account.Time.create_roles_project(data)['data']
+        return res['id']
+
+    def _create_trip_return_pk(self, team_pk, project_pk, orguser_pk):
+        """ Create a trip and return pk """
+
+        data = {
+            "team": team_pk,
+            "project": project_pk,
+            "orguser": orguser_pk,
+            "start_date": "11-05-2021",
+            "end_date": "11-06-2021",
+            "notes": "UNITTEST"
+        }
+
+        return self.my_account.Time.create_trip(data)['data']['id']
+
     def create_name(self):
         name = ''
         for i in range(6):
