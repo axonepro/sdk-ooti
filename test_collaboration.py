@@ -9,20 +9,10 @@ sdk = ooti.Auth(OOTI_USERNAME, OOTI_PASSWORD)
 sdk.connect()
 
 
-class TestContacts(unittest.TestCase):
-    @ classmethod
-    def setUpClass(cls):
-        cls.team_pk = TeamFactory()
-
-    def test_get_number_uncategorized_contacts(self):
-        response = sdk.Collaboration.get_number_uncategorized_contacts()
-        self.assertEqual(response['status'], 200)
-
-
 class TestNewsletters(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.orguser_pk = OrguserFactory()['id']
+        cls.orguser_pk = OrguserFactory()['pk']
         cls.team_pk = TeamFactory()
 
     def test_create_newsletter(self):
@@ -38,7 +28,7 @@ class TestNewsletters(unittest.TestCase):
         }
         response = sdk.Collaboration.create_newsletters(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Collaboration.delete_newsletter(response['data']['id'])
+        delete = sdk.Collaboration.delete_newsletter(response['data']['pk'])
         self.assertEqual(delete['status'], 204)
 
 
@@ -46,7 +36,7 @@ class TestNotes(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
         cls.project_pk = ProjectFactory()['id']
-        cls.orguser_pk = OrguserFactory()['id']
+        cls.orguser_pk = OrguserFactory()['pk']
         cls.team_pk = TeamFactory()
 
     def test_create_note(self):
@@ -64,7 +54,7 @@ class TestNotes(unittest.TestCase):
         }
         response = sdk.Collaboration.create_note(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Collaboration.delete_note(response['data']['id'])
+        delete = sdk.Collaboration.delete_note(response['data']['pk'])
         self.assertEqual(delete['status'], 204)
 
 
@@ -86,7 +76,7 @@ class TestTasks(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
         cls.team_pk = TeamFactory()
-        cls.orguser_pk = OrguserFactory()['id']
+        cls.orguser_pk = OrguserFactory()['pk']
         cls.task_pk = TaskFactory()['pk']
 
     def test_create_task_label(self):
@@ -129,6 +119,10 @@ class TestPosts(unittest.TestCase):
         cls.team_pk = TeamFactory()
         cls.post_pk = PostFactory()['pk']
         cls.album_pk = AlbumFactory()['pk']
+
+    def test_get_number_uncategorized_contacts(self):
+        response = sdk.Collaboration.get_number_uncategorized_contacts()
+        self.assertEqual(response['status'], 200)
 
     def test_create_post(self):
         payload = {
@@ -225,4 +219,4 @@ class TestContacts(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main(TestPosts())
+    unittest.main()

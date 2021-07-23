@@ -10,8 +10,6 @@ from .deliverables import Deliverables
 from .collaboration import Collaboration
 from .time import Time
 
-""" Create OrgUser ERROR 500 """
-
 
 class Auth(Helper):
     def __init__(self, username, password):
@@ -188,7 +186,7 @@ class Auth(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def create_project(self, data):  # Error 500
+    def create_project(self, data):
         """ Create a new project
 
         Keyword arguments:

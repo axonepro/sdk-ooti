@@ -22,16 +22,16 @@ class TestCustomfields(unittest.TestCase):
 
     def test_create_customfield(self):
         payload = {
-            "name": "Test field",
+            "name": "Test custom field",
             "field_type": "t",
             "default_value": "test",
             "is_required": False,
             "admin_only": False,
-            "content_type": '',
+            "content_type": 'project',
         }
         response = sdk.Settings.create_customfield(payload)
         self.assertEqual(response['status'], 201)
-        created_id = response['data']['id']
+        created_id = response['data']['pk']
         update = sdk.Settings.update_customfield_details(created_id, payload)
         self.assertEqual(update['status'], 200)
         get = sdk.Settings.get_customfield_details(created_id)
@@ -129,7 +129,6 @@ class TestInboundEmails(unittest.TestCase):
             "body": "test body"
         }
         response = sdk.Settings.create_inbound_email(payload)
-        print(response)
         self.assertEqual(response['status'], 201)
         created_id = response['data']['id']
         payload = {
@@ -148,7 +147,7 @@ class TestTags(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
         cls.team_pk = TeamFactory()
-        cls.orguser_id = OrguserFactory()['id']
+        cls.orguser_pk = OrguserFactory()['pk']
 
     def test_get_tags_list(self):
         response = sdk.Settings.get_tags_list()
@@ -163,7 +162,7 @@ class TestTags(unittest.TestCase):
         created_id = response['data']['id']
         payload = {
             "orgusers": [
-                self.orguser_id,
+                self.orguser_pk,
             ]
         }
         update = sdk.Settings.update_tag_details(created_id, payload)
@@ -175,4 +174,4 @@ class TestTags(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main(TestCeleryTasks())
+    unittest.main()

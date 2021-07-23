@@ -13,16 +13,11 @@ def UserFactory():
     return response['data']['user']
 
 
-def OrguserFactory(user=None):
-    """
-    if not user:
-        user = UserFactory()
+def OrguserFactory():
     payload = {
-        'email': 'test@test.fr',
-        'timeoff_validators': [],
-        'time_validators': [],
-        'expenses_validators': [],
-        'tags': [],
+        "email": "test@test.fr",
+        "first_name": "Julie",
+        "last_name": "TEST",
     }
     response = sdk.create_orguser(payload)
     if response['status'] == 201:
@@ -30,8 +25,6 @@ def OrguserFactory(user=None):
     else:
         print(response)
         return None
-    """
-    return {'id': 2}
 
 
 def TeamFactory():
@@ -95,7 +88,7 @@ def CostMonthFactory(team_pk=None, cost_id=None):
 
 def EmployeeContractFactory(orguser_pk=None, team_pk=None):
     if not orguser_pk:
-        orguser_pk = OrguserFactory()['id']
+        orguser_pk = OrguserFactory()['pk']
     if not team_pk:
         team_pk = TeamFactory()
     payload = {

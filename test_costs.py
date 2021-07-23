@@ -47,7 +47,7 @@ class TestEmployees(unittest.TestCase):
 
     def test_create_employee_contract(self):
         payload = {
-            'orguser': self.orguser['id'],
+            'orguser': self.orguser['pk'],
             'team': self.team_pk,
             'status': 'active',
             'end_date': '20-10-2022',

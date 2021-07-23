@@ -15,7 +15,7 @@ class TestProject(unittest.TestCase):
     def setUpClass(cls):
         cls.team_pk = TeamFactory()
         cls.project_id = ProjectFactory()['id']
-        cls.orguser_id = OrguserFactory()['id']
+        cls.orguser_pk = OrguserFactory()['pk']
 
     def test_get_project_details(self):
         response = sdk.get_project_details(self.project_id)
@@ -33,7 +33,7 @@ class TestProject(unittest.TestCase):
         payload = {
             "start_date": "28-04-2020",
             "end_date": "28-08-2020",
-            "orgusers": [self.orguser_id],
+            "orgusers": [self.orguser_pk],
             "city": "Paris",
             "country": "FR"
         }
@@ -43,7 +43,7 @@ class TestProject(unittest.TestCase):
             "project_title": "New project",
             "start_date": "28-04-2020",
             "end_date": "28-08-2020",
-            "orgusers": [self.orguser_id],
+            "orgusers": [self.orguser_pk],
             "city": "Paris",
             "country": "FR"
         }
@@ -80,7 +80,7 @@ class TestProject(unittest.TestCase):
 
     def test_add_project_user(self):
         payload = {
-            "orguser": self.orguser_id,
+            "orguser": self.orguser_pk,
             "project": self.project_id,
             "is_visible": True
         }
@@ -101,10 +101,10 @@ class TestOrguser(unittest.TestCase):
     def setUpClass(cls):
         cls.team_pk = TeamFactory()
         cls.project_id = ProjectFactory()['id']
-        cls.orguser_id = OrguserFactory()['id']
+        cls.orguser_pk = OrguserFactory()['pk']
 
     def test_get_orguser_details(self):
-        response = sdk.get_orguser_details(self.orguser_id)
+        response = sdk.get_orguser_details(self.orguser_pk)
         self.assertEqual(response['status'], 200)
 
     def test_get_orgusers_list(self):
@@ -117,17 +117,13 @@ class TestOrguser(unittest.TestCase):
 
     def test_create_orguser(self):  # Error 500
         payload = {
-            "email": "test@test.fr",
+            "email": "test13@test.fr",
             "first_name": "Julie",
             "last_name": "TEST",
-            "timeoff_validators": [],
-            "time_validators": [],
-            "expenses_validators": [],
-            "tags": []
         }
         response = sdk.create_orguser(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.delete_orguser(response['data']['id'])
+        delete = sdk.delete_orguser(response['data']['pk'])
         self.assertEqual(delete['status'], 204)
 
     def test_update_orguser_details(self):
@@ -136,12 +132,12 @@ class TestOrguser(unittest.TestCase):
             "birthday": "28-06-1989"
         }
 
-        response = sdk.update_orguser_details(self.orguser_id, payload)
+        response = sdk.update_orguser_details(self.orguser_pk, payload)
         self.assertEqual(response['status'], 200)
 
     def test_invite_orguser(self):
 
-        response = sdk.invite_orguser(self.orguser_id, self.team_pk)
+        response = sdk.invite_orguser(self.orguser_pk, self.team_pk)
         self.assertEqual(response['status'], 200)
 
 
@@ -316,4 +312,4 @@ class TestInvitation(unittest.TestCase):
 """
 
 if __name__ == '__main__':
-    unittest.main(TestProfile())
+    unittest.main()
