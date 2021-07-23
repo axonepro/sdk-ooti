@@ -113,8 +113,9 @@ class Settings(Helper):
         Keywords arguments:
         data -- data of the new field to be created:
         {
-            "name": "string",
-            "field_type": "t",
+            "content_type": "project", # REQUIRED
+            "name": "string",  # REQUIRED
+            "field_type": "t",  # REQUIRED
             "default_value": "string",
             "is_required": false,
             "admin_only": false,
@@ -134,6 +135,12 @@ class Settings(Helper):
         "a" --> Large Text Field
         "f" --> Floating point decimal
         "d" --> Date
+
+        content_type
+        "contact" --> Contact
+        "project" --> Project
+        "orguser" --> OrgUser
+
         """
 
         route = 'v1/customfields/field/list/{0}/'.format(self.org_pk)
