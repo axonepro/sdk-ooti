@@ -1,8 +1,6 @@
 import requests
 import json
 
-from requests.models import Response
-
 from .helper import Helper
 
 """
