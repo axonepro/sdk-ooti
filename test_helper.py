@@ -222,6 +222,226 @@ class TestHelper:
         res = self.my_account.Invoicing.create_bank(data)
         return res['data']['id']
 
+    def _create_area_return_pk(self, project_pk):
+        """ Create an area and return the pk """
+
+        name = self.create_name()
+
+        area = {
+            "name": name,
+            "project": project_pk,
+            "surface_area": 30,
+            "zones": []
+        }
+
+        res = self.my_account.Deliverables.create_areas(project_pk, area)
+        return res['data']['id']
+
+    def _create_zone_return_pk(self, area_pk):
+        """ Create a zone and return the pk
+        """
+
+        data = {
+            "name": self.create_name(),
+            "area": area_pk,
+            "progress": 0,
+            "internal_code": "string",
+            "client_code": "string",
+            "surface_area": 0,
+            "default_surface_price": 0,
+            "num_units": 0
+        }
+
+        return self.my_account.Deliverables.create_zone(area_pk, data)['data']['id']
+
+    def _create_fee_project_return_pk(self, project_pk):
+        """ Create a fee project and return pk """
+
+        data = {
+            "title": self.create_name(),
+            "project": project_pk
+        }
+
+        return self.my_account.Deliverables.create_fee_project(data)['data']['id']
+
+    def _create_phase_return_pk(self, project_pk, fee_project_pk):
+        """ Create phase and return pk """
+
+        data = {
+            "name": self.create_name(),
+            "shortname": "TEST",
+            "fee_project": fee_project_pk,
+            "pct": 10,
+            "dependants": []
+        }
+
+        return self.my_account.Deliverables.create_phase(project_pk, data)['data']['id']
+
+    def _create_plan_return_pk(self, project_pk):
+        """ Create plan and return pk """
+
+        data = {
+            "name_fr": self.create_name(),
+            "plan_format": "A1",
+            "scale": "1/50e",
+            "level": "000",
+            "lot": 10,
+            "code": "pln",
+            "org": self.my_account.org_pk
+        }
+
+        return self.my_account.Deliverables.create_plan(project_pk, data)['data']['id']
+
+    def _create_milestone_return_pk(self, project_pk):
+        """ Create a milestone and return the pk """
+
+        data = {
+            "title": self.create_name(),
+            "project": project_pk,
+            "date": "30-04-2021",
+            "description": "string",
+            "in_timeline": True
+        }
+
+        return self.my_account.Deliverables.create_milestone(data)['data']['pk']
+
+    def _create_phaseset_return_pk(self, team_pk):
+        """ Create a phaseset and return pk """
+        data = {
+            "is_main": False,
+            "title": self.create_name(),
+            "team": team_pk
+        }
+
+        return self.my_account.Deliverables.create_defaults_phasesets_org(data)['data']['id']
+
+    def _create_defaults_phase_return_pk(self, team_pk, phaseset_pk):
+        """ Create a default phase and return it """
+
+        data = {
+            "name": "UNITTEST",
+            "shortname": "TEST",
+            "pct": 10,
+            "library": phaseset_pk,
+            "team": team_pk
+        }
+
+        return self.my_account.Deliverables.create_defaults_phase_org(data)['data']['id']
+
+    def _create_plansets_return_pk(self):
+        """ Create a plansets and return pk """
+
+        data = {
+            "title": self.create_name()
+        }
+
+        return self.my_account.Deliverables.create_defaults_plansets_org(data)['data']['id']
+
+    def _create_defaults_plan_return_pk(self, plansets_pk, zone_pk):
+        """ Create a default plan and return it 
+
+        :return: {'pk': pk, "plansets_pk": plansets_pk, "zone_pk": res_zone_pk['pk'], "area_pk": res_zone_pk['area_pk']}
+        """
+
+        data = {
+            "zone": zone_pk,
+            "plan_format": "string",
+            "scale": "string",
+            "level": "string",
+            "name": self.create_name(),
+            "library": plansets_pk
+        }
+
+        return self.my_account.Deliverables.create_defaults_plan_org(data)['data']['id']
+
+    def _create_contractor_return_pk(self):
+        """ Create contractor and return pk """
+
+        data = {
+            "name": self.create_name(),
+            "tags": []
+        }
+
+        return self.my_account.Deliverables.create_contractors(data)['data']['id']
+
+    def _create_contract_return_pk(self, contractor_pk, project_pk, fee_project_pk):
+        """ Create contract and return pk """
+
+        data = {
+            "contractor": contractor_pk,
+            "fee_project": fee_project_pk,
+            "type": "sub",
+            "description": "string",
+            "tax_rate": 1,
+            "project": project_pk,
+        }
+
+        return self.my_account.Deliverables.create_contract(data)['data']['id']
+
+    def _create_contract_item_return_pk(self, contract_pk):
+        """ Create a contract item and return pk """
+
+        data = {
+            "contract": contract_pk,
+            "fee": 100
+        }
+
+        return self.my_account.Deliverables.create_contracts_items(data)['data']['id']
+
+    def _create_contract_month_return_pk(self, contract_pk):
+        """ Create contract month return pk """
+
+        data = {
+            "contract": contract_pk,
+            "year": 2021,
+            "month": 5,
+            "start_date": "06-05-2021",
+            "end_date": "06-05-2021",
+            "budget": 0,
+            "budget_projected": 0,
+            "actual": 0,
+            "pct": 0
+        }
+
+        return self.my_account.Deliverables.create_contracts_month(data)['data']['id']
+
+    def _create_annex_return_pk(self, project_pk):
+        """ Create annexe and return pk """
+
+        data = {
+            "title": self.create_name(),
+            "annex_type": "time",
+            "total_fees": 1,
+            "description": "UNITTEST",
+            "date": "06-05-2021"
+        }
+
+        return self.my_account.Deliverables.create_annexe(project_pk, data)['data']['id']
+
+    def _create_document_return_pk(self, project_pk):
+        """ Create a document a return pk """
+
+        data = {
+            "name": self.create_name(),
+            "price": 10,
+            "annexes": []
+        }
+
+        return self.my_account.Deliverables.create_document(project_pk, data)['data']['id']
+
+    def _create_fee_return_pk(self, project_pk):
+        """ Create a fee and return pk """
+
+        data = {
+            "title": self.create_name(),
+            "amount_base": 0,
+            "amount_current": 0,
+            "progress": 0,
+            "in_timeline": True
+        }
+
+        return self.my_account.Deliverables.create_fee(project_pk, data)['data']['pk']
+
     def create_name(self):
         name = ''
         for i in range(6):
