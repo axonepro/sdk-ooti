@@ -843,11 +843,11 @@ class Costs(Helper):
         data -- data of the new jobs invoice to be created:
         {
             "date": "string", # REQUIRED
+            "contractor": 0, # REQUIRED
             "job": job_pk,
             "orguser": orguser_pk,
             "team": team_pk,
             "freelancer": 0,
-            "contractor": 0,
             "project": project_id,
             "phases": [
                 phase_id,
