@@ -5,13 +5,8 @@ from .helper import Helper
 
 
 class Invoicing(Helper):
-    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers):
-        self.base_url = base_url
-        self.org_pk = org_pk
-        self.teams_pk = teams_pk
-        self.access_token = access_token
-        self._csrf_token = _csrf_token
-        self.headers = headers
+    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
+        super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
 
     #### Invoices ####
 
@@ -27,14 +22,14 @@ class Invoicing(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_invoices_list(self):
+    def get_invoices_list(self, page=1):
         """ Get the invoice list """
 
-        route = 'v1/invoices/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/invoices/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
-    def get_invoices_sent_valid_list(self, team_pk):
+    def get_invoices_sent_valid_list(self, team_pk, page=1):
         """ Get the sent and valid invoice list
 
         Keyword arguments:
@@ -42,8 +37,8 @@ class Invoicing(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/invoices/list/{0}/?team={1}&page_size=999999&q=&is_sent=true&is_valid=true'.format(
-            self.org_pk, team_pk)
+        route = 'v1/invoices/list/{0}/?team={1}&page_size={2}&page={3}&q=&is_sent=true&is_valid=true'.format(
+            self.org_pk, team_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -134,7 +129,7 @@ class Invoicing(Helper):
 
         return self.process_response(response)
 
-    def get_invoice_items(self, pk):
+    def get_invoice_items(self, pk, page=1):
         """ Get invoice's items
 
         Keyword arguments:
@@ -142,7 +137,7 @@ class Invoicing(Helper):
         pk -- invoice pk
         """
 
-        route = 'v1/invoices/items/{0}/?page_size=999999'.format(pk)
+        route = 'v1/invoices/items/{0}/?page_size={1}&page={2}'.format(pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -198,14 +193,14 @@ class Invoicing(Helper):
 
     #### Credit notes ####
 
-    def get_credit_notes_list(self):
+    def get_credit_notes_list(self, page=1):
         """ Get the invoice list """
 
-        route = 'v1/invoices/list/{0}/?page_size=999999&type=9'.format(self.org_pk)
+        route = 'v1/invoices/list/{0}/?page_size={1}&page={2}&type=9'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
-    def get_credit_notes_sent_valid_list(self, team_pk):
+    def get_credit_notes_sent_valid_list(self, team_pk, page=1):
         """ Get the sent and valid invoice list
 
         Keyword arguments:
@@ -213,8 +208,8 @@ class Invoicing(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/invoices/list/{0}/?team={1}&page_size=999999&q=&is_sent=true&is_valid=true&type=9'.format(
-            self.org_pk, team_pk)
+        route = 'v1/invoices/list/{0}/?team={1}&page_size={2}&page={3}&q=&is_sent=true&is_valid=true&type=9'.format(
+            self.org_pk, team_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -232,10 +227,10 @@ class Invoicing(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_payments_list(self):
+    def get_payments_list(self, page=1):
         """Get the payment list"""
 
-        route = 'v1/payments/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/payments/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -307,7 +302,7 @@ class Invoicing(Helper):
 
     ##### Clients #####
 
-    def get_clients_list(self, team_pk):
+    def get_clients_list(self, team_pk, page=1):
         """Get the clients list
 
         Keyword arguments:
@@ -316,7 +311,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/clients/list/{0}/'.format(self.org_pk)
-        parameters = '?page_size=999999&team={0}'.format(team_pk)
+        parameters = '?team={0}&page_size={1}&page={2}'.format(team_pk, self.pagination, page)
 
         response = requests.get('{0}{1}{2}'.format(self.base_url, route, parameters), headers=self.headers)
         return self.process_response(response, True)
@@ -391,10 +386,10 @@ class Invoicing(Helper):
 
     ##### Currencies #####
 
-    def get_currencies_list(self):
+    def get_currencies_list(self, page=1):
         """Get the currencies list """
 
-        route = 'v1/currencies/list/?page_size=999999'
+        route = 'v1/currencies/list/?page_size={0}&page={1}'.format(self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -464,10 +459,10 @@ class Invoicing(Helper):
 
     ### Classic ###
 
-    def get_emails_list(self):
+    def get_emails_list(self, page=1):
         """ Get the emails list """
 
-        route = 'v1/emails/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/emails/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -577,10 +572,10 @@ class Invoicing(Helper):
 
     ### smtp ###
 
-    def get_emails_smtp_list(self):
+    def get_emails_smtp_list(self, page=1):
         """ Get the emails smtp list """
 
-        route = 'v1/emails/smtp/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/emails/smtp/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -665,7 +660,7 @@ class Invoicing(Helper):
 
     ### Folders ###
 
-    def get_folder_list(self, project_pk):
+    def get_folder_list(self, project_pk, page=1):
         """ Get the folder list
 
         Keyword arguments:
@@ -673,7 +668,7 @@ class Invoicing(Helper):
         project_pk -- pk of the project
         """
 
-        route = 'v1/files/folder/list/{0}/?page_size=999999'.format(project_pk)
+        route = 'v1/files/folder/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -738,7 +733,7 @@ class Invoicing(Helper):
 
     ### Files ###
 
-    def get_files_list(self, project_pk):
+    def get_files_list(self, project_pk, page=1):
         """ Get the files list
 
         Keyword arguments:
@@ -746,7 +741,7 @@ class Invoicing(Helper):
         project_pk -- pk of the project
         """
 
-        route = 'v1/files/list/{0}/?page_size=999999'.format(project_pk)
+        route = 'v1/files/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -788,10 +783,10 @@ class Invoicing(Helper):
 
     #### Banks ####
 
-    def get_banks_list(self):
+    def get_banks_list(self, page=1):
         """ Get the banks list """
 
-        route = 'v1/banks/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/banks/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -864,17 +859,18 @@ class Invoicing(Helper):
 
     ### Reports ###
 
-    def get_reports_list(self):
+    def get_reports_list(self, page=1):
         """ Get the reports list """
 
-        route = 'v1/reports/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/reports/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
-    def get_reports_project_list(self, project_pk):
+    def get_reports_project_list(self, project_pk, page=1):
         """ Get the reports list for a project """
 
-        route = 'v1/reports/list/{0}/?page_size=999999&project={1}'.format(self.org_pk, project_pk)
+        route = 'v1/reports/list/{0}/?project={1}&page_size={2}&page={3}'.format(
+            self.org_pk, project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -998,7 +994,7 @@ class Invoicing(Helper):
 
     ### Reports Templates ###
 
-    def get_templates_list(self, team_pk):
+    def get_templates_list(self, team_pk, page=1):
         """ Get list of templates
 
         Keyword arguments:
@@ -1006,7 +1002,7 @@ class Invoicing(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/reports/templates/list/{0}/?page_size=999999'.format(team_pk)
+        route = 'v1/reports/templates/list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -1097,10 +1093,10 @@ class Invoicing(Helper):
         return self.process_response(response)
 
     #### Revenue ####
-    def get_revenue_list(self):
+    def get_revenue_list(self, page=1):
         """ Get the revenue list """
 
-        route = 'v1/revenue/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/revenue/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -1142,10 +1138,10 @@ class Invoicing(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_revenue_month_list(self):
+    def get_revenue_month_list(self, page=1):
         """ Get the revenue month list """
 
-        route = 'v1/revenue/month/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/revenue/month/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -1257,10 +1253,10 @@ class Invoicing(Helper):
 
     #### Styleguides ####
 
-    def get_styleguides_list(self):
+    def get_styleguides_list(self, page=1):
         """ Get the styleguide list """
 
-        route = 'v1/styleguides/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/styleguides/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
