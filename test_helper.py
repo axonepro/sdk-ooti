@@ -84,9 +84,7 @@ class TestHelper:
             "end_date": "23-07-2021",
         }
 
-        res = self.my_account.create_project(data_project)
-        print(res)
-        return res['data']['pk']
+        return self.my_account.create_project(data_project)['data']['id']
 
     def _create_invoice_return_pk(self, team_pk, project_pk):
         """ Create and return the pk of an invoice 
@@ -410,13 +408,17 @@ class TestHelper:
 
         data = {
             "title": self.create_name(),
-            "annex_type": "time",
+            "annex_type": "other",
             "total_fees": 1,
             "description": "UNITTEST",
-            "date": "06-05-2021"
+            "start_date": "26-07-2021",
         }
 
-        return self.my_account.Deliverables.create_annexe(project_pk, data)['data']['id']
+        res = self.my_account.Deliverables.create_annexe(project_pk, data)
+        if 'data' in res:
+            return res['data']['id']
+        else:
+            return 0
 
     def _create_document_return_pk(self, project_pk):
         """ Create a document a return pk """
