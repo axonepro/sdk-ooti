@@ -2,8 +2,8 @@ import json
 
 
 class Helper(object):
-    def __init__(self):
-        pass
+    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
+        super(Helper, self).__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
 
     def process_response(self, response, results=None):
         """ Process the response and return it

@@ -5,13 +5,8 @@ from .helper import Helper
 
 
 class Deliverables(Helper):
-    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers):
-        self.base_url = base_url
-        self.org_pk = org_pk
-        self.teams_pk = teams_pk
-        self.access_token = access_token
-        self._csrf_token = _csrf_token
-        self.headers = headers
+    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
+        super(Helper, self).__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
 
     #### Zones ####
 
@@ -2325,7 +2320,7 @@ class Deliverables(Helper):
 
     def delete_revisions_fee_items_detail(self, pk):
         """ Delete revision fee_items detail
-        
+
         Keyword arguments:
 
         pk -- the pk of the fee_items revision
@@ -2421,7 +2416,7 @@ class Deliverables(Helper):
 
     def delete_revisions_plan_detail(self, pk):
         """ Delete revision plans detail
-        
+
         Keyword arguments:
 
         pk -- the pk of the plans revision

@@ -12,7 +12,7 @@ from .time import Time
 
 
 class Auth(Helper):
-    def __init__(self, username, password):
+    def __init__(self, username, password, pagination=None):
         self.username = username
         self.password = password
         self.base_url = 'https://ooti-staging-3.herokuapp.com/api/'  # "https://app.ooti.co/api/"
@@ -27,10 +27,16 @@ class Auth(Helper):
         self.Settings = None
         self.Collaboration = None
 
+        if pagination and isinstance(pagination, int) and pagination > 0:
+            self.pagination = pagination
+        else:
+            self.pagination = 50
+
     def connect(self):
         self.__get_csrf_token()
         self.__get_token()
         self.__get_org()
+
         self.Costs = Costs(self.base_url, self.org_pk, self.teams_pk,
                            self.access_token, self._csrf_token, self.headers)
 
