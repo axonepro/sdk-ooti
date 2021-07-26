@@ -1,12 +1,30 @@
-from requests.api import delete
 from ooti import ooti
 import unittest
-from factories import ContractorFactory, EmployeeContractFactory, EmployeePeriodFactory, ExpenseGroupFactory, FreelancerFactory, JobFactory, JobInvoiceFactory, OrguserFactory, ProjectFactory, TeamFactory, CostFactory, CostMonthFactory
 
-OOTI_USERNAME = 'root@root.com'
-OOTI_PASSWORD = 'root'
+from factories import ContractorFactory
+from factories import EmployeeContractFactory
+from factories import EmployeePeriodFactory
+from factories import ExpenseGroupFactory
+from factories import FreelancerFactory
+from factories import JobFactory
+from factories import JobInvoiceFactory
+from factories import OrguserFactory
+from factories import ProjectFactory
+from factories import TeamFactory
+from factories import CostFactory
+from factories import CostMonthFactory
 
-sdk = ooti.Auth(OOTI_USERNAME, OOTI_PASSWORD)
+# To read .env variables
+import os
+from dotenv import load_dotenv
+
+# Loading environment variables (stored in .env file)
+load_dotenv()
+
+OOTI_AUTH = os.getenv("OOTI_AUTH")
+OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
+
+sdk = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
 sdk.connect()
 
 
