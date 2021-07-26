@@ -6,7 +6,7 @@ from .helper import Helper
 
 class Time(Helper):
     def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
-        super(Helper, self).__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
+        super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
 
     #### Timelogs ####
 
@@ -102,10 +102,10 @@ class Time(Helper):
         return self.process_response(response)
 
     ### Holidays ###
-    def get_timelogs_holidays_org(self):
+    def get_timelogs_holidays_org(self, page=1):
         """ Get the holidays list """
 
-        route = 'v1/timelogs/holidays/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/timelogs/holidays/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -132,13 +132,14 @@ class Time(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_timelogs_holidays_team(self, team_pk):
+    def get_timelogs_holidays_team(self, team_pk, page=1):
         """ Get the holidays list for a team 
 
         team_pk -- pk of the team
         """
 
-        route = 'v1/timelogs/holidays/list/{0}/{1}/?page_size=999999'.format(self.org_pk, team_pk)
+        route = 'v1/timelogs/holidays/list/{0}/{1}/?page_size={2}&page={3}'.format(
+            self.org_pk, team_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -212,7 +213,7 @@ class Time(Helper):
         return self.process_response(response)
 
     ### Hourslogs ###
-    def get_timelogs_hourslogs_list(self, team_pk):
+    def get_timelogs_hourslogs_list(self, team_pk, page=1):
         """ Get the hourslogs list 
 
         Keyword argument : 
@@ -220,7 +221,7 @@ class Time(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/timelogs/hourslogs/list/{0}/?page_size=999999'.format(team_pk)
+        route = 'v1/timelogs/hourslogs/list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -257,7 +258,7 @@ class Time(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_timelogs_hourslogs_my_list(self, team_pk):
+    def get_timelogs_hourslogs_my_list(self, team_pk, page=1):
         """ Get the hourslogs list 
 
         Keyword argument : 
@@ -265,7 +266,7 @@ class Time(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/timelogs/hourslogs/my-list/{0}/?page_size=999999'.format(team_pk)
+        route = 'v1/timelogs/hourslogs/my-list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -357,7 +358,7 @@ class Time(Helper):
         return self.process_response(response, True)
 
     ### Timeoff ###
-    def get_timelogs_my_timeoff_requests_list(self, team_pk):
+    def get_timelogs_my_timeoff_requests_list(self, team_pk, page=1):
         """ Get my timeoff requests 
 
         Keyword arguments :
@@ -365,11 +366,12 @@ class Time(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/timelogs/my-timeoff-requests/list/{0}/?page_size=999999'.format(team_pk)
+        route = 'v1/timelogs/my-timeoff-requests/list/{0}/?page_size={1}&page={2}'.format(
+            team_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
-    def create_timelogs_my_timeoff_requests(self, team_pk, data):
+    def create_timelogs_my_timeoff_requests(self, team_pk, data, page):
         """ Create my timeoff requests 
 
         Keyword arguments :
@@ -398,11 +400,11 @@ class Time(Helper):
         }
         """
 
-        route = 'v1/timelogs/my-timeoff-requests/list/{0}/?page_size=999999'.format(team_pk)
+        route = 'v1/timelogs/my-timeoff-requests/list/{0}/'.format(team_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response, True)
 
-    def get_timelogs_timeoff_requests_list(self, team_pk):
+    def get_timelogs_timeoff_requests_list(self, team_pk, page=1):
         """ Get timeoff requests 
 
         Keyword arguments :
@@ -410,7 +412,7 @@ class Time(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/timelogs/timeoff-requests/list/{0}/?page_size=999999'.format(team_pk)
+        route = 'v1/timelogs/timeoff-requests/list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -442,7 +444,7 @@ class Time(Helper):
         }
         """
 
-        route = 'v1/timelogs/timeoff-requests/list/{0}/?page_size=999999'.format(team_pk)
+        route = 'v1/timelogs/timeoff-requests/list/{0}/'.format(team_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response, True)
 
@@ -460,7 +462,7 @@ class Time(Helper):
         }
         """
 
-        route = 'v1/timelogs/timeoff-balance/list/{0}/?page_size=999999'.format(team_pk)
+        route = 'v1/timelogs/timeoff-balance/list/{0}/'.format(team_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
@@ -478,7 +480,7 @@ class Time(Helper):
         }
         """
 
-        route = 'v1/timelogs/timeoff-balance/list/{0}/?page_size=999999'.format(team_pk)
+        route = 'v1/timelogs/timeoff-balance/list/{0}/'.format(team_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
@@ -542,7 +544,7 @@ class Time(Helper):
     def get_timelogs_types_list(self):
         """ Get timelogs type list """
 
-        route = 'v1/timelogs/types/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/timelogs/types/list/{0}/'.format(self.org_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -566,10 +568,10 @@ class Time(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response, True)
 
-    def get_timelogs_types_timeoff_list(self):
+    def get_timelogs_types_timeoff_list(self, page=1):
         """ Get timelogs types timeoff list """
 
-        route = 'v1/timelogs/types/timeoff/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/timelogs/types/timeoff/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -639,10 +641,10 @@ class Time(Helper):
         return self.process_response(response, True)
 
     ### Week-config ###
-    def get_timelogs_week_config_list(self):
+    def get_timelogs_week_config_list(self, page=1):
         """ Get week config list """
 
-        route = 'v1/timelogs/week-config/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/timelogs/week-config/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -777,7 +779,7 @@ class Time(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_timelogs_week_list(self, start_date=""):
+    def get_timelogs_week_list(self, start_date="", page=1):
         """ Get weeks list 
 
         Keyword arguments:
@@ -786,7 +788,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/weeks/list/{0}/'.format(self.org_pk)
-        parameters = "?start_date={0}&page_size=999999=".format(start_date)
+        parameters = "?start_date={0}&page_size={1}&page={2}=".format(start_date, self.pagination, page)
 
         response = requests.get('{0}{1}{2}'.format(self.base_url, route, parameters), headers=self.headers)
         return self.process_response(response, True)
@@ -825,7 +827,7 @@ class Time(Helper):
         return self.process_response(response)
 
     ### Worklogs ###
-    def get_timelogs_worklogs_list(self, team_pk):
+    def get_timelogs_worklogs_list(self, team_pk, page=1):
         """ Get worklogs list 
 
         Keyword arguments:
@@ -833,7 +835,7 @@ class Time(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/timelogs/worklogs/list/{0}/?page_size=999999'.format(team_pk)
+        route = 'v1/timelogs/worklogs/list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -969,10 +971,11 @@ class Time(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_timeperiods_role_annex_periods(self):
+    def get_timeperiods_role_annex_periods(self, page=1):
         """ Get role annex periods list """
 
-        route = 'v1/timeperiods/role-annex-periods/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/timeperiods/role-annex-periods/list/{0}/?page_size={1}&page={2}'.format(
+            self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -1191,10 +1194,10 @@ class Time(Helper):
         return self.process_response(response)
 
     #### Roles ####
-    def get_roles_list(self):
+    def get_roles_list(self, page=1):
         """ Get roles list """
 
-        route = 'v1/roles/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/roles/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -1215,10 +1218,10 @@ class Time(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_roles_project_list(self):
+    def get_roles_project_list(self, page=1):
         """ Get roles project list """
 
-        route = 'v1/roles/project/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/roles/project/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -1344,10 +1347,10 @@ class Time(Helper):
         return self.process_response(response)
 
     #### Trips ####
-    def get_trips_list(self):
+    def get_trips_list(self, page=1):
         """ Get trips list """
 
-        route = 'v1/trips/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/trips/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 

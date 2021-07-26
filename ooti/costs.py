@@ -6,7 +6,7 @@ from .helper import Helper
 
 class Costs(Helper):
     def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
-        super(Helper, self).__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
+        super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
 
     #### Costs ####
 
@@ -51,10 +51,10 @@ class Costs(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_costs_months_list(self):
+    def get_costs_months_list(self, page=1):
         """ Get the list of costs month """
 
-        route = 'v1/costs/month/list/{0}/'.format(self.org_pk)
+        route = 'v1/costs/month/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -133,10 +133,10 @@ class Costs(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=data)
         return self.process_response(response)
 
-    def get_costs_list(self):
+    def get_costs_list(self, page=1):
         """ Get the list of costs """
 
-        route = 'v1/costs/list/{0}/'.format(self.org_pk)
+        route = 'v1/costs/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -215,10 +215,10 @@ class Costs(Helper):
 
     #### Employees ####
 
-    def get_employees_contracts_list(self):
+    def get_employees_contracts_list(self, page=1):
         """ Get the employees contracts """
 
-        route = 'v1/employees/contracts/list/{0}/'.format(self.org_pk)
+        route = 'v1/employees/contracts/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -317,10 +317,10 @@ class Costs(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_employees_period_list(self):
+    def get_employees_period_list(self, page=1):
         """ Get the list of employees periods """
 
-        route = 'v1/employees/period/list/{0}/'.format(self.org_pk)
+        route = 'v1/employees/period/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -409,10 +409,10 @@ class Costs(Helper):
 
     # DELETE on v1/expenses/{expense_group_pk}/versions/{version_pk}/delete/ ?
 
-    def get_expenses_categories_list(self):
+    def get_expenses_categories_list(self, page=1):
         """ Get the list of expenses categories """
 
-        route = 'v1/expenses/category/list/{0}/'.format(self.org_pk)
+        route = 'v1/expenses/category/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -475,7 +475,7 @@ class Costs(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_expenses_groups_list(self, team_pk=None):
+    def get_expenses_groups_list(self, team_pk=None, page=1):
         """ Get the list of expenses groups
 
         Keyword arguments:
@@ -483,9 +483,9 @@ class Costs(Helper):
         """
 
         if team_pk is None:
-            route = 'v1/expenses/groups/v2/list/{0}/'.format(self.org_pk)
+            route = 'v1/expenses/groups/v2/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         else:
-            route = 'v1/expenses/groups/list/{0}/'.format(team_pk)
+            route = 'v1/expenses/groups/list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -536,15 +536,16 @@ class Costs(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_expenses_list(self, team_pk=None, expense_group_id=None):
+    def get_expenses_list(self, team_pk=None, expense_group_id=None, page=1):
         """ Get the expenses list """
 
         if team_pk is not None and expense_group_id is not None:
-            route = 'v1/expenses/list/{0}/{1}/'.format(team_pk, expense_group_id)
+            route = 'v1/expenses/list/{0}/{1}/?page_size={2}&page={3}'.format(
+                team_pk, expense_group_id, self.pagination, page)
         elif team_pk is not None:
-            route = 'v1/expenses/my-groups/list/{0}/'.format(team_pk)
+            route = 'v1/expenses/my-groups/list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
         else:
-            route = 'v1/expenses/list/{0}/'.format(self.org_pk)
+            route = 'v1/expenses/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -648,10 +649,10 @@ class Costs(Helper):
 
     #### Freelancers ####
 
-    def get_freelancers_list(self):
+    def get_freelancers_list(self, page=1):
         """ Get the list of freelancers """
 
-        route = 'v1/freelancers/list/{0}/'.format(self.org_pk)
+        route = 'v1/freelancers/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -740,10 +741,10 @@ class Costs(Helper):
 
     #### Jobs ####
 
-    def get_jobs_invoices_items_list(self):
+    def get_jobs_invoices_items_list(self, page=1):
         """ Get the list of jobs invoices items """
 
-        route = 'v1/jobs/invoices/items/list/{0}/'.format(self.org_pk)
+        route = 'v1/jobs/invoices/items/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -824,10 +825,10 @@ class Costs(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_jobs_invoices_list(self):
+    def get_jobs_invoices_list(self, page=1):
         """ Get the list of jobs invoices """
 
-        route = 'v1/jobs/invoices/list/{0}/'.format(self.org_pk)
+        route = 'v1/jobs/invoices/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -936,10 +937,10 @@ class Costs(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_jobs_list(self):
+    def get_jobs_list(self, page=1):
         """ Get the list of jobs """
 
-        route = 'v1/jobs/list/{0}/'.format(self.org_pk)
+        route = 'v1/jobs/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -988,10 +989,10 @@ class Costs(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_jobs_months_list(self):
+    def get_jobs_months_list(self, page=1):
         """ Get the list of jobs months """
 
-        route = 'v1/jobs/month/list/{0}/'.format(self.org_pk)
+        route = 'v1/jobs/month/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 

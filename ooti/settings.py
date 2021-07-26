@@ -18,14 +18,14 @@ from .helper import Helper
 
 class Settings(Helper):
     def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
-        super(Helper, self).__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
+        super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
 
     #### Actions ####
 
-    def get_actions_list(self):
+    def get_actions_list(self, page=1):
         """ Get the list of actions """
 
-        route = 'v1/actions/list/{0}/'.format(self.org_pk)
+        route = 'v1/actions/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -86,19 +86,19 @@ class Settings(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_celery_tasks_list(self):
+    def get_celery_tasks_list(self, page=1):
         """ Get the list of celery tasks """
 
-        route = 'v1/celery_tasks/list/{0}/'.format(self.org_pk)
+        route = 'v1/celery_tasks/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     #### Customfields ####
 
-    def get_customfields_list(self):
+    def get_customfields_list(self, page=1):
         """ Get the list of customfields """
 
-        route = 'v1/customfields/field/list/{0}/'.format(self.org_pk)
+        route = 'v1/customfields/field/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -200,10 +200,10 @@ class Settings(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_exports_list(self):
+    def get_exports_list(self, page=1):
         """ Get the list of exports """
 
-        route = 'v1/imports/export/list/{0}/'.format(self.org_pk)
+        route = 'v1/imports/export/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -250,10 +250,10 @@ class Settings(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_imports_list(self):
+    def get_imports_list(self, page=1):
         """ Get the list of imports """
 
-        route = 'v1/imports/list/{0}/'.format(self.org_pk)
+        route = 'v1/imports/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -310,10 +310,10 @@ class Settings(Helper):
 
     #### Inbound emails ####
 
-    def get_inbound_emails_list(self):
+    def get_inbound_emails_list(self, page=1):
         """ Get the list of inbound emails """
 
-        route = 'v1/inbound_emails/list/{0}/'.format(self.org_pk)
+        route = 'v1/inbound_emails/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -388,10 +388,10 @@ class Settings(Helper):
 
     #### Tags ####
 
-    def get_tags_list(self):
+    def get_tags_list(self, page=1):
         """ Get the list of tags """
 
-        route = 'v1/tags/list/{0}/'.format(self.org_pk)
+        route = 'v1/tags/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 

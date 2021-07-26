@@ -48,25 +48,25 @@ class Auth(Helper):
         self.__get_org()
 
         self.Costs = Costs(self.base_url, self.org_pk, self.teams_pk,
-                           self.access_token, self._csrf_token, self.headers)
+                           self.access_token, self._csrf_token, self.headers, self.pagination)
 
         self.Others = Others(self.base_url, self.org_pk, self.teams_pk,
-                             self.access_token, self._csrf_token, self.headers)
+                             self.access_token, self._csrf_token, self.headers, self.pagination)
 
         self.Settings = Settings(self.base_url, self.org_pk, self.teams_pk,
-                                 self.access_token, self._csrf_token, self.headers)
+                                 self.access_token, self._csrf_token, self.headers, self.pagination)
 
         self.Collaboration = Collaboration(self.base_url, self.org_pk, self.teams_pk,
-                                           self.access_token, self._csrf_token, self.headers)
+                                           self.access_token, self._csrf_token, self.headers, self.pagination)
 
         self.Invoicing = Invoicing(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers)
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
 
         self.Deliverables = Deliverables(self.base_url, self.org_pk, self.teams_pk,
-                                         self.access_token, self._csrf_token, self.headers)
+                                         self.access_token, self._csrf_token, self.headers, self.pagination)
 
         self.Time = Time(self.base_url, self.org_pk, self.teams_pk,
-                         self.access_token, self._csrf_token,  self.headers)
+                         self.access_token, self._csrf_token,  self.headers, self.pagination)
 
     def base_url(self):
         """ Choose base_url based on ENV variable """
@@ -78,6 +78,18 @@ class Auth(Helper):
             self.base_url = 'http://127.0.0.1:8000/api/'
         else:
             self.base_url = 'https://app.ooti.co/api/'
+
+    def update_pagination(self, pagination):
+        """ Setter for pagination """
+        if pagination and isinstance(pagination, int) and pagination > 0:
+            self.Costs.pagination = pagination
+            self.Others.pagination = pagination
+            self.Settings.pagination = pagination
+            self.Collaboration.pagination = pagination
+            self.Invoicing.pagination = pagination
+            self.Deliverables.pagination = pagination
+            self.Time.pagination = pagination
+            self.pagination = pagination
 
 
 ##### AUTH #####
