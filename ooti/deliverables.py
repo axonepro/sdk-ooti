@@ -189,7 +189,6 @@ class Deliverables(Helper):
         project_pk -- the pk of the project
 
         """
-        print('🚩 pagination: ', self.pagination)
         route = 'v1/phases/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
