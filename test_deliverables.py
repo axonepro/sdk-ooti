@@ -114,113 +114,113 @@ class TestPhases(unittest.TestCase):
         self.assertEqual(res['status'], 200)
         self.assertLessEqual(len(res['data']), 5)
 
-    # def test_get_phases_list(self):
-    #     """ Test that 200 is returned """
+    def test_get_phases_list(self):
+        """ Test that 200 is returned """
 
-    #     res = my_account.Deliverables.get_phases_list(self.project_pk)
-    #     self.assertEqual(res['status'], 200)
+        res = my_account.Deliverables.get_phases_list(self.project_pk)
+        self.assertEqual(res['status'], 200)
 
-    # def test_get_phases_list_fee_project(self):
-    #     """ Test that 200 is returned """
+    def test_get_phases_list_fee_project(self):
+        """ Test that 200 is returned """
 
-    #     res = my_account.Deliverables.get_phases_list_fee_project(self.project_pk, self.fee_project_pk)
-    #     self.assertEqual(res['status'], 200)
+        res = my_account.Deliverables.get_phases_list_fee_project(self.project_pk, self.fee_project_pk)
+        self.assertEqual(res['status'], 200)
 
-    # def test_get_phases_projections_list(self):
-    #     """ Test that 200 is returned """
+    def test_get_phases_projections_list(self):
+        """ Test that 200 is returned """
 
-    #     res = my_account.Deliverables.get_phases_projections_list(self.project_pk)
-    #     self.assertEqual(res['status'], 200)
+        res = my_account.Deliverables.get_phases_projections_list(self.project_pk)
+        self.assertEqual(res['status'], 200)
 
-    # def test_export_phase(self):
-    #     """ Test that 200 is returned """
-    #     currency_pk = self.testHelper._create_currency_if_none()
-    #     client_pk = self.testHelper._create_client_return_pk(team_pk, currency_pk)
-    #     project_pk = self.testHelper._create_project_return_pk(client_pk, currency_pk)
+    def test_export_phase(self):
+        """ Test that 200 is returned """
+        currency_pk = self.testHelper._create_currency_if_none()
+        client_pk = self.testHelper._create_client_return_pk(team_pk, currency_pk)
+        project_pk = self.testHelper._create_project_return_pk(client_pk, currency_pk)
 
-    #     fee_project_pk = self.testHelper._create_fee_project_return_pk(project_pk)
-    #     phase_pk = self.testHelper._create_phase_return_pk(project_pk, fee_project_pk)
+        fee_project_pk = self.testHelper._create_fee_project_return_pk(project_pk)
+        phase_pk = self.testHelper._create_phase_return_pk(project_pk, fee_project_pk)
 
-    #     res = my_account.Deliverables.export_phase(project_pk)
-    #     self.assertEqual(res['status'], 200)
+        res = my_account.Deliverables.export_phase(project_pk)
+        self.assertEqual(res['status'], 200)
 
-    # def test_create_phase(self):
-    #     """ Test that 201 is returned """
+    def test_create_phase(self):
+        """ Test that 201 is returned """
 
-    #     data = {
-    #         "name": self.testHelper.create_name(),
-    #         "shortname": "TEST",
-    #         "fee_project": self.fee_project_pk,
-    #         "pct": 10,
-    #         "dependants": []
-    #     }
+        data = {
+            "name": self.testHelper.create_name(),
+            "shortname": "TEST",
+            "fee_project": self.fee_project_pk,
+            "pct": 10,
+            "dependants": []
+        }
 
-    #     res = my_account.Deliverables.create_phase(self.project_pk, data)
-    #     self.assertEqual(res['status'], 201)
+        res = my_account.Deliverables.create_phase(self.project_pk, data)
+        self.assertEqual(res['status'], 201)
 
-    # def test_get_phase_details(self):
-    #     """ Test that 200 is returned """
+    def test_get_phase_details(self):
+        """ Test that 200 is returned """
 
-    #     res = my_account.Deliverables.get_phase_details(self.phase_pk)
-    #     self.assertEqual(res['status'], 200)
+        res = my_account.Deliverables.get_phase_details(self.phase_pk)
+        self.assertEqual(res['status'], 200)
 
-    # def test_update_phase(self):
-    #     """ Test that 200 is returned """
+    def test_update_phase(self):
+        """ Test that 200 is returned """
 
-    #     data = {
-    #         "name": self.testHelper.create_name()
-    #     }
+        data = {
+            "name": self.testHelper.create_name()
+        }
 
-    #     res = my_account.Deliverables.update_phase(self.phase_pk, data)
-    #     self.assertEqual(res['status'], 200)
+        res = my_account.Deliverables.update_phase(self.phase_pk, data)
+        self.assertEqual(res['status'], 200)
 
-    # def test_delete_phase(self):
-    #     """ Test that 204 is returned """
+    def test_delete_phase(self):
+        """ Test that 204 is returned """
 
-    #     res = my_account.Deliverables.delete_phase(self.phase_pk)
-    #     self.assertEqual(res['status'], 204)
+        res = my_account.Deliverables.delete_phase(self.phase_pk)
+        self.assertEqual(res['status'], 204)
 
-    # def test_reset_phase_order(self):
-    #     """ Test that 200 is returned """
-    #     res = my_account.Deliverables.reset_phases_order(self.project_pk)
+    def test_reset_phase_order(self):
+        """ Test that 200 is returned """
+        res = my_account.Deliverables.reset_phases_order(self.project_pk)
 
-    #     self.assertEqual(res['status'], 200)
+        self.assertEqual(res['status'], 200)
 
-    # def test_get_phase_planphase_details(self):
-    #     """ Test that 200 is returned """
+    def test_get_phase_planphase_details(self):
+        """ Test that 200 is returned """
 
-    #     planphase_pk = my_account.Deliverables.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
-    #     res = my_account.Deliverables.get_phase_planphase_details(planphase_pk)
+        planphase_pk = my_account.Deliverables.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
+        res = my_account.Deliverables.get_phase_planphase_details(planphase_pk)
 
-    #     self.assertEqual(res['status'], 200)
+        self.assertEqual(res['status'], 200)
 
-    # def test_update_phase_planphase(self):
-    #     """ Test that 200 is returned """
+    def test_update_phase_planphase(self):
+        """ Test that 200 is returned """
 
-    #     planphase_pk = my_account.Deliverables.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
+        planphase_pk = my_account.Deliverables.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
 
-    #     data = {
-    #         "progress": 20
-    #     }
+        data = {
+            "progress": 20
+        }
 
-    #     res = my_account.Deliverables.update_phase_planphase(planphase_pk, data)
-    #     self.assertEqual(res['status'], 200)
+        res = my_account.Deliverables.update_phase_planphase(planphase_pk, data)
+        self.assertEqual(res['status'], 200)
 
-    # def test_delete_phase_planphase(self):
-    #     """ Test that 204 is returned """
+    def test_delete_phase_planphase(self):
+        """ Test that 204 is returned """
 
-    #     planphase_pk = my_account.Deliverables.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
+        planphase_pk = my_account.Deliverables.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
 
-    #     res = my_account.Deliverables.delete_phase_planphase(planphase_pk)
+        res = my_account.Deliverables.delete_phase_planphase(planphase_pk)
 
-    #     my_account.Deliverables.delete_plan(self.plan_pk)
-    #     self.assertEqual(res['status'], 204)
+        my_account.Deliverables.delete_plan(self.plan_pk)
+        self.assertEqual(res['status'], 204)
 
-    # def test_update_phases_progress(self):
-    #     """ Test that 200 is returned """
+    def test_update_phases_progress(self):
+        """ Test that 200 is returned """
 
-    #     res = my_account.Deliverables.update_phases_progress()
-    #     self.assertEqual(res['status'], 200)
+        res = my_account.Deliverables.update_phases_progress()
+        self.assertEqual(res['status'], 200)
 
 
 class TestMilestones(unittest.TestCase):
