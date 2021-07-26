@@ -5,13 +5,8 @@ from .helper import Helper
 
 
 class Deliverables(Helper):
-    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers):
-        self.base_url = base_url
-        self.org_pk = org_pk
-        self.teams_pk = teams_pk
-        self.access_token = access_token
-        self._csrf_token = _csrf_token
-        self.headers = headers
+    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
+        super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
 
     #### Zones ####
 
@@ -27,7 +22,7 @@ class Deliverables(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_zones_list(self, area_pk):
+    def get_zones_list(self, area_pk, page=1):
         """ Get zones list
 
         Keyword arguments:
@@ -35,7 +30,7 @@ class Deliverables(Helper):
         area_pk -- the pk of the area
         """
 
-        route = 'v1/zones/list/{0}/?page_size=999999'.format(area_pk)
+        route = 'v1/zones/list/{0}/?page_size={1}&page={2}'.format(area_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -113,7 +108,7 @@ class Deliverables(Helper):
 
     #### Areas ####
 
-    def get_areas_list(self, project_pk):
+    def get_areas_list(self, project_pk, page=1):
         """ Get the areas list
 
         Keyword arguments:
@@ -121,7 +116,7 @@ class Deliverables(Helper):
         project_pk -- the pk of the project
         """
 
-        route = 'v1/areas/list/{0}/?page_size=999999'.format(project_pk)
+        route = 'v1/areas/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -186,7 +181,7 @@ class Deliverables(Helper):
 
     #### Phases ####
 
-    def get_phases_list(self, project_pk):
+    def get_phases_list(self, project_pk, page=1):
         """Get the phases list
 
         Keyword arguments:
@@ -194,12 +189,11 @@ class Deliverables(Helper):
         project_pk -- the pk of the project
 
         """
-
-        route = 'v1/phases/list/{0}/?page_size=999999'.format(project_pk)
+        route = 'v1/phases/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
-    def get_phases_list_fee_project(self, project_pk, fee_project):
+    def get_phases_list_fee_project(self, project_pk, fee_project, page=1):
         """Get the phase list fee project
 
         Keyword arguments:
@@ -208,7 +202,8 @@ class Deliverables(Helper):
         fee_project -- pk of the fee project
         """
 
-        route = 'v1/phases/list/{0}/?page_size=999999&fee_project={1}'.format(project_pk, fee_project)
+        route = 'v1/phases/list/{0}/?page_size={1}&page={2}&fee_project={3}'.format(
+            project_pk, self.pagination, page, fee_project)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -270,7 +265,7 @@ class Deliverables(Helper):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_phases_projections_list(self, project_pk):
+    def get_phases_projections_list(self, project_pk, page=1):
         """Get the phases projections list
 
         Keyword arguments:
@@ -279,7 +274,7 @@ class Deliverables(Helper):
 
         """
 
-        route = 'v1/phases/projections/list/{0}/?page_size=999999'.format(project_pk)
+        route = 'v1/phases/projections/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -358,9 +353,9 @@ class Deliverables(Helper):
 
     #### Milestones ####
 
-    def get_milestones_list(self):
+    def get_milestones_list(self, page=1):
         """ Get milestones list """
-        route = 'v1/milestones/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/milestones/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -439,7 +434,7 @@ class Deliverables(Helper):
     #### Fees ####
 
     ### Fees bracket ###
-    def get_fees_bracket_list(self, project_pk):
+    def get_fees_bracket_list(self, project_pk, page=1):
         """ Get fees brackets list
 
         Keyword arguments:
@@ -447,7 +442,7 @@ class Deliverables(Helper):
         project_pk -- pk of the project
         """
 
-        route = 'v1/fees/bracket/list/{0}/?page_size=999999'.format(project_pk)
+        route = 'v1/fees/bracket/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -522,10 +517,11 @@ class Deliverables(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_fee_project_version_list(self):
+    def get_fee_project_version_list(self, page=1):
         """ Get fee project version list """
 
-        route = 'v1/fees/fee-project-version/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/fees/fee-project-version/list/{0}/?page_size={1}&page={2}'.format(
+            self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -668,7 +664,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     ### Fees projection ###
-    def get_fees_projection_list(self, project_pk):
+    def get_fees_projection_list(self, project_pk, page=1):
         """ Get fees projection list
 
         Keyword arguments:
@@ -676,19 +672,19 @@ class Deliverables(Helper):
         project_pk -- pk of the project
         """
 
-        route = 'v1/fees/projections/list/{0}/?page_size=999999'.format(project_pk)
+        route = 'v1/fees/projections/list/{0}/?page_size={1}n&page={2}'.format(project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     ### Fees project ###
-    def get_fees_project_list(self):
+    def get_fees_project_list(self, page=1):
         """ Get fees project list """
 
-        route = 'v1/fees/projects/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/fees/projects/list/{0}/?page_size={1}n&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
-    def get_fees_project_list_projects(self, project_pk):
+    def get_fees_project_list_projects(self, project_pk, page=1):
         """ Get fees project list for a given project 
 
         Keyword arguments :
@@ -696,7 +692,8 @@ class Deliverables(Helper):
         project_pk -- pk of the project 
         """
 
-        route = 'v1/fees/projects/list/{0}/?page_size=999999&project={1}'.format(self.org_pk, project_pk)
+        route = 'v1/fees/projects/list/{0}/?page_size={1}&page={2}&project={3}'.format(
+            self.org_pk, self.pagination, page, project_pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -929,7 +926,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     # Fees zones
-    def get_fees_zones_list(self):
+    def get_fees_zones_list(self, page=1):
         """ Get fees zones list
 
         Keyword arguments:
@@ -937,7 +934,7 @@ class Deliverables(Helper):
         project_pk -- pk of the project
         """
 
-        route = 'v1/fees/zones/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/fees/zones/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -1028,7 +1025,7 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_plans_list(self, project_pk):
+    def get_plans_list(self, project_pk, page=1):
         """ Get plans list
 
         Keyword arguments:
@@ -1036,11 +1033,11 @@ class Deliverables(Helper):
         project_pk -- the pk of the project
         """
 
-        route = 'v1/plans/list/{0}/?page_size=999999'.format(project_pk)
+        route = 'v1/plans/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
-    def get_plans_planphases_list(self, project_pk):
+    def get_plans_planphases_list(self, project_pk, page=1):
         """ Get plans planphases list
 
         Keyword arguments:
@@ -1048,7 +1045,7 @@ class Deliverables(Helper):
         project_pk -- the pk of the project
         """
 
-        route = 'v1/plans/list/{0}/?page_size=999999&plan_phases=true'.format(project_pk)
+        route = 'v1/plans/list/{0}/?page_size={1}&page={2}&plan_phases=true'.format(project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -1143,7 +1140,7 @@ class Deliverables(Helper):
 
     #### Prescription ####
 
-    def get_prescriptions_list(self, project_pk):
+    def get_prescriptions_list(self, project_pk, page=1):
         """ Get prescription list
 
         Keyword arguments:
@@ -1151,7 +1148,7 @@ class Deliverables(Helper):
         project_pk -- the pk of the project
         """
 
-        route = 'v1/prescriptions/list/{0}/?page_size=999999'.format(project_pk)
+        route = 'v1/prescriptions/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -1258,10 +1255,11 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_defaults_phase_org_list(self):
+    def get_defaults_phase_org_list(self, page=1):
         """ Get defaults phase list for organization """
 
-        route = 'v1/defaults/defaults/phases/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/defaults/defaults/phases/list/{0}/?page_size={1}&page={2}'.format(
+            self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -1290,7 +1288,7 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_defaults_phase_team_list(self, team_pk):
+    def get_defaults_phase_team_list(self, team_pk, page=1):
         """ Get defaults phase list for team
 
         Keyword arguments :
@@ -1298,7 +1296,8 @@ class Deliverables(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/defaults/defaults/phases/list/{0}/{1}/?page_size=999999'.format(self.org_pk, team_pk)
+        route = 'v1/defaults/defaults/phases/list/{0}/{1}/?page_size={2}&page={3}'.format(
+            self.org_pk, team_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -1405,10 +1404,11 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_defaults_phasesets_org_list(self):
+    def get_defaults_phasesets_org_list(self, page=1):
         """ Get defaults phase sets list for organization """
 
-        route = 'v1/defaults/defaults/phasesets/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/defaults/defaults/phasesets/list/{0}/?page_size={1}&page={2}'.format(
+            self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -1429,7 +1429,7 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_defaults_phasesets_team_list(self, team_pk):
+    def get_defaults_phasesets_team_list(self, team_pk, page=1):
         """ Get defaults phase sests list for team
 
         Keyword arguments :
@@ -1437,7 +1437,8 @@ class Deliverables(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/defaults/defaults/phasesets/list/{0}/{1}/?page_size=999999'.format(self.org_pk, team_pk)
+        route = 'v1/defaults/defaults/phasesets/list/{0}/{1}/?page_size={2}&page={3}'.format(
+            self.org_pk, team_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -1516,10 +1517,10 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_defaults_plans_org_list(self):
+    def get_defaults_plans_org_list(self, page=1):
         """ Get defaults plans list for organization """
 
-        route = 'v1/defaults/defaults/plans/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/defaults/defaults/plans/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -1547,7 +1548,7 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_defaults_plans_team_list(self, team_pk):
+    def get_defaults_plans_team_list(self, team_pk, page=1):
         """ Get defaults plans list for team
 
         Keyword arguments :
@@ -1555,7 +1556,8 @@ class Deliverables(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/defaults/defaults/plans/list/{0}/{1}/?page_size=999999'.format(self.org_pk, team_pk)
+        route = 'v1/defaults/defaults/plans/list/{0}/{1}/?page_size={1}&page={2}'.format(
+            self.org_pk, team_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -1657,10 +1659,11 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_defaults_plansets_org_list(self):
+    def get_defaults_plansets_org_list(self, page=1):
         """ Get defaults plan sets list for organization """
 
-        route = 'v1/defaults/defaults/plansets/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/defaults/defaults/plansets/list/{0}/?page_size={1}&page={2}'.format(
+            self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -1679,7 +1682,7 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_defaults_plansets_team_list(self, team_pk):
+    def get_defaults_plansets_team_list(self, team_pk, page=1):
         """ Get defaults plan sests list for team
 
         Keyword arguments :
@@ -1687,7 +1690,8 @@ class Deliverables(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/defaults/defaults/plansets/list/{0}/{1}/?page_size=999999'.format(self.org_pk, team_pk)
+        route = 'v1/defaults/defaults/plansets/list/{0}/{1}/?page_size={2}&page={3}'.format(
+            self.org_pk, team_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -1747,7 +1751,7 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     #### Documents ####
-    def get_documents_list(self, project_pk):
+    def get_documents_list(self, project_pk, page=1):
         """ Get docuemnts list
 
         Keyword arguments:
@@ -1755,7 +1759,7 @@ class Deliverables(Helper):
         project_pk -- the pk of the project
         """
 
-        route = 'v1/documents/list/{0}/?page_size=999999'.format(project_pk)
+        route = 'v1/documents/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -1858,10 +1862,10 @@ class Deliverables(Helper):
     #### Contracts ####
 
     ### Contractors ###
-    def get_contractors_list(self):
+    def get_contractors_list(self, page=1):
         """ Get contractors list """
 
-        route = 'v1/contracts/contractor/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/contracts/contractor/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -1966,10 +1970,10 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_contracts_items_list(self):
+    def get_contracts_items_list(self, page=1):
         """ Get contracts item list """
 
-        route = 'v1/contracts/item/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/contracts/item/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -2046,10 +2050,10 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     ### Contracts ###
-    def get_contracts_list(self):
+    def get_contracts_list(self, page=1):
         """ Get contracts list """
 
-        route = 'v1/contracts/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/contracts/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -2148,10 +2152,10 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_contracts_month_list(self):
+    def get_contracts_month_list(self, page=1):
         """ Get contracts month list """
 
-        route = 'v1/contracts/month/list/{0}/?page_size=999999'.format(self.org_pk)
+        route = 'v1/contracts/month/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -2247,7 +2251,7 @@ class Deliverables(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_revisions_annexes_team_project(self, team_pk, project_pk):
+    def get_revisions_annexes_team_project(self, team_pk, project_pk, page=1):
         """ Get annexes revisions team project 
 
         Keyword arguments:
@@ -2257,7 +2261,8 @@ class Deliverables(Helper):
 
         """
 
-        route = 'v1/revisions/annexes/{0}/{1}/?page_size=999999'.format(team_pk, project_pk)
+        route = 'v1/revisions/annexes/{0}/{1}/?page_size={2}&page={3}'.format(
+            team_pk, project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -2294,7 +2299,7 @@ class Deliverables(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_revisions_documents_team_project(self, team_pk, project_pk):
+    def get_revisions_documents_team_project(self, team_pk, project_pk, page=1):
         """ Get documents revisions team project 
 
         Keyword arguments:
@@ -2304,7 +2309,8 @@ class Deliverables(Helper):
 
         """
 
-        route = 'v1/revisions/documents/{0}/{1}/?page_size=999999'.format(team_pk, project_pk)
+        route = 'v1/revisions/documents/{0}/{1}/?page_size={2}&page={3}'.format(
+            team_pk, project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -2341,7 +2347,7 @@ class Deliverables(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_revisions_fee_items_team_project(self, team_pk, project_pk):
+    def get_revisions_fee_items_team_project(self, team_pk, project_pk, page=1):
         """ Get fee_items revisions team project 
 
         Keyword arguments:
@@ -2351,7 +2357,8 @@ class Deliverables(Helper):
 
         """
 
-        route = 'v1/revisions/fee_items/{0}/{1}/?page_size=999999'.format(team_pk, project_pk)
+        route = 'v1/revisions/fee_items/{0}/{1}/?page_size={2}&page={3}'.format(
+            team_pk, project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -2389,7 +2396,7 @@ class Deliverables(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_revisions_phases_team_project(self, team_pk, project_pk):
+    def get_revisions_phases_team_project(self, team_pk, project_pk, page=1):
         """ Get phases revisions team project 
 
         Keyword arguments:
@@ -2399,7 +2406,7 @@ class Deliverables(Helper):
 
         """
 
-        route = 'v1/revisions/phases/{0}/{1}/?page_size=999999'.format(team_pk, project_pk)
+        route = 'v1/revisions/phases/{0}/{1}/?page_size={2}&page={3}'.format(team_pk, project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -2437,7 +2444,7 @@ class Deliverables(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_revisions_plans_team_project(self, team_pk, project_pk):
+    def get_revisions_plans_team_project(self, team_pk, project_pk, page=1):
         """ Get plans revisions team project 
 
         Keyword arguments:
@@ -2447,7 +2454,7 @@ class Deliverables(Helper):
 
         """
 
-        route = 'v1/revisions/plans/{0}/{1}/?page_size=999999'.format(team_pk, project_pk)
+        route = 'v1/revisions/plans/{0}/{1}/?page_size={2}&page={3}'.format(team_pk, project_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 

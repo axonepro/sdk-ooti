@@ -92,6 +92,28 @@ class TestPhases(unittest.TestCase):
         cls.phase_pk = cls.testHelper._create_phase_return_pk(cls.project_pk, cls.fee_project_pk)
         cls.plan_pk = cls.testHelper._create_plan_return_pk(cls.project_pk)
 
+    def test_pagination(self):
+        my_account.update_pagination(1)
+
+        phase_pk1 = self.testHelper._create_phase_return_pk(self.project_pk, self.fee_project_pk)
+        phase_pk2 = self.testHelper._create_phase_return_pk(self.project_pk, self.fee_project_pk)
+        phase_pk3 = self.testHelper._create_phase_return_pk(self.project_pk, self.fee_project_pk)
+
+        res = my_account.Deliverables.get_phases_list(self.project_pk)
+        self.assertEqual(res['status'], 200)
+        self.assertEqual(len(res['data']), 1)
+        obj = res['data'][0]
+
+        res = my_account.Deliverables.get_phases_list(self.project_pk, page=2)
+        self.assertEqual(res['status'], 200)
+        self.assertEqual(len(res['data']), 1)
+        self.assertNotEqual(obj, res['data'][0])
+
+        my_account.update_pagination(5)
+        res = my_account.Deliverables.get_phases_list(self.project_pk)
+        self.assertEqual(res['status'], 200)
+        self.assertLessEqual(len(res['data']), 5)
+
     def test_get_phases_list(self):
         """ Test that 200 is returned """
 
