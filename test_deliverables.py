@@ -112,8 +112,14 @@ class TestPhases(unittest.TestCase):
 
     def test_export_phase(self):
         """ Test that 200 is returned """
+        currency_pk = self.testHelper._create_currency_if_none()
+        client_pk = self.testHelper._create_client_return_pk(team_pk, currency_pk)
+        project_pk = self.testHelper._create_project_return_pk(client_pk, currency_pk)
 
-        res = my_account.Deliverables.export_phase(self.project_pk)
+        fee_project_pk = self.testHelper._create_fee_project_return_pk(project_pk)
+        phase_pk = self.testHelper._create_phase_return_pk(project_pk, fee_project_pk)
+
+        res = my_account.Deliverables.export_phase(project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_phase(self):
@@ -249,13 +255,18 @@ class TestMilestones(unittest.TestCase):
 
 
 class TestDefaults(unittest.TestCase):
+    """
+    test_duplicate_defaults_plan not working
+    """
 
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
         cls.team_pk = my_account.teams_pk[0]['id']
-        # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
-        cls.project_pk = my_account.get_projects_list()['data'][0]['id']
+        cls.currency_pk = cls.testHelper._create_currency_if_none()
+        cls.client_pk = cls.testHelper._create_client_return_pk(team_pk, currency_pk)
+        cls.project_pk = cls.testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
+        # cls.project_pk = my_account.get_projects_list()['data'][0]['id']
 
         cls.area_pk = cls.testHelper._create_area_return_pk(cls.project_pk)
         cls.zone_pk = cls.testHelper._create_zone_return_pk(cls.area_pk)
@@ -265,7 +276,7 @@ class TestDefaults(unittest.TestCase):
         cls.planset_pk = cls.testHelper._create_plansets_return_pk()
         cls.default_plan_pk = cls.testHelper._create_defaults_plan_return_pk(cls.planset_pk, cls.zone_pk)
 
-    ### Phasesets ###
+    ## Phasesets ###
 
     def test_apply_defaults_phasesets(self):
         """ Test that 200 is returned """
@@ -671,6 +682,7 @@ class TestContracts(unittest.TestCase):
         }
 
         res = my_account.Deliverables.update_contract_item(self.contract_item_pk, data)
+
         self.assertEqual(res['status'], 200)
 
     def test_delete_contract_item_details(self):
@@ -997,8 +1009,9 @@ class TestAnnexes(unittest.TestCase):
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
         cls.team_pk = my_account.teams_pk[0]['id']
-        # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
-        cls.project_pk = my_account.get_projects_list()['data'][0]['id']
+        cls.currency_pk = cls.testHelper._create_currency_if_none()
+        cls.client_pk = cls.testHelper._create_client_return_pk(team_pk, currency_pk)
+        cls.project_pk = cls.testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.annex_pk = cls.testHelper._create_annex_return_pk(cls.project_pk)
 
     ### Annexes ####
@@ -1017,7 +1030,7 @@ class TestAnnexes(unittest.TestCase):
             "annex_type": "time",
             "total_fees": 1,
             "description": "UNITTEST",
-            "date": "06-05-2021"
+            "start_date": "06-05-2021"
         }
 
         res = my_account.Deliverables.create_annexe(self.project_pk, data)
@@ -1449,7 +1462,7 @@ class Tests(unittest.TestCase):
 
     ### Fees revision ###
     def _create_fee_revision_return_pk(self):
-        """ Test that 201 is returned 
+        """ Test that 201 is returned
 
         :return: {"pk": pk, "fee_pk": fee_pk}
         """
@@ -1547,7 +1560,7 @@ class Tests(unittest.TestCase):
 
     # Fee zones
     def _create_fee_zones_return_pk(self):
-        """ Create fee zones return pk 
+        """ Create fee zones return pk
 
         :return: {"pk": pk, "zone_pk": zone_pk['pk'], "area_pk": zone_pk['area_pk']}
         """
@@ -1737,7 +1750,7 @@ class Tests(unittest.TestCase):
     #### Prescription ####
 
     def _create_prescription_return_pk(self):
-        """ Create a prescription and return pk 
+        """ Create a prescription and return pk
 
         :return: {"pk": pk, "area_pk": area_pk, "fee_pk": fee_pk}
 
