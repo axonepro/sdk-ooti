@@ -1,10 +1,16 @@
-from requests.models import Response
 from ooti import ooti
 
-OOTI_USERNAME = 'root@root.com'
-OOTI_PASSWORD = 'root'
+# To read .env variables
+import os
+from dotenv import load_dotenv
 
-sdk = ooti.Auth(OOTI_USERNAME, OOTI_PASSWORD)
+# Loading environment variables (stored in .env file)
+load_dotenv()
+
+OOTI_AUTH = os.getenv("OOTI_AUTH")
+OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
+
+sdk = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
 sdk.connect()
 
 
