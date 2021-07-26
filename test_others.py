@@ -1,62 +1,56 @@
+from requests.api import delete
+from factories import GoalFactory, ProjectFactory, TeamFactory
 from requests.models import Response
 from ooti import ooti
 import unittest
 
-OOTI_USERNAME = 'trey@ooti.co'
-OOTI_PASSWORD = 'ooti_INTEGRATION1'
+OOTI_USERNAME = 'root@root.com'
+OOTI_PASSWORD = 'root'
 
 sdk = ooti.Auth(OOTI_USERNAME, OOTI_PASSWORD)
 sdk.connect()
 
-team_pk = sdk.teams_pk[0]['id']
-project_id = sdk.get_projects_list()['data'][0]['id']
-goal_id = sdk.Others.get_goals_list()['data'][0]['id']
-
 
 class TestGoals(unittest.TestCase):
+    @ classmethod
+    def setUpClass(cls):
+        cls.team_pk = TeamFactory()
+
     def test_get_goals_list(self):
         response = sdk.Others.get_goals_list()
         self.assertEqual(response['status'], 200)
 
     def test_create_goal(self):
         payload = {
-            'team': team_pk,
+            'team': self.team_pk,
             'name': 'goal test',
             'value': 2,
             'year': 2021
         }
         response = sdk.Others.create_goal(payload)
         self.assertEqual(response['status'], 201)
-
-    def test_get_goal_details(self):
-        response = sdk.Others.get_goal_details(goal_id)
-        self.assertEqual(response['status'], 200)
-
-    def test_update_goal_details(self):
         payload = {
-            'team': team_pk,
+            'team': self.team_pk,
             'name': 'goal updated',
             'value': 5,
             'year': 2020
         }
-        response = sdk.Others.update_goal_details(goal_id, payload)
-        self.assertEqual(response['status'], 200)
-
-    def test_delete_goal(self):
-        payload = {
-            'team': team_pk,
-            'name': 'goal to be deleted',
-            'value': 1,
-            'year': 2021
-        }
-        goal_deleted_id = sdk.Others.create_goal(payload)['data']['id']
-        response = sdk.Others.delete_goal(goal_deleted_id)
-        self.assertEqual(response['status'], 204)
+        update = sdk.Others.update_goal_details(response['data']['id'], payload)
+        self.assertEqual(update['status'], 200)
+        get = sdk.Others.get_goal_details(response['data']['id'])
+        self.assertEqual(get['status'], 200)
+        delete = sdk.Others.delete_goal(response['data']['id'])
+        self.assertEqual(delete['status'], 204)
 
 
 class TestIndicators(unittest.TestCase):
+    @ classmethod
+    def setUpClass(cls):
+        cls.team_pk = TeamFactory()
+        cls.project_id = ProjectFactory()['id']
+
     def test_get_indicators_financial_costs(self):
-        response = sdk.Others.get_indicators_financial_costs(project_id=11702)
+        response = sdk.Others.get_indicators_financial_costs(project_id=self.project_id)
         self.assertEqual(response['status'], 200)
 
     def test_get_indicators_financial_incomes(self):
@@ -76,13 +70,7 @@ class TestIndicators(unittest.TestCase):
         self.assertEqual(response['status'], 200)
 
 
-month_rule_id = 7
-month_ruleset_id = 6
-month_annex_id = 55
-month_fee_id = 1
-month_phase_id = 653977
-
-
+'''
 class TestProjections(unittest.TestCase):
 
     def test_get_component_metrics_widget(self):
@@ -446,7 +434,7 @@ class TestProjections(unittest.TestCase):
     #     }
     #     res = sdk.Others.update_projections_users_phase(pk, data)
     #     self.assertEqual(res['status'], 200)
-
+'''
 
 if __name__ == '__main__':
-    unittest.main(TestProjections())
+    unittest.main()

@@ -366,7 +366,7 @@ class Deliverables(Helper):
 
         pk -- pk of the milestone
         """
-        route = 'v1/milestones/{0}/'.format(self.org_pk)
+        route = 'v1/milestones/{0}/'.format(pk)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -1371,11 +1371,17 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     ### Phasesets ###
-    def apply_defaults_phasesets(self):
-        """ Apply default phase sets """
+    def apply_defaults_phasesets(self, data):
+        """ Apply default phase sets 
+
+        data = {
+            'library': phaseset_pk,
+            'fee_project': fee_project_pk,
+        }
+        """
 
         route = 'v1/defaults/defaults/phasesets/apply/'
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     def duplicate_defaults_phasesets(self, pk):
@@ -1569,7 +1575,7 @@ class Deliverables(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/plans/list/{0}/{1}'.format(self.org_pk, team_pk)
+        route = 'v1/defaults/defaults/plans/list/{0}/{1}/'.format(self.org_pk, team_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
@@ -1623,11 +1629,11 @@ class Deliverables(Helper):
         return self.process_response(response)
 
     ### Plansets ###
-    def apply_defaults_plansets(self):
+    def apply_defaults_plansets(self, data):
         """ Apply default plan sets """
 
         route = 'v1/defaults/defaults/plansets/apply/'
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
     def duplicate_defaults_plansets(self, pk):
@@ -1692,7 +1698,7 @@ class Deliverables(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/plansets/list/{0}/{1}'.format(self.org_pk, team_pk)
+        route = 'v1/defaults/defaults/plansets/list/{0}/{1}/'.format(self.org_pk, team_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
@@ -1948,10 +1954,10 @@ class Deliverables(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def generate_contracts_org(self):
+    def generate_contracts_org(self, project_pk):
         """ Generate contracts """
 
-        route = 'v1/contracts/generate/{0}/'.format(self.org_pk)
+        route = 'v1/contracts/generate/{0}/?project_pk={1}'.format(self.org_pk, project_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 

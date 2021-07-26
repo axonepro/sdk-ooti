@@ -8,8 +8,6 @@ from .helper import Helper
     - ERROR 403 v1/celery_tasks/last/ 
     - ERROR 404 v1/celery_tasks/last/{org_pk}/
 
-- Custom fields : needs a Pro subscription to create one
-    - ERROR 500 : create a customfield
 - Imports:
     - ERROR 403 : GET v1/imports/counts/
     - ERROR 400 ("Type is required"): GET & POST v1/imports/import/{org_pk}/
@@ -110,17 +108,18 @@ class Settings(Helper):
         Keywords arguments:
         data -- data of the new field to be created:
         {
-            "name": "string",
-            "field_type": "t",
+            "content_type": "project", # REQUIRED
+            "name": "string",  # REQUIRED
+            "field_type": "t",  # REQUIRED
             "default_value": "string",
             "is_required": false,
             "admin_only": false,
             "permissionssets": [
-                permissionsset_pk,
+                permissions_pk,
                 ...
             ],
             "permissionssets_can_edit": [
-                permissionsset_pk,
+                permissions_pk,
                 ...
             ]
         }
@@ -131,6 +130,12 @@ class Settings(Helper):
         "a" --> Large Text Field
         "f" --> Floating point decimal
         "d" --> Date
+
+        content_type
+        "contact" --> Contact
+        "project" --> Project
+        "orguser" --> OrgUser
+
         """
 
         route = 'v1/customfields/field/list/{0}/'.format(self.org_pk)
