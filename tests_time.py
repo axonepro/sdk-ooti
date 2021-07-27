@@ -293,603 +293,603 @@ class TestTrips(unittest.TestCase):
         self.assertEqual(res['status'], 204)
 
 
-class Tests(unittest.TestCase):
-    # def test_copy_previous_week(self):
-    #     #! 500
-    #     """ Test that 201 is returned """
+# class Tests(unittest.TestCase):
+#     # def test_copy_previous_week(self):
+#     #     #! 500
+#     #     """ Test that 201 is returned """
 
-    #     res = my_account.Time.copy_previous_week()
+#     #     res = my_account.Time.copy_previous_week()
 
-    #     self.assertEqual(res['status'], 201)
+#     #     self.assertEqual(res['status'], 201)
 
-    def test_get_timelogs_analytics_team(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_analytics_team(self):
+#         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timelogs_analytics_team(team_pk)
+#         res = my_account.Time.get_timelogs_analytics_team(team_pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_get_timelogs_calendar(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_calendar(self):
+#         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timelogs_calendar()
+#         res = my_account.Time.get_timelogs_calendar()
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    # def test_create_timelogs_comments(self):
-    #     """ Test that 201 is returned """
-    #     #! what is the pk
-    #     res = my_account.Time.create_timelogs_comments()
+#     # def test_create_timelogs_comments(self):
+#     #     """ Test that 201 is returned """
+#     #     #! what is the pk
+#     #     res = my_account.Time.create_timelogs_comments()
 
-    #     self.assertEqual(res['status'], 201)
+#     #     self.assertEqual(res['status'], 201)
 
-    def test_get_timelogs_delete_imported_worklogs_project(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_delete_imported_worklogs_project(self):
+#         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timelogs_delete_imported_worklogs_project(project_pk)
+#         res = my_account.Time.get_timelogs_delete_imported_worklogs_project(project_pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    # def test_create_timelogs_delete_imported_worklogs_project():
-    #     """ Test that 201 is returned """
-    #     #! Do not pass Returns a 204 status code
-    #     res = my_account.Time.create_timelogs_delete_imported_worklogs_project(project)
+#     # def test_create_timelogs_delete_imported_worklogs_project():
+#     #     """ Test that 201 is returned """
+#     #     #! Do not pass Returns a 204 status code
+#     #     res = my_account.Time.create_timelogs_delete_imported_worklogs_project(project)
 
-    #     self.assertEqual(res['status'], 201)
+#     #     self.assertEqual(res['status'], 201)
 
-    # def test_get_timelogs_monthly_summary(self):
-    #     """ Test that 200 is returned """
-    #     #! Do not pass 403 : "detail": "You do not have permission to perform this action."
-    #     res = my_account.Time.get_timelogs_monthly_summary()
+#     # def test_get_timelogs_monthly_summary(self):
+#     #     """ Test that 200 is returned """
+#     #     #! Do not pass 403 : "detail": "You do not have permission to perform this action."
+#     #     res = my_account.Time.get_timelogs_monthly_summary()
 
-    #     self.assertEqual(res['status'], 200)
+#     #     self.assertEqual(res['status'], 200)
 
-    def test_get_recently_worked_on(self):
-        """ Test that 200 is returned """
+#     def test_get_recently_worked_on(self):
+#         """ Test that 200 is returned """
 
-        res = my_account.Time.get_recently_worked_on(team_pk)
+#         res = my_account.Time.get_recently_worked_on(team_pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    # def test_validate_timelogs(self):
-    #     """ Test that 201 is returned """
-    #     #! Do not pass : 500
+#     # def test_validate_timelogs(self):
+#     #     """ Test that 201 is returned """
+#     #     #! Do not pass : 500
 
-    #     res = my_account.Time.validate_timelogs(team_pk)
+#     #     res = my_account.Time.validate_timelogs(team_pk)
 
-    #     self.assertEqual(res['status'], 201)
+#     #     self.assertEqual(res['status'], 201)
 
-    ### Holidays ###
-    def _create_timelogs_holidays_org(self):
-        """ Test that 201 is returned """
+#     ### Holidays ###
+#     def _create_timelogs_holidays_org(self):
+#         """ Test that 201 is returned """
 
-        data = {
-            "teams": [
-                team_pk
-            ],
-            "date": "07-05-2021",
-            "name": "UNITTEST",
-        }
+#         data = {
+#             "teams": [
+#                 team_pk
+#             ],
+#             "date": "07-05-2021",
+#             "name": "UNITTEST",
+#         }
 
-        return my_account.Time.create_timelogs_holidays_org(data)['data']['id']
+#         return my_account.Time.create_timelogs_holidays_org(data)['data']['id']
 
-    def test_get_timelogs_holidays_org(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_holidays_org(self):
+#         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timelogs_holidays_org()
+#         res = my_account.Time.get_timelogs_holidays_org()
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_create_timelogs_holidays_org(self):
-        """ Test that 201 is returned """
+#     def test_create_timelogs_holidays_org(self):
+#         """ Test that 201 is returned """
 
-        data = {
-            "teams": [
-                team_pk
-            ],
-            "date": "07-05-2021",
-            "name": "UNITTEST",
-        }
+#         data = {
+#             "teams": [
+#                 team_pk
+#             ],
+#             "date": "07-05-2021",
+#             "name": "UNITTEST",
+#         }
 
-        res = my_account.Time.create_timelogs_holidays_org(data)
-        my_account.Time.delete_timelogs_holidays(res['data']['id'])
+#         res = my_account.Time.create_timelogs_holidays_org(data)
+#         my_account.Time.delete_timelogs_holidays(res['data']['id'])
 
-        self.assertEqual(res['status'], 201)
+#         self.assertEqual(res['status'], 201)
 
-    def test_get_timelogs_holidays_team(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_holidays_team(self):
+#         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timelogs_holidays_team(team_pk)
+#         res = my_account.Time.get_timelogs_holidays_team(team_pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_create_timelogs_holidays_team(self):
-        """ Test that 201 is returned """
+#     def test_create_timelogs_holidays_team(self):
+#         """ Test that 201 is returned """
 
-        data = {
-            "teams": [
-                team_pk
-            ],
-            "date": "07-05-2021",
-            "name": "UNITTEST",
-        }
+#         data = {
+#             "teams": [
+#                 team_pk
+#             ],
+#             "date": "07-05-2021",
+#             "name": "UNITTEST",
+#         }
 
-        res = my_account.Time.create_timelogs_holidays_team(team_pk, data)
-        my_account.Time.delete_timelogs_holidays(res['data']['id'])
+#         res = my_account.Time.create_timelogs_holidays_team(team_pk, data)
+#         my_account.Time.delete_timelogs_holidays(res['data']['id'])
 
-        self.assertEqual(res['status'], 201)
+#         self.assertEqual(res['status'], 201)
 
-    def test_get_timelogs_holidays_details(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_holidays_details(self):
+#         """ Test that 200 is returned """
 
-        pk = self._create_timelogs_holidays_org()
+#         pk = self._create_timelogs_holidays_org()
 
-        res = my_account.Time.get_timelogs_holidays_details(pk)
-        my_account.Time.delete_timelogs_holidays(pk)
+#         res = my_account.Time.get_timelogs_holidays_details(pk)
+#         my_account.Time.delete_timelogs_holidays(pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_update_timelogs_holidays(self):
-        """ Test that 200 is returned """
+#     def test_update_timelogs_holidays(self):
+#         """ Test that 200 is returned """
 
-        pk = self._create_timelogs_holidays_org()
+#         pk = self._create_timelogs_holidays_org()
 
-        data = {
-            "name": "UPDATED"
-        }
+#         data = {
+#             "name": "UPDATED"
+#         }
 
-        res = my_account.Time.update_timelogs_holidays(pk, data)
-        my_account.Time.delete_timelogs_holidays(pk)
+#         res = my_account.Time.update_timelogs_holidays(pk, data)
+#         my_account.Time.delete_timelogs_holidays(pk)
 
-    def test_delete_timelogs_holidays(self):
-        """ Test that 204 is returned """
+#     def test_delete_timelogs_holidays(self):
+#         """ Test that 204 is returned """
 
-        pk = self._create_timelogs_holidays_org()
-        res = my_account.Time.delete_timelogs_holidays(pk)
+#         pk = self._create_timelogs_holidays_org()
+#         res = my_account.Time.delete_timelogs_holidays(pk)
 
-        self.assertEqual(res['status'], 204)
+#         self.assertEqual(res['status'], 204)
 
-    ### Hourslogs ###
-    def _create_timelogs_hourslogs_return_pk(self):
-        """ Create hourslogs and return pk """
+#     ### Hourslogs ###
+#     def _create_timelogs_hourslogs_return_pk(self):
+#         """ Create hourslogs and return pk """
 
-        data = {
-            "monday": 0,
-            "type": 6605,
-            "week": week_pk,
-            "is_draft": False
-        }
+#         data = {
+#             "monday": 0,
+#             "type": 6605,
+#             "week": week_pk,
+#             "is_draft": False
+#         }
 
-        return my_account.Time.create_timelogs_hourslogs_list(team_pk, data)['data']['id']
+#         return my_account.Time.create_timelogs_hourslogs_list(team_pk, data)['data']['id']
 
-    def test_get_timelogs_hourslogs_list(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_hourslogs_list(self):
+#         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timelogs_hourslogs_list(team_pk)
+#         res = my_account.Time.get_timelogs_hourslogs_list(team_pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_create_timelogs_hourslogs_list(self):
-        """ Test that 201 is returned """
+#     def test_create_timelogs_hourslogs_list(self):
+#         """ Test that 201 is returned """
 
-        data = {
-            "monday": 0,
-            "type": 6605,
-            "week": week_pk,
-            "is_draft": False
-        }
+#         data = {
+#             "monday": 0,
+#             "type": 6605,
+#             "week": week_pk,
+#             "is_draft": False
+#         }
 
-        res = my_account.Time.create_timelogs_hourslogs_list(team_pk, data)
-        self.assertEqual(res['status'], 201)
+#         res = my_account.Time.create_timelogs_hourslogs_list(team_pk, data)
+#         self.assertEqual(res['status'], 201)
 
-    def test_get_timelogs_hourslogs_my_list(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_hourslogs_my_list(self):
+#         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timelogs_hourslogs_my_list(team_pk)
+#         res = my_account.Time.get_timelogs_hourslogs_my_list(team_pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_create_timelogs_hourslogs_my_list(self):
-        """ Test that 201 is returned """
-        data = {
-            "monday": 0,
-            "type": 6605,
-            "week": week_pk,
-            "is_draft": False
-        }
+#     def test_create_timelogs_hourslogs_my_list(self):
+#         """ Test that 201 is returned """
+#         data = {
+#             "monday": 0,
+#             "type": 6605,
+#             "week": week_pk,
+#             "is_draft": False
+#         }
 
-        res = my_account.Time.create_timelogs_hourslogs_my_list(team_pk, data)
-        self.assertEqual(res['status'], 201)
+#         res = my_account.Time.create_timelogs_hourslogs_my_list(team_pk, data)
+#         self.assertEqual(res['status'], 201)
 
-    def test_get_timelogs_hourslogs_details(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_hourslogs_details(self):
+#         """ Test that 200 is returned """
 
-        pk = self._create_timelogs_hourslogs_return_pk()
+#         pk = self._create_timelogs_hourslogs_return_pk()
 
-        res = my_account.Time.get_timelogs_hourslogs_details(pk)
+#         res = my_account.Time.get_timelogs_hourslogs_details(pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_get_timelogs_hourslogs_details(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_hourslogs_details(self):
+#         """ Test that 200 is returned """
 
-        pk = self._create_timelogs_hourslogs_return_pk()
+#         pk = self._create_timelogs_hourslogs_return_pk()
 
-        data = {
-            "project_pk": project_pk
-        }
+#         data = {
+#             "project_pk": project_pk
+#         }
 
-        res = my_account.Time.update_timelogs_hourslogs(pk, data)
+#         res = my_account.Time.update_timelogs_hourslogs(pk, data)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_delete_timelogs_hourslogs(self):
-        """ Test that 204 is returned """
+#     def test_delete_timelogs_hourslogs(self):
+#         """ Test that 204 is returned """
 
-        pk = self._create_timelogs_hourslogs_return_pk()
+#         pk = self._create_timelogs_hourslogs_return_pk()
 
-        res = my_account.Time.delete_timelogs_hourslogs(pk)
+#         res = my_account.Time.delete_timelogs_hourslogs(pk)
 
-        self.assertEqual(res['status'], 204)
+#         self.assertEqual(res['status'], 204)
 
-    ### Timeoff ###
-    def _create_timelogs_timeoff_requests(self):
-        """ Create timeoff requests and return pk """
+#     ### Timeoff ###
+#     def _create_timelogs_timeoff_requests(self):
+#         """ Create timeoff requests and return pk """
 
-        data = {
-            "start_date": "11-05-2021",
-            "end_date": "12-05-2021",
-            "is_paid": True,
-            "orguser": orguser
-        }
+#         data = {
+#             "start_date": "11-05-2021",
+#             "end_date": "12-05-2021",
+#             "is_paid": True,
+#             "orguser": orguser
+#         }
 
-        return my_account.Time.create_timelogs_my_timeoff_requests(team_pk, data)['data']['id']
+#         return my_account.Time.create_timelogs_my_timeoff_requests(team_pk, data)['data']['id']
 
-    def test_get_timelogs_my_timeoff_requests(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_my_timeoff_requests(self):
+#         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timelogs_my_timeoff_requests_list(team_pk)
+#         res = my_account.Time.get_timelogs_my_timeoff_requests_list(team_pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_create_timelogs_my_timeoff_requests(self):
-        """ Test that 201 is returned """
+#     def test_create_timelogs_my_timeoff_requests(self):
+#         """ Test that 201 is returned """
 
-        data = {
-            "start_date": "11-05-2021",
-            "end_date": "12-05-2021",
-            "is_paid": True,
-            "orguser": orguser
-        }
+#         data = {
+#             "start_date": "11-05-2021",
+#             "end_date": "12-05-2021",
+#             "is_paid": True,
+#             "orguser": orguser
+#         }
 
-        res = my_account.Time.create_timelogs_my_timeoff_requests(team_pk, data)
+#         res = my_account.Time.create_timelogs_my_timeoff_requests(team_pk, data)
 
-        self.assertEqual(res['status'], 201)
+#         self.assertEqual(res['status'], 201)
 
-    def test_get_timelogs_timeoff_requests(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_timeoff_requests(self):
+#         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timelogs_timeoff_requests_list(team_pk)
+#         res = my_account.Time.get_timelogs_timeoff_requests_list(team_pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_create_timelogs_timeoff_requests(self):
-        """ Test that 201 is returned """
+#     def test_create_timelogs_timeoff_requests(self):
+#         """ Test that 201 is returned """
 
-        data = {
-            "start_date": "11-05-2021",
-            "end_date": "12-05-2021",
-            "is_paid": True,
-            "orguser": orguser
-        }
+#         data = {
+#             "start_date": "11-05-2021",
+#             "end_date": "12-05-2021",
+#             "is_paid": True,
+#             "orguser": orguser
+#         }
 
-        res = my_account.Time.create_timelogs_timeoff_requests(team_pk, data)
+#         res = my_account.Time.create_timelogs_timeoff_requests(team_pk, data)
 
-        self.assertEqual(res['status'], 201)
+#         self.assertEqual(res['status'], 201)
 
-    # def test_create_timeoff_balance_list(self):
-    #     #! 200
-    #     """ Test that 201 is returned """
+#     # def test_create_timeoff_balance_list(self):
+#     #     #! 200
+#     #     """ Test that 201 is returned """
 
-    #     data = {
-    #         "orguser": orguser,
-    #         "start_date": "01-05-2021",
-    #         "end_date": "10-05-2021"
-    #     }
+#     #     data = {
+#     #         "orguser": orguser,
+#     #         "start_date": "01-05-2021",
+#     #         "end_date": "10-05-2021"
+#     #     }
 
-    #     res = my_account.Time.create_timeoff_balance_list(team_pk, data)
+#     #     res = my_account.Time.create_timeoff_balance_list(team_pk, data)
 
-    #     self.assertEqual(res['status'], 201)
+#     #     self.assertEqual(res['status'], 201)
 
-    # def test_create_timeoff_requests_action(self):
-    #     #! 200
-    #     """ Test that 201 is returned """
+#     # def test_create_timeoff_requests_action(self):
+#     #     #! 200
+#     #     """ Test that 201 is returned """
 
-    #     data = {
-    #         "orguser": orguser,
-    #         "start_date": "01-05-2021",
-    #         "end_date": "10-05-2021"
-    #     }
+#     #     data = {
+#     #         "orguser": orguser,
+#     #         "start_date": "01-05-2021",
+#     #         "end_date": "10-05-2021"
+#     #     }
 
-    #     res = my_account.Time.create_timeoff_requests_action(team_pk, data)
+#     #     res = my_account.Time.create_timeoff_requests_action(team_pk, data)
 
-    #     self.assertEqual(res['status'], 201)
+#     #     self.assertEqual(res['status'], 201)
 
-    def test_get_timelogs_timeoff_requests_details(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_timeoff_requests_details(self):
+#         """ Test that 200 is returned """
 
-        pk = self._create_timelogs_timeoff_requests()
+#         pk = self._create_timelogs_timeoff_requests()
 
-        res = my_account.Time.get_timelogs_timeoff_requests_details(pk)
+#         res = my_account.Time.get_timelogs_timeoff_requests_details(pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_update_timelogs_timeoff_requests(self):
-        """ Test that 200 is returned """
+#     def test_update_timelogs_timeoff_requests(self):
+#         """ Test that 200 is returned """
 
-        pk = self._create_timelogs_timeoff_requests()
+#         pk = self._create_timelogs_timeoff_requests()
 
-        data = {
-            "start_date": "10-05-2021"
-        }
+#         data = {
+#             "start_date": "10-05-2021"
+#         }
 
-        res = my_account.Time.update_timelogs_timeoff_requests(pk, data)
+#         res = my_account.Time.update_timelogs_timeoff_requests(pk, data)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_delete_timelogs_timeoff_requests(self):
-        """ Test that 204 is returned """
+#     def test_delete_timelogs_timeoff_requests(self):
+#         """ Test that 204 is returned """
 
-        pk = self._create_timelogs_timeoff_requests()
+#         pk = self._create_timelogs_timeoff_requests()
 
-        res = my_account.Time.delete_timelogs_timeoff_requests(pk)
+#         res = my_account.Time.delete_timelogs_timeoff_requests(pk)
 
-        self.assertEqual(res['status'], 204)
+#         self.assertEqual(res['status'], 204)
 
-    ### Types ###
+#     ### Types ###
 
-    def _create_timelogs_types_list_return_pk(self):
-        """ Create timelogs type and return pk """
+#     def _create_timelogs_types_list_return_pk(self):
+#         """ Create timelogs type and return pk """
 
-        data = {
-            "name": "UNITTEST"
-        }
+#         data = {
+#             "name": "UNITTEST"
+#         }
 
-        return my_account.Time.create_timelogs_types_list(data)['data']['id']
+#         return my_account.Time.create_timelogs_types_list(data)['data']['id']
 
-        self.assertEqual(res['status'], 201)
+#         self.assertEqual(res['status'], 201)
 
-    def test_get_timelogs_types_list(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_types_list(self):
+#         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timelogs_types_list()
+#         res = my_account.Time.get_timelogs_types_list()
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_create_timelogs_types_list(self):
-        """ Test that 201 is returned """
+#     def test_create_timelogs_types_list(self):
+#         """ Test that 201 is returned """
 
-        data = {
-            "name": "UNITTEST"
-        }
+#         data = {
+#             "name": "UNITTEST"
+#         }
 
-        res = my_account.Time.create_timelogs_types_list(data)
+#         res = my_account.Time.create_timelogs_types_list(data)
 
-        self.assertEqual(res['status'], 201)
+#         self.assertEqual(res['status'], 201)
 
-    def test_get_timelogs_types_timeoff_list(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_types_timeoff_list(self):
+#         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timelogs_types_timeoff_list()
+#         res = my_account.Time.get_timelogs_types_timeoff_list()
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_create_timelogs_types_timeoff(self):
-        """ Test that 201 is returned """
+#     def test_create_timelogs_types_timeoff(self):
+#         """ Test that 201 is returned """
 
-        data = {
-            "name": "UNITTEST"
-        }
+#         data = {
+#             "name": "UNITTEST"
+#         }
 
-        res = my_account.Time.create_timelogs_types_timeoff(data)
+#         res = my_account.Time.create_timelogs_types_timeoff(data)
 
-        self.assertEqual(res['status'], 201)
+#         self.assertEqual(res['status'], 201)
 
-    def test_get_timelogs_types_details(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_types_details(self):
+#         """ Test that 200 is returned """
 
-        pk = self._create_timelogs_types_list_return_pk()
+#         pk = self._create_timelogs_types_list_return_pk()
 
-        res = my_account.Time.get_timelogs_types_details(pk)
+#         res = my_account.Time.get_timelogs_types_details(pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_update_timelogs_types(self):
-        """ Test that 200 is returned """
+#     def test_update_timelogs_types(self):
+#         """ Test that 200 is returned """
 
-        pk = self._create_timelogs_types_list_return_pk()
+#         pk = self._create_timelogs_types_list_return_pk()
 
-        data = {
-            "name": "UPDATED"
-        }
+#         data = {
+#             "name": "UPDATED"
+#         }
 
-        res = my_account.Time.update_timelogs_types(pk, data)
+#         res = my_account.Time.update_timelogs_types(pk, data)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_delete_timelogs_types(self):
-        """ Test that 204 is returned """
+#     def test_delete_timelogs_types(self):
+#         """ Test that 204 is returned """
 
-        pk = self._create_timelogs_types_list_return_pk()
+#         pk = self._create_timelogs_types_list_return_pk()
 
-        res = my_account.Time.delete_timelogs_types(pk)
+#         res = my_account.Time.delete_timelogs_types(pk)
 
-        self.assertEqual(res['status'], 204)
+#         self.assertEqual(res['status'], 204)
 
-    ### Week-config ###
-    def _create_timelogs_week_config_return_pk(self):
-        """ Create timelogs week config and return pk """
+#     ### Week-config ###
+#     def _create_timelogs_week_config_return_pk(self):
+#         """ Create timelogs week config and return pk """
 
-        data = {
-            "team": team_pk,
-            "name": "UNITTEST",
-            "orgusers": [orguser]
-        }
+#         data = {
+#             "team": team_pk,
+#             "name": "UNITTEST",
+#             "orgusers": [orguser]
+#         }
 
-        return my_account.Time.create_timelogs_week_config(data)['data']['id']
+#         return my_account.Time.create_timelogs_week_config(data)['data']['id']
 
-    def test_get_timelogs_week_config_list(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_week_config_list(self):
+#         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timelogs_week_config_list()
+#         res = my_account.Time.get_timelogs_week_config_list()
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_create_timelogs_week_config(self):
-        """ Test that 201 is returned """
+#     def test_create_timelogs_week_config(self):
+#         """ Test that 201 is returned """
 
-        data = {
-            "team": team_pk,
-            "name": "UNITTEST",
-            "orgusers": [orguser]
-        }
+#         data = {
+#             "team": team_pk,
+#             "name": "UNITTEST",
+#             "orgusers": [orguser]
+#         }
 
-        res = my_account.Time.create_timelogs_week_config(data)
+#         res = my_account.Time.create_timelogs_week_config(data)
 
-        self.assertEqual(res['status'], 201)
+#         self.assertEqual(res['status'], 201)
 
-    def test_get_timelogs_week_details(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_week_details(self):
+#         """ Test that 200 is returned """
 
-        pk = self._create_timelogs_week_config_return_pk()
+#         pk = self._create_timelogs_week_config_return_pk()
 
-        res = my_account.Time.get_timelogs_week_config_details(pk)
+#         res = my_account.Time.get_timelogs_week_config_details(pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_update_timelogs_week_config(self):
-        """ Test that 200 is returned """
+#     def test_update_timelogs_week_config(self):
+#         """ Test that 200 is returned """
 
-        pk = self._create_timelogs_week_config_return_pk()
+#         pk = self._create_timelogs_week_config_return_pk()
 
-        data = {
-            "name": "UPDATED"
-        }
+#         data = {
+#             "name": "UPDATED"
+#         }
 
-        res = my_account.Time.update_timelogs_week_config(pk, data)
+#         res = my_account.Time.update_timelogs_week_config(pk, data)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_delete_timelogs_week_config(self):
-        """ Test that 204 is returned """
+#     def test_delete_timelogs_week_config(self):
+#         """ Test that 204 is returned """
 
-        pk = self._create_timelogs_week_config_return_pk()
-        res = my_account.Time.delete_timelogs_week_config(pk)
+#         pk = self._create_timelogs_week_config_return_pk()
+#         res = my_account.Time.delete_timelogs_week_config(pk)
 
-        self.assertEqual(res['status'], 204)
+#         self.assertEqual(res['status'], 204)
 
-    ### Weeks ####
+#     ### Weeks ####
 
-    # def test_get_timelogs_week_away(self):
-    #! Do not pass : 404
-    #     """ Test that 200 is returned """
+#     # def test_get_timelogs_week_away(self):
+#     #! Do not pass : 404
+#     #     """ Test that 200 is returned """
 
-    #     res = my_account.Time.get_timelogs_week_away()
+#     #     res = my_account.Time.get_timelogs_week_away()
 
-    #     self.assertEqual(res['status'], 200)
+#     #     self.assertEqual(res['status'], 200)
 
-    def test_get_timelogs_week_list(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_week_list(self):
+#         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timelogs_week_list()
+#         res = my_account.Time.get_timelogs_week_list()
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_get_timelogs_week_details(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_week_details(self):
+#         """ Test that 200 is returned """
 
-        pk = res = my_account.Time.get_timelogs_week_list("03-05-2021")['data'][0]['id']
-        res = my_account.Time.get_timelogs_week_details(pk)
+#         pk = res = my_account.Time.get_timelogs_week_list("03-05-2021")['data'][0]['id']
+#         res = my_account.Time.get_timelogs_week_details(pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_update_timelogs_week(self):
-        """ Test that 200 is returned """
+#     def test_update_timelogs_week(self):
+#         """ Test that 200 is returned """
 
-        pk = res = my_account.Time.get_timelogs_week_list("03-05-2021")['data'][0]['id']
+#         pk = res = my_account.Time.get_timelogs_week_list("03-05-2021")['data'][0]['id']
 
-        data = {
-            "team": team_pk
-        }
+#         data = {
+#             "team": team_pk
+#         }
 
-        res = my_account.Time.update_timelogs_week(pk, data)
+#         res = my_account.Time.update_timelogs_week(pk, data)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    ### Worklogs ###
-    def _create_timelogs_worklogs_return_pk(self):
-        """ Create worklogs and return pk """
+#     ### Worklogs ###
+#     def _create_timelogs_worklogs_return_pk(self):
+#         """ Create worklogs and return pk """
 
-        data = {
-            "description": "string",
-            "is_imported": True,
-            "cost": 0,
-            "base_cost": 0,
-            "date": "05-05-2021"
-        }
+#         data = {
+#             "description": "string",
+#             "is_imported": True,
+#             "cost": 0,
+#             "base_cost": 0,
+#             "date": "05-05-2021"
+#         }
 
-        return my_account.Time.create_timelogs_worklogs(team_pk, data)['data']['id']
+#         return my_account.Time.create_timelogs_worklogs(team_pk, data)['data']['id']
 
-    def test_get_timelogs_worklogs_list(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_worklogs_list(self):
+#         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timelogs_worklogs_list(team_pk)
+#         res = my_account.Time.get_timelogs_worklogs_list(team_pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_create_timelogs_worklogs_list(self):
-        """ Test that 200 or 201 is returned """
+#     def test_create_timelogs_worklogs_list(self):
+#         """ Test that 200 or 201 is returned """
 
-        data = {
-            "description": "string",
-            "is_imported": True,
-            "cost": 0,
-            "base_cost": 0,
-            "date": "09-05-2021"
-        }
+#         data = {
+#             "description": "string",
+#             "is_imported": True,
+#             "cost": 0,
+#             "base_cost": 0,
+#             "date": "09-05-2021"
+#         }
 
-        res = my_account.Time.create_timelogs_worklogs(team_pk, data)
+#         res = my_account.Time.create_timelogs_worklogs(team_pk, data)
 
-        self.assertIn(res['status'], [201, 200])
+#         self.assertIn(res['status'], [201, 200])
 
-    def test_get_timelogs_worklogs_details(self):
-        """ Test that 200 is returned """
+#     def test_get_timelogs_worklogs_details(self):
+#         """ Test that 200 is returned """
 
-        pk = self._create_timelogs_worklogs_return_pk()
-        res = my_account.Time.get_timelogs_worklogs_details(pk)
+#         pk = self._create_timelogs_worklogs_return_pk()
+#         res = my_account.Time.get_timelogs_worklogs_details(pk)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_update_timelogs_worklogs_list(self):
-        """ Test that 200 is returned """
+#     def test_update_timelogs_worklogs_list(self):
+#         """ Test that 200 is returned """
 
-        pk = self._create_timelogs_worklogs_return_pk()
+#         pk = self._create_timelogs_worklogs_return_pk()
 
-        data = {
-            "cost": 1
-        }
+#         data = {
+#             "cost": 1
+#         }
 
-        res = my_account.Time.update_timelogs_worklogs(pk, data)
+#         res = my_account.Time.update_timelogs_worklogs(pk, data)
 
-        self.assertEqual(res['status'], 200)
+#         self.assertEqual(res['status'], 200)
 
-    def test_delete_timelogs_worklogs(self):
-        """ Test that 204 is returned """
+#     def test_delete_timelogs_worklogs(self):
+#         """ Test that 204 is returned """
 
-        pk = self._create_timelogs_worklogs_return_pk()
-        res = my_account.Time.delete_timelogs_worklogs(pk)
+#         pk = self._create_timelogs_worklogs_return_pk()
+#         res = my_account.Time.delete_timelogs_worklogs(pk)
 
-        self.assertEqual(res['status'], 204)
+#         self.assertEqual(res['status'], 204)
 
 
 if __name__ == '__main__':

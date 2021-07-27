@@ -638,393 +638,391 @@ class TestBanks(unittest.TestCase):
         self.assertEqual(res['status'], 204)
 
 
-class Tests(unittest.TestCase):
-    def _create_invoice_return_pk(self):
-        """ Create and return the pk of an invoice """
+# class Tests(unittest.TestCase):
+#     def _create_invoice_return_pk(self):
+#         """ Create and return the pk of an invoice """
 
-        try:
-            client_pk = my_account.Invoicing.get_clients_list(team_pk)['data'][0]['pk']
-        except IndexError as error:
-            data_client = {
-                "company_name": "test-unittest",
-                "number": "123",
-                "currency": currency_pk,
-                "team": team_pk,
-            }
+#         try:
+#             client_pk = my_account.Invoicing.get_clients_list(team_pk)['data'][0]['pk']
+#         except IndexError as error:
+#             data_client = {
+#                 "company_name": "test-unittest",
+#                 "number": "123",
+#                 "currency": currency_pk,
+#                 "team": team_pk,
+#             }
 
-            res = my_account.Invoicing.create_client(data_client)
-            self.assertEqual(res['status'], 201)
+#             res = my_account.Invoicing.create_client(data_client)
+#             self.assertEqual(res['status'], 201)
 
-            client_pk = res['data']['pk']
+#             client_pk = res['data']['pk']
 
-        invoice = {
-            # "client": client_pk,
-            "project": project_pk,
-            "invoice_date": '19-04-2021',
-            "due_date": '19-05-2021',
-            "references": "UNITTEST ref",
-            "type": 4
-        }
+#         invoice = {
+#             # "client": client_pk,
+#             "project": project_pk,
+#             "invoice_date": '19-04-2021',
+#             "due_date": '19-05-2021',
+#             "references": "UNITTEST ref",
+#             "type": 4
+#         }
 
-        invoice_pk = my_account.Invoicing.create_invoice(team_pk, invoice)['data']['pk']
-        return invoice_pk
+#         invoice_pk = my_account.Invoicing.create_invoice(team_pk, invoice)['data']['pk']
+#         return invoice_pk
 
-##### INVOICING #####
+#     ##### Reports ####
 
-    ##### Reports ####
+#     ### Reports ###
 
-    ### Reports ###
+#     def _create_report_return_pk(self):
+#         """ Create a report and return the pk """
 
-    def _create_report_return_pk(self):
-        """ Create a report and return the pk """
+#         report = {
+#             "name": "UNITTEST",
+#             "project": project_pk,
+#             "type": "billed_progress_report",
+#             "lang": "fr"
+#         }
 
-        report = {
-            "name": "UNITTEST",
-            "project": project_pk,
-            "type": "billed_progress_report",
-            "lang": "fr"
-        }
+#         res = my_account.Invoicing.create_report(report)['data']['pk']
+#         return res
 
-        res = my_account.Invoicing.create_report(report)['data']['pk']
-        return res
+#     def test_get_reports_list(self):
+#         """ Test that 200 is returned """
 
-    def test_get_reports_list(self):
-        """ Test that 200 is returned """
+#         res = my_account.Invoicing.get_reports_list()
 
-        res = my_account.Invoicing.get_reports_list()
+#         self.assertEqual(res['status'], 200)
 
-        self.assertEqual(res['status'], 200)
+#     def test_get_reports_project_list(self):
+#         """ Test that 200 is returned """
 
-    def test_get_reports_project_list(self):
-        """ Test that 200 is returned """
+#         res = my_account.Invoicing.get_reports_project_list(project_pk)
 
-        res = my_account.Invoicing.get_reports_project_list(project_pk)
+#         self.assertEqual(res['status'], 200)
 
-        self.assertEqual(res['status'], 200)
+#     def test_create_reports(self):
+#         """ Test that 201 is returned """
 
-    def test_create_reports(self):
-        """ Test that 201 is returned """
+#         report = {
+#             "name": "UNITTEST_billed_progress",
+#             "project": project_pk,
+#             "type": "billed_progress_report",
+#             "lang": "fr"
+#         }
 
-        report = {
-            "name": "UNITTEST_billed_progress",
-            "project": project_pk,
-            "type": "billed_progress_report",
-            "lang": "fr"
-        }
+#         res = my_account.Invoicing.create_report(report)
 
-        res = my_account.Invoicing.create_report(report)
+#         self.assertEqual(res['status'], 201)
 
-        self.assertEqual(res['status'], 201)
+#     def test_get_report_details(self):
+#         """ Test that 200 is returned """
 
-    def test_get_report_details(self):
-        """ Test that 200 is returned """
+#         report_pk = self._create_report_return_pk()
+#         res = my_account.Invoicing.get_report_details(report_pk)
+#         my_account.Invoicing.delete_report(report_pk)
 
-        report_pk = self._create_report_return_pk()
-        res = my_account.Invoicing.get_report_details(report_pk)
-        my_account.Invoicing.delete_report(report_pk)
+#         self.assertEqual(res['status'], 200)
 
-        self.assertEqual(res['status'], 200)
+#     def test_update_report(self):
+#         """ Test that 200 is returned """
 
-    def test_update_report(self):
-        """ Test that 200 is returned """
+#         report_pk = self._create_report_return_pk()
 
-        report_pk = self._create_report_return_pk()
+#         report_up = {
+#             "name": "UPDATED UNITTEST"
+#         }
 
-        report_up = {
-            "name": "UPDATED UNITTEST"
-        }
+#         res = my_account.Invoicing.update_report(report_pk, report_up)
+#         my_account.Invoicing.delete_report(report_pk)
 
-        res = my_account.Invoicing.update_report(report_pk, report_up)
-        my_account.Invoicing.delete_report(report_pk)
+#         self.assertEqual(res['status'], 200)
 
-        self.assertEqual(res['status'], 200)
+#     # def test_generate_report(self):
+#     #     #! 200
+#     #     """ Test that 201 is returned """
 
-    # def test_generate_report(self):
-    #     #! 200
-    #     """ Test that 201 is returned """
+#     #     report_pk = self._create_report_return_pk()
 
-    #     report_pk = self._create_report_return_pk()
+#     #     data = {
+#     #         "pk": report_pk,
+#     #         "project": project_pk
+#     #     }
 
-    #     data = {
-    #         "pk": report_pk,
-    #         "project": project_pk
-    #     }
+#     #     res = my_account.Invoicing.generate_report(data)
+#     #     print(res)
 
-    #     res = my_account.Invoicing.generate_report(data)
-    #     print(res)
+#     #     self.assertEqual(res['status'], 201)
 
-    #     self.assertEqual(res['status'], 201)
+#     def test_delete_report(self):
+#         """ Test that 204 is returned """
 
-    def test_delete_report(self):
-        """ Test that 204 is returned """
+#         pk = self._create_report_return_pk()
 
-        pk = self._create_report_return_pk()
+#         res = my_account.Invoicing.delete_report(pk)
 
-        res = my_account.Invoicing.delete_report(pk)
+#         self.assertEqual(res['status'], 204)
 
-        self.assertEqual(res['status'], 204)
+#     ### Reports Templates ###
+#     def _create_template_return_pk(self):
+#         """ Create a template and return the pk """
 
-    ### Reports Templates ###
-    def _create_template_return_pk(self):
-        """ Create a template and return the pk """
+#         template = {
+#             "name": "UNITTEST",
+#             "type": "progress",
+#             "lang": "fr",
+#             "orientation": "portrait"
+#         }
 
-        template = {
-            "name": "UNITTEST",
-            "type": "progress",
-            "lang": "fr",
-            "orientation": "portrait"
-        }
+#         return my_account.Invoicing.create_template(team_pk, template)['data']['pk']
 
-        return my_account.Invoicing.create_template(team_pk, template)['data']['pk']
+#     def test_get_templates_list(self):
+#         """ Test that 200 is returned """
 
-    def test_get_templates_list(self):
-        """ Test that 200 is returned """
+#         res = my_account.Invoicing.get_templates_list(team_pk)
 
-        res = my_account.Invoicing.get_templates_list(team_pk)
+#         self.assertEqual(res['status'], 200)
 
-        self.assertEqual(res['status'], 200)
+#     def test_get_template_details(self):
+#         """ Test that 200 is returned """
 
-    def test_get_template_details(self):
-        """ Test that 200 is returned """
+#         template_pk = self._create_template_return_pk()
 
-        template_pk = self._create_template_return_pk()
+#         res = my_account.Invoicing.get_template_details(template_pk)
 
-        res = my_account.Invoicing.get_template_details(template_pk)
+#         self.assertEqual(res['status'], 200)
 
-        self.assertEqual(res['status'], 200)
+#     def test_create_template(self):
+#         """ Test that 201 is returned """
 
-    def test_create_template(self):
-        """ Test that 201 is returned """
+#         template = {
+#             "name": "UNITTEST",
+#             "type": "progress",
+#             "lang": "fr",
+#             "orientation": "portrait"
+#         }
 
-        template = {
-            "name": "UNITTEST",
-            "type": "progress",
-            "lang": "fr",
-            "orientation": "portrait"
-        }
+#         res = my_account.Invoicing.create_template(team_pk, template)
 
-        res = my_account.Invoicing.create_template(team_pk, template)
+#         self.assertEqual(res['status'], 201)
 
-        self.assertEqual(res['status'], 201)
+#     def test_update_template(self):
+#         """ Test that 200 is returned """
 
-    def test_update_template(self):
-        """ Test that 200 is returned """
+#         template_pk = self._create_template_return_pk()
 
-        template_pk = self._create_template_return_pk()
+#         template_up = {
+#             "name": "UPDATED"
+#         }
 
-        template_up = {
-            "name": "UPDATED"
-        }
+#         res = my_account.Invoicing.update_template(template_pk, template_up)
+#         my_account.Invoicing.delete_template(template_pk)
 
-        res = my_account.Invoicing.update_template(template_pk, template_up)
-        my_account.Invoicing.delete_template(template_pk)
+#         self.assertEqual(res['status'], 200)
 
-        self.assertEqual(res['status'], 200)
+#     def test_delete_template(self):
+#         """ Test that 204 is returned """
 
-    def test_delete_template(self):
-        """ Test that 204 is returned """
+#         template_pk = self._create_template_return_pk()
+#         res = my_account.Invoicing.delete_template(template_pk)
 
-        template_pk = self._create_template_return_pk()
-        res = my_account.Invoicing.delete_template(template_pk)
+#         self.assertEqual(res['status'], 204)
 
-        self.assertEqual(res['status'], 204)
+#     def test_duplicate_template(self):
+#         """ Test that 201 is returned """
 
-    def test_duplicate_template(self):
-        """ Test that 201 is returned """
+#         template_pk = self._create_template_return_pk()
+#         res = my_account.Invoicing.duplicate_template(template_pk)
 
-        template_pk = self._create_template_return_pk()
-        res = my_account.Invoicing.duplicate_template(template_pk)
+#         my_account.Invoicing.delete_template(template_pk)
+#         my_account.Invoicing.delete_template(res['data']['pk'])
 
-        my_account.Invoicing.delete_template(template_pk)
-        my_account.Invoicing.delete_template(res['data']['pk'])
+#         self.assertEqual(res['status'], 201)
 
-        self.assertEqual(res['status'], 201)
+#     #### Revenue ####
+#     def _create_revenue_return_pk(self):
+#         """ Create revenue and return pk"""
 
-    #### Revenue ####
-    def _create_revenue_return_pk(self):
-        """ Create revenue and return pk"""
+#         data = {
+#             "month": 5,
+#             "team": team_pk,
+#             "title": "UNITTEST",
+#             "months": []
+#         }
 
-        data = {
-            "month": 5,
-            "team": team_pk,
-            "title": "UNITTEST",
-            "months": []
-        }
+#         return my_account.Invoicing.create_revenue(data)['data']['id']
 
-        return my_account.Invoicing.create_revenue(data)['data']['id']
+#     #! 500
+#     # def _create_revenue_month_return_pk(self):
+#     #     """ Create revenue month and return pk"""
 
-    #! 500
-    # def _create_revenue_month_return_pk(self):
-    #     """ Create revenue month and return pk"""
+#     #     data = {
+#     #         "team": team_pk,
+#     #     }
 
-    #     data = {
-    #         "team": team_pk,
-    #     }
+#     #     return my_account.Invoicing.create_revenue_month(data)['data']['id']
 
-    #     return my_account.Invoicing.create_revenue_month(data)['data']['id']
+#     def test_get_revenue_list(self):
+#         """ Test that 200 is returned """
 
-    def test_get_revenue_list(self):
-        """ Test that 200 is returned """
+#         res = my_account.Invoicing.get_revenue_list()
 
-        res = my_account.Invoicing.get_revenue_list()
+#         self.assertEqual(res['status'], 200)
 
-        self.assertEqual(res['status'], 200)
+#     def test_create_revenue(self):
+#         """ Test that 201 is returned """
 
-    def test_create_revenue(self):
-        """ Test that 201 is returned """
+#         data = {
+#             "month": 5,
+#             "team": team_pk,
+#             "title": "UNITTEST",
+#             "months": []
+#         }
 
-        data = {
-            "month": 5,
-            "team": team_pk,
-            "title": "UNITTEST",
-            "months": []
-        }
+#         res = my_account.Invoicing.create_revenue(data)
 
-        res = my_account.Invoicing.create_revenue(data)
+#         self.assertEqual(res['status'], 201)
 
-        self.assertEqual(res['status'], 201)
+#     def test_get_revenue_details(self):
+#         """ Test that 200 is returned """
 
-    def test_get_revenue_details(self):
-        """ Test that 200 is returned """
+#         pk = self._create_revenue_return_pk()
 
-        pk = self._create_revenue_return_pk()
+#         res = my_account.Invoicing.get_revenue_details(pk)
 
-        res = my_account.Invoicing.get_revenue_details(pk)
+#         self.assertEqual(res['status'], 200)
 
-        self.assertEqual(res['status'], 200)
+#     def test_update_revenue(self):
+#         """ Test that 200 is returned """
 
-    def test_update_revenue(self):
-        """ Test that 200 is returned """
+#         pk = self._create_revenue_return_pk()
 
-        pk = self._create_revenue_return_pk()
+#         data = {
+#             "title": "UPDATED"
+#         }
 
-        data = {
-            "title": "UPDATED"
-        }
+#         res = my_account.Invoicing.update_revenue(pk, data)
 
-        res = my_account.Invoicing.update_revenue(pk, data)
+#         self.assertEqual(res['status'], 200)
 
-        self.assertEqual(res['status'], 200)
+#     def test_delete_revenue(self):
+#         """ Test that 204 is returned """
 
-    def test_delete_revenue(self):
-        """ Test that 204 is returned """
+#         pk = self._create_revenue_return_pk()
 
-        pk = self._create_revenue_return_pk()
+#         res = my_account.Invoicing.delete_revenue(pk)
 
-        res = my_account.Invoicing.delete_revenue(pk)
+#         self.assertEqual(res['status'], 204)
 
-        self.assertEqual(res['status'], 204)
+#     def test_get_revenue_month_list(self):
+#         """ Test that 200 is returned """
 
-    def test_get_revenue_month_list(self):
-        """ Test that 200 is returned """
+#         res = my_account.Invoicing.get_revenue_month_list()
 
-        res = my_account.Invoicing.get_revenue_month_list()
+#         self.assertEqual(res['status'], 200)
 
-        self.assertEqual(res['status'], 200)
+#     # TODO Work in progress
+#     # def test_create_revenue_month(self):
+#     #     """ Test that 201 is returned """
 
-    # TODO Work in progress
-    # def test_create_revenue_month(self):
-    #     """ Test that 201 is returned """
+#     #     data = {
+#     #         "team": team_pk
+#     #     }
 
-    #     data = {
-    #         "team": team_pk
-    #     }
+#     #     res = my_account.Invoicing.create_revenue_month(data)
+#     #     print(res)
 
-    #     res = my_account.Invoicing.create_revenue_month(data)
-    #     print(res)
+#     #     self.assertEqual(res['status'], 201)
 
-    #     self.assertEqual(res['status'], 201)
+#     # def test_get_revenue_month_details(self):
+#     #     """ Test that 200 is returned """
 
-    # def test_get_revenue_month_details(self):
-    #     """ Test that 200 is returned """
+#     #     pk = self._create_revenue_month_return_pk()
 
-    #     pk = self._create_revenue_month_return_pk()
+#     #     res = my_account.Invoicing.get_revenue_month_details(pk)
 
-    #     res = my_account.Invoicing.get_revenue_month_details(pk)
+#     #     self.assertEqual(res['status'], 200)
 
-    #     self.assertEqual(res['status'], 200)
+#     # def test_update_revenue_month(self):
+#     #     """ Test that 200 is returned """
 
-    # def test_update_revenue_month(self):
-    #     """ Test that 200 is returned """
+#     #     pk = self._create_revenue_month_return_pk()
 
-    #     pk = self._create_revenue_month_return_pk()
+#     #     data = {
+#     #         "amont_actual": 1
+#     #     }
 
-    #     data = {
-    #         "amont_actual": 1
-    #     }
+#     #     res = my_account.Invoicing.update_revenue_month(pk, data)
 
-    #     res = my_account.Invoicing.update_revenue_month(pk, data)
+#     #     self.assertEqual(res['status'], 200)
 
-    #     self.assertEqual(res['status'], 200)
+#     # def test_delete_revenue_month(self):
+#     #     """ Test that 204 is returned """
 
-    # def test_delete_revenue_month(self):
-    #     """ Test that 204 is returned """
+#     #     pk = self._create_revenue_month_return_pk()
 
-    #     pk = self._create_revenue_month_return_pk()
+#     #     res = my_account.Invoicing.delete_revenue_month(pk)
 
-    #     res = my_account.Invoicing.delete_revenue_month(pk)
+#     #     self.assertEqual(res['status'], 204)
 
-    #     self.assertEqual(res['status'], 204)
+#     #### Styleguides ####
 
-    #### Styleguides ####
+#     def _create_styleguide_return_pk(self):
+#         """ Create a styleguide and return pk """
 
-    def _create_styleguide_return_pk(self):
-        """ Create a styleguide and return pk """
+#         data = {
+#             "name": "UNITTEST"
+#         }
 
-        data = {
-            "name": "UNITTEST"
-        }
+#         return my_account.Invoicing.create_styleguide(data)['data']['id']
 
-        return my_account.Invoicing.create_styleguide(data)['data']['id']
+#     def test_get_styleguides_list(self):
+#         """ Test that 200 is returned"""
 
-    def test_get_styleguides_list(self):
-        """ Test that 200 is returned"""
+#         res = my_account.Invoicing.get_styleguides_list()
 
-        res = my_account.Invoicing.get_styleguides_list()
+#         self.assertEqual(res['status'], 200)
 
-        self.assertEqual(res['status'], 200)
+#     def test_create_styleguide(self):
+#         """ Test that 201 is returned """
 
-    def test_create_styleguide(self):
-        """ Test that 201 is returned """
+#         data = {
+#             "name": "UNITTEST"
+#         }
 
-        data = {
-            "name": "UNITTEST"
-        }
+#         res = my_account.Invoicing.create_styleguide(data)
+#         my_account.Invoicing.delete_styleguide(res['data']['id'])
 
-        res = my_account.Invoicing.create_styleguide(data)
-        my_account.Invoicing.delete_styleguide(res['data']['id'])
+#         self.assertEqual(res['status'], 201)
 
-        self.assertEqual(res['status'], 201)
+#     def test_get_styleguide_details(self):
+#         """ Test that 200 is returned """
 
-    def test_get_styleguide_details(self):
-        """ Test that 200 is returned """
+#         styleguide_pk = self._create_styleguide_return_pk()
+#         res = my_account.Invoicing.get_styleguide_details(styleguide_pk)
+#         my_account.Invoicing.delete_styleguide(styleguide_pk)
 
-        styleguide_pk = self._create_styleguide_return_pk()
-        res = my_account.Invoicing.get_styleguide_details(styleguide_pk)
-        my_account.Invoicing.delete_styleguide(styleguide_pk)
+#         self.assertEqual(res['status'], 200)
 
-        self.assertEqual(res['status'], 200)
+#     def test_update_styleguide(self):
+#         """ Test that 200 is returned """
 
-    def test_update_styleguide(self):
-        """ Test that 200 is returned """
+#         styleguide_pk = self._create_styleguide_return_pk()
 
-        styleguide_pk = self._create_styleguide_return_pk()
+#         data_up = {
+#             "name": "UNITTEST - UPDATED"
+#         }
+#         res = my_account.Invoicing.update_styleguide(styleguide_pk, data_up)
+#         my_account.Invoicing.delete_styleguide(styleguide_pk)
 
-        data_up = {
-            "name": "UNITTEST - UPDATED"
-        }
-        res = my_account.Invoicing.update_styleguide(styleguide_pk, data_up)
-        my_account.Invoicing.delete_styleguide(styleguide_pk)
+#         self.assertEqual(res['status'], 200)
 
-        self.assertEqual(res['status'], 200)
+#     def test_delete_styleguide(self):
+#         """ Test that 204 is returned """
 
-    def test_delete_styleguide(self):
-        """ Test that 204 is returned """
+#         styleguide_pk = self._create_styleguide_return_pk()
+#         res = my_account.Invoicing.delete_styleguide(styleguide_pk)
 
-        styleguide_pk = self._create_styleguide_return_pk()
-        res = my_account.Invoicing.delete_styleguide(styleguide_pk)
-
-        self.assertEqual(res['status'], 204)
+#         self.assertEqual(res['status'], 204)
 
 
 if __name__ == '__main__':
