@@ -779,7 +779,7 @@ class Time(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_timelogs_week_list(self, start_date="", page=1):
+    def get_timelogs_week_list(self, page=1, start_date=None):
         """ Get weeks list 
 
         Keyword arguments:
@@ -788,7 +788,9 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/weeks/list/{0}/'.format(self.org_pk)
-        parameters = "?start_date={0}&page_size={1}&page={2}=".format(start_date, self.pagination, page)
+        parameters = "?page={0}&page_size={1}".format(page, self.pagination)
+        if start_date:
+            parameters += '&start_date={0}'.format(start_date)
 
         response = requests.get('{0}{1}{2}'.format(self.base_url, route, parameters), headers=self.headers)
         return self.process_response(response, True)

@@ -349,7 +349,7 @@ class TestDefaults(unittest.TestCase):
         }
 
         res = my_account.Deliverables.create_defaults_phasesets_team(self.team_pk, data)
-        self.assertEqual(res['status'], 200)
+        self.assertEqual(res['status'], 201)
 
     def test_get_defaults_phasesets_details(self):
         """ Test that 200 is returned """
@@ -426,7 +426,7 @@ class TestDefaults(unittest.TestCase):
         }
 
         res = my_account.Deliverables.create_defaults_phase_team(self.team_pk, data)
-        self.assertEqual(res['status'], 200)
+        self.assertEqual(res['status'], 201)
 
     def test_get_defaults_phase_details(self):
         """ Test that 200 is returned """

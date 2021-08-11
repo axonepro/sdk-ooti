@@ -1,3 +1,4 @@
+from logging import error
 import random
 import string
 import time
@@ -60,7 +61,7 @@ class TestHelper:
 
         data_client = {
             "name": "UNITTEST",
-            "number": "0001",
+            "number": "{0}{1}{2}{3}{4}".format(random.randint(0, 9), random.randint(0, 9), random.randint(0, 9), random.randint(0, 9), random.randint(0, 9)),
             "currency": currency_pk,
             "team": team_pk,
             "tags": [],
@@ -279,7 +280,7 @@ class TestHelper:
         """ Create plan and return pk """
 
         data = {
-            "name_fr": self.create_name(),
+            "name": self.create_name(),
             "plan_format": "A1",
             "scale": "1/50e",
             "level": "000",
@@ -287,8 +288,8 @@ class TestHelper:
             "code": "pln",
             "org": self.my_account.org_pk
         }
-
-        return self.my_account.Deliverables.create_plan(project_pk, data)['data']['id']
+        response = self.my_account.Deliverables.create_plan(project_pk, data)
+        return response['data']['id']
 
     def _create_milestone_return_pk(self, project_pk):
         """ Create a milestone and return the pk """
@@ -503,8 +504,10 @@ class TestHelper:
             "end_date": "11-06-2021",
             "notes": "UNITTEST"
         }
-
-        return self.my_account.Time.create_trip(data)['data']['id']
+        response = self.my_account.Time.create_trip(data)
+        if response['status'] != 201:  # trips must be enabled
+            print(response)
+        return response['data']['id']
 
     def create_name(self):
         name = ''

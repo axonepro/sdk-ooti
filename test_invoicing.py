@@ -89,7 +89,7 @@ class TestPayements(unittest.TestCase):
         """ Test that 200 is returned """
 
         update = {
-            "amount": 200
+            "amount": 10
         }
 
         my_account.Invoicing.update_payment(self.payment_pk, update)
@@ -327,7 +327,7 @@ class TestClients(unittest.TestCase):
 
         client = {
             "name": "UNITTEST",
-            "number": "000",
+            "number": "{0}{1}{2}{3}{4}".format(random.randint(0, 9), random.randint(0, 9), random.randint(0, 9), random.randint(0, 9), random.randint(0, 9)),
             "currency": self.currency_pk,
             "billing_address": "Unittest address",
             "team": self.team_pk,
