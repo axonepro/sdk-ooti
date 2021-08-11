@@ -1322,7 +1322,7 @@ class Deliverables(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/phases/list/{0}/{1}'.format(self.org_pk, team_pk)
+        route = 'v1/defaults/defaults/phases/list/{0}/{1}/'.format(self.org_pk, team_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
@@ -1456,7 +1456,7 @@ class Deliverables(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/phasesets/list/{0}/{1}'.format(self.org_pk, team_pk)
+        route = 'v1/defaults/defaults/phasesets/list/{0}/{1}/'.format(self.org_pk, team_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
