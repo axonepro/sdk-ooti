@@ -45,7 +45,8 @@ class Auth(Helper):
     def connect(self):
         self.__get_csrf_token()
         self.__get_token()
-        self.__get_org()
+        self.__get_teams()
+        self.__get_selected_org()
 
         self.Costs = Costs(self.base_url, self.org_pk, self.teams_pk,
                            self.access_token, self._csrf_token, self.headers, self.pagination)
@@ -91,8 +92,7 @@ class Auth(Helper):
             self.Time.pagination = pagination
             self.pagination = pagination
 
-
-##### AUTH #####
+    ##### AUTH #####
 
     ##### Invitation #####
 
@@ -720,12 +720,11 @@ class Auth(Helper):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def __get_org(self):
+    def __get_teams(self):
         """ Set the organization id of the user """
 
         route = 'v1/organizations/membership/'
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
-        self.org_pk = json.loads(response.content)['organizations'][0]['id']
         teams = json.loads(response.content)['organizations'][0]['teams']
         self.teams_pk = []
         for team in range(len(teams)):
@@ -818,6 +817,15 @@ class Auth(Helper):
         return self.process_response(response)
 
     #### Profile ####
+
+    def __get_selected_org(self):
+        """ Get the organization selected on profile
+        """
+
+        route = 'v1/profiles/profile/'
+        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        self.org_pk = json.loads(response.content)['selected_org']
+        return self.process_response(response)
 
     def get_profile_preferences(self):
         """ Get profile preferences """
