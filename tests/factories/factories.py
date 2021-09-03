@@ -38,6 +38,16 @@ def TeamFactory():
     return response['data']['selected_team']
 
 
+def OrguserPkFactory(org_pk=None):
+    response = sdk.get_user_organization_details()
+    organizations = response['data']['organizations']
+    if org_pk is not None:
+        organization = next((org for org in organizations if org.get('id') == org_pk), None)
+    else:
+        organization = organizations[0]
+    return organization['orguser']['pk']
+
+
 def ProjectFactory(team_pk=None):
     if not team_pk:
         team_pk = TeamFactory()
