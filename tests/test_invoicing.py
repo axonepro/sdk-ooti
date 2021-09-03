@@ -1,6 +1,7 @@
 import unittest
 from ooti import ooti
 from test_helper import TestHelper
+from factories.factories import TeamFactory
 
 import random
 import string
@@ -19,7 +20,7 @@ OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 my_account = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
 my_account.connect()
 
-team_pk = my_account.teams_pk[0]['id']
+team_pk = TeamFactory()
 currency_pk = my_account.Invoicing.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.get_projects_list()['data'][0]['id']
 
@@ -29,7 +30,7 @@ class TestPayements(unittest.TestCase):
     @classmethod
     def setUp(cls):
         testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = TeamFactory()
         cls.currency_pk = testHelper._create_currency_if_none()
         cls.client_pk = testHelper._create_client_return_pk(cls.team_pk, cls.currency_pk)
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
@@ -102,7 +103,7 @@ class TestInvoices(unittest.TestCase):
     @classmethod
     def setUp(cls):
         testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = TeamFactory()
         cls.currency_pk = testHelper._create_currency_if_none()
         cls.client_pk = testHelper._create_client_return_pk(cls.team_pk, cls.currency_pk)
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
@@ -244,7 +245,7 @@ class TestCurrencies(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = TeamFactory()
         cls.currency_pk = cls.testHelper._create_currency_if_none()
 
     def test_get_currencies_list(self):
@@ -306,7 +307,7 @@ class TestClients(unittest.TestCase):
     @classmethod
     def setUp(cls):
         testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = TeamFactory()
         cls.currency_pk = testHelper._create_currency_if_none()
         cls.client_pk = testHelper._create_client_return_pk(cls.team_pk, cls.currency_pk)
 
@@ -483,7 +484,7 @@ class TestFiles(unittest.TestCase):
     @classmethod
     def setUp(cls):
         testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = TeamFactory()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.folder_pk = testHelper._create_folder_return_pk(cls.project_pk)
@@ -577,7 +578,7 @@ class TestBanks(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = TeamFactory()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.currency_pk = cls.testHelper._create_currency_if_none()
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
