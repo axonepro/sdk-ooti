@@ -1,5 +1,6 @@
 import unittest
-from ooti import ooti
+
+from requests.models import Response
 from test_helper import TestHelper
 from factories.factories import TeamFactory
 
@@ -7,9 +8,16 @@ import random
 import string
 import time
 
-# To read .env variables
 import os
+import sys
 from dotenv import load_dotenv
+
+
+PACKAGE_PARENT = '..'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+
+from ooti import ooti # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -25,6 +33,9 @@ currency_pk = my_account.Invoicing.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.get_projects_list()['data'][0]['id']
 
 
+# invoice_payment_pk = my_account.Invoicing.get_payment_details(584321)
+# print(invoice_payment_pk)
+# quit()
 class TestPayements(unittest.TestCase):
 
     @classmethod
@@ -83,7 +94,6 @@ class TestPayements(unittest.TestCase):
         }
 
         res_update_payment = my_account.Invoicing.update_payment(self.payment_pk, update)
-
         self.assertEqual(res_update_payment['status'], 200)
 
     def test_update_amount_payment_invoice(self):
@@ -94,8 +104,8 @@ class TestPayements(unittest.TestCase):
         }
 
         my_account.Invoicing.update_payment(self.payment_pk, update)
-        res_update_amount_invoice = my_account.Invoicing.update_payment_invoice(self.payment_pk, update)
-
+        invoice_payment_pk = my_account.Invoicing.get_payment_details(self.payment_pk)['data']['invoice_payments'][0]['pk']
+        res_update_amount_invoice = my_account.Invoicing.update_payment_invoice(invoice_payment_pk, update)
         self.assertEqual(res_update_amount_invoice['status'], 200)
 
 
