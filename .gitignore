@@ -2,7 +2,7 @@
 .vscode
 __pycache__/
 .flake8
-.setup.cfg
+setup.cfg
 
 # operating system-related files
 
