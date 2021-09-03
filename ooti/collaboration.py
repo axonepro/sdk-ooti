@@ -12,13 +12,8 @@ from .helper import Helper
 
 
 class Collaboration(Helper):
-    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers):
-        self.base_url = base_url
-        self.org_pk = org_pk
-        self.teams_pk = teams_pk
-        self.access_token = access_token
-        self._csrf_token = _csrf_token
-        self.headers = headers
+    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
+        super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
 
     #### Contacts ####
 
@@ -53,7 +48,7 @@ class Collaboration(Helper):
         route = 'v1/contacts/categories/{0}/'.format(self.org_pk)
         if project_id is not None:
             route += '{0}/'.format(project_id)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response, True)
 
     def get_contact_category_details(self, category_pk):
@@ -104,13 +99,13 @@ class Collaboration(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_contacts_list(self, project_id=None):
+    def get_contacts_list(self, project_id=None, page=1):
         """ Get the contacts list
 
         project_id -- id of the contacts' project (optional)
         """
 
-        route = 'v1/contacts/list/{0}/'.format(self.org_pk)
+        route = 'v1/contacts/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         if project_id is not None:
             route += '{0}/'.format(project_id)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
@@ -210,10 +205,10 @@ class Collaboration(Helper):
 
     #### Newsletters ####
 
-    def get_newsletters_list(self):
+    def get_newsletters_list(self, page=1):
         """ Get the list of newsletters """
 
-        route = 'v1/newsletters/list/{0}/'.format(self.org_pk)
+        route = 'v1/newsletters/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -292,10 +287,10 @@ class Collaboration(Helper):
 
     #### Note ####
 
-    def get_notes_list(self):
+    def get_notes_list(self, page=1):
         """ Get the list of notes """
 
-        route = 'v1/notes/list/{0}/'.format(self.org_pk)
+        route = 'v1/notes/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -423,10 +418,10 @@ class Collaboration(Helper):
 
     #### Posts ###
 
-    def get_posts_albums_list(self):
+    def get_posts_albums_list(self, page=1):
         """ Get the posts albums list """
 
-        route = 'v1/posts/album/list/{0}/'.format(self.org_pk)
+        route = 'v1/posts/album/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -436,7 +431,7 @@ class Collaboration(Helper):
         Keywords arguments:
         data -- data of the new album to be created:
         {
-            "post": post_pk,
+            "post": post_pk, # REQUIRED
             "title": "new album"
         }
         """
@@ -483,10 +478,10 @@ class Collaboration(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_posts_images_list(self):
+    def get_posts_images_list(self, page=1):
         """ Get the list of posted images """
 
-        route = 'v1/posts/image/list/{0}/'.format(self.org_pk)
+        route = 'v1/posts/image/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -545,10 +540,10 @@ class Collaboration(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_posts_likes_list(self):
+    def get_posts_likes_list(self, page=1):
         """ Get the list of likes """
 
-        route = 'v1/posts/like/list/{0}/'.format(self.org_pk)
+        route = 'v1/posts/like/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
@@ -558,7 +553,7 @@ class Collaboration(Helper):
         Keywords arguments:
         data -- data of the like to be created:
         {
-            "post": post_pk,
+            "post": post_pk, # REQUIRED
             "like_type": 0
         }
         """
@@ -589,14 +584,14 @@ class Collaboration(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_posts_list(self):
+    def get_posts_list(self, page=1):
         """ Get the list of posts """
 
-        route = 'v1/posts/list/{0}/'.format(self.org_pk)
+        route = 'v1/posts/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def create_post(self, data):  # Error 500 but the post is created
+    def create_post(self, data):
         """ Create a new post
 
         Keywors arguments:
@@ -656,7 +651,7 @@ class Collaboration(Helper):
         """
 
         route = 'v1/posts/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def delete_post(self, pk):
@@ -667,7 +662,7 @@ class Collaboration(Helper):
         """
 
         route = 'v1/posts/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     #### Tasks ####
@@ -679,10 +674,10 @@ class Collaboration(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_task_labels_list(self):
+    def get_task_labels_list(self, page=1):
         """ Get the list of tasks labels """
 
-        route = 'v1/tasks/label/list/{0}/'.format(self.org_pk)
+        route = 'v1/tasks/label/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -743,10 +738,10 @@ class Collaboration(Helper):
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_tasks_list(self):
+    def get_tasks_list(self, page=1):
         """ Get the tasks list """
 
-        route = 'v1/tasks/list/{0}/'.format(self.org_pk)
+        route = 'v1/tasks/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -772,10 +767,10 @@ class Collaboration(Helper):
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def get_tasks_lists_list(self):
+    def get_tasks_lists_list(self, page=1):
         """ Get the list of tasks list """
 
-        route = 'v1/tasks/lists/list/{0}/'.format(self.org_pk)
+        route = 'v1/tasks/lists/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response, True)
 
@@ -837,7 +832,7 @@ class Collaboration(Helper):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def delete_tasks_list_details(self, list_pk):
+    def delete_tasks_list(self, list_pk):
         """ Delete the list of tasks 
 
         Keywords arguments:
@@ -898,7 +893,7 @@ class Collaboration(Helper):
         response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
         return self.process_response(response)
 
-    def delete_task_details(self, pk):
+    def delete_task(self, pk):
         """ Delete task 
 
         Keywords arguments:

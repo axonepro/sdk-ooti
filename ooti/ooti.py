@@ -1,5 +1,6 @@
 import requests
 import json
+import sys
 
 from .costs import Costs
 from .helper import Helper
@@ -10,12 +11,21 @@ from .deliverables import Deliverables
 from .collaboration import Collaboration
 from .time import Time
 
+# To read .env variables
+import os
+from dotenv import load_dotenv
+
+# Loading environment variables (stored in .env file)
+load_dotenv()
+
 
 class Auth(Helper):
-    def __init__(self, username, password):
+    def __init__(self, username, password, pagination=None):
         self.username = username
         self.password = password
-        self.base_url = 'https://ooti-staging-3.herokuapp.com/api/'  # "https://app.ooti.co/api/"
+
+        self.base_url()
+
         self.org_pk = None
         self.teams_pk = None
         self.access_token = None
@@ -27,30 +37,60 @@ class Auth(Helper):
         self.Settings = None
         self.Collaboration = None
 
+        if pagination and isinstance(pagination, int) and pagination > 0:
+            self.pagination = pagination
+        else:
+            self.pagination = 50
+
     def connect(self):
         self.__get_csrf_token()
         self.__get_token()
         self.__get_org()
+
         self.Costs = Costs(self.base_url, self.org_pk, self.teams_pk,
-                           self.access_token, self._csrf_token, self.headers)
+                           self.access_token, self._csrf_token, self.headers, self.pagination)
 
         self.Others = Others(self.base_url, self.org_pk, self.teams_pk,
-                             self.access_token, self._csrf_token, self.headers)
+                             self.access_token, self._csrf_token, self.headers, self.pagination)
 
         self.Settings = Settings(self.base_url, self.org_pk, self.teams_pk,
-                                 self.access_token, self._csrf_token, self.headers)
+                                 self.access_token, self._csrf_token, self.headers, self.pagination)
 
         self.Collaboration = Collaboration(self.base_url, self.org_pk, self.teams_pk,
-                                           self.access_token, self._csrf_token, self.headers)
+                                           self.access_token, self._csrf_token, self.headers, self.pagination)
 
         self.Invoicing = Invoicing(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers)
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
 
         self.Deliverables = Deliverables(self.base_url, self.org_pk, self.teams_pk,
-                                         self.access_token, self._csrf_token, self.headers)
+                                         self.access_token, self._csrf_token, self.headers, self.pagination)
 
         self.Time = Time(self.base_url, self.org_pk, self.teams_pk,
-                         self.access_token, self._csrf_token,  self.headers)
+                         self.access_token, self._csrf_token,  self.headers, self.pagination)
+
+    def base_url(self):
+        """ Choose base_url based on ENV variable """
+        ENVIRONMENT = os.getenv("ENVIRONMENT", default=None)
+
+        if ENVIRONMENT and ENVIRONMENT == 'STAGING':
+            self.base_url = 'https://ooti-staging-3.herokuapp.com/api/'
+        elif ENVIRONMENT and ENVIRONMENT == 'LOCAL':
+            self.base_url = 'http://127.0.0.1:8000/api/'
+        else:
+            self.base_url = 'https://app.ooti.co/api/'
+
+    def update_pagination(self, pagination):
+        """ Setter for pagination """
+        if pagination and isinstance(pagination, int) and pagination > 0:
+            self.Costs.pagination = pagination
+            self.Others.pagination = pagination
+            self.Settings.pagination = pagination
+            self.Collaboration.pagination = pagination
+            self.Invoicing.pagination = pagination
+            self.Deliverables.pagination = pagination
+            self.Time.pagination = pagination
+            self.pagination = pagination
+
 
 ##### AUTH #####
 
@@ -186,7 +226,7 @@ class Auth(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def create_project(self, data):  # Error 500
+    def create_project(self, data):
         """ Create a new project
 
         Keyword arguments:
@@ -504,7 +544,7 @@ class Auth(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def create_orguser(self, data):  # Error 500
+    def create_orguser(self, data):
         """ Create a new user in the organization 
 
         data -- content of the orguser to be created:
@@ -567,7 +607,7 @@ class Auth(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    def get_organization_details(self, pk):  # put self.org_pk instead of letting the user choose the pk ?
+    def get_organization_details(self, pk):
         """ Get organizations details 
 
         Keywords arguments:
@@ -742,7 +782,6 @@ class Auth(Helper):
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
-    # Test to modify "permissions" & "all_permissions" without being superadmin
     def update_permissions_details(self, id, data):
         """ Update permissions set details
 
@@ -899,7 +938,7 @@ class Auth(Helper):
         """ Remove a user from multiple teams at once
 
         Keywords arguments:
-        data -- pk of the projects and pk of the orguser to remove :
+        data -- pks of the projects and pk of the orguser to remove :
         {
             "orguser": orguser_pk,
             "projects": [
@@ -986,6 +1025,11 @@ class Auth(Helper):
             'password': self.password
         }
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=headers, data=data)
+
+        if response.content == b'{"non_field_errors":["Unable to log in with provided credentials."]}':
+            print('Unable to log with provided credentials. Please modify your .ENV file.')
+            sys.exit('Authentication failed.')
+
         self.access_token = json.loads(response.content)['token']
         self.headers = {
             'Authorization': 'JWT {0}'.format(self.access_token),
