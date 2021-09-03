@@ -38,6 +38,9 @@
     <li>
       <a href="#how-to-use">How to use</a>
     </li>
+    <li>
+        <a href="#developer">Developer</a>
+    </li>
     <li><a href="#license">License</a></li>
   </ol>
 </details>
@@ -140,6 +143,62 @@ Not good:
    from discounts.selectors import (discount_coefficient,
                                     discount_list)
    ```  
+## Developer
+
+If you are developer, you should do these fews step before begining.
+
+In case you havn't python 3.7, you could download it on the link below: 
+  - https://www.python.org/downloads/release/python-377/
+
+### Initialize environment
+
+First, run the following command to set up env files, and virtuel environment
+```
+  make init
+```
+
+>  **note: If your are on linux, or mac Os, maybe make command line isn't installed. You should open your terminal and run**
+>  - On Mac:
+>  ````
+    sudo xcode-select --install
+>  ````
+>  - On Linux:
+>  ```
+>  sudo apt install make
+  **or**
+>  sudo apt install build-essential
+>  ```
+
+Then, should edit your ```.env``` file with your username and your password
+
+```
+  ENVIRONMENT=STAGING
+  OOTI_AUTH=youremail
+  OOTI_PASSWORD=yourpassword
+```
+
+### Start the environment
+Now, you are ready ! You could run the following command to start the virtuel environment
+```
+  make start
+```
+and to quit the virtuel envrionment you could use:
+```
+  make stop
+```
+
+### Run the tests
+
+Run all tests:
+```
+  make tests
+```
+
+Run a specific test
+```
+  make test [filename]
+```
+
 
 <!-- LICENSE -->
 ## License
