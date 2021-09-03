@@ -6,10 +6,10 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script:
-  - python test_auth.py
-  - pytest test_collaboration.py
-  - pytest test_costs.py
-  - pytest test_deliverables.py
-  - pytest test_invoicing.py
-  - pytest test_others.py
-  - pytest test_settings.py
+  - python tests/test_auth.py
+  - pytest tests/test_collaboration.py
+  - pytest tests/test_costs.py
+  - pytest tests/test_deliverables.py
+  - pytest tests/test_invoicing.py
+  - pytest tests/test_others.py
+  - pytest tests/test_settings.py
