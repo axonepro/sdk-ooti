@@ -28,34 +28,6 @@ sdk = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
 sdk.connect()
 
 
-class TestFreelancers(unittest.TestCase):
-    @ classmethod
-    def setUpClass(cls):
-        cls.freelancer = FreelancerFactory()
-
-    def test_get_freelancer_details(self):
-        response = sdk.Costs.get_freelancer_details(self.freelancer['pk'])
-        self.assertEqual(response['status'], 200)
-
-    def test_get_freelancers_list(self):
-        response = sdk.Costs.get_freelancers_list()
-        self.assertEqual(response['status'], 200)
-
-    def test_delete_freelancer(self):
-        freelancer = FreelancerFactory()
-        response = sdk.Costs.delete_freelancer(freelancer['pk'])
-        self.assertEqual(response['status'], 204)
-
-    def test_create_freelancer(self):
-        payload = {
-            'name': 'freelancer test'
-        }
-        response = sdk.Costs.create_freelancer(payload)
-        self.assertEqual(response['status'], 201)
-        delete = sdk.Costs.delete_freelancer(response['data']['pk'])
-        self.assertEqual(delete['status'], 204)
-
-
 class TestEmployees(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
