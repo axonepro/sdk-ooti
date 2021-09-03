@@ -1,9 +1,5 @@
-from factories.factories import AlbumFactory
-from factories.factories import OrguserFactory
-from factories.factories import PostFactory
-from factories.factories import ProjectFactory
-from factories.factories import TaskFactory
-from factories.factories import TeamFactory
+from factories.factories import AlbumFactory, OrguserFactory, PostFactory, ProjectFactory
+from factories.factories import TaskFactory, TeamFactory
 
 from ooti import ooti
 import unittest
