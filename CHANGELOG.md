@@ -1,0 +1,211 @@
+- Fix seleted orguser pk and set trips_enabled to True before testing
+- ignore flake8 and setup.cfg file
+- ignore flake8 and setup.cfg file
+- Moved test into tests folder
+- Tests moved into tests folder
+- Added Flake8
+- Ignore .ENV files
+- Remove FreelancerTest which does not exist anymore
+- Add a class to get orguser_pk
+- Exclude test files from package
+- Following import convention
+- Fix test with TeamFactory as team selected
+- Fix format string on second parameters: 1 instead of 0
+- Fix test: selected right team and org
+- Removed useless team selected -> factories/TeamFactory does same
+- move factories into new package
+- Move test into separate folder
+- New Folder for tests
+- get selected user team and merge with selected org method
+- version 0.0.4
+- Add new private method to get the user selected organization
+- Merge pull request #22 from axonepro/fixing-tests-sdk
+- Fixing tests
+- :memo: commented uncleaned app
+- :hammer: fix auth on factories
+- :hammer: fix auth with ENV variables
+- Merge branch '0.0.3' of https://github.com/axonepro/sdk-ooti into 0.0.3
+- :pushpin: add version to dotenv
+- Merge pull request #21 from axonepro/pagination
+- Merge branch '0.0.3' into pagination
+- :memo: add dotenv in requirements
+- :memo: update requirements.txt
+- :memo: remove comments
+- :memo: remove comments and print
+- :rocket: feat_pagination
+- Merge branch '0.0.3' into pagination
+- :construction: WIP - Add pagination
+- :construction_worker: Add Travis to project
+- :see_no_evil: update base_url based on ENV variable
+- :memo: update test_helper
+- :memo: update names
+- Merge pull request #19 from axonepro/CU-ag553f_Time_Vincent-Debande
+- Merge pull request #20 from axonepro/CU-a229pe_Thomas-SDK-Notes_Thomas-REY
+- Merge pull request #18 from axonepro/CU-ag14d3_Deliverables_Vincent-Debande
+- Merge pull request #17 from axonepro/CU-ae44ue_Vincent-SDK-Notes_Vincent-Debande
+- Addind notes to custom fields
+- Fixing all remaining 500
+- Update costs.py
+- Update test_costs.py
+- Update .gitignore
+- Adding contractor factory
+- Testing others, settings, collaboration and auth
+- Fixing costs sdk
+- :rocket: :art: refactor and improved test / fixed SDK
+- :rocket: :art: improve tests fixed errors
+- Testing expenses
+- :art: refactor and improve testing
+- :rocket: add file creation
+- Testing SDK
+- :hammer: fix currencies urls
+- :construction: :art: WIP - Add helper test ("factory") and refactored tests into classes
+- :cloud: :memo: changed python version
+- update readme
+- Merge pull request #15 from axonepro/features-billing
+- :hammer: fix test
+- Merge branch 'master' into features-billing
+- Merge pull request #16 from axonepro/thomas
+- Finishing others methods
+- Adding more projections methods
+- Reorganizing code
+- :hammer: :memo: fix method | update doc
+- :hammer: fix method
+- :hammer: fix method
+- :white_check_mark: :memo: :hammer: add tests | update doc | fix test
+- :memo: update doc
+- :white_check_mark: :memo: add tests | update doc
+- :hammer: :memo:  fix input functions  | update doc
+- :memo: add bugs and status errors at the beginning
+- Merge pull request #14 from axonepro/thomas
+- Adding goals and indicators methods
+- :white_check_mark: add tests revenue
+- :rocket: feat - revenue
+- :white_check_mark: add tests trips
+- :rocket: feat - trips
+- :white_check_mark: add tests for roles
+- :rocket: feat - roles
+- :white_check_mark: add tests for timeoff
+- :hammer: fix post functions and add payload
+- :white_check_mark: add tests for timeperiods
+- :rocket: feat - timeperiods
+- Finishing settings methods
+- :memo: update comment
+- :rocket: implement time in SDK
+- :white_check_mark: add tests time
+- :rocket: feat - time
+- Adding actions, billing and celery_tasks methods
+- :memo: remove "# * OK"
+- :memo: remove "# * OK"
+- :white_check_mark: add tests Phases, fees, plan_details, Contracts, Revisions
+- :rocket: feat planphase, adapt code
+- Updating comments
+- Adding costs methods
+- Adding employees methods
+- :white_check_mark: add tests annexes and revisions (not complete)
+- :rocket: feat revisions (not all tested) and annexes
+- Finishing jobs methods
+- Adding expenses and jobs methods
+- :white_check_mark: :construction: add some tests contracts (uncomplete)
+- :rocket: feat contracts
+- :white_check_mark: add tests plans
+- Adding posts methods
+- :white_check_mark: add tests documents and :hammer: fix test
+- :rocket: feat documents
+- :memo: update doc (remove TODO)
+- :art: :white_check_mark: refactor tests into scripts | add tests for defaults
+- :rocket: feat defaults
+- Merge pull request #13 from axonepro/thomas
+- Finishing contacts and adding newsletters & notes methods
+- :white_check_mark: add tests prescriptions
+- :rocket: feat prescriptions |
+- Merge pull request #10 from axonepro/thomas
+- Fixing bugs and adding more contact methods
+- Merge branch 'thomas' of https://github.com/axonepro/sdk-ooti into thomas
+- Adding tasks methods
+- :hammer: fix a test
+- :art: :construction: adapt code to refactorisation. Add a few tests for plans (not complete)
+- :rocket: feat - plans (untested)
+- Merge branch 'master' into thomas
+- Reorganizing code
+- Merge pull request #12 from axonepro/features-billing
+- :art: refactor deliverables
+- :art: :construction: refactor code
+- :white_check_mark: add tests Zones, :construction:  Fees
+- :rocket: feat - zones and fees
+- Adding more project methods
+- Adding invitations methods
+- Adding permissions methods
+- :white_check_mark: add tests: :x: areas, :construction: phases, :x: milestones
+- :rocket: :construction: feat - Areas, Phases :construction: , Milestones
+- Finishing project methods
+- :white_check_mark: add tests styleguide
+- :rocket: feat - styleguide (and beginning of revenue)
+- Merge pull request #11 from axonepro/features-billing
+- Adding team and profile methods
+- :white_check_mark: add tests reports
+- :rocket: feat - reports
+- :white_check_mark: add tests files and banks
+- :rocket: feat - files and banks
+- Projects and orgusers methods added
+- Merge pull request #9 from axonepro/features-billing
+- :white_check_mark: add tests emails endpoints
+- :rocket: feat - email endpoints
+- :rocket: :construction: feat - helper : process_response | emails
+- :memo: update comments
+- :art: refactor organization of code
+- :memo: update page_size in requests (999999)
+- :white_check_mark: add tests get credit notes
+- :rocket: feat - get credit notes
+- :white_check_mark:  test get valid sent invoices
+- :rocket: feat - get valid sent invoices
+- Merge pull request #8 from axonepro/features-billing
+- :white_check_mark: add tests invoice
+- :rocket: feat - send and close invoice
+- Merge branch 'master' into features-billing
+- Merge branch 'master' into features-billing
+- Merge pull request #7 from axonepro/contacts
+- Correcting contact deletion
+- Correcting contact deletion
+- :white_check_mark: add tests invoice + payment
+- :rocket: feat - validate invoice
+- Adding contact methods
+- Adding contact methods
+- Merge pull request #6 from axonepro/features-billing
+- :white_check_mark: test invoice update + invoice items
+- :rocket: feat- invoice items
+- Merge pull request #5 from axonepro/features-billing
+- Merge pull request #4 from axonepro/thomas
+- :memo: better spaces for separators
+- :memo: update comment separator
+- :see_no_evil: add test_sdk.py
+- :hammer: fix test
+- Merge remote-tracking branch 'origin/thomas' into features-billing
+- :white_check_mark: :construction:  add invoices test
+- Updating teams_pk attribute
+- :memo: update doc create_client
+- :white_check_mark: add tests currency and client
+- :rocket: feat- get team id
+- Adding teams attribute
+- Adding annexe methods
+- Merge pull request #3 from axonepro/thomas
+- :memo: update outputs of invoice and payment
+- :rocket: feat client functions
+- :twisted_rightwards_arrows: :rocket: merge with features-thomas (update returns) + feat currency methods
+- :cloud: setup pipenv
+- :see_no_evil: update .gitignore
+- Update returns
+- Merge pull request #2 from axonepro/thomas
+- Adding token methods
+- Correcting creation of invoices
+- change readme
+- Change url logo
+- change name
+- add doc
+- change setup and readme
+- Change infra
+- Update README.md
+- Update README.md
+- Update README.md
+- add payment and change readme
+- change invoice + readme
+- first commit
