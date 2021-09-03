@@ -27,7 +27,6 @@ class Auth(Helper):
         self.base_url()
 
         self.org_pk = None
-        self.team_pk = None
         self.teams_pk = None
         self.access_token = None
         self._csrf_token = None
@@ -47,7 +46,7 @@ class Auth(Helper):
         self.__get_csrf_token()
         self.__get_token()
         self.__get_teams()
-        self.__get_selected_infos()
+        self.__get_selected_org()
 
         self.Costs = Costs(self.base_url, self.org_pk, self.teams_pk,
                            self.access_token, self._csrf_token, self.headers, self.pagination)
@@ -819,14 +818,13 @@ class Auth(Helper):
 
     #### Profile ####
 
-    def __get_selected_infos(self):
-        """ Get the organization and the team selected on user profile
+    def __get_selected_org(self):
+        """ Get the organization selected on user profile
         """
 
         route = 'v1/profiles/profile/'
         response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
         self.org_pk = json.loads(response.content)['selected_org']
-        self.team_pk = json.loads(response.content)['selected_team']
         return self.process_response(response)
 
     def get_profile_preferences(self):
