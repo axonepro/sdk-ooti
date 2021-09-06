@@ -4,6 +4,36 @@ Changelog
 
 (unreleased)
 ------------
+
+New
+- Config file for gitchangelog API. [ylesueur]
+
+Changes
+- Rules ordering (0.0.4) [ylesueur]
+
+Fix
+- __get_selected_org should be called before __get_teams to avoid None
+  pk. [ylesueur]
+  variable (0.0.4) [ylesueur]
+
+
+0.0.4 (2021-09-06)
+------------------
+
+New
+- Makefile to init envrionement and run tests (0.0.4) [ylesueur]
+- Requirements folder with dev and prod files. [ylesueur]
+
+Changes
+- Move requirements.txt into requirements folder. [ylesueur]
+- Get the selected organisation instead of the first one. [ylesueur]
+- Add flake8, autopep8 in dev dependancies. [ylesueur]
+
+Other
+- Removed __init__.py for pytest. [ylesueur]
+- Fixed parent package error on import ooti module. [ylesueur]
+- Contrib.md is a guideline to contributors of the sdk. [ylesueur]
+- Change Log. [ylesueur]
 - Added a Developer section. [ylesueur]
 - Changelog. [ylesueur]
 - Fix seleted orguser pk and set trips_enabled to True before testing.
