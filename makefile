@@ -1,6 +1,6 @@
 PIP?=pip
 PYTHON?=python 3.7
-CHANGELOG?=CHNGELOG.md
+CHANGELOG?=CHANGELOG.md
 
 init: 
 	echo "ENVIRONMENT=STAGING\nOOTI_AUTH=youremail\nOOTI_PASSWORD=yourpassword\nPYTHONPATH=$(PWD)" > .env	
@@ -39,8 +39,8 @@ pythonalias:
 
 changelog:
 	gitchangelog > $(CHANGELOG).tmp
-	sed '/~*/d' ./$(CHANGELOG).tmp > $(CHANGELOG)
-	rm $(CHANGELOG)
+	sed '/~/d' ./$(CHANGELOG).tmp > $(CHANGELOG)
+	rm $(CHANGELOG).tmp
 
 stop:
 	$(shell exit)
