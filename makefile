@@ -26,7 +26,7 @@ test-method:
 	pytest tests/$(filename) -k "$(method)"
 
 tests:
-	pytest tests/test_auth.py
+	python tests/test_auth.py
 	pytest tests/test_collaboration.py
 	pytest tests/test_costs.py
 	pytest tests/test_deliverables.py
