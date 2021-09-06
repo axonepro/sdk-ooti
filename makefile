@@ -19,6 +19,12 @@ start:
 test:
 	pytest tests/$(filename).py
 
+test-class:
+	pytest tests/$(filename) -k "$(class)"
+
+test-method:
+	pytest tests/$(filename) -k "$(method)"
+
 tests:
 	pytest tests/test_auth.py
 	pytest tests/test_collaboration.py
@@ -27,12 +33,6 @@ tests:
 	pytest tests/test_invoicing.py
 	pytest tests/test_others.py
 	pytest tests/test_settings.py
-
-test-class:
-	pytest tests/$(filename) -k "$(class)"
-
-test-method:
-	pytest tests/$(filename) -k "$(method)"
 
 pythonalias:
 	echo '\npython="python3"\npip=pip3' >> ~/.zshrc
