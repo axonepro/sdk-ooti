@@ -45,8 +45,8 @@ class Auth(Helper):
     def connect(self):
         self.__get_csrf_token()
         self.__get_token()
-        self.__get_teams()
         self.__get_selected_org()
+        self.__get_teams()
 
         self.Costs = Costs(self.base_url, self.org_pk, self.teams_pk,
                            self.access_token, self._csrf_token, self.headers, self.pagination)
