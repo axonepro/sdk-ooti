@@ -35,9 +35,6 @@
     <li>
       <a href="#how-to-use">How to use</a>
     </li>
-    <li>
-        <a href="#developer">Developer</a>
-    </li>
     <li><a href="#license">License</a></li>
   </ol>
 </details>
