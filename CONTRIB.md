@@ -101,7 +101,7 @@ Now, you are ready ! You could run the following command to start the virtuel en
 ```
 and to quit the virtuel envrionment you could use:
 ```
-  make stop
+  make stop #TODO
 ```
 
 ### Run the tests
