@@ -21,7 +21,7 @@ PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from ooti import ooti # noqa E402
+from resources import ooti # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -47,14 +47,14 @@ class TestEmployees(unittest.TestCase):
             'status': 'active',
             'end_date': '20-10-2022',
         }
-        response = sdk.Costs.create_employees_contract(payload)
+        response = sdk.Employee.create_employees_contract(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Costs.delete_employees_contract(response['data']['id'])
+        delete = sdk.Employee.delete_employees_contract(response['data']['id'])
         self.assertEqual(delete['status'], 204)
 
     def test_delete_employee_contract(self):
         employee_contract = EmployeeContractFactory()
-        response = sdk.Costs.delete_employees_contract(employee_contract['id'])
+        response = sdk.Employee.delete_employees_contract(employee_contract['id'])
         self.assertEqual(response['status'], 204)
 
     def test_create_employees_period(self):
@@ -76,14 +76,14 @@ class TestEmployees(unittest.TestCase):
             "overtime_hours_limit": 5,
             "days_per_week": 6
         }
-        response = sdk.Costs.create_employees_period(payload)
+        response = sdk.Employee.create_employees_period(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Costs.delete_employees_period(response['data']['id'])
+        delete = sdk.Employee.delete_employees_period(response['data']['id'])
         self.assertEqual(delete['status'], 204)
 
     def test_delete_employees_period(self):
         employee_period = EmployeePeriodFactory()
-        response = sdk.Costs.delete_employees_period(employee_period['id'])
+        response = sdk.Employee.delete_employees_period(employee_period['id'])
         self.assertEqual(response['status'], 204)
 
 
@@ -97,20 +97,20 @@ class TestExpenses(unittest.TestCase):
         payload = {
             'name': 'expense category test'
         }
-        response = sdk.Costs.create_expenses_category(payload)
+        response = sdk.Expenses.create_expenses_category(payload)
         self.assertEqual(response['status'], 201)
 
     def test_create_expenses_group(self):
         payload = {
             'description': 'expense group test'
         }
-        response = sdk.Costs.create_expenses_group(payload, team_pk=self.team_pk)
+        response = sdk.Expenses.create_expenses_group(payload, team_pk=self.team_pk)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Costs.delete_expenses_group(response['data']['id'])
+        delete = sdk.Expenses.delete_expenses_group(response['data']['id'])
         self.assertEqual(delete['status'], 204)
-        response = sdk.Costs.create_expenses_group(payload)
+        response = sdk.Expenses.create_expenses_group(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Costs.delete_expenses_group(response['data']['id'])
+        delete = sdk.Expenses.delete_expenses_group(response['data']['id'])
         self.assertEqual(delete['status'], 204)
 
     def test_create_expenses_group_action(self):
@@ -118,7 +118,7 @@ class TestExpenses(unittest.TestCase):
             'team': self.team_pk,
             'is_validated': True,
         }
-        response = sdk.Costs.create_expenses_group_action(payload)
+        response = sdk.Expenses.create_expenses_group_action(payload)
         self.assertEqual(response['status'], 200)
 
     def test_create_expense(self):
@@ -126,20 +126,20 @@ class TestExpenses(unittest.TestCase):
             'amount': '10',
             'date': '10-10-2021',
         }
-        response = sdk.Costs.create_expense(payload)
+        response = sdk.Expenses.create_expense(payload)
 
         self.assertEqual(response['status'], 400)
 
         payload['expense_group'] = self.expense_group['id']
-        response = sdk.Costs.create_expense(payload)
+        response = sdk.Expenses.create_expense(payload)
         self.assertEqual(response['status'], 201)
         payload = {
             'amount': '10',
             'date': '10-10-2021',
         }
-        response = sdk.Costs.create_expense(payload, team_pk=self.team_pk, expense_group_id=self.expense_group['id'])
+        response = sdk.Expenses.create_expense(payload, team_pk=self.team_pk, expense_group_id=self.expense_group['id'])
         self.assertEqual(response['status'], 201)
-        delete = sdk.Costs.delete_expense(response['data']['id'])
+        delete = sdk.Expenses.delete_expense(response['data']['id'])
         self.assertEqual(delete['status'], 204)
     """
     def test_add_multiple_expenses(self):
@@ -245,15 +245,15 @@ class TestJobs(unittest.TestCase):
         payload = {
             'title': 'job test',
         }
-        response = sdk.Costs.create_job(payload)
+        response = sdk.Jobs.create_job(payload)
         self.assertEqual(response['status'], 400)
         payload = {
             'title': 'job test',
             'project': self.project['id'],
         }
-        response = sdk.Costs.create_job(payload)
+        response = sdk.Jobs.create_job(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Costs.delete_job(response['data']['id'])
+        delete = sdk.Jobs.delete_job(response['data']['id'])
         self.assertEqual(delete['status'], 204)
 
     def test_create_job_invoice(self):
@@ -263,24 +263,24 @@ class TestJobs(unittest.TestCase):
             'date': '19-03-2020',
             'amount': '10',
         }
-        response = sdk.Costs.create_jobs_invoice(payload)
+        response = sdk.Jobs.create_jobs_invoice(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Costs.delete_jobs_invoice(response['data']['id'])
+        delete = sdk.Jobs.delete_jobs_invoice(response['data']['id'])
         self.assertEqual(delete['status'], 204)
 
     def test_create_jobs_invoices_item(self):
         payload = {
             'project': self.project['id'],
         }
-        response = sdk.Costs.create_jobs_invoices_item(payload)
+        response = sdk.Jobs.create_jobs_invoices_item(payload)
         self.assertEqual(response['status'], 400)
         payload = {
             'invoice': self.job_invoice['id'],
             'project': self.project['id'],
         }
-        response = sdk.Costs.create_jobs_invoices_item(payload)
+        response = sdk.Jobs.create_jobs_invoices_item(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Costs.delete_jobs_invoices_item(response['data']['id'])
+        delete = sdk.Jobs.delete_jobs_invoices_item(response['data']['id'])
         self.assertEqual(delete['status'], 204)
 
     def test_create_job_month(self):
@@ -288,19 +288,19 @@ class TestJobs(unittest.TestCase):
             'job': self.job['id'],
             'year': '2021',
         }
-        response = sdk.Costs.create_jobs_month(payload)
+        response = sdk.Jobs.create_jobs_month(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Costs.delete_jobs_month(response['data']['id'])
+        delete = sdk.Jobs.delete_jobs_month(response['data']['id'])
         self.assertEqual(delete['status'], 204)
 
     def test_generate_jobs_invoices_items(self):
         payload = {}
-        response = sdk.Costs.generate_jobs_invoices_items(payload)
+        response = sdk.Jobs.generate_jobs_invoices_items(payload)
         self.assertEqual(response['status'], 404)
         payload = {
             'invoice': self.job_invoice['id']
         }
-        response = sdk.Costs.generate_jobs_invoices_items(payload)
+        response = sdk.Jobs.generate_jobs_invoices_items(payload)
         self.assertEqual(response['status'], 200)
 
 

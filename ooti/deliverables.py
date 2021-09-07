@@ -19,7 +19,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/zones/export/{0}/'.format(project_pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_zones_list(self, area_pk, page=1):
@@ -31,7 +31,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/zones/list/{0}/?page_size={1}&page={2}'.format(area_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_zone(self, area_pk, data):
@@ -55,7 +55,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/zones/list/{0}/'.format(area_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_zone_details(self, pk):
@@ -67,7 +67,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/zones/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_zone(self, pk, data):
@@ -91,7 +91,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/zones/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_zone(self, pk):
@@ -103,7 +103,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/zones/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     #### Areas ####
@@ -117,7 +117,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/areas/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_areas_details(self, pk):
@@ -129,7 +129,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/areas/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_areas(self, project_pk, data):
@@ -147,7 +147,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/areas/list/{0}/'.format(project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_areas(self, pk, data):
@@ -165,7 +165,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/areas/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_area(self, pk):
@@ -176,7 +176,7 @@ class Deliverables(Helper):
         pk -- pk of the project
         """
         route = 'v1/areas/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     #### Phases ####
@@ -190,7 +190,7 @@ class Deliverables(Helper):
 
         """
         route = 'v1/phases/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def get_phases_list_fee_project(self, project_pk, fee_project, page=1):
@@ -204,7 +204,7 @@ class Deliverables(Helper):
 
         route = 'v1/phases/list/{0}/?page_size={1}&page={2}&fee_project={3}'.format(
             project_pk, self.pagination, page, fee_project)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def get_phase_details(self, pk):
@@ -216,7 +216,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/phases/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_phase(self, project_pk, data):
@@ -237,14 +237,14 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/phases/list/{0}/'.format(project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_phase(self, pk):
         """ Delete a phase """
 
         route = 'v1/phases/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_phase(self, pk, data):
@@ -262,7 +262,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/phases/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_phases_projections_list(self, project_pk, page=1):
@@ -275,7 +275,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/phases/projections/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def reset_phases_order(self, project_pk):
@@ -286,14 +286,14 @@ class Deliverables(Helper):
         pk -- pk of the project
         """
         route = 'v1/phases/reset-orders/{0}/'.format(project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_phases_progress(self):
         """ Update progress of phase """
 
         route = 'v1/phases/update_progress/'
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def export_phase(self, project_pk):
@@ -305,7 +305,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/phases/export/{0}/'.format(project_pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_phase_planphase_details(self, pk):
@@ -317,7 +317,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/phases/planphases/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def delete_phase_planphase(self, pk):
@@ -329,7 +329,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/phases/planphases/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_phase_planphase(self, pk, data):
@@ -348,7 +348,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/phases/planphases/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     #### Milestones ####
@@ -356,7 +356,7 @@ class Deliverables(Helper):
     def get_milestones_list(self, page=1):
         """ Get milestones list """
         route = 'v1/milestones/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def get_milestone_details(self, pk):
@@ -367,7 +367,7 @@ class Deliverables(Helper):
         pk -- pk of the milestone
         """
         route = 'v1/milestones/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_milestone(self, data):
@@ -392,7 +392,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/milestones/list/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_milestone(self, pk, data):
@@ -417,7 +417,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/milestones/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_milestone(self, pk):
@@ -428,7 +428,7 @@ class Deliverables(Helper):
         pk -- pk of the milestone
         """
         route = 'v1/milestones/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     #### Fees ####
@@ -443,7 +443,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/bracket/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_fees_bracket(self, project_pk, data):
@@ -461,7 +461,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/fees/bracket/list/{0}/'.format(project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_fees_bracket_details(self, pk):
@@ -472,7 +472,7 @@ class Deliverables(Helper):
         pk -- pk of the fee bracket
         """
         route = 'v1/fees/bracket/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_fees_bracket(self, pk, data):
@@ -491,7 +491,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/fees/bracket/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_fees_bracket(self, pk):
@@ -502,7 +502,7 @@ class Deliverables(Helper):
         pk -- pk of the fee bracket
         """
         route = 'v1/fees/bracket/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ### Fee project version ###
@@ -514,7 +514,7 @@ class Deliverables(Helper):
         project_pk -- pk of the project
         """
         route = 'v1/fees/export/{0}/'.format(project_pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_fee_project_version_list(self, page=1):
@@ -522,7 +522,7 @@ class Deliverables(Helper):
 
         route = 'v1/fees/fee-project-version/list/{0}/?page_size={1}&page={2}'.format(
             self.org_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_fee_project_version(self, data):
@@ -539,7 +539,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/fees/fee-project-version/list/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_fee_project_version_details(self, pk):
@@ -551,7 +551,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/fee-project-version/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_fee_project_version(self, pk, data):
@@ -569,7 +569,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/fees/fee-project-version/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_fee_project_version(self, pk):
@@ -581,7 +581,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/fee-project-version/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ### Fees ###
@@ -594,7 +594,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/list/{0}/'.format(project_pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_fee(self, project_pk, data):
@@ -615,7 +615,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/fees/list/{0}/'.format(project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_fee_details(self, pk):
@@ -627,7 +627,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_fee(self, pk, data):
@@ -648,7 +648,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/fees/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_fee(self, pk):
@@ -660,7 +660,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ### Fees projection ###
@@ -673,7 +673,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/projections/list/{0}/?page_size={1}n&page={2}'.format(project_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ### Fees project ###
@@ -681,7 +681,7 @@ class Deliverables(Helper):
         """ Get fees project list """
 
         route = 'v1/fees/projects/list/{0}/?page_size={1}n&page={2}'.format(self.org_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def get_fees_project_list_projects(self, project_pk, page=1):
@@ -694,7 +694,7 @@ class Deliverables(Helper):
 
         route = 'v1/fees/projects/list/{0}/?page_size={1}&page={2}&project={3}'.format(
             self.org_pk, self.pagination, page, project_pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_fee_project(self, data):
@@ -737,7 +737,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/fees/projects/list/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_fees_projects_update(self, pk):
@@ -749,7 +749,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/projects/update/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_fees_project_details(self, pk):
@@ -761,7 +761,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/projects/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_fee_project(self, pk, data):
@@ -804,7 +804,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/fees/projects/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_fee_project(self, pk):
@@ -816,7 +816,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/projects/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ### Fees revision ###
@@ -829,7 +829,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/revision/{0}/'.format(fee_pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_fee_revision(self, fee_revision_pk, data):
@@ -845,7 +845,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/fees/revision/{0}/'.format(fee_revision_pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_fee_revision(self, fee_revision_pk):
@@ -857,7 +857,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/revision/{0}/'.format(fee_revision_pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_fees_revisions_item_details(self, fee_item_pk):
@@ -871,7 +871,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/revisions/{0}/'.format(fee_item_pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_fee_revisions_item(self, fee_item_pk, data):
@@ -888,7 +888,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/fees/revisions/{0}/'.format(fee_item_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     ### Fees validate ###
@@ -900,7 +900,7 @@ class Deliverables(Helper):
         project_pk -- pk of the project
         """
         route = 'v1/fees/validate_costs/{0}/'.format(project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def validation_fees_ffne(self, project_pk):
@@ -911,7 +911,7 @@ class Deliverables(Helper):
         project_pk -- pk of the project
         """
         route = 'v1/fees/validate_ffne/{0}/'.format(project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def validation_fees_production(self, project_pk):
@@ -922,7 +922,7 @@ class Deliverables(Helper):
         project_pk -- pk of the project
         """
         route = 'v1/fees/validate_production/{0}/'.format(project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     # Fees zones
@@ -935,7 +935,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/zones/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_fee_zones(self, data):
@@ -953,7 +953,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/fees/zones/list/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_fees_zone_details(self, fee_zone_pk):
@@ -965,7 +965,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/zones/{0}/'.format(fee_zone_pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_fee_zone(self, fee_zone_pk, data):
@@ -984,7 +984,7 @@ class Deliverables(Helper):
             }
         """
         route = 'v1/fees/zones/{0}/'.format(fee_zone_pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_fees_zone(self, fee_zone_pk):
@@ -996,7 +996,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/fees/zones/{0}/'.format(fee_zone_pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     #### Plans ####
@@ -1010,7 +1010,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/plans/list-action/{0}/'.format(project_pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_plans_list_action(self, project_pk):
@@ -1022,7 +1022,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/plans/list-action/{0}/'.format(project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_plans_list(self, project_pk, page=1):
@@ -1034,7 +1034,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/plans/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def get_plans_planphases_list(self, project_pk, page=1):
@@ -1046,7 +1046,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/plans/list/{0}/?page_size={1}&page={2}&plan_phases=true'.format(project_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_plan(self, project_pk, data):
@@ -1079,7 +1079,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/plans/list/{0}/'.format(project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_plan_details(self, plan_pk):
@@ -1091,7 +1091,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/plans/{0}/?plan_phases=true'.format(plan_pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_plan(self, plan_pk, data):
@@ -1123,7 +1123,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/plans/{0}/'.format(plan_pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_plan(self, plan_pk):
@@ -1135,7 +1135,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/plans/{0}/'.format(plan_pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     #### Prescription ####
@@ -1149,7 +1149,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/prescriptions/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_prescription(self, project_pk, data):
@@ -1179,7 +1179,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/prescriptions/list/{0}/'.format(project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_prescriptions_details(self, pk):
@@ -1191,7 +1191,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/prescriptions/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_prescriptions(self, pk, data):
@@ -1221,7 +1221,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/prescriptions/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_prescription(self, pk):
@@ -1233,7 +1233,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/prescriptions/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     #### Defaults ####
@@ -1252,7 +1252,7 @@ class Deliverables(Helper):
         }
 
         route = 'v1/defaults/defaults/phase/duplicate/'
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_phase_org_list(self, page=1):
@@ -1260,7 +1260,7 @@ class Deliverables(Helper):
 
         route = 'v1/defaults/defaults/phases/list/{0}/?page_size={1}&page={2}'.format(
             self.org_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_defaults_phase_org(self, data):
@@ -1285,7 +1285,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/phases/list/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_phase_team_list(self, team_pk, page=1):
@@ -1298,7 +1298,7 @@ class Deliverables(Helper):
 
         route = 'v1/defaults/defaults/phases/list/{0}/{1}/?page_size={2}&page={3}'.format(
             self.org_pk, team_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_defaults_phase_team(self, team_pk, data):
@@ -1323,7 +1323,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/phases/list/{0}/{1}/'.format(self.org_pk, team_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_phase_details(self, pk):
@@ -1335,7 +1335,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/phases/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_defaults_phase(self, pk, data):
@@ -1360,7 +1360,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/phases/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_defaults_phase(self, pk):
@@ -1371,7 +1371,7 @@ class Deliverables(Helper):
         pk -- pk of the phase
         """
         route = 'v1/defaults/defaults/phases/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ### Phasesets ###
@@ -1385,7 +1385,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/phasesets/apply/'
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def duplicate_defaults_phasesets(self, pk):
@@ -1401,7 +1401,7 @@ class Deliverables(Helper):
         }
 
         route = 'v1/defaults/defaults/phasesets/duplicate/'
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_phasesets_org_list(self, page=1):
@@ -1409,7 +1409,7 @@ class Deliverables(Helper):
 
         route = 'v1/defaults/defaults/phasesets/list/{0}/?page_size={1}&page={2}'.format(
             self.org_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_defaults_phasesets_org(self, data):
@@ -1426,7 +1426,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/phasesets/list/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_phasesets_team_list(self, team_pk, page=1):
@@ -1439,7 +1439,7 @@ class Deliverables(Helper):
 
         route = 'v1/defaults/defaults/phasesets/list/{0}/{1}/?page_size={2}&page={3}'.format(
             self.org_pk, team_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_defaults_phasesets_team(self, team_pk, data):
@@ -1457,7 +1457,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/phasesets/list/{0}/{1}/'.format(self.org_pk, team_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_phasesets_details(self, pk):
@@ -1469,7 +1469,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/phasesets/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_defaults_phasesets(self, pk, data):
@@ -1486,7 +1486,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/phasesets/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_defaults_phasesets(self, pk):
@@ -1497,7 +1497,7 @@ class Deliverables(Helper):
         pk -- pk of the phase sets
         """
         route = 'v1/defaults/defaults/phasesets/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ### Plans ###
@@ -1514,14 +1514,14 @@ class Deliverables(Helper):
         }
 
         route = 'v1/defaults/defaults/plan/duplicate/'
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_plans_org_list(self, page=1):
         """ Get defaults plans list for organization """
 
         route = 'v1/defaults/defaults/plans/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_defaults_plan_org(self, data):
@@ -1545,7 +1545,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/plans/list/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_plans_team_list(self, team_pk, page=1):
@@ -1558,7 +1558,7 @@ class Deliverables(Helper):
 
         route = 'v1/defaults/defaults/plans/list/{0}/{1}/?page_size={1}&page={2}'.format(
             self.org_pk, team_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_defaults_plan_team(self, team_pk, data):
@@ -1583,7 +1583,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/plans/list/{0}/{1}/'.format(self.org_pk, team_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_plan_details(self, pk):
@@ -1595,7 +1595,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/plans/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_defaults_plan(self, pk, data):
@@ -1621,7 +1621,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/plans/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_defaults_plan(self, pk):
@@ -1632,7 +1632,7 @@ class Deliverables(Helper):
         pk -- pk of the plan
         """
         route = 'v1/defaults/defaults/plans/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ### Plansets ###
@@ -1640,7 +1640,7 @@ class Deliverables(Helper):
         """ Apply default plan sets """
 
         route = 'v1/defaults/defaults/plansets/apply/'
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def duplicate_defaults_plansets(self, pk):
@@ -1656,7 +1656,7 @@ class Deliverables(Helper):
         }
 
         route = 'v1/defaults/defaults/plansets/duplicate/'
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_plansets_org_list(self, page=1):
@@ -1664,7 +1664,7 @@ class Deliverables(Helper):
 
         route = 'v1/defaults/defaults/plansets/list/{0}/?page_size={1}&page={2}'.format(
             self.org_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_defaults_plansets_org(self, data):
@@ -1679,7 +1679,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/plansets/list/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_plansets_team_list(self, team_pk, page=1):
@@ -1692,7 +1692,7 @@ class Deliverables(Helper):
 
         route = 'v1/defaults/defaults/plansets/list/{0}/{1}/?page_size={2}&page={3}'.format(
             self.org_pk, team_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_defaults_plansets_team(self, team_pk, data):
@@ -1708,7 +1708,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/plansets/list/{0}/{1}/'.format(self.org_pk, team_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_plansets_details(self, pk):
@@ -1720,7 +1720,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/plansets/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_defaults_plansets(self, pk, data):
@@ -1736,7 +1736,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/defaults/defaults/plansets/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_defaults_plansets(self, pk):
@@ -1747,7 +1747,7 @@ class Deliverables(Helper):
         pk -- pk of the plan sets
         """
         route = 'v1/defaults/defaults/plansets/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     #### Documents ####
@@ -1760,7 +1760,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/documents/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_document(self, project_pk, data):
@@ -1790,7 +1790,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/documents/list/{0}/'.format(project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def set_price_documents(self, project_pk):
@@ -1802,7 +1802,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/documents/set-price/{0}/'.format(project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_document_details(self, pk):
@@ -1814,7 +1814,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/documents/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_document(self, pk, data):
@@ -1844,7 +1844,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/documents/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_document(self, pk):
@@ -1856,7 +1856,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/documents/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     #### Contracts ####
@@ -1866,7 +1866,7 @@ class Deliverables(Helper):
         """ Get contractors list """
 
         route = 'v1/contracts/contractor/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_contractors(self, data):
@@ -1894,7 +1894,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/contractor/list/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_contractor_details(self, pk):
@@ -1906,7 +1906,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/contractor/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_contractor(self, pk, data):
@@ -1935,7 +1935,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/contractor/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_contractor(self, pk):
@@ -1947,7 +1947,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/contractor/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ### Contract items ###
@@ -1960,21 +1960,21 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/generate/contracts/{0}/'.format(project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def generate_contracts_org(self, project_pk):
         """ Generate contracts """
 
         route = 'v1/contracts/generate/{0}/?project_pk={1}'.format(self.org_pk, project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_contracts_items_list(self, page=1):
         """ Get contracts item list """
 
         route = 'v1/contracts/item/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_contracts_items(self, data):
@@ -1997,7 +1997,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/item/list/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_contract_item_details(self, pk):
@@ -2010,7 +2010,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/item/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_contract_item(self, pk, data):
@@ -2034,7 +2034,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/item/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_contract_item(self, pk):
@@ -2046,7 +2046,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/item/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ### Contracts ###
@@ -2054,7 +2054,7 @@ class Deliverables(Helper):
         """ Get contracts list """
 
         route = 'v1/contracts/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_contract(self, data):
@@ -2082,7 +2082,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/list/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_contract_details(self, pk):
@@ -2094,7 +2094,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_contract(self, pk, data):
@@ -2120,7 +2120,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_contract(self, pk):
@@ -2132,7 +2132,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ### Contract month ###
@@ -2149,14 +2149,14 @@ class Deliverables(Helper):
         }
 
         route = 'v1/contracts/month/generate/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_contracts_month_list(self, page=1):
         """ Get contracts month list """
 
         route = 'v1/contracts/month/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_contracts_month(self, data):
@@ -2182,7 +2182,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/month/list/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_contract_month_details(self, pk):
@@ -2194,7 +2194,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/month/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_contracts_month(self, pk, data):
@@ -2221,7 +2221,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/month/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_contract_month(self, pk):
@@ -2233,7 +2233,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/contracts/month/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     #### Revisions ####
@@ -2248,7 +2248,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/revisions/annexes/detail/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_revisions_annexes_team_project(self, team_pk, project_pk, page=1):
@@ -2263,7 +2263,7 @@ class Deliverables(Helper):
 
         route = 'v1/revisions/annexes/{0}/{1}/?page_size={2}&page={3}'.format(
             team_pk, project_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_annexe_revision(self, team_pk, project_pk, data):
@@ -2283,7 +2283,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/revisions/annexes/{0}/{1}/'.format(team_pk, project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     ### Documents ###
@@ -2296,7 +2296,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/revisions/documents/detail/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_revisions_documents_team_project(self, team_pk, project_pk, page=1):
@@ -2311,7 +2311,7 @@ class Deliverables(Helper):
 
         route = 'v1/revisions/documents/{0}/{1}/?page_size={2}&page={3}'.format(
             team_pk, project_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_document_revision(self, team_pk, project_pk, data):
@@ -2330,7 +2330,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/revisions/documents/{0}/{1}/'.format(team_pk, project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     ### Fee_items ###
@@ -2344,7 +2344,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/revisions/fee_items/detail/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_revisions_fee_items_team_project(self, team_pk, project_pk, page=1):
@@ -2359,7 +2359,7 @@ class Deliverables(Helper):
 
         route = 'v1/revisions/fee_items/{0}/{1}/?page_size={2}&page={3}'.format(
             team_pk, project_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_fee_items_revision(self, team_pk, project_pk, data):
@@ -2379,7 +2379,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/revisions/fee_items/{0}/{1}/'.format(team_pk, project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     ### Phases ###
@@ -2393,7 +2393,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/revisions/phases/detail/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_revisions_phases_team_project(self, team_pk, project_pk, page=1):
@@ -2407,7 +2407,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/revisions/phases/{0}/{1}/?page_size={2}&page={3}'.format(team_pk, project_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_phase_revision(self, team_pk, project_pk, data):
@@ -2427,7 +2427,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/revisions/phases/{0}/{1}/'.format(team_pk, project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     ### Plans ###
@@ -2441,7 +2441,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/revisions/plans/detail/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_revisions_plans_team_project(self, team_pk, project_pk, page=1):
@@ -2455,7 +2455,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/revisions/plans/{0}/{1}/?page_size={2}&page={3}'.format(team_pk, project_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_plan_revision(self, team_pk, project_pk, data):
@@ -2474,7 +2474,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/revisions/plans/{0}/{1}/'.format(team_pk, project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     #### Annexes ####
@@ -2487,7 +2487,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/annexes/list/{0}/'.format(project_pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def get_annexe_details(self, pk):
@@ -2498,7 +2498,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/annexes/{0}/'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_annexe(self, project_pk, data):
@@ -2526,7 +2526,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/annexes/list/{0}/'.format(project_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_annexe(self, pk, data):
@@ -2537,7 +2537,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/annexes/{0}/'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return {'status': response.status_code, 'data': json.loads(response.content)}
 
     def delete_annexe(self, pk):
@@ -2549,7 +2549,7 @@ class Deliverables(Helper):
         """
 
         route = 'v1/annexes/{0}/'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_annexes_projections_list(self, project_pk):
@@ -2560,5 +2560,5 @@ class Deliverables(Helper):
         """
 
         route = 'v1/annexes/projections/list/{0}/'.format(project_pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)

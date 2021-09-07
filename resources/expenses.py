@@ -12,7 +12,7 @@ class Expenses(Helper):
         """ Get the list of expenses categories """
 
         route = 'v1/expenses/category/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_expenses_category(self, data):
@@ -30,7 +30,7 @@ class Expenses(Helper):
         """
 
         route = 'v1/expenses/category/list/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_expenses_category_details(self, category_pk):
@@ -41,7 +41,7 @@ class Expenses(Helper):
         """
 
         route = 'v1/expenses/category/{0}'.format(category_pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_expenses_category_details(self, category_pk, data):
@@ -60,7 +60,7 @@ class Expenses(Helper):
         """
 
         route = 'v1/expenses/category/{0}'.format(category_pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_expenses_category(self, category_pk):
@@ -71,7 +71,7 @@ class Expenses(Helper):
         """
 
         route = 'v1/expenses/category/{0}'.format(category_pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def add_multiple_expenses(self, expense_group_id, files):
@@ -92,7 +92,7 @@ class Expenses(Helper):
         """
 
         route = 'v1/expenses/groups/list/action/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_expenses_groups_list(self, team_pk=None, page=1):
@@ -106,7 +106,7 @@ class Expenses(Helper):
             route = 'v1/expenses/groups/v2/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         else:
             route = 'v1/expenses/groups/list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_expenses_group(self, data, team_pk=None):
@@ -120,25 +120,25 @@ class Expenses(Helper):
             route = 'v1/expenses/groups/v2/list/{0}/'.format(self.org_pk)
         else:
             route = 'v1/expenses/groups/list/{0}/'.format(team_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_expenses_group_details(self, expense_group_id):
 
         route = 'v1/expenses/groups/{0}/'.format(expense_group_id)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_expenses_group_details(self, expense_group_id, data):
 
         route = 'v1/expenses/groups/{0}/'.format(expense_group_id)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_expenses_group(self, expense_group_id):
 
         route = 'v1/expenses/groups/{0}/'.format(expense_group_id)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_expenses_list(self, team_pk=None, expense_group_id=None, page=1):
@@ -151,7 +151,7 @@ class Expenses(Helper):
             route = 'v1/expenses/my-groups/list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
         else:
             route = 'v1/expenses/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_expense(self, data, team_pk=None, expense_group_id=None):
@@ -185,13 +185,13 @@ class Expenses(Helper):
             route = 'v1/expenses/my-groups/list/{0}/'.format(team_pk)
         else:
             route = 'v1/expenses/list/{0}/'.format(self.org_pk)
-        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_expenses_pdf_count(self, expense_group_id):
 
         route = 'v1/expenses/pdf_count/{0}/'.format(expense_group_id)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     # Missing DELETE on v1/expenses/{expense_group_pk}/versions/{version_pk}/delete/
@@ -204,7 +204,7 @@ class Expenses(Helper):
         """
 
         route = 'v1/expenses/{0}'.format(pk)
-        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_expense_details(self, pk, data):
@@ -234,7 +234,7 @@ class Expenses(Helper):
         """
 
         route = 'v1/expenses/{0}'.format(pk)
-        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_expense(self, pk):
@@ -245,5 +245,5 @@ class Expenses(Helper):
         """
 
         route = 'v1/expenses/{0}'.format(pk)
-        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)

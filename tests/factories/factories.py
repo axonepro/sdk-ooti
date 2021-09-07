@@ -9,7 +9,7 @@ PACKAGE_PARENT = '../..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from ooti import ooti # noqa E402
+from resources import ooti # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -120,7 +120,7 @@ def EmployeeContractFactory(orguser_pk=None, team_pk=None):
         'status': 'active',
         'end_date': '20-10-2022',
     }
-    response = sdk.Costs.create_employees_contract(payload)
+    response = sdk.Employees.create_employees_contract(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -148,7 +148,7 @@ def EmployeePeriodFactory(employee_contract_pk=None):
         'overtime_hours_limit': 5,
         'days_per_week': 6
     }
-    response = sdk.Costs.create_employees_period(payload)
+    response = sdk.Employees.create_employees_period(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -159,7 +159,7 @@ def FreelancerFactory():
     payload = {
         'name': 'test freelancer'
     }
-    response = sdk.Costs.create_freelancer(payload)
+    response = sdk.Employees.create_freelancer(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -172,7 +172,7 @@ def ExpenseGroupFactory(team_pk):
     payload = {
         'description': 'expense group test'
     }
-    response = sdk.Costs.create_expenses_group(payload, team_pk=team_pk)
+    response = sdk.Employees.create_expenses_group(payload, team_pk=team_pk)
     if response['status'] == 201:
         return response['data']
     else:
@@ -186,7 +186,7 @@ def JobFactory(project_pk=None):
         'title': 'job test',
         'project': project_pk,
     }
-    response = sdk.Costs.create_job(payload)
+    response = sdk.Jobs.create_job(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -204,7 +204,7 @@ def JobInvoiceFactory(team_pk=None, contractor_id=None):
         'date': '19-03-2020',
         'amount': '10',
     }
-    response = sdk.Costs.create_jobs_invoice(payload)
+    response = sdk.Jobs.create_jobs_invoice(payload)
     if response['status'] == 201:
         return response['data']
     else:
