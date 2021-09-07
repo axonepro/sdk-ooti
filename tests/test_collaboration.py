@@ -1,5 +1,7 @@
 from factories.factories import AlbumFactory, OrguserFactory, PostFactory, ProjectFactory
-from factories.factories import TaskFactory, TeamFactory
+from factories.factories import TaskFactory
+from test_helper import TestHelper
+
 import unittest
 
 # To read .env variables
@@ -7,12 +9,12 @@ import os
 import sys
 from dotenv import load_dotenv
 
-
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
 from ooti import ooti # noqa E402
+
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -28,7 +30,9 @@ class TestNewsletters(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
         cls.orguser_pk = OrguserFactory()['pk']
-        cls.team_pk = TeamFactory()
+
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
 
     def test_create_newsletter(self):
         payload = {
@@ -50,9 +54,10 @@ class TestNewsletters(unittest.TestCase):
 class TestNotes(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
+        testHelper = TestHelper(sdk)
         cls.project_pk = ProjectFactory()['id']
         cls.orguser_pk = OrguserFactory()['pk']
-        cls.team_pk = TeamFactory()
+        cls.team_pk = testHelper._get_selected_team()
 
     def test_create_note(self):
         payload = {
@@ -90,7 +95,8 @@ class TestNotifications(unittest.TestCase):
 class TestTasks(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
         cls.orguser_pk = OrguserFactory()['pk']
         cls.task_pk = TaskFactory()['pk']
 
@@ -131,7 +137,8 @@ class TestTasks(unittest.TestCase):
 class TestPosts(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
         cls.post_pk = PostFactory()['pk']
         cls.album_pk = AlbumFactory()['pk']
 
@@ -210,7 +217,8 @@ class TestPosts(unittest.TestCase):
 class TestContacts(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
         cls.post_pk = PostFactory()['pk']
         cls.album_pk = AlbumFactory()['pk']
 
