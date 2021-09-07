@@ -1,12 +1,9 @@
-from tests.factories.factories import OrguserPkFactory
 import unittest
 from test_helper import TestHelper
-from factories.factories import TeamFactory
 
 import os
 import sys
 from dotenv import load_dotenv
-
 
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
@@ -24,14 +21,15 @@ OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 my_account = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
 my_account.connect()
 
-team_pk = TeamFactory()
+testHelper = TestHelper(my_account)
+team_pk = testHelper._get_selected_team()
+
 currency_pk = my_account.Invoicing.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.get_projects_list()['data'][0]['id']
 
-orguser = OrguserPkFactory(my_account.org_pk)
+orguser = testHelper._get_selected_org(my_account.org_pk)
 week_pk = my_account.Time.get_timelogs_week_list()['data'][0]['id']
 res = my_account.update_orguser_details(orguser, {'trip_enabled': True})
-print(res.get('status'))
 
 
 class TestTimeperiods(unittest.TestCase):
@@ -39,8 +37,8 @@ class TestTimeperiods(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.orguser_pk = OrguserPkFactory(my_account.org_pk)
-        cls.team_pk = TeamFactory()
+        cls.orguser_pk = cls.testHelper._get_selected_org(my_account.org_pk)
+        cls.team_pk = cls.testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
 
@@ -149,8 +147,8 @@ class TestRoles(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.orguser_pk = OrguserPkFactory(my_account.org_pk)
-        cls.team_pk = TeamFactory()
+        cls.orguser_pk = cls.testHelper._get_selected_org(my_account.org_pk)
+        cls.team_pk = cls.testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
 
@@ -253,8 +251,8 @@ class TestTrips(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.orguser_pk = OrguserPkFactory(my_account.org_pk)
-        cls.team_pk = TeamFactory()
+        cls.orguser_pk = cls.testHelper._get_selected_org(my_account.org_pk)
+        cls.team_pk = cls.testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.trip_pk = cls.testHelper._create_trip_return_pk(cls.team_pk, cls.project_pk, cls.orguser_pk)
