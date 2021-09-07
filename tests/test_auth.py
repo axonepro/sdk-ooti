@@ -1,11 +1,18 @@
 from requests.api import delete
-from factories import OrguserFactory, ProjectFactory, TeamFactory
-from ooti import ooti
+from factories.factories import OrguserFactory, ProjectFactory
 import unittest
-
-# To read .env variables
 import os
 from dotenv import load_dotenv
+import sys
+from test_helper import TestHelper
+
+
+PACKAGE_PARENT = '..'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+
+from ooti import ooti # noqa E402
+
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -20,7 +27,8 @@ sdk.connect()
 class TestProject(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testhelper = TestHelper(sdk)
+        cls.team_pk = testhelper._get_selected_team()
         cls.project_id = ProjectFactory()['id']
         cls.orguser_pk = OrguserFactory()['pk']
 
@@ -106,7 +114,8 @@ class TestProject(unittest.TestCase):
 class TestOrguser(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
         cls.project_id = ProjectFactory()['id']
         cls.orguser_pk = OrguserFactory()['pk']
 

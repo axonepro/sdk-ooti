@@ -1,10 +1,16 @@
-from factories import OrguserFactory, ProjectFactory, TeamFactory
-from ooti import ooti
+from factories.factories import OrguserFactory, ProjectFactory
 import unittest
-
-# To read .env variables
+from test_helper import TestHelper
 import os
+import sys
 from dotenv import load_dotenv
+
+
+PACKAGE_PARENT = '..'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+
+from ooti import ooti # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -19,7 +25,8 @@ sdk.connect()
 class TestCustomfields(unittest.TestCase):
     @ classmethod
     def setUpClass(self):
-        self.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        self.team_pk = testHelper._get_selected_team()
 
     def test_get_customfields_list(self):
         response = sdk.Settings.get_customfields_list()
@@ -64,7 +71,6 @@ class TestImports(unittest.TestCase):
             "include_documents": True
         }
         response = sdk.Settings.create_export(payload)
-        print(response)
         self.assertEqual(response['status'], 201)
 
     def test_get_export_details(self):
@@ -105,7 +111,8 @@ class TestImports(unittest.TestCase):
 class TestCeleryTasks(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
         cls.project_id = ProjectFactory()['id']
 
     def test_get_last_celery_task(self):
@@ -120,7 +127,8 @@ class TestCeleryTasks(unittest.TestCase):
 class TestInboundEmails(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
         cls.project_id = ProjectFactory()['id']
 
     def test_get_inbound_emails_list(self):
@@ -151,7 +159,8 @@ class TestInboundEmails(unittest.TestCase):
 class TestTags(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
         cls.orguser_pk = OrguserFactory()['pk']
 
     def test_get_tags_list(self):

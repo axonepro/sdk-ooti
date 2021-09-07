@@ -1295,14 +1295,14 @@ class Time(Helper):
     def create_bulk_action_add_roles(self, project_pk):
         """ Create bulk action to add role to project """
 
-        route = 'v1/roles/roles/bulk/add/{0}/?project={0}'.format(self.org_pk, project_pk)
+        route = 'v1/roles/roles/bulk/add/{0}/?project={1}'.format(self.org_pk, project_pk)
         response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 
     def delete_bulk_action_add_roles(self, project_pk):
         """ Delete bulk action to add role to project """
 
-        route = 'v1/roles/roles/bulk/delete/{0}/?project={0}'.format(self.org_pk, project_pk)
+        route = 'v1/roles/roles/bulk/delete/{0}/?project={1}'.format(self.org_pk, project_pk)
         response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
         return self.process_response(response)
 

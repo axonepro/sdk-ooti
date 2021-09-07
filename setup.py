@@ -8,7 +8,7 @@ setup(
 
     version=ooti.__version__,
 
-    packages=find_packages(),
+    packages=find_packages(exclude=["tests", "tests.*"]),
 
     author="Axonepro",
 

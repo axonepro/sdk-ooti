@@ -1,11 +1,17 @@
 .Vscode
+.vscode
 __pycache__/
+.flake8
+setup.cfg
 
 # operating system-related files
-*.DS_Store #file properties cache/storage on macOS
+
+#file properties cache/storage on macOS
+*.DS_Store 
 
 main.py
 .env
+.ENV
 projects_list.xls
 orgusers_list.xls
 project_11718_timeline.xls

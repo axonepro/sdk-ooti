@@ -9,9 +9,23 @@ class TestHelper:
 
     Create all needed object to do tests
     """
+    __test__ = False
 
     def __init__(self, my_account):
         self.my_account = my_account
+
+    def _get_selected_org(self, org_pk=None):
+        response = self.my_account.get_user_organization_details()
+        organizations = response['data']['organizations']
+        if org_pk is not None:
+            organization = next((org for org in organizations if org.get('id') == org_pk), None)
+        else:
+            organization = organizations[0]
+        return organization['orguser']['pk']
+
+    def _get_selected_team(self):
+        response = self.my_account.get_profile_details()
+        return response['data']['selected_team']
 
     def _create_currency_if_none(self):
         currency_pk = -1
@@ -98,7 +112,8 @@ class TestHelper:
             "invoice_date": '19-04-2021',
             "due_date": '19-05-2021',
             "references": "UNITTEST ref",
-            "type": 4
+            "type": 4,
+            "is_sent": False
         }
 
         invoice_pk = self.my_account.Invoicing.create_invoice(team_pk, invoice)['data']['pk']
@@ -145,7 +160,7 @@ class TestHelper:
 
     def _create_email_return_pk(self):
         """ Create an email template and return the pk """
-
+ 
         email = {
             "name": "UNITTEST",
             "email_subject": "UNITTEST",
