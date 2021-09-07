@@ -1101,7 +1101,7 @@ class Auth(Helper):
             'username': self.username,
             'password': self.password
         }
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=headers, data=data)
+        response = self.process_request(requests, 'POST', self.base_url, route, None, headers, data)
 
         if response.content == b'{"non_field_errors":["Unable to log in with provided credentials."]}':
             print('Unable to log with provided credentials. Please modify your .ENV file.')

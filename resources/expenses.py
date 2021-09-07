@@ -77,7 +77,7 @@ class Expenses(Helper):
     def add_multiple_expenses(self, expense_group_id, files):
 
         route = 'v1/expenses/groups/create-multiple-expenses/{0}/'.format(expense_group_id)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=files)
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, files)
         return self.process_response(response)
 
     def create_expenses_group_action(self, data):
