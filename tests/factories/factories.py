@@ -1,9 +1,9 @@
 
 # To read .env variables
 import os
-import sys
 from dotenv import load_dotenv
-
+from test_helper import TestHelper
+import sys
 
 PACKAGE_PARENT = '../..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
@@ -19,6 +19,9 @@ OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 
 sdk = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
 sdk.connect()
+
+testHelper = TestHelper(sdk)
+team_pk = testHelper._get_selected_team()
 
 
 def UserFactory():
@@ -40,24 +43,24 @@ def OrguserFactory():
         return None
 
 
-def TeamFactory():
-    response = sdk.get_profile_details()
-    return response['data']['selected_team']
+# def TeamFactory():
+#     response = sdk.get_profile_details()
+#     return response['data']['selected_team']
 
 
-def OrguserPkFactory(org_pk=None):
-    response = sdk.get_user_organization_details()
-    organizations = response['data']['organizations']
-    if org_pk is not None:
-        organization = next((org for org in organizations if org.get('id') == org_pk), None)
-    else:
-        organization = organizations[0]
-    return organization['orguser']['pk']
+# def OrguserPkFactory(org_pk=None):
+#     response = sdk.get_user_organization_details()
+#     organizations = response['data']['organizations']
+#     if org_pk is not None:
+#         organization = next((org for org in organizations if org.get('id') == org_pk), None)
+#     else:
+#         organization = organizations[0]
+#     return organization['orguser']['pk']
 
 
 def ProjectFactory(team_pk=None):
     if not team_pk:
-        team_pk = TeamFactory()
+        team_pk = testHelper._get_selected_team()
     payload = {
         'project_title': 'project test',
     }
@@ -70,7 +73,7 @@ def ProjectFactory(team_pk=None):
 
 def CostFactory(team_pk=None):
     if not team_pk:
-        team_pk = TeamFactory()
+        team_pk = testHelper._get_selected_team()
     payload = {
         'amount_actual': 10,
         'amount_budgeted': 0,
@@ -90,7 +93,7 @@ def CostFactory(team_pk=None):
 
 def CostMonthFactory(team_pk=None, cost_id=None):
     if not team_pk:
-        team_pk = TeamFactory()
+        team_pk = testHelper._get_selected_team()
         cost_id = CostFactory(team_pk)['id']
     elif not cost_id:
         cost_id = CostFactory(team_pk)
@@ -113,7 +116,7 @@ def EmployeeContractFactory(orguser_pk=None, team_pk=None):
     if not orguser_pk:
         orguser_pk = OrguserFactory()['pk']
     if not team_pk:
-        team_pk = TeamFactory()
+        team_pk = testHelper._get_selected_team()
     payload = {
         'orguser': orguser_pk,
         'team': team_pk,
@@ -168,7 +171,7 @@ def FreelancerFactory():
 
 def ExpenseGroupFactory(team_pk):
     if not team_pk:
-        team_pk = TeamFactory()
+        team_pk = testHelper._get_selected_team()
     payload = {
         'description': 'expense group test'
     }
@@ -195,7 +198,7 @@ def JobFactory(project_pk=None):
 
 def JobInvoiceFactory(team_pk=None, contractor_id=None):
     if not team_pk:
-        team_pk = TeamFactory()
+        team_pk = testHelper._get_selected_team()
     if not contractor_id:
         contractor_id = ContractorFactory()['id']
     payload = {
@@ -248,7 +251,7 @@ def AlbumFactory(post_pk=None):
 
 def GoalFactory(team_pk=None):
     if not team_pk:
-        team_pk = TeamFactory()
+        team_pk = testHelper._get_selected_team()
     payload = {
         'team': team_pk,
         'name': 'goal test'
