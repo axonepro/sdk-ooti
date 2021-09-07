@@ -2,7 +2,6 @@ import unittest
 
 from requests.models import Response
 from test_helper import TestHelper
-from factories.factories import TeamFactory
 
 import random
 import string
@@ -28,7 +27,9 @@ OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 my_account = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
 my_account.connect()
 
-team_pk = TeamFactory()
+
+testHelper = TestHelper(my_account)
+team_pk = testHelper._get_selected_team()
 currency_pk = my_account.Invoicing.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.get_projects_list()['data'][0]['id']
 
@@ -41,7 +42,8 @@ class TestPayements(unittest.TestCase):
     @classmethod
     def setUp(cls):
         testHelper = TestHelper(my_account)
-        cls.team_pk = TeamFactory()
+        # cls.team_pk = TeamFactory()
+        cls.team_pk = testHelper._get_selected_team()
         cls.currency_pk = testHelper._create_currency_if_none()
         cls.client_pk = testHelper._create_client_return_pk(cls.team_pk, cls.currency_pk)
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
@@ -113,13 +115,16 @@ class TestInvoices(unittest.TestCase):
     @classmethod
     def setUp(cls):
         testHelper = TestHelper(my_account)
-        cls.team_pk = TeamFactory()
+        cls.team_pk = testHelper._get_selected_team()
         cls.currency_pk = testHelper._create_currency_if_none()
         cls.client_pk = testHelper._create_client_return_pk(cls.team_pk, cls.currency_pk)
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.invoice_pk = testHelper._create_invoice_return_pk(cls.team_pk, cls.project_pk)
+        cls.invoice_clean_pk = testHelper._create_invoice_return_pk(cls.team_pk, cls.project_pk)
+
         cls.invoice_item_pk = testHelper._create_invoice_item_return_pk(cls.invoice_pk)
+        cls.invoice_item_clean_pk = testHelper._create_invoice_item_return_pk(cls.invoice_clean_pk)
         cls.payment_pk = testHelper._create_payment_return_pk(cls.team_pk, cls.invoice_pk, cls.currency_pk)
 
         cls.invoice_pk_not_validated = testHelper._create_invoice_return_pk(cls.team_pk, cls.project_pk)
@@ -157,7 +162,6 @@ class TestInvoices(unittest.TestCase):
             "references": 'UNITTEST',
             "type": 4
         }
-
         res_creation = my_account.Invoicing.create_invoice(self.team_pk, invoice_project)
         self.assertEqual(res_creation['status'], 201)
 
@@ -204,39 +208,39 @@ class TestInvoices(unittest.TestCase):
         self.assertEqual(res_close['status'], 200)
 
     # TODO:Fix FAILED tests/test_invoicing.py::TestInvoices::test_create_invoice_item - AssertionError: 400 != 201
-    # def test_get_invoice_items(self):
-    #     """ Test that 200 is returned """
+    def test_get_invoice_items(self):
+        """ Test that 200 is returned """
 
-    #     res_items = my_account.Invoicing.get_invoice_items(self.invoice_pk)
-    #     self.assertEqual(res_items['status'], 200)
+        res_items = my_account.Invoicing.get_invoice_items(self.invoice_pk)
+        self.assertEqual(res_items['status'], 200)
 
-    # def test_create_invoice_item(self):
-    #     """ Test that 201 is returned """
+    def test_create_invoice_item(self):
+        """ Test that 201 is returned """
 
-    #     invoice_item = {
-    #         "description": "UNITTEST ITEM",
-    #         "subtitle": "My subtitle",
-    #         "amount": 1000
-    #     }
+        invoice_item = {
+            "description": "UNITTEST ITEM",
+            "subtitle": "My subtitle",
+            "amount": 1000
+        }
 
-    #     res_creation = my_account.Invoicing.create_invoice_item(self.invoice_pk, invoice_item)
-    #     self.assertEqual(res_creation['status'], 201)
+        res_creation = my_account.Invoicing.create_invoice_item(self.invoice_clean_pk, invoice_item)
+        self.assertEqual(res_creation['status'], 201)
 
-    # def test_update_invoice_item(self):
-    #     """ Test that 200 is returned """
+    def test_update_invoice_item(self):
+        """ Test that 200 is returned """
 
-    #     update = {
-    #         "amount": 1200
-    #     }
+        update = {
+            "amount": 1200
+        }
 
-    #     res_update = my_account.Invoicing.update_invoice_item(self.invoice_item_pk_not_validated, update)
-    #     self.assertEqual(res_update['status'], 200)
+        res_update = my_account.Invoicing.update_invoice_item(self.invoice_item_pk_not_validated, update)
+        self.assertEqual(res_update['status'], 200)
 
-    # def test_delete_invoice_item(self):
-    #     """ Test that 204 is returned """
-
-    #     res_delete = my_account.Invoicing.delete_invoice_item(self.invoice_item_pk)
-    #     self.assertEqual(res_delete['status'], 204)
+    def test_delete_invoice_item(self):
+        """ Test that 204 is returned """
+        res_delete = my_account.Invoicing.delete_invoice_item(self.invoice_item_clean_pk)
+        print(res_delete)
+        self.assertEqual(res_delete['status'], 204)
 
     def test_get_credit_notes(self):
         """ Test that 200 is returned """
@@ -256,7 +260,7 @@ class TestCurrencies(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = TeamFactory()
+        cls.team_pk = cls.testHelper._get_selected_team()
         cls.currency_pk = cls.testHelper._create_currency_if_none()
 
     def test_get_currencies_list(self):
@@ -318,7 +322,7 @@ class TestClients(unittest.TestCase):
     @classmethod
     def setUp(cls):
         testHelper = TestHelper(my_account)
-        cls.team_pk = TeamFactory()
+        cls.team_pk = testHelper._get_selected_team()
         cls.currency_pk = testHelper._create_currency_if_none()
         cls.client_pk = testHelper._create_client_return_pk(cls.team_pk, cls.currency_pk)
 
@@ -498,7 +502,7 @@ class TestFiles(unittest.TestCase):
     @classmethod
     def setUp(cls):
         testHelper = TestHelper(my_account)
-        cls.team_pk = TeamFactory()
+        cls.team_pk = testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.folder_pk = testHelper._create_folder_return_pk(cls.project_pk)
@@ -592,7 +596,7 @@ class TestBanks(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = TeamFactory()
+        cls.team_pk = testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.currency_pk = cls.testHelper._create_currency_if_none()
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
