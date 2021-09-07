@@ -9,6 +9,7 @@ class TestHelper:
 
     Create all needed object to do tests
     """
+    __test__ = False
 
     def __init__(self, my_account):
         self.my_account = my_account
