@@ -8,20 +8,12 @@ from factories.factories import JobFactory
 from factories.factories import JobInvoiceFactory
 from factories.factories import OrguserFactory
 from factories.factories import ProjectFactory
-from factories.factories import TeamFactory
 from factories.factories import CostFactory
 from factories.factories import CostMonthFactory
-
+from test_helper import TestHelper
 import os
-import sys
 from dotenv import load_dotenv
-
-
-PACKAGE_PARENT = '..'
-SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
-sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
-
-from ooti import ooti # noqa E402
+from ooti import ooti
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -36,8 +28,9 @@ sdk.connect()
 class TestEmployees(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
+        testHelper = TestHelper(sdk)
         cls.orguser = OrguserFactory()
-        cls.team_pk = TeamFactory()
+        cls.team_pk = testHelper._get_selected_team()
         cls.employee_contract = EmployeeContractFactory()
 
     def test_create_employee_contract(self):
@@ -90,7 +83,8 @@ class TestEmployees(unittest.TestCase):
 class TestExpenses(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
         cls.expense_group = ExpenseGroupFactory(team_pk=cls.team_pk)
 
     def test_create_expenses_category(self):
@@ -152,7 +146,8 @@ class TestExpenses(unittest.TestCase):
 class TestCosts(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
         cls.cost = CostFactory(cls.team_pk)
         cls.cost_month = CostMonthFactory(team_pk=cls.team_pk, cost_id=cls.cost['id'])
 
@@ -235,7 +230,8 @@ class TestCosts(unittest.TestCase):
 class TestJobs(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
         cls.project = ProjectFactory()
         cls.job = JobFactory()
         cls.job_invoice = JobInvoiceFactory()
