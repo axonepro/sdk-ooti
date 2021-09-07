@@ -100,7 +100,7 @@ class Auth(Helper):
         """ Get the list of invitations """
 
         route = 'v1/invitations/list/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def get_team_invitations_list(self, team_pk):
@@ -111,7 +111,7 @@ class Auth(Helper):
         """
 
         route = 'v1/invitations/list/{0}/{1}/'.format(self.org_pk, team_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def get_invitation_details(self, pk):
@@ -121,14 +121,14 @@ class Auth(Helper):
         pk -- pk of the invitation
         """
         route = 'v1/invitations/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_invitation(self, pk, data):  # which pk ? already tested with orguser_pk and team_pk
         """ Create a new invitation """
 
         route = 'v1/invitations/{0}/'.format(pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_invitation_details(self, pk, data):
@@ -143,7 +143,7 @@ class Auth(Helper):
         """
 
         route = 'v1/invitations/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_invitation(self, pk):
@@ -153,7 +153,7 @@ class Auth(Helper):
         pk -- pk of the invitation
         """
         route = 'v1/invitations/{0}/'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ##### Projects #####
@@ -166,7 +166,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/{0}/'.format(id)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_project_details(self, id, data):
@@ -184,7 +184,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/{0}/'.format(id)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_project(self, id):
@@ -194,7 +194,7 @@ class Auth(Helper):
         id -- the id of the project
         """
         route = 'v1/projects/{0}/'.format(id)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_projects_list(self, team_pk=None):
@@ -207,14 +207,14 @@ class Auth(Helper):
         route = 'v1/projects/list/{0}/'.format(self.org_pk)
         if team_pk is not None:
             route += '{0}/'.format(team_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def export_projects_list(self):
         """ Export the list of projects as a .xls file """
 
         route = 'v1/projects/export/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         xls_file = open('projects_list.xls', 'wb')
         xls_file.write(response.content)
         xls_file.close()
@@ -223,7 +223,7 @@ class Auth(Helper):
     def get_access_projects_list(self):  # what is access on OOTI ?
 
         route = 'v1/projects/list/access/'
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_project(self, data):
@@ -248,7 +248,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_project_fee_summary(self, id):
@@ -259,14 +259,14 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/fee-summary/{0}/'.format(id)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_project_list_access(self):
         """ ? """
 
         route = 'v1/projects/list/access/'
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def get_project_revenue(self, id):
@@ -276,7 +276,7 @@ class Auth(Helper):
         id -- the id of the project
         """
         route = 'v1/projects/revenue/{0}/'.format(id)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_project_available_clients(self, id):
@@ -288,14 +288,14 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/available-clients/{0}/'.format(id)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_projects_list_deliverables(self):
         """ Get the list of projects and their associated deliverables where the current user is a member of """
 
         route = 'v1/projects/deliverables/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_project_users_list(self, id):
@@ -306,7 +306,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/users/list/{0}/'.format(id)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return {'status': response.status_code, 'data': json.loads(response.content)['results']}
 
     def get_project_user_details(self, user_pk):
@@ -317,7 +317,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/users/{0}/'.format(user_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def add_project_user(self, id, data):
@@ -335,7 +335,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/users/list/{0}/'.format(id)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_project_user_details(self, user_pk, data):
@@ -351,7 +351,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/users/{0}/'.format(user_pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_project_user(self, user_pk):
@@ -362,14 +362,14 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/users/{0}/'.format(user_pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_project_tags_groups_list(self):
         """ Get the list of groups of project tags """
 
         route = 'v1/projects/tags/groups/list/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_project_tags_group(self, data):
@@ -387,7 +387,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/tags/groups/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_project_tags_group_details(self, group_pk):
@@ -398,7 +398,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/tags/groups/{0}/'.format(group_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_project_tags_group_details(self, group_pk, data):
@@ -417,7 +417,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/tags/groups/{0}/'.format(group_pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_project_tags_group_details(self, group_pk):
@@ -428,14 +428,14 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/tags/groups/{0}/'.format(group_pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_project_tags_list(self):
         """ Get the list of tags """
 
         route = 'v1/projects/tags/list/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_project_tag(self, data):
@@ -451,7 +451,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/tags/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_project_tag_details(self, tag_pk):
@@ -461,7 +461,7 @@ class Auth(Helper):
         tag_pk -- pk of the tag
         """
         route = 'v1/projects/tags/{0}/'.format(tag_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_project_tag_details(self, tag_pk, data):
@@ -477,7 +477,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/tags/{0}/'.format(tag_pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_project_tag(self, tag_pk):
@@ -488,7 +488,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/tags/{0}/'.format(tag_pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     #### Orgusers ####
@@ -497,21 +497,21 @@ class Auth(Helper):
         """ Get the list of users in the organization """
 
         route = 'v1/orgusers/list/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def get_orgusers_count(self):
         """ Get only the number of orguser inside the organization """
 
         route = 'v1/orgusers/count/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def export_orgusers_list(self):
         """ Export the list of orgusers as a .xls file """
 
         route = 'v1/orgusers/export/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         xls_file = open('orgusers_list.xls', 'wb')
         xls_file.write(response.content)
         xls_file.close()
@@ -530,7 +530,7 @@ class Auth(Helper):
             'orguser': pk,
             'team': team_pk
         }
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_orguser_details(self, pk):
@@ -541,7 +541,7 @@ class Auth(Helper):
         """
 
         route = 'v1/orgusers/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_orguser(self, data):
@@ -561,7 +561,7 @@ class Auth(Helper):
         """
 
         route = 'v1/orgusers/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_orguser_details(self, pk, data):
@@ -577,7 +577,7 @@ class Auth(Helper):
         """
 
         route = 'v1/orgusers/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_orguser(self, pk):
@@ -588,7 +588,7 @@ class Auth(Helper):
         """
 
         route = 'v1/orgusers/{0}/'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     #### Organizations ####
@@ -597,14 +597,14 @@ class Auth(Helper):
         """ Returns short user information and orgs/teams/projects he is member of """
 
         route = 'v1/organizations/membership/'
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_organization_metrics(self):
         """ Get the admin dashboard metrics """
 
         route = 'v1/organizations/metrics/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_organization_details(self, pk):
@@ -615,7 +615,7 @@ class Auth(Helper):
         """
 
         route = 'v1/organizations/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_organization_details(self, data):
@@ -717,14 +717,14 @@ class Auth(Helper):
         }
         """
         route = 'v1/organizations/{0}/'.format(self.org_pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def __get_teams(self):
         """ Set the organization id of the user """
 
         route = 'v1/organizations/membership/'
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         organizations = json.loads(response.content)['organizations']
         selected_organization = next((org for org in organizations if org.get('id') == self.org_pk), None)
         teams = selected_organization['teams']
@@ -740,7 +740,7 @@ class Auth(Helper):
         """ Get the list of permissions sets """
 
         route = 'v1/permissions/list/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_permissions(self, data):
@@ -763,14 +763,14 @@ class Auth(Helper):
         """
 
         route = 'v1/permissions/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_permissions_map(self):
         """ Return a dictionary with request.user permissions by level """
 
         route = 'v1/permissions/map/'
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_permissions_details(self, id):
@@ -781,7 +781,7 @@ class Auth(Helper):
         """
 
         route = 'v1/permissions/{0}/'.format(id)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_permissions_details(self, id, data):
@@ -805,7 +805,7 @@ class Auth(Helper):
         """
 
         route = 'v1/permissions/{0}/'.format(id)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_permissions(self, id):
@@ -816,7 +816,7 @@ class Auth(Helper):
         """
 
         route = 'v1/permissions/{0}/'.format(id)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     #### Profile ####
@@ -826,7 +826,7 @@ class Auth(Helper):
         """
 
         route = 'v1/profiles/profile/'
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         self.org_pk = json.loads(response.content)['selected_org']
         return self.process_response(response)
 
@@ -834,14 +834,14 @@ class Auth(Helper):
         """ Get profile preferences """
 
         route = 'v1/profiles/preferences/'
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_profile_details(self):
         """ Get current profile details """
 
         route = 'v1/profiles/profile/'
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_profile_details(self, data):
@@ -856,7 +856,7 @@ class Auth(Helper):
         """
 
         route = 'v1/profiles/profile/'
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     #### Team #####
@@ -865,14 +865,14 @@ class Auth(Helper):
         """ Get the list of teams """
 
         route = 'v1/teams/list/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)  # no 'results' key
 
     def get_teams_access_list(self):
         """ Get teams orguser has or has not access to """
 
         route = 'v1/teams/list/access/'
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_team(self, data):
@@ -892,7 +892,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_team_users_list(self, pk):
@@ -903,7 +903,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/users/list/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def add_team_user(self, pk, data):
@@ -921,7 +921,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/users/list/{0}/'.format(pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def add_team_user_to_multiple_projects(self, data):  # Error 500
@@ -942,7 +942,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/users/bulk/add/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def remove_team_user_to_multiple_projects(self, data):  # Error 500
@@ -960,7 +960,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/users/bulk/delete/{0}/'.format(self.org_pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_team_user_details(self, user_pk):  # same thing as get_orguser_details ?
@@ -971,7 +971,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/users/{0}/'.format(user_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_team_user_details(self, user_pk, data):
@@ -987,14 +987,14 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/users/{0}/'.format(user_pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def remove_team_user(self, user_pk):
         """ Delete a user from the team """
 
         route = 'v1/teams/users/{0}/'.format(user_pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_team_details(self, pk):
@@ -1005,7 +1005,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_team_details(self, pk, data):
@@ -1021,7 +1021,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     #### Token ####
@@ -1068,7 +1068,7 @@ class Auth(Helper):
         data = {
             'token': self.access_token
         }
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         if response == 201:
             self.headers['Authorization'] = 'JWT {0}'.format(self.access_token)
         return response.status_code
@@ -1080,5 +1080,5 @@ class Auth(Helper):
         data = {
             'token': self.access_token
         }
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return response.status_code

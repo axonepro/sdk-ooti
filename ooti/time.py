@@ -14,7 +14,7 @@ class Time(Helper):
         """ Copy previous week """
 
         route = 'v1/timelogs/actions/copy-previous-week/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'POST', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_timelogs_analytics_team(self, team_pk):
@@ -26,14 +26,14 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/analytics/{0}/'.format(team_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_timelogs_calendar(self):
         """ Get the calendar """
 
         route = 'v1/timelogs/calendar/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_timelogs_comments(self, pk):
@@ -45,7 +45,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/comments/{0}/'.format(pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'POST', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_timelogs_delete_imported_worklogs_project(self, project_pk):
@@ -58,7 +58,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/delete-imported-worklogs/{0}/'.format(project_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_timelogs_delete_imported_worklogs_project(self, project_pk):
@@ -71,21 +71,21 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/delete-imported-worklogs/{0}/'.format(project_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'POST', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_timelogs_monthly_summary(self):
         """ Get mothnly summary """
 
         route = 'v1/timelogs/monthly-summary/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_recently_worked_on(self, team_pk):
         """ Get recently worked on projects, areas, zones, plans and annexes """
 
         route = 'v1/timelogs/recently-worked-on/{0}/'.format(team_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def validate_timelogs(self, team_pk):
@@ -98,7 +98,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/validation/{0}/'.format(team_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'POST', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ### Holidays ###
@@ -106,7 +106,7 @@ class Time(Helper):
         """ Get the holidays list """
 
         route = 'v1/timelogs/holidays/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_timelogs_holidays_org(self, data):
@@ -129,7 +129,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/holidays/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_timelogs_holidays_team(self, team_pk, page=1):
@@ -140,7 +140,7 @@ class Time(Helper):
 
         route = 'v1/timelogs/holidays/list/{0}/{1}/?page_size={2}&page={3}'.format(
             self.org_pk, team_pk, self.pagination, page)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_timelogs_holidays_team(self, team_pk, data):
@@ -164,7 +164,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/holidays/list/{0}/{1}/'.format(self.org_pk, team_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_timelogs_holidays_details(self, pk):
@@ -174,7 +174,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/holidays/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_timelogs_holidays(self, pk, data):
@@ -197,7 +197,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/holidays/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_timelogs_holidays(self, pk):
@@ -209,7 +209,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/holidays/{0}/'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ### Hourslogs ###
@@ -222,7 +222,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/hourslogs/list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_timelogs_hourslogs_list(self, team_pk, data):
@@ -255,7 +255,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/hourslogs/list/{0}/'.format(team_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_timelogs_hourslogs_my_list(self, team_pk, page=1):
@@ -267,7 +267,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/hourslogs/my-list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_timelogs_hourslogs_my_list(self, team_pk, data):
@@ -302,7 +302,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/hourslogs/my-list/{0}/'.format(team_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_timelogs_hourslogs_details(self, pk):
@@ -313,7 +313,7 @@ class Time(Helper):
         pk -- pk of the hourslogs
         """
         route = 'v1/timelogs/hourslogs/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def update_timelogs_hourslogs(self, pk, data):
@@ -343,7 +343,7 @@ class Time(Helper):
         }
         """
         route = 'v1/timelogs/hourslogs/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response, True)
 
     def delete_timelogs_hourslogs(self, pk):
@@ -354,7 +354,7 @@ class Time(Helper):
         pk -- pk of the hourslogs
         """
         route = 'v1/timelogs/hourslogs/{0}/'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     ### Timeoff ###
@@ -368,7 +368,7 @@ class Time(Helper):
 
         route = 'v1/timelogs/my-timeoff-requests/list/{0}/?page_size={1}&page={2}'.format(
             team_pk, self.pagination, page)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_timelogs_my_timeoff_requests(self, team_pk, data, page):
@@ -401,7 +401,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/my-timeoff-requests/list/{0}/'.format(team_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response, True)
 
     def get_timelogs_timeoff_requests_list(self, team_pk, page=1):
@@ -413,7 +413,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/timeoff-requests/list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_timelogs_timeoff_requests(self, team_pk, data):
@@ -445,7 +445,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/timeoff-requests/list/{0}/'.format(team_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response, True)
 
     def create_timeoff_balance_list(self, team_pk, data):
@@ -463,7 +463,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/timeoff-balance/list/{0}/'.format(team_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def create_timeoff_requests_action(self, team_pk, data):
@@ -481,7 +481,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/timeoff-balance/list/{0}/'.format(team_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_timelogs_timeoff_requests_details(self, pk):
@@ -493,7 +493,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/timeoff-requests/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_timelogs_timeoff_requests(self, pk, data):
@@ -525,7 +525,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/timeoff-requests/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_timelogs_timeoff_requests(self, pk):
@@ -537,7 +537,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/timeoff-requests/{0}/'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ### Types ###
@@ -545,7 +545,7 @@ class Time(Helper):
         """ Get timelogs type list """
 
         route = 'v1/timelogs/types/list/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_timelogs_types_list(self, data):
@@ -565,14 +565,14 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/types/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response, True)
 
     def get_timelogs_types_timeoff_list(self, page=1):
         """ Get timelogs types timeoff list """
 
         route = 'v1/timelogs/types/timeoff/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_timelogs_types_timeoff(self, data):
@@ -592,7 +592,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/types/timeoff/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response, True)
 
     def get_timelogs_types_details(self, pk):
@@ -604,7 +604,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/types/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def update_timelogs_types(self, pk, data):
@@ -625,7 +625,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/types/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response, True)
 
     def delete_timelogs_types(self, pk):
@@ -637,7 +637,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/types/{0}/'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     ### Week-config ###
@@ -645,7 +645,7 @@ class Time(Helper):
         """ Get week config list """
 
         route = 'v1/timelogs/week-config/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_timelogs_week_config(self, data):
@@ -694,7 +694,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/week-config/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_timelogs_week_config_details(self, pk):
@@ -706,7 +706,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/week-config/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_timelogs_week_config(self, pk, data):
@@ -756,7 +756,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/week-config/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_timelogs_week_config(self, pk):
@@ -768,7 +768,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/week-config/{0}/'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     ### Weeks ###
@@ -776,7 +776,7 @@ class Time(Helper):
         """ Get days current user is away for given week """
 
         route = 'v1/timelogs/weeks/away/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_timelogs_week_list(self, page=1, start_date=None):
@@ -804,7 +804,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/weeks/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def update_timelogs_week(self, pk, data):
@@ -825,7 +825,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/weeks/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     ### Worklogs ###
@@ -838,7 +838,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/worklogs/list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_timelogs_worklogs(self, team_pk, data):
@@ -875,7 +875,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/worklogs/list/{0}/'.format(team_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_timelogs_worklogs_details(self, pk):
@@ -887,7 +887,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/worklogs/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_timelogs_worklogs(self, pk, data):
@@ -924,7 +924,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/worklogs/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_timelogs_worklogs(self, pk):
@@ -936,7 +936,7 @@ class Time(Helper):
         """
 
         route = 'v1/timelogs/worklogs/{0}/'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     #### Timeperiods ####
@@ -944,21 +944,21 @@ class Time(Helper):
         """ Get dashboard scheduling timeline """
 
         route = 'v1/timeperiods/dashboard/scheduling/timeline/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_timeperiods_resource_planning_timeline(self):
         """ Get resource planning timeline """
 
         route = 'v1/timeperiods/resource-planning-timeline/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_timeperiods_resource_planning_timeline(self, data):
         """ Create planning timeline """
 
         route = 'v1/timeperiods/resource-planning-timeline/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_timeperiods_resources_timeline(self, project_pk):
@@ -970,7 +970,7 @@ class Time(Helper):
         """
 
         route = 'v1/timeperiods/resources-timeline/{0}/'.format(project_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_timeperiods_role_annex_periods(self, page=1):
@@ -978,7 +978,7 @@ class Time(Helper):
 
         route = 'v1/timeperiods/role-annex-periods/list/{0}/?page_size={1}&page={2}'.format(
             self.org_pk, self.pagination, page)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_timeperiods_role_annex_periods(self, data):
@@ -1008,7 +1008,7 @@ class Time(Helper):
         """
 
         route = 'v1/timeperiods/role-annex-periods/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_timeperiods_role_annex_period_details(self, pk):
@@ -1020,7 +1020,7 @@ class Time(Helper):
         """
 
         route = 'v1/timeperiods/role-annex-periods/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_timeperiods_role_annex_period(self, pk, data):
@@ -1050,7 +1050,7 @@ class Time(Helper):
         """
 
         route = 'v1/timeperiods/role-annex-periods/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_timeperiods_role_annex_period(self, pk):
@@ -1062,7 +1062,7 @@ class Time(Helper):
         """
 
         route = 'v1/timeperiods/role-annex-periods/{0}/'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_timeperiods_scheduling_timeline_actions(self, project_pk):
@@ -1075,7 +1075,7 @@ class Time(Helper):
         """
 
         route = 'v1/timeperiods/scheduling-timeline/actions/{0}/'.format(project_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'POST', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_timeperiods_scheduling_timeline_actions(self, project_pk):
@@ -1088,21 +1088,21 @@ class Time(Helper):
         """
 
         route = 'v1/timeperiods/scheduling-timeline/{0}/'.format(project_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_user_period_action(self):
         """ Create user period action """
 
         route = 'v1/timeperiods/user-period/list/action/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'POST', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_user_period_list(self, team_pk):
         """ Get user period list"""
 
         route = 'v1/timeperiods/user-period/list/{0}/?team={1}'.format(self.org_pk, team_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_user_period_list(self, data):
@@ -1131,7 +1131,7 @@ class Time(Helper):
         """
 
         route = 'v1/timeperiods/user-period/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_user_period_details(self, pk):
@@ -1143,7 +1143,7 @@ class Time(Helper):
         """
 
         route = 'v1/timeperiods/user-period/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_user_period_list(self, pk, data):
@@ -1173,7 +1173,7 @@ class Time(Helper):
         """
 
         route = 'v1/timeperiods/user-period/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_user_period(self, pk):
@@ -1185,14 +1185,14 @@ class Time(Helper):
         """
 
         route = 'v1/timeperiods/user-period/{0}/'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_users_scheduling_timeline(self):
         """ Get user scheduling timeline """
 
         route = 'v1/timeperiods/users/scheduling-timeline/{0}/'.format(self.org_pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     #### Roles ####
@@ -1200,7 +1200,7 @@ class Time(Helper):
         """ Get roles list """
 
         route = 'v1/roles/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_roles(self, data):
@@ -1217,14 +1217,14 @@ class Time(Helper):
         """
 
         route = 'v1/roles/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_roles_project_list(self, page=1):
         """ Get roles project list """
 
         route = 'v1/roles/project/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_roles_project(self, data):
@@ -1244,7 +1244,7 @@ class Time(Helper):
         """
 
         route = 'v1/roles/project/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_roles_project_details(self, pk):
@@ -1256,7 +1256,7 @@ class Time(Helper):
         """
 
         route = 'v1/roles/project/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_roles_project(self, pk, data):
@@ -1277,7 +1277,7 @@ class Time(Helper):
         """
 
         route = 'v1/roles/project/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_roles_project(self, pk):
@@ -1289,21 +1289,21 @@ class Time(Helper):
         """
 
         route = 'v1/roles/project/{0}/'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def create_bulk_action_add_roles(self, project_pk):
         """ Create bulk action to add role to project """
 
         route = 'v1/roles/roles/bulk/add/{0}/?project={1}'.format(self.org_pk, project_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'POST', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def delete_bulk_action_add_roles(self, project_pk):
         """ Delete bulk action to add role to project """
 
         route = 'v1/roles/roles/bulk/delete/{0}/?project={1}'.format(self.org_pk, project_pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_roles_details(self, pk):
@@ -1315,7 +1315,7 @@ class Time(Helper):
         """
 
         route = 'v1/roles/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_roles(self, pk, data):
@@ -1333,7 +1333,7 @@ class Time(Helper):
         """
 
         route = 'v1/roles/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_roles(self, pk):
@@ -1345,7 +1345,7 @@ class Time(Helper):
         """
 
         route = 'v1/roles/{0}/'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     #### Trips ####
@@ -1353,7 +1353,7 @@ class Time(Helper):
         """ Get trips list """
 
         route = 'v1/trips/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_trip(self, data):
@@ -1373,7 +1373,7 @@ class Time(Helper):
         """
 
         route = 'v1/trips/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_trips_details(self, pk):
@@ -1385,7 +1385,7 @@ class Time(Helper):
         """
 
         route = 'v1/trips/{0}/'.format(pk)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_trip(self, pk, data):
@@ -1406,7 +1406,7 @@ class Time(Helper):
         """
 
         route = 'v1/trips/{0}/'.format(pk)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_trip(self, pk):
@@ -1418,5 +1418,5 @@ class Time(Helper):
         """
 
         route = 'v1/trips/{0}/'.format(pk)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)

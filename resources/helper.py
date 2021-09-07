@@ -28,3 +28,23 @@ class Helper:
             return {'status': response.status_code}
         except KeyError:
             return {'status': response.status_code, 'data': json.loads(response.content)}
+
+    def process_request(self, request, verb, _base_url, _route, _headers, data=None):
+        try:
+            if (verb == 'GET'):
+                return request.get('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+            if (verb == 'POST'):
+                return request.post('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+            if (verb == 'PATCH'):
+                return request.patch('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+            if (verb == 'DELETE'):
+                return request.delete('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+            else
+                raise ValueError('Wrong verb! (', verb, ')')
+        except ValueError as err:
+            print('ValueError: ', err.message)
+            return None
+        except Exception as exc:
+            print('Error: ', exc.message)
+            return None
+

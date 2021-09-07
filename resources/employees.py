@@ -11,7 +11,7 @@ class Employees(Helper):
         """ Get the employees contracts """
 
         route = 'v1/employees/contracts/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_employees_contract(self, data):
@@ -47,7 +47,7 @@ class Employees(Helper):
         """
 
         route = 'v1/employees/contracts/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_employees_contracts_details(self, contract_id):
@@ -58,7 +58,7 @@ class Employees(Helper):
         """
 
         route = 'v1/employees/contracts/{0}/'.format(contract_id)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_employees_contracts_details(self, contract_id, data):
@@ -95,7 +95,7 @@ class Employees(Helper):
         """
 
         route = 'v1/employees/contracts/{0}/'.format(contract_id)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_employees_contract(self, contract_id):
@@ -106,14 +106,14 @@ class Employees(Helper):
         """
 
         route = 'v1/employees/contracts/{0}/'.format(contract_id)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def get_employees_period_list(self, page=1):
         """ Get the list of employees periods """
 
         route = 'v1/employees/period/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response, True)
 
     def create_employees_period(self, data):
@@ -142,7 +142,7 @@ class Employees(Helper):
         """
 
         route = 'v1/employees/period/list/{0}/'.format(self.org_pk)
-        response = requests.post('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'POST', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_employees_period_details(self, period_id):
@@ -153,7 +153,7 @@ class Employees(Helper):
         """
 
         route = 'v1/employees/period/{0}/'.format(period_id)
-        response = requests.get('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'GET', self.base_url, route, self.headers, None)
         return self.process_response(response)
 
     def update_employees_period_details(self, period_id, data):
@@ -183,7 +183,7 @@ class Employees(Helper):
         """
 
         route = 'v1/employees/period/{0}/'.format(period_id)
-        response = requests.patch('{0}{1}'.format(self.base_url, route), headers=self.headers, data=json.dumps(data))
+        response = process_response(request, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_employees_period(self, period_id):
@@ -194,5 +194,5 @@ class Employees(Helper):
         """
 
         route = 'v1/employees/period/{0}/'.format(period_id)
-        response = requests.delete('{0}{1}'.format(self.base_url, route), headers=self.headers)
+        response = process_response(request, 'DELETE', self.base_url, route, self.headers, None)
         return self.process_response(response)
