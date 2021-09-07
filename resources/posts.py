@@ -12,7 +12,7 @@ class Posts(Helper):
         """ Get the posts albums list """
 
         route = 'v1/posts/album/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_posts_album(self, data):
@@ -27,7 +27,7 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/album/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_posts_album_details(self, album_pk):
@@ -38,7 +38,7 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/album/{0}/'.format(album_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_posts_album_details(self, album_pk, data):
@@ -54,7 +54,7 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/album/{0}/'.format(album_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_posts_album(self, album_pk):
@@ -65,14 +65,14 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/album/{0}/'.format(album_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_posts_images_list(self, page=1):
         """ Get the list of posted images """
 
         route = 'v1/posts/image/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_posts_image(self, data):
@@ -88,7 +88,7 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/image/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_posts_image_details(self, image_pk):
@@ -99,7 +99,7 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/image/{0}/'.format(image_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_posts_image_details(self, image_pk, data):
@@ -116,7 +116,7 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/image/{0}/'.format(image_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_posts_image(self, image_pk):
@@ -127,7 +127,7 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/image/{0}/'.format(image_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     # TODO GET on /api/v1/posts/last-post/{org_pk}/
@@ -136,7 +136,7 @@ class Posts(Helper):
         """ Get the list of likes """
 
         route = 'v1/posts/like/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_posts_like(self, data):
@@ -151,7 +151,7 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/like/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_posts_like_details(self, like_pk):
@@ -162,7 +162,7 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/like/{0}/'.format(like_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def delete_posts_like(self, like_pk):
@@ -173,14 +173,14 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/like/{0}/'.format(like_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_posts_list(self, page=1):
         """ Get the list of posts """
 
         route = 'v1/posts/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_post(self, data):
@@ -196,7 +196,7 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_post_comments(self, pk):
@@ -207,7 +207,7 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/post/comments/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     # TODO GET on /api/v1/posts/recent-comments/{org_pk}/
@@ -216,7 +216,7 @@ class Posts(Helper):
         """ Get the list of posts tags """
 
         route = 'v1/posts/tags/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_post_details(self, pk):
@@ -227,7 +227,7 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_post_details(self, pk, data):
@@ -245,7 +245,7 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def delete_post(self, pk):
@@ -256,5 +256,5 @@ class Posts(Helper):
         """
 
         route = 'v1/posts/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

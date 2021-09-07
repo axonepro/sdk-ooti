@@ -17,7 +17,7 @@ class Areas(Helper):
         """
 
         route = 'v1/areas/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_areas(self, project_pk, data):
@@ -35,7 +35,7 @@ class Areas(Helper):
             }
         """
         route = 'v1/areas/list/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_areas_details(self, pk):
@@ -47,7 +47,7 @@ class Areas(Helper):
         """
 
         route = 'v1/areas/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_areas(self, pk, data):
@@ -65,7 +65,7 @@ class Areas(Helper):
             }
         """
         route = 'v1/areas/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_area(self, pk):
@@ -76,5 +76,5 @@ class Areas(Helper):
         pk -- pk of the project
         """
         route = 'v1/areas/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

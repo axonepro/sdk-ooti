@@ -12,7 +12,7 @@ class Notifications(Helper):
         """ Get the notifications config of the organization """
 
         route = 'v1/notifications/digest-config/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_notifications_config(self, data):  # "off"/? - "on" and "active" rejected
@@ -54,5 +54,5 @@ class Notifications(Helper):
         """
 
         route = 'v1/notifications/digest-config/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)

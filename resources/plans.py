@@ -17,7 +17,7 @@ class Plans(Helper):
         """
 
         route = 'v1/plans/list-action/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_plans_list_action(self, project_pk):
@@ -29,7 +29,7 @@ class Plans(Helper):
         """
 
         route = 'v1/plans/list-action/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_plans_list(self, project_pk, page=1):
@@ -41,7 +41,7 @@ class Plans(Helper):
         """
 
         route = 'v1/plans/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_plan(self, project_pk, data):
@@ -74,7 +74,7 @@ class Plans(Helper):
         """
 
         route = 'v1/plans/list/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
     
     def get_plan_details(self, plan_pk):
@@ -86,7 +86,7 @@ class Plans(Helper):
         """
 
         route = 'v1/plans/{0}/?plan_phases=true'.format(plan_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_plan(self, plan_pk, data):
@@ -118,7 +118,7 @@ class Plans(Helper):
         """
 
         route = 'v1/plans/{0}/'.format(plan_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_plan(self, plan_pk):
@@ -130,7 +130,7 @@ class Plans(Helper):
         """
 
         route = 'v1/plans/{0}/'.format(plan_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_plans_planphases_list(self, project_pk, page=1):
@@ -142,5 +142,5 @@ class Plans(Helper):
         """
 
         route = 'v1/plans/list/{0}/?page_size={1}&page={2}&plan_phases=true'.format(project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)

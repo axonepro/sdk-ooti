@@ -17,7 +17,7 @@ class Documents(Helper):
         """
 
         route = 'v1/documents/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_document(self, project_pk, data):
@@ -47,7 +47,7 @@ class Documents(Helper):
         """
 
         route = 'v1/documents/list/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def set_price_documents(self, project_pk):
@@ -59,7 +59,7 @@ class Documents(Helper):
         """
 
         route = 'v1/documents/set-price/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_document_details(self, pk):
@@ -71,7 +71,7 @@ class Documents(Helper):
         """
 
         route = 'v1/documents/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_document(self, pk, data):
@@ -101,7 +101,7 @@ class Documents(Helper):
         """
 
         route = 'v1/documents/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_document(self, pk):
@@ -113,5 +113,5 @@ class Documents(Helper):
         """
 
         route = 'v1/documents/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

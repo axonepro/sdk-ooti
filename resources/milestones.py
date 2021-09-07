@@ -11,7 +11,7 @@ class Milestones(Helper):
     def get_milestones_list(self, page=1):
         """ Get milestones list """
         route = 'v1/milestones/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_milestone(self, data):
@@ -36,7 +36,7 @@ class Milestones(Helper):
             }
         """
         route = 'v1/milestones/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_milestone_details(self, pk):
@@ -47,7 +47,7 @@ class Milestones(Helper):
         pk -- pk of the milestone
         """
         route = 'v1/milestones/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_milestone(self, pk, data):
@@ -72,7 +72,7 @@ class Milestones(Helper):
             }
         """
         route = 'v1/milestones/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_milestone(self, pk):
@@ -83,5 +83,5 @@ class Milestones(Helper):
         pk -- pk of the milestone
         """
         route = 'v1/milestones/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

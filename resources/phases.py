@@ -17,7 +17,7 @@ class Phases(Helper):
 
         """
         route = 'v1/phases/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_phases_list_fee_project(self, project_pk, fee_project, page=1):
@@ -31,7 +31,7 @@ class Phases(Helper):
 
         route = 'v1/phases/list/{0}/?page_size={1}&page={2}&fee_project={3}'.format(
             project_pk, self.pagination, page, fee_project)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_phase_details(self, pk):
@@ -43,7 +43,7 @@ class Phases(Helper):
         """
 
         route = 'v1/phases/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_phase(self, project_pk, data):
@@ -64,14 +64,14 @@ class Phases(Helper):
             }
         """
         route = 'v1/phases/list/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_phase(self, pk):
         """ Delete a phase """
 
         route = 'v1/phases/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_phase(self, pk, data):
@@ -89,7 +89,7 @@ class Phases(Helper):
         """
 
         route = 'v1/phases/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_phases_projections_list(self, project_pk, page=1):
@@ -102,7 +102,7 @@ class Phases(Helper):
         """
 
         route = 'v1/phases/projections/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def reset_phases_order(self, project_pk):
@@ -113,14 +113,14 @@ class Phases(Helper):
         pk -- pk of the project
         """
         route = 'v1/phases/reset-orders/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_phases_progress(self):
         """ Update progress of phase """
 
         route = 'v1/phases/update_progress/'
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def export_phase(self, project_pk):
@@ -132,7 +132,7 @@ class Phases(Helper):
         """
 
         route = 'v1/phases/export/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_phase_planphase_details(self, pk):
@@ -144,7 +144,7 @@ class Phases(Helper):
         """
 
         route = 'v1/phases/planphases/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def delete_phase_planphase(self, pk):
@@ -156,7 +156,7 @@ class Phases(Helper):
         """
 
         route = 'v1/phases/planphases/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_phase_planphase(self, pk, data):
@@ -175,5 +175,5 @@ class Phases(Helper):
         """
 
         route = 'v1/phases/planphases/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)

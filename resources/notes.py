@@ -12,7 +12,7 @@ class Notes(Helper):
         """ Get the list of notes """
 
         route = 'v1/notes/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_note(self, data):
@@ -36,7 +36,7 @@ class Notes(Helper):
         """
 
         route = 'v1/notes/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_note_details(self, pk):
@@ -47,7 +47,7 @@ class Notes(Helper):
         """
 
         route = 'v1/notes/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_note_details(self, pk, data):
@@ -72,7 +72,7 @@ class Notes(Helper):
         """
 
         route = 'v1/notes/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_note(self, pk):
@@ -83,5 +83,5 @@ class Notes(Helper):
         """
 
         route = 'v1/notes/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

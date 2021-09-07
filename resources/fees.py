@@ -19,7 +19,7 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/bracket/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_fees_bracket(self, project_pk, data):
@@ -37,7 +37,7 @@ class Fees(Helper):
             }
         """
         route = 'v1/fees/bracket/list/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_fees_bracket_details(self, pk):
@@ -48,7 +48,7 @@ class Fees(Helper):
         pk -- pk of the fee bracket
         """
         route = 'v1/fees/bracket/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_fees_bracket(self, pk, data):
@@ -67,7 +67,7 @@ class Fees(Helper):
             }
         """
         route = 'v1/fees/bracket/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_fees_bracket(self, pk):
@@ -78,7 +78,7 @@ class Fees(Helper):
         pk -- pk of the fee bracket
         """
         route = 'v1/fees/bracket/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def export_project_fees(self, project_pk):
@@ -89,7 +89,7 @@ class Fees(Helper):
         project_pk -- pk of the project
         """
         route = 'v1/fees/export/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_fee_project_version_list(self, page=1):
@@ -97,7 +97,7 @@ class Fees(Helper):
 
         route = 'v1/fees/fee-project-version/list/{0}/?page_size={1}&page={2}'.format(
             self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_fee_project_version(self, data):
@@ -114,7 +114,7 @@ class Fees(Helper):
             }
         """
         route = 'v1/fees/fee-project-version/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_fee_project_version_details(self, pk):
@@ -126,7 +126,7 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/fee-project-version/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_fee_project_version(self, pk, data):
@@ -144,7 +144,7 @@ class Fees(Helper):
             }
         """
         route = 'v1/fees/fee-project-version/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_fee_project_version(self, pk):
@@ -156,7 +156,7 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/fee-project-version/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     # TODO GET on /api/v1/fees/index/populate_ffne/{project_pk}/{is_price}/
@@ -172,7 +172,7 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/list/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_fee(self, project_pk, data):
@@ -193,7 +193,7 @@ class Fees(Helper):
             }
         """
         route = 'v1/fees/list/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_fees_projection_list(self, project_pk, page=1):
@@ -205,7 +205,7 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/projections/list/{0}/?page_size={1}n&page={2}'.format(project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_fees_project_list_projects(self, project_pk, page=1):
@@ -218,14 +218,14 @@ class Fees(Helper):
 
         route = 'v1/fees/projects/list/{0}/?page_size={1}&page={2}&project={3}'.format(
             self.org_pk, self.pagination, page, project_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_fees_project_list(self, page=1):
         """ Get fees project list """
 
         route = 'v1/fees/projects/list/{0}/?page_size={1}n&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_fee_project(self, data):
@@ -268,7 +268,7 @@ class Fees(Helper):
             }
         """
         route = 'v1/fees/projects/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_fees_projects_update(self, pk):
@@ -280,7 +280,7 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/projects/update/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_fees_project_details(self, pk):
@@ -292,7 +292,7 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/projects/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_fee_project(self, pk, data):
@@ -335,7 +335,7 @@ class Fees(Helper):
             }
         """
         route = 'v1/fees/projects/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_fee_project(self, pk):
@@ -347,7 +347,7 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/projects/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_fees_revision_details(self, fee_pk):
@@ -359,7 +359,7 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/revision/{0}/'.format(fee_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_fee_revision(self, fee_revision_pk, data):
@@ -375,7 +375,7 @@ class Fees(Helper):
             }
         """
         route = 'v1/fees/revision/{0}/'.format(fee_revision_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_fee_revision(self, fee_revision_pk):
@@ -387,7 +387,7 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/revision/{0}/'.format(fee_revision_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_fees_revisions_item_details(self, fee_item_pk):
@@ -401,7 +401,7 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/revisions/{0}/'.format(fee_item_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_fee_revisions_item(self, fee_item_pk, data):
@@ -418,7 +418,7 @@ class Fees(Helper):
             }
         """
         route = 'v1/fees/revisions/{0}/'.format(fee_item_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def validation_fees_costs(self, project_pk):
@@ -429,7 +429,7 @@ class Fees(Helper):
         project_pk -- pk of the project
         """
         route = 'v1/fees/validate_costs/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def validation_fees_ffne(self, project_pk):
@@ -440,7 +440,7 @@ class Fees(Helper):
         project_pk -- pk of the project
         """
         route = 'v1/fees/validate_ffne/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def validation_fees_production(self, project_pk):
@@ -451,7 +451,7 @@ class Fees(Helper):
         project_pk -- pk of the project
         """
         route = 'v1/fees/validate_production/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_fees_zones_list(self, page=1):
@@ -463,7 +463,7 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/zones/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_fee_zones(self, data):
@@ -481,7 +481,7 @@ class Fees(Helper):
             }
         """
         route = 'v1/fees/zones/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_fees_zone_details(self, fee_zone_pk):
@@ -493,7 +493,7 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/zones/{0}/'.format(fee_zone_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_fee_zone(self, fee_zone_pk, data):
@@ -512,7 +512,7 @@ class Fees(Helper):
             }
         """
         route = 'v1/fees/zones/{0}/'.format(fee_zone_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_fees_zone(self, fee_zone_pk):
@@ -524,7 +524,7 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/zones/{0}/'.format(fee_zone_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_fee_details(self, pk):
@@ -536,7 +536,7 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_fee(self, pk, data):
@@ -557,7 +557,7 @@ class Fees(Helper):
             }
         """
         route = 'v1/fees/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_fee(self, pk):
@@ -569,5 +569,5 @@ class Fees(Helper):
         """
 
         route = 'v1/fees/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

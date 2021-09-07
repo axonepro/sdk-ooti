@@ -12,7 +12,7 @@ class Actions(Helper):
         """ Get the list of actions """
 
         route = 'v1/actions/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_actions_details(self, id):
@@ -23,5 +23,5 @@ class Actions(Helper):
         """
 
         route = 'v1/actions/{0}/'.format(id)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

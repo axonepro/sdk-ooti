@@ -12,7 +12,7 @@ class Roles(Helper):
         """ Get roles list """
 
         route = 'v1/roles/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_roles(self, data):
@@ -29,14 +29,14 @@ class Roles(Helper):
         """
 
         route = 'v1/roles/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_roles_project_list(self, page=1):
         """ Get roles project list """
 
         route = 'v1/roles/project/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_roles_project(self, data):
@@ -56,7 +56,7 @@ class Roles(Helper):
         """
 
         route = 'v1/roles/project/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_roles_project_details(self, pk):
@@ -68,7 +68,7 @@ class Roles(Helper):
         """
 
         route = 'v1/roles/project/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_roles_project(self, pk, data):
@@ -89,7 +89,7 @@ class Roles(Helper):
         """
 
         route = 'v1/roles/project/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_roles_project(self, pk):
@@ -101,21 +101,21 @@ class Roles(Helper):
         """
 
         route = 'v1/roles/project/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_bulk_action_add_roles(self, project_pk):
         """ Create bulk action to add role to project """
 
         route = 'v1/roles/roles/bulk/add/{0}/?project={1}'.format(self.org_pk, project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def delete_bulk_action_add_roles(self, project_pk):
         """ Delete bulk action to add role to project """
 
         route = 'v1/roles/roles/bulk/delete/{0}/?project={1}'.format(self.org_pk, project_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_roles_details(self, pk):
@@ -127,7 +127,7 @@ class Roles(Helper):
         """
 
         route = 'v1/roles/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_roles(self, pk, data):
@@ -145,7 +145,7 @@ class Roles(Helper):
         """
 
         route = 'v1/roles/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_roles(self, pk):
@@ -157,5 +157,5 @@ class Roles(Helper):
         """
 
         route = 'v1/roles/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

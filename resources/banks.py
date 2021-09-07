@@ -12,7 +12,7 @@ class Banks(Helper):
         """ Get the banks list """
 
         route = 'v1/banks/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_bank_details(self, pk):
@@ -24,7 +24,7 @@ class Banks(Helper):
         """
 
         route = 'v1/banks/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_bank(self, data):
@@ -45,7 +45,7 @@ class Banks(Helper):
             }
         """
         route = 'v1/banks/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def update_bank(self, pk, data):
@@ -66,7 +66,7 @@ class Banks(Helper):
             }
         """
         route = 'v1/banks/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_bank(self, pk):
@@ -77,5 +77,5 @@ class Banks(Helper):
         pk -- pk of the bank
         """
         route = 'v1/banks/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

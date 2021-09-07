@@ -12,33 +12,33 @@ class Billing(Helper):
         """ Cancel subscription """
 
         route = 'v1/billing/cancel-subscription/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_billing_card(self):
         """ Update payment method """
 
         route = 'v1/billing/card/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def delete_billing_card(self):
         """ Delete payment method """
 
         route = 'v1/billing/card/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def reactivate_subscription(self):  # return 200
         """ Reactivate subscription """
 
         route = 'v1/billing/reactivate-subscription/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_subscription(self):
         """ Change subscription """
 
         route = 'v1/billing/update-subscription/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

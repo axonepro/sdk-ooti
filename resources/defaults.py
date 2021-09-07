@@ -21,7 +21,7 @@ class Defaults(Helper):
         }
 
         route = 'v1/defaults/defaults/phase/duplicate/'
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_phase_org_list(self, page=1):
@@ -29,7 +29,7 @@ class Defaults(Helper):
 
         route = 'v1/defaults/defaults/phases/list/{0}/?page_size={1}&page={2}'.format(
             self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_defaults_phase_org(self, data):
@@ -54,7 +54,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/phases/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_phase_team_list(self, team_pk, page=1):
@@ -67,7 +67,7 @@ class Defaults(Helper):
 
         route = 'v1/defaults/defaults/phases/list/{0}/{1}/?page_size={2}&page={3}'.format(
             self.org_pk, team_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_defaults_phase_team(self, team_pk, data):
@@ -92,7 +92,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/phases/list/{0}/{1}/'.format(self.org_pk, team_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_phase_details(self, pk):
@@ -104,7 +104,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/phases/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_defaults_phase(self, pk, data):
@@ -129,7 +129,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/phases/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_defaults_phase(self, pk):
@@ -140,7 +140,7 @@ class Defaults(Helper):
         pk -- pk of the phase
         """
         route = 'v1/defaults/defaults/phases/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def apply_defaults_phasesets(self, data):
@@ -153,7 +153,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/phasesets/apply/'
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def duplicate_defaults_phasesets(self, pk):
@@ -169,7 +169,7 @@ class Defaults(Helper):
         }
 
         route = 'v1/defaults/defaults/phasesets/duplicate/'
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_phasesets_org_list(self, page=1):
@@ -177,7 +177,7 @@ class Defaults(Helper):
 
         route = 'v1/defaults/defaults/phasesets/list/{0}/?page_size={1}&page={2}'.format(
             self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_defaults_phasesets_org(self, data):
@@ -194,7 +194,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/phasesets/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_phasesets_team_list(self, team_pk, page=1):
@@ -207,7 +207,7 @@ class Defaults(Helper):
 
         route = 'v1/defaults/defaults/phasesets/list/{0}/{1}/?page_size={2}&page={3}'.format(
             self.org_pk, team_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_defaults_phasesets_team(self, team_pk, data):
@@ -225,7 +225,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/phasesets/list/{0}/{1}/'.format(self.org_pk, team_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_phasesets_details(self, pk):
@@ -237,7 +237,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/phasesets/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_defaults_phasesets(self, pk, data):
@@ -254,7 +254,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/phasesets/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_defaults_phasesets(self, pk):
@@ -265,7 +265,7 @@ class Defaults(Helper):
         pk -- pk of the phase sets
         """
         route = 'v1/defaults/defaults/phasesets/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def duplicate_defaults_plan(self, pk):
@@ -281,14 +281,14 @@ class Defaults(Helper):
         }
 
         route = 'v1/defaults/defaults/plan/duplicate/'
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_plans_org_list(self, page=1):
         """ Get defaults plans list for organization """
 
         route = 'v1/defaults/defaults/plans/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_defaults_plan_org(self, data):
@@ -312,7 +312,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/plans/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_plans_team_list(self, team_pk, page=1):
@@ -325,7 +325,7 @@ class Defaults(Helper):
 
         route = 'v1/defaults/defaults/plans/list/{0}/{1}/?page_size={1}&page={2}'.format(
             self.org_pk, team_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_defaults_plan_team(self, team_pk, data):
@@ -350,7 +350,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/plans/list/{0}/{1}/'.format(self.org_pk, team_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_plan_details(self, pk):
@@ -362,7 +362,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/plans/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_defaults_plan(self, pk, data):
@@ -388,7 +388,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/plans/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_defaults_plan(self, pk):
@@ -399,14 +399,14 @@ class Defaults(Helper):
         pk -- pk of the plan
         """
         route = 'v1/defaults/defaults/plans/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def apply_defaults_plansets(self, data):
         """ Apply default plan sets """
 
         route = 'v1/defaults/defaults/plansets/apply/'
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def duplicate_defaults_plansets(self, pk):
@@ -422,7 +422,7 @@ class Defaults(Helper):
         }
 
         route = 'v1/defaults/defaults/plansets/duplicate/'
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_plansets_org_list(self, page=1):
@@ -430,7 +430,7 @@ class Defaults(Helper):
 
         route = 'v1/defaults/defaults/plansets/list/{0}/?page_size={1}&page={2}'.format(
             self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_defaults_plansets_org(self, data):
@@ -445,7 +445,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/plansets/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_plansets_team_list(self, team_pk, page=1):
@@ -458,7 +458,7 @@ class Defaults(Helper):
 
         route = 'v1/defaults/defaults/plansets/list/{0}/{1}/?page_size={2}&page={3}'.format(
             self.org_pk, team_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_defaults_plansets_team(self, team_pk, data):
@@ -474,7 +474,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/plansets/list/{0}/{1}/'.format(self.org_pk, team_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_defaults_plansets_details(self, pk):
@@ -486,7 +486,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/plansets/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_defaults_plansets(self, pk, data):
@@ -502,7 +502,7 @@ class Defaults(Helper):
         """
 
         route = 'v1/defaults/defaults/plansets/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_defaults_plansets(self, pk):
@@ -513,5 +513,5 @@ class Defaults(Helper):
         pk -- pk of the plan sets
         """
         route = 'v1/defaults/defaults/plansets/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

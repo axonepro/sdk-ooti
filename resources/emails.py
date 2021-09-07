@@ -12,7 +12,7 @@ class Emails(Helper):
         """ Get the emails list """
 
         route = 'v1/emails/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_email_details(self, pk):
@@ -23,7 +23,7 @@ class Emails(Helper):
         pk -- the pk of the email
         """
         route = 'v1/emails/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_email(self, data):
@@ -52,7 +52,7 @@ class Emails(Helper):
         """
 
         route = 'v1/emails/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def update_email(self, pk, data):
@@ -82,7 +82,7 @@ class Emails(Helper):
         """
 
         route = 'v1/emails/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_email(self, pk):
@@ -93,7 +93,7 @@ class Emails(Helper):
         pk -- pk of the email
         """
         route = 'v1/emails/{0}'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def send_test_email(self, pk):
@@ -105,7 +105,7 @@ class Emails(Helper):
         """
 
         route = 'v1/emails/{0}/send-test/'.format(pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def apply_email(self, pk):
@@ -116,14 +116,14 @@ class Emails(Helper):
         pk -- pk of the email template
         """
         route = 'v1/emails/{0}/apply/'.format(pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_emails_smtp_list(self, page=1):
         """ Get the emails smtp list """
 
         route = 'v1/emails/smtp/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_email_smtp_details(self, pk):
@@ -135,7 +135,7 @@ class Emails(Helper):
         """
 
         route = 'v1/emails/smtp/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_email_smtp(self, data):
@@ -155,7 +155,7 @@ class Emails(Helper):
            }
         """
         route = 'v1/emails/smtp/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def update_email_smtp(self, pk, data):
@@ -177,7 +177,7 @@ class Emails(Helper):
         """
 
         route = 'v1/emails/smtp/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_email_smtp(self, pk):
@@ -188,7 +188,7 @@ class Emails(Helper):
         pk -- pk of the email smtp
         """
         route = 'v1/emails/smtp/{0}'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def send_test_email_smtp(self, pk):
@@ -200,5 +200,5 @@ class Emails(Helper):
         """
 
         route = 'v1/emails/smtp/{0}/send-test/'.format(pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

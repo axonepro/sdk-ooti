@@ -17,7 +17,7 @@ class Files(Helper):
         """
 
         route = 'v1/files/folder/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_folder(self, project_pk, data):
@@ -35,7 +35,7 @@ class Files(Helper):
             }
         """
         route = 'v1/files/folder/list/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_folder_details(self, pk):
@@ -47,7 +47,7 @@ class Files(Helper):
         """
 
         route = 'v1/files/folder/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_folder(self, pk, data):
@@ -65,7 +65,7 @@ class Files(Helper):
             }
         """
         route = 'v1/files/folder/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_folder(self, pk):
@@ -76,7 +76,7 @@ class Files(Helper):
         pk -- pk of the folder
         """
         route = 'v1/files/folder/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_files_list(self, project_pk, page=1):
@@ -88,7 +88,7 @@ class Files(Helper):
         """
 
         route = 'v1/files/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_file(self, project_pk, data):
@@ -100,7 +100,7 @@ class Files(Helper):
         """
 
         route = 'v1/files/list/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response, True)
 
     # TODO GET on /api/v1/files/request_access/
@@ -116,7 +116,7 @@ class Files(Helper):
         """
 
         route = 'v1/files/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     # TODO PATCH on /api/v1/files/{id}/
@@ -130,5 +130,5 @@ class Files(Helper):
         """
 
         route = 'v1/files/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

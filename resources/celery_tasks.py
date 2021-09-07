@@ -19,12 +19,12 @@ class Celery_tasks(Helper):
         """ """
 
         route = 'v1/celery_tasks/last/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_celery_tasks_list(self, page=1):
         """ Get the list of celery tasks """
 
         route = 'v1/celery_tasks/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

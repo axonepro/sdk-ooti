@@ -16,7 +16,7 @@ class Revisions(Helper):
         """
 
         route = 'v1/revisions/annexes/detail/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_revisions_annexes_team_project(self, team_pk, project_pk, page=1):
@@ -31,7 +31,7 @@ class Revisions(Helper):
 
         route = 'v1/revisions/annexes/{0}/{1}/?page_size={2}&page={3}'.format(
             team_pk, project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_annexe_revision(self, team_pk, project_pk, data):
@@ -51,7 +51,7 @@ class Revisions(Helper):
         """
 
         route = 'v1/revisions/annexes/{0}/{1}/'.format(team_pk, project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_revisions_document_detail(self, pk):
@@ -62,7 +62,7 @@ class Revisions(Helper):
         """
 
         route = 'v1/revisions/documents/detail/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_revisions_documents_team_project(self, team_pk, project_pk, page=1):
@@ -77,7 +77,7 @@ class Revisions(Helper):
 
         route = 'v1/revisions/documents/{0}/{1}/?page_size={2}&page={3}'.format(
             team_pk, project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_document_revision(self, team_pk, project_pk, data):
@@ -96,7 +96,7 @@ class Revisions(Helper):
         """
 
         route = 'v1/revisions/documents/{0}/{1}/'.format(team_pk, project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_revisions_fee_items_detail(self, pk):
@@ -108,7 +108,7 @@ class Revisions(Helper):
         """
 
         route = 'v1/revisions/fee_items/detail/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_revisions_fee_items_team_project(self, team_pk, project_pk, page=1):
@@ -123,7 +123,7 @@ class Revisions(Helper):
 
         route = 'v1/revisions/fee_items/{0}/{1}/?page_size={2}&page={3}'.format(
             team_pk, project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_fee_items_revision(self, team_pk, project_pk, data):
@@ -143,7 +143,7 @@ class Revisions(Helper):
         """
 
         route = 'v1/revisions/fee_items/{0}/{1}/'.format(team_pk, project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_revisions_phases_detail(self, pk):
@@ -155,7 +155,7 @@ class Revisions(Helper):
         """
 
         route = 'v1/revisions/phases/detail/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_revisions_phases_team_project(self, team_pk, project_pk, page=1):
@@ -169,7 +169,7 @@ class Revisions(Helper):
         """
 
         route = 'v1/revisions/phases/{0}/{1}/?page_size={2}&page={3}'.format(team_pk, project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_phase_revision(self, team_pk, project_pk, data):
@@ -189,7 +189,7 @@ class Revisions(Helper):
         """
 
         route = 'v1/revisions/phases/{0}/{1}/'.format(team_pk, project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_revisions_plan_detail(self, pk):
@@ -201,7 +201,7 @@ class Revisions(Helper):
         """
 
         route = 'v1/revisions/plans/detail/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_revisions_plans_team_project(self, team_pk, project_pk, page=1):
@@ -215,7 +215,7 @@ class Revisions(Helper):
         """
 
         route = 'v1/revisions/plans/{0}/{1}/?page_size={2}&page={3}'.format(team_pk, project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_plan_revision(self, team_pk, project_pk, data):
@@ -234,5 +234,5 @@ class Revisions(Helper):
         """
 
         route = 'v1/revisions/plans/{0}/{1}/'.format(team_pk, project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)

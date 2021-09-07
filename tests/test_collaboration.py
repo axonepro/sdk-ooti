@@ -12,7 +12,7 @@ PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from ooti import ooti # noqa E402
+from resources import ooti # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -20,7 +20,7 @@ load_dotenv()
 OOTI_AUTH = os.getenv("OOTI_AUTH")
 OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 
-sdk = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
+sdk = ooti.OotiAPI(OOTI_AUTH, OOTI_PASSWORD)
 sdk.connect()
 
 
@@ -41,9 +41,9 @@ class TestNewsletters(unittest.TestCase):
             "frequency": 1,
             "all_users_are_receivers": True
         }
-        response = sdk.Collaboration.create_newsletters(payload)
+        response = sdk.Newsletters.create_newsletters(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Collaboration.delete_newsletter(response['data']['pk'])
+        delete = sdk.Newsletters.delete_newsletter(response['data']['pk'])
         self.assertEqual(delete['status'], 204)
 
 
@@ -67,15 +67,15 @@ class TestNotes(unittest.TestCase):
                 self.orguser_pk,
             ]
         }
-        response = sdk.Collaboration.create_note(payload)
+        response = sdk.Notes.create_note(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Collaboration.delete_note(response['data']['pk'])
+        delete = sdk.Notes.delete_note(response['data']['pk'])
         self.assertEqual(delete['status'], 204)
 
 
 class TestNotifications(unittest.TestCase):
     def test_get_notifications_config(self):
-        response = sdk.Collaboration.get_notifications_config()
+        response = sdk.Notifications.get_notifications_config()
         self.assertEqual(response['status'], 200)
 
     def test_update_notifications_details(self):
@@ -83,7 +83,7 @@ class TestNotifications(unittest.TestCase):
             "weekday": 5,
             "daily_time": "19:00:00"
         }
-        response = sdk.Collaboration.update_notifications_config(payload)
+        response = sdk.Notifications.update_notifications_config(payload)
         self.assertEqual(response['status'], 200)
 
 
@@ -101,9 +101,9 @@ class TestTasks(unittest.TestCase):
             "title": "task label tested",
             "description": "test if the function works correctly"
         }
-        response = sdk.Collaboration.create_task_label(payload)
+        response = sdk.Tasks.create_task_label(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Collaboration.delete_task_label(response['data']['pk'])
+        delete = sdk.Tasks.delete_task_label(response['data']['pk'])
         self.assertEqual(delete['status'], 204)
 
     def test_create_task(self):
@@ -113,18 +113,18 @@ class TestTasks(unittest.TestCase):
             "due_date": "07-08-2021",
             "description": "test if the tasks creation works"
         }
-        response = sdk.Collaboration.create_task(payload)
+        response = sdk.Tasks.create_task(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Collaboration.delete_task(response['data']['pk'])
+        delete = sdk.Tasks.delete_task(response['data']['pk'])
         self.assertEqual(delete['status'], 204)
 
     def test_create_tasks_list(self):
         payload = {
             "title": 'task list test',
         }
-        response = sdk.Collaboration.create_tasks_list(payload)
+        response = sdk.Tasks.create_tasks_list(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Collaboration.delete_tasks_list(response['data']['id'])
+        delete = sdk.Tasks.delete_tasks_list(response['data']['id'])
         self.assertEqual(delete['status'], 204)
 
 
@@ -136,7 +136,7 @@ class TestPosts(unittest.TestCase):
         cls.album_pk = AlbumFactory()['pk']
 
     def test_get_number_uncategorized_contacts(self):
-        response = sdk.Collaboration.get_number_uncategorized_contacts()
+        response = sdk.Contacts.get_number_uncategorized_contacts()
         self.assertEqual(response['status'], 200)
 
     def test_create_post(self):
@@ -144,66 +144,66 @@ class TestPosts(unittest.TestCase):
             "title": "post tested",
             "text": "test if the function create_post() works"
         }
-        response = sdk.Collaboration.create_post(payload)
+        response = sdk.Posts.create_post(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Collaboration.delete_post(response['data']['pk'])
+        delete = sdk.Posts.delete_post(response['data']['pk'])
         self.assertEqual(delete['status'], 204)
 
     def test_get_post_details(self):
-        response = sdk.Collaboration.get_post_details(self.post_pk)
+        response = sdk.Posts.get_post_details(self.post_pk)
         self.assertEqual(response['status'], 200)
 
     def test_create_post_like(self):
         payload = {}
-        response = sdk.Collaboration.create_posts_like(payload)
+        response = sdk.Posts.create_posts_like(payload)
         self.assertEqual(response['status'], 400)
         payload = {
             'post': self.post_pk,
         }
-        response = sdk.Collaboration.create_posts_like(payload)
+        response = sdk.Posts.create_posts_like(payload)
         self.assertEqual(response['status'], 201)
-        response = sdk.Collaboration.get_posts_like_details(response['data']['pk'])
+        response = sdk.Posts.get_posts_like_details(response['data']['pk'])
         self.assertEqual(response['status'], 200)
-        delete = sdk.Collaboration.delete_posts_like(response['data']['pk'])
+        delete = sdk.Posts.delete_posts_like(response['data']['pk'])
         self.assertEqual(delete['status'], 204)
 
     def test_create_post_album(self):
         payload = {}
-        response = sdk.Collaboration.create_posts_album(payload)
+        response = sdk.Posts.create_posts_album(payload)
         self.assertEqual(response['status'], 400)
         payload = {
             'post': self.post_pk,
             'title': 'album test'
         }
-        response = sdk.Collaboration.create_posts_album(payload)
+        response = sdk.Posts.create_posts_album(payload)
         self.assertEqual(response['status'], 201)
-        response = sdk.Collaboration.get_posts_album_details(response['data']['pk'])
+        response = sdk.Posts.get_posts_album_details(response['data']['pk'])
         self.assertEqual(response['status'], 200)
-        delete = sdk.Collaboration.delete_posts_album(response['data']['pk'])
+        delete = sdk.Posts.delete_posts_album(response['data']['pk'])
         self.assertEqual(delete['status'], 204)
 
     def test_create_post_image(self):
         payload = {}
-        response = sdk.Collaboration.create_posts_image(payload)
+        response = sdk.Posts.create_posts_image(payload)
         self.assertEqual(response['status'], 400)
         payload = {
             'post': self.post_pk,
             'album': self.album_pk,
             'title': 'album test'
         }
-        response = sdk.Collaboration.create_posts_image(payload)
+        response = sdk.Posts.create_posts_image(payload)
         self.assertEqual(response['status'], 201)
-        response = sdk.Collaboration.get_posts_image_details(response['data']['pk'])
+        response = sdk.Posts.get_posts_image_details(response['data']['pk'])
         self.assertEqual(response['status'], 200)
-        delete = sdk.Collaboration.delete_posts_image(response['data']['pk'])
+        delete = sdk.Posts.delete_posts_image(response['data']['pk'])
         self.assertEqual(delete['status'], 204)
 
     def test_get_post_comments(self):
-        response = sdk.Collaboration.get_post_comments(self.post_pk)
+        response = sdk.Posts.get_post_comments(self.post_pk)
         self.assertEqual(response['status'], 200)
 
     def test_get_posts_likes_list(self):
-        response = sdk.Collaboration.get_posts_likes_list()
+        response = sdk.Posts.get_posts_likes_list()
         self.assertEqual(response['status'], 200)
 
 
@@ -218,18 +218,18 @@ class TestContacts(unittest.TestCase):
         payload = {
             'name': 'contact test'
         }
-        response = sdk.Collaboration.create_contact(payload)
+        response = sdk.Contacts.create_contact(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Collaboration.delete_contact(response['data']['id'])
+        delete = sdk.Contacts.delete_contact(response['data']['id'])
         self.assertEqual(delete['status'], 204)
 
     def test_create_contact_category(self):
         payload = {
             'name': 'contact category test'
         }
-        response = sdk.Collaboration.create_contact_category(payload)
+        response = sdk.Contacts.create_contact_category(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Collaboration.delete_contact_category(response['data']['id'])
+        delete = sdk.Contacts.delete_contact_category(response['data']['id'])
         self.assertEqual(delete['status'], 204)
 
 

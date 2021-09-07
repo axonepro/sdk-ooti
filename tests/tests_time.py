@@ -12,7 +12,7 @@ PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from ooti import ooti # noqa E402
+from resources import ooti # noqa E402
 
 
 # Loading environment variables (stored in .env file)
@@ -21,7 +21,7 @@ load_dotenv()
 OOTI_AUTH = os.getenv("OOTI_AUTH")
 OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 
-my_account = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
+my_account = ooti.OotiAPI(OOTI_AUTH, OOTI_PASSWORD)
 my_account.connect()
 
 team_pk = TeamFactory()
@@ -51,13 +51,13 @@ class TestTimeperiods(unittest.TestCase):
     def test_get_timeperiods_dashboard_scheduling_timeline(self):
         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timeperiods_dashboard_scheduling_timeline()
+        res = my_account.Timeperiods.get_timeperiods_dashboard_scheduling_timeline()
         self.assertEqual(res['status'], 200)
 
     def test_get_timeperiods_resource_planning_timeline(self):
         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timeperiods_resource_planning_timeline()
+        res = my_account.Timeperiods.get_timeperiods_resource_planning_timeline()
         self.assertEqual(res['status'], 200)
 
     def test_create_timeperiods_resource_planning_timeline(self):
@@ -67,37 +67,37 @@ class TestTimeperiods(unittest.TestCase):
             "team": self.team_pk
         }
 
-        res = my_account.Time.create_timeperiods_resource_planning_timeline(data)
+        res = my_account.Timeperiods.create_timeperiods_resource_planning_timeline(data)
         self.assertEqual(res['status'], 200)
 
     def test_get_timeperiods_resources_timeline(self):
         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timeperiods_resources_timeline(self.project_pk)
+        res = my_account.Timeperiods.get_timeperiods_resources_timeline(self.project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_timeperiods_scheduling_timeline_actions(self):
         """ Test that 200 is returned """
 
-        res = my_account.Time.create_timeperiods_scheduling_timeline_actions(self.project_pk)
+        res = my_account.Timeperiods.create_timeperiods_scheduling_timeline_actions(self.project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_get_timeperiods_scheduling_timeline_actions(self):
         """ Test that 200 is returned """
 
-        res = my_account.Time.get_timeperiods_scheduling_timeline_actions(self.project_pk)
+        res = my_account.Timeperiods.get_timeperiods_scheduling_timeline_actions(self.project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_user_period_action(self):
         """ Test that 200 is returned """
 
-        res = my_account.Time.create_user_period_action()
+        res = my_account.Timeperiods.create_user_period_action()
         self.assertEqual(res['status'], 200)
 
     def test_get_user_period_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Time.get_user_period_list(self.team_pk)
+        res = my_account.Timeperiods.get_user_period_list(self.team_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_user_period_list(self):
@@ -110,14 +110,14 @@ class TestTimeperiods(unittest.TestCase):
             "description": "string",
         }
 
-        res = my_account.Time.create_user_period_list(data)
+        res = my_account.Timeperiods.create_user_period_list(data)
         self.assertEqual(res['status'], 201)
 
     def test_get_user_period_details(self):
         """ Test that 200 is returned """
 
         user_period_pk = self.testHelper._create_user_period_return_pk(self.orguser_pk, self.team_pk, self.project_pk)
-        res = my_account.Time.get_user_period_details(user_period_pk)
+        res = my_account.Timeperiods.get_user_period_details(user_period_pk)
         self.assertEqual(res['status'], 200)
 
     def test_update_user_period_list(self):
@@ -128,20 +128,20 @@ class TestTimeperiods(unittest.TestCase):
         }
 
         user_period_pk = self.testHelper._create_user_period_return_pk(self.orguser_pk, self.team_pk, self.project_pk)
-        res = my_account.Time.update_user_period_list(user_period_pk, data)
+        res = my_account.Timeperiods.update_user_period_list(user_period_pk, data)
         self.assertEqual(res['status'], 200)
 
     def test_delete_user_period(self):
         """ Test that 204 is returned """
 
         user_period_pk = self.testHelper._create_user_period_return_pk(self.orguser_pk, self.team_pk, self.project_pk)
-        res = my_account.Time.delete_user_period(user_period_pk)
+        res = my_account.Timeperiods.delete_user_period(user_period_pk)
         self.assertEqual(res['status'], 204)
 
     def test_get_users_scheduling_timeline(self):
         """ Test that 200 is returned """
 
-        res = my_account.Time.get_users_scheduling_timeline()
+        res = my_account.Timeperiods.get_users_scheduling_timeline()
         self.assertEqual(res['status'], 200)
 
 
@@ -160,7 +160,7 @@ class TestRoles(unittest.TestCase):
     def test_get_roles_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Time.get_roles_list()
+        res = my_account.Roles.get_roles_list()
         self.assertEqual(res['status'], 200)
 
     def test_create_roles(self):
@@ -170,13 +170,13 @@ class TestRoles(unittest.TestCase):
             "title": self.testHelper.create_name()
         }
 
-        res = my_account.Time.create_roles(data)
+        res = my_account.Roles.create_roles(data)
         self.assertEqual(res['status'], 201)
 
     def test_get_roles_project_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Time.get_roles_project_list()
+        res = my_account.Roles.get_roles_project_list()
         self.assertEqual(res['status'], 200)
 
     def test_create_roles_project(self):
@@ -188,13 +188,13 @@ class TestRoles(unittest.TestCase):
             "role": self.role_pk,
         }
 
-        res = my_account.Time.create_roles_project(data)
+        res = my_account.Roles.create_roles_project(data)
         self.assertEqual(res['status'], 201)
 
     def test_get_roles_project_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Time.get_roles_project_details(self.project_role_pk)
+        res = my_account.Roles.get_roles_project_details(self.project_role_pk)
         self.assertEqual(res['status'], 200)
 
     def test_update_roles_project(self):
@@ -204,31 +204,31 @@ class TestRoles(unittest.TestCase):
             "billable_per_hour": 2
         }
 
-        res = my_account.Time.update_roles_project(self.project_role_pk, data)
+        res = my_account.Roles.update_roles_project(self.project_role_pk, data)
         self.assertEqual(res['status'], 200)
 
     def test_delete_roles_project(self):
         """ Test that 204 is returned """
 
-        res = my_account.Time.delete_roles_project(self.project_role_pk)
+        res = my_account.Roles.delete_roles_project(self.project_role_pk)
         self.assertEqual(res['status'], 204)
 
     def test_create_bulk_action_add_roles(self):
         """ Test that 201 is returned """
 
-        res = my_account.Time.create_bulk_action_add_roles(self.project_pk)
+        res = my_account.Roles.create_bulk_action_add_roles(self.project_pk)
         self.assertEqual(res['status'], 201)
 
     def test_delete_bulk_action_add_roles(self):
         """ Test that 204 is returned """
 
-        res = my_account.Time.delete_bulk_action_add_roles(self.project_pk)
+        res = my_account.Roles.delete_bulk_action_add_roles(self.project_pk)
         self.assertEqual(res['status'], 204)
 
     def test_get_roles_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Time.get_roles_details(self.role_pk)
+        res = my_account.Roles.get_roles_details(self.role_pk)
         self.assertEqual(res['status'], 200)
 
     def test_update_roles(self):
@@ -238,14 +238,14 @@ class TestRoles(unittest.TestCase):
             "title": self.testHelper.create_name()
         }
 
-        res = my_account.Time.update_roles(self.role_pk, data)
+        res = my_account.Roles.update_roles(self.role_pk, data)
         self.assertEqual(res['status'], 200)
 
     def test_delete_roles(self):
         """ Test that 204 is returned """
 
         role_pk2 = self.testHelper._create_roles_return_pk()
-        res = my_account.Time.delete_roles(role_pk2)
+        res = my_account.Roles.delete_roles(role_pk2)
         self.assertEqual(res['status'], 204)
 
 
@@ -262,7 +262,7 @@ class TestTrips(unittest.TestCase):
     def test_get_trips_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Time.get_trips_list()
+        res = my_account.Trips.get_trips_list()
         self.assertEqual(res['status'], 200)
 
     def test_create_trip(self):
@@ -277,13 +277,13 @@ class TestTrips(unittest.TestCase):
             "notes": "UNITTEST"
         }
 
-        res = my_account.Time.create_trip(data)
+        res = my_account.Trips.create_trip(data)
         self.assertEqual(res['status'], 201)
 
     def test_get_trips_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Time.get_trips_details(self.trip_pk)
+        res = my_account.Trips.get_trips_details(self.trip_pk)
         self.assertEqual(res['status'], 200)
 
     def test_update_trip(self):
@@ -293,13 +293,13 @@ class TestTrips(unittest.TestCase):
             "notes": "UPDATED"
         }
 
-        res = my_account.Time.update_trip(self.trip_pk, data)
+        res = my_account.Trips.update_trip(self.trip_pk, data)
         self.assertEqual(res['status'], 200)
 
     def test_delete_trip(self):
         """ Test that 204 is returned """
 
-        res = my_account.Time.delete_trip(self.trip_pk)
+        res = my_account.Trips.delete_trip(self.trip_pk)
         self.assertEqual(res['status'], 204)
 
 

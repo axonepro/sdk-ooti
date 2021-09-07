@@ -29,7 +29,7 @@ class Helper:
         except KeyError:
             return {'status': response.status_code, 'data': json.loads(response.content)}
 
-    def process_request(self, request, verb, _base_url, _route, _parameter=None, _headers, _data=None):
+    def process_request(self, request, verb, _base_url, _route, _headers, _parameter=None, _data=None):
         try:
 
             if (verb == 'GET'):

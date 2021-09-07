@@ -12,7 +12,7 @@ class Inbound_emails(Helper):
         """ Get the list of inbound emails """
 
         route = 'v1/inbound_emails/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_inbound_email(self, data):
@@ -35,7 +35,7 @@ class Inbound_emails(Helper):
         """
 
         route = 'v1/inbound_emails/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_inbound_email_details(self, id):
@@ -46,7 +46,7 @@ class Inbound_emails(Helper):
         """
 
         route = 'v1/inbound_emails/{0}/'.format(id)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_inbound_email_details(self, id, data):
@@ -70,7 +70,7 @@ class Inbound_emails(Helper):
         """
 
         route = 'v1/inbound_emails/{0}/'.format(id)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_inbound_email(self, id):
@@ -81,5 +81,5 @@ class Inbound_emails(Helper):
         """
 
         route = 'v1/inbound_emails/{0}/'.format(id)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

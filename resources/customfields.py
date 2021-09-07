@@ -12,7 +12,7 @@ class Customfields(Helper):
         """ Get the list of customfields """
 
         route = 'v1/customfields/field/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_customfield(self, data):  # Error 500
@@ -52,7 +52,7 @@ class Customfields(Helper):
         """
 
         route = 'v1/customfields/field/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_customfield_details(self, pk):
@@ -63,7 +63,7 @@ class Customfields(Helper):
         """
 
         route = 'v1/customfields/field/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_customfield_details(self, pk, data):
@@ -90,7 +90,7 @@ class Customfields(Helper):
         """
 
         route = 'v1/customfields/field/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_customfield(self, pk):
@@ -101,7 +101,7 @@ class Customfields(Helper):
         """
 
         route = 'v1/customfields/field/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     # TODO GET on /api/v1/customfields/values/{org_pk}/

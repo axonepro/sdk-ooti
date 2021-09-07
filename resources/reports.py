@@ -14,7 +14,7 @@ class Reports(Helper):
         """ Get the reports list """
 
         route = 'v1/reports/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_reports_project_list(self, project_pk, page=1):
@@ -22,7 +22,7 @@ class Reports(Helper):
 
         route = 'v1/reports/list/{0}/?project={1}&page_size={2}&page={3}'.format(
             self.org_pk, project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_report_details(self, pk):
@@ -34,7 +34,7 @@ class Reports(Helper):
         """
 
         route = 'v1/reports/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_report(self, data):
@@ -84,7 +84,7 @@ class Reports(Helper):
         Note: You can create a report without "type", but this will create a blank page.
         """
         route = 'v1/reports/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def update_report(self, pk, data):
@@ -114,7 +114,7 @@ class Reports(Helper):
         Note: You can create a report without "type", but this will create a blank page.
         """
         route = 'v1/reports/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_report(self, pk):
@@ -125,7 +125,7 @@ class Reports(Helper):
         pk -- pk of the report
         """
         route = 'v1/reports/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def generate_report(self, data):
@@ -140,7 +140,7 @@ class Reports(Helper):
             }
         """
         route = 'v1/reports/generate/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_templates_list(self, team_pk, page=1):
@@ -152,7 +152,7 @@ class Reports(Helper):
         """
 
         route = 'v1/reports/templates/list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_template_details(self, pk):
@@ -164,7 +164,7 @@ class Reports(Helper):
         """
 
         route = 'v1/reports/templates/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_template(self, team_pk, data):
@@ -189,7 +189,7 @@ class Reports(Helper):
             """
 
         route = 'v1/reports/templates/list/{0}/'.format(team_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def update_template(self, pk, data):
@@ -214,7 +214,7 @@ class Reports(Helper):
             """
 
         route = 'v1/reports/templates/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_template(self, pk):
@@ -226,7 +226,7 @@ class Reports(Helper):
          """
 
         route = 'v1/reports/templates/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def duplicate_template(self, pk):
@@ -238,7 +238,7 @@ class Reports(Helper):
          """
 
         route = 'v1/reports/templates/duplicate/{0}/'.format(pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     # TODO GET on /api/v1/reports/variables/{id}/

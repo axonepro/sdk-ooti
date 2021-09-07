@@ -78,7 +78,7 @@ Run  the following command to install package ```ooti-api```:
    ```
 2. Connect to the API
    ```py
-   my_account = sdk_ooti.Auth('email', 'password')
+   my_account = sdk_ooti.OotiAPI('email', 'password')
    my_account.connect()
    ```
 3. Do a request
@@ -93,7 +93,7 @@ import pprint
 
 
 ###### Connect ######
-my_account = ooti.Auth('email', 'password')
+my_account = ooti.OotiAPI('email', 'password')
 my_account.connect()
 
 

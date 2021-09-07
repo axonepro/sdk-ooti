@@ -19,7 +19,7 @@ class Costs(Helper):
         }
         """
         route = 'v1/costs/copy-fee-allocations-from-contract-hours/{0}/'.format(project_id)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def copy_costs_fee_allocations_from_subcontractor_fees(self, project_id):  # ?
@@ -33,7 +33,7 @@ class Costs(Helper):
         }
         """
         route = 'v1/costs/copy-fee-allocations-from-subcontractor-fees/{0}/'.format(project_id)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def copy_costs_previous_year(self):
@@ -46,7 +46,7 @@ class Costs(Helper):
         }
         """
         route = 'v1/costs/copy-prev-year/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     # TODO GET on /api/v1/costs/cost-composition-charts/{team_pk}/
@@ -57,7 +57,7 @@ class Costs(Helper):
         """ Get the list of costs """
 
         route = 'v1/costs/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_cost(self, data):
@@ -82,14 +82,14 @@ class Costs(Helper):
         """
 
         route = 'v1/costs/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_costs_months_list(self, page=1):
         """ Get the list of costs month """
 
         route = 'v1/costs/month/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_costs_month(self, data):
@@ -108,7 +108,7 @@ class Costs(Helper):
         """
 
         route = 'v1/costs/month/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_costs_month_details(self, month_id):
@@ -119,7 +119,7 @@ class Costs(Helper):
         """
 
         route = 'v1/costs/month/{0}/'.format(month_id)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_costs_month_details(self, month_id, data):
@@ -139,7 +139,7 @@ class Costs(Helper):
         """
 
         route = 'v1/costs/month/{0}/'.format(month_id)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_costs_month(self, month_id):
@@ -150,7 +150,7 @@ class Costs(Helper):
         """
 
         route = 'v1/costs/month/{0}/'.format(month_id)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
   
     def set_costs_annual_budget(self, cost_id, data):
@@ -164,7 +164,7 @@ class Costs(Helper):
         }
         """
         route = 'v1/costs/set-annual-budget/{0}/'.format(cost_id)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, data)
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, data)
         return self.process_response(response) 
 
     def get_cost_details(self, id):
@@ -175,7 +175,7 @@ class Costs(Helper):
         """
 
         route = 'v1/costs/{0}/'.format(id)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_cost_details(self, id, data):
@@ -201,7 +201,7 @@ class Costs(Helper):
         """
 
         route = 'v1/costs/{0}/'.format(id)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_cost(self, id):
@@ -212,5 +212,5 @@ class Costs(Helper):
         """
 
         route = 'v1/costs/{0}/'.format(id)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

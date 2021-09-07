@@ -12,7 +12,7 @@ class Revenue(Helper):
         """ Get the revenue list """
 
         route = 'v1/revenue/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_revenue_details(self, pk):
@@ -24,7 +24,7 @@ class Revenue(Helper):
         """
 
         route = 'v1/revenue/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_revenue(self, data):
@@ -50,14 +50,14 @@ class Revenue(Helper):
         """
 
         route = 'v1/revenue/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_revenue_month_list(self, page=1):
         """ Get the revenue month list """
 
         route = 'v1/revenue/month/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_revenue_month(self, data):
@@ -78,7 +78,7 @@ class Revenue(Helper):
         """
 
         route = 'v1/revenue/month/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_revenue_month_details(self, pk):
@@ -90,7 +90,7 @@ class Revenue(Helper):
         """
 
         route = 'v1/revenue/month/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_revenue_month(self, pk, data):
@@ -112,7 +112,7 @@ class Revenue(Helper):
         """
 
         route = 'v1/revenue/month/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_revenue_month(self, pk):
@@ -124,7 +124,7 @@ class Revenue(Helper):
         """
 
         route = 'v1/revenue/month/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_revenue(self, pk, data):
@@ -151,7 +151,7 @@ class Revenue(Helper):
         """
 
         route = 'v1/revenue/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_revenue(self, pk):
@@ -163,7 +163,7 @@ class Revenue(Helper):
         """
 
         route = 'v1/revenue/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     # TODO POST on /api/v1/revenue/set-annual-budget/{id}/

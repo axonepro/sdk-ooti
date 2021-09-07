@@ -29,7 +29,7 @@ load_dotenv()
 OOTI_AUTH = os.getenv("OOTI_AUTH")
 OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 
-sdk = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
+sdk = ooti.OotiAPI(OOTI_AUTH, OOTI_PASSWORD)
 sdk.connect()
 
 
@@ -47,14 +47,14 @@ class TestEmployees(unittest.TestCase):
             'status': 'active',
             'end_date': '20-10-2022',
         }
-        response = sdk.Employee.create_employees_contract(payload)
+        response = sdk.Employees.create_employees_contract(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Employee.delete_employees_contract(response['data']['id'])
+        delete = sdk.Employees.delete_employees_contract(response['data']['id'])
         self.assertEqual(delete['status'], 204)
 
     def test_delete_employee_contract(self):
         employee_contract = EmployeeContractFactory()
-        response = sdk.Employee.delete_employees_contract(employee_contract['id'])
+        response = sdk.Employees.delete_employees_contract(employee_contract['id'])
         self.assertEqual(response['status'], 204)
 
     def test_create_employees_period(self):
@@ -76,14 +76,14 @@ class TestEmployees(unittest.TestCase):
             "overtime_hours_limit": 5,
             "days_per_week": 6
         }
-        response = sdk.Employee.create_employees_period(payload)
+        response = sdk.Employees.create_employees_period(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.Employee.delete_employees_period(response['data']['id'])
+        delete = sdk.Employees.delete_employees_period(response['data']['id'])
         self.assertEqual(delete['status'], 204)
 
     def test_delete_employees_period(self):
         employee_period = EmployeePeriodFactory()
-        response = sdk.Employee.delete_employees_period(employee_period['id'])
+        response = sdk.Employees.delete_employees_period(employee_period['id'])
         self.assertEqual(response['status'], 204)
 
 

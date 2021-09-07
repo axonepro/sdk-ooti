@@ -11,7 +11,7 @@ PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from ooti import ooti # noqa E402
+from resources import ooti # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -19,7 +19,7 @@ load_dotenv()
 OOTI_AUTH = os.getenv("OOTI_AUTH")
 OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 
-sdk = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
+sdk = ooti.OotiAPI(OOTI_AUTH, OOTI_PASSWORD)
 sdk.connect()
 
 
@@ -29,7 +29,7 @@ class TestGoals(unittest.TestCase):
         cls.team_pk = TeamFactory()
 
     def test_get_goals_list(self):
-        response = sdk.Others.get_goals_list()
+        response = sdk.Goals.get_goals_list()
         self.assertEqual(response['status'], 200)
 
     def test_create_goal(self):
@@ -39,7 +39,7 @@ class TestGoals(unittest.TestCase):
             'value': 2,
             'year': 2021
         }
-        response = sdk.Others.create_goal(payload)
+        response = sdk.Goals.create_goal(payload)
         self.assertEqual(response['status'], 201)
         payload = {
             'team': self.team_pk,
@@ -47,11 +47,11 @@ class TestGoals(unittest.TestCase):
             'value': 5,
             'year': 2020
         }
-        update = sdk.Others.update_goal_details(response['data']['id'], payload)
+        update = sdk.Goals.update_goal_details(response['data']['id'], payload)
         self.assertEqual(update['status'], 200)
-        get = sdk.Others.get_goal_details(response['data']['id'])
+        get = sdk.Goals.get_goal_details(response['data']['id'])
         self.assertEqual(get['status'], 200)
-        delete = sdk.Others.delete_goal(response['data']['id'])
+        delete = sdk.Goals.delete_goal(response['data']['id'])
         self.assertEqual(delete['status'], 204)
 
 
@@ -62,23 +62,23 @@ class TestIndicators(unittest.TestCase):
         cls.project_id = ProjectFactory()['id']
 
     def test_get_indicators_financial_costs(self):
-        response = sdk.Others.get_indicators_financial_costs(project_id=self.project_id)
+        response = sdk.Goals.get_indicators_financial_costs(project_id=self.project_id)
         self.assertEqual(response['status'], 200)
 
     def test_get_indicators_financial_incomes(self):
-        response = sdk.Others.get_indicators_financial_incomes()
+        response = sdk.Goals.get_indicators_financial_incomes()
         self.assertEqual(response['status'], 200)
 
     def test_get_indicators_financial_revenues(self):
-        response = sdk.Others.get_indicators_financial_revenues()
+        response = sdk.Goals.get_indicators_financial_revenues()
         self.assertEqual(response['status'], 200)
 
     def test_get_indicators_financial_summary(self):
-        response = sdk.Others.get_indicators_financial_summary()
+        response = sdk.Goals.get_indicators_financial_summary()
         self.assertEqual(response['status'], 200)
 
     def test_get_indicators_revenue(self):
-        response = sdk.Others.get_indicators_revenue()
+        response = sdk.Goals.get_indicators_revenue()
         self.assertEqual(response['status'], 200)
 
 

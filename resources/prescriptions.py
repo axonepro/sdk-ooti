@@ -17,7 +17,7 @@ class Prescriptions(Helper):
         """
 
         route = 'v1/prescriptions/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_prescription(self, project_pk, data):
@@ -47,7 +47,7 @@ class Prescriptions(Helper):
         """
 
         route = 'v1/prescriptions/list/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_prescriptions_details(self, pk):
@@ -59,7 +59,7 @@ class Prescriptions(Helper):
         """
 
         route = 'v1/prescriptions/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_prescriptions(self, pk, data):
@@ -89,7 +89,7 @@ class Prescriptions(Helper):
         """
 
         route = 'v1/prescriptions/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_prescription(self, pk):
@@ -101,5 +101,5 @@ class Prescriptions(Helper):
         """
 
         route = 'v1/prescriptions/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

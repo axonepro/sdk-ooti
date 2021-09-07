@@ -70,13 +70,6 @@ from .token_verify import Token_verify
 from .trips import Trips
 from .zones import Zones
 
-from ooti.others import Others
-from ooti.settings import Settings
-from ooti.collaboration import Collaboration
-from ooti.invoicing import Invoicing
-from ooti.deliverables import Deliverables
-from ooti.time import Time
-
 # To read .env variables
 import os
 from dotenv import load_dotenv
@@ -85,7 +78,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-class Auth(Helper):
+class OotiAPI(Helper):
     def __init__(self, username, password, pagination=None):
         self.username = username
         self.password = password
@@ -114,26 +107,138 @@ class Auth(Helper):
         self.__get_selected_org()
         self.__get_teams()
 
-        self.Costs = Costs(self.base_url, self.org_pk, self.teams_pk,
+        self.Accounting = Accounting(self.base_url, self.org_pk, self.teams_pk,
                            self.access_token, self._csrf_token, self.headers, self.pagination)
-
-        self.Others = Others(self.base_url, self.org_pk, self.teams_pk,
-                             self.access_token, self._csrf_token, self.headers, self.pagination)
-
-        self.Settings = Settings(self.base_url, self.org_pk, self.teams_pk,
-                                 self.access_token, self._csrf_token, self.headers, self.pagination)
-
-        self.Collaboration = Collaboration(self.base_url, self.org_pk, self.teams_pk,
-                                           self.access_token, self._csrf_token, self.headers, self.pagination)
-
-        self.Invoicing = Invoicing(self.base_url, self.org_pk, self.teams_pk,
+        self.Actions = Actions(self.base_url, self.org_pk, self.teams_pk,
                                    self.access_token, self._csrf_token, self.headers, self.pagination)
-
-        self.Deliverables = Deliverables(self.base_url, self.org_pk, self.teams_pk,
-                                         self.access_token, self._csrf_token, self.headers, self.pagination)
-
-        self.Time = Time(self.base_url, self.org_pk, self.teams_pk,
-                         self.access_token, self._csrf_token,  self.headers, self.pagination)
+        self.Annexes = Annexes(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Areas = Areas(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Auth = Auth(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Banks = Banks(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Billing = Billing(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Celery_tasks = Celery_tasks(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Clients = Clients(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Contacts = Contacts(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Contracts = Contracts(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Costs = Costs(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Countries = Countries(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Currencies = Currencies(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Customfields = Customfields(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Defaults = Defaults(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Documents = Documents(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Emails = Emails(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Employees = Employees(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Expenses = Expenses(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Fees = Fees(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Files = Files(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Goals = Goals(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Help = Help(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Helper = Helper(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Imports = Imports(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Inbound_emails = Inbound_emails(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Indicators = Indicators(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Invitations = Invitations(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Invoices = Invoices(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Jobs = Jobs(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Languages = Languages(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Lots = Lots(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Milestones = Milestones(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Newsletters = Newsletters(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Notes = Notes(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Notifications = Notifications(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Organizations = Organizations(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Orgusers = Orgusers(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Payments = Payments(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Permissions = Permissions(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Phases = Phases(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Pipelines = Pipelines(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Plans = Plans(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Posts = Posts(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Prescriptions = Prescriptions(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Profiles = Profiles(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Projections = Projections(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Projects = Projects(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Quickbooks = Quickbooks(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Reports = Reports(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Revenue = Revenue(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Revisions = Revisions(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Roles = Roles(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Stats = Stats(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Styleguides = Styleguides(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Tags = Tags(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Tasks = Tasks(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Teams = Teams(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Timelogs = Timelogs(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Timeperiods = Timeperiods(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Token_auth = Token_auth(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Token_refresh = Token_refresh(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Token_verify = Token_verify(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Trips = Trips(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Zones = Zones(self.base_url, self.org_pk, self.teams_pk,
+                                   self.access_token, self._csrf_token, self.headers, self.pagination)
 
     def base_url(self):
         """ Choose base_url based on ENV variable """
@@ -166,7 +271,7 @@ class Auth(Helper):
         """ Get the list of invitations """
 
         route = 'v1/invitations/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_team_invitations_list(self, team_pk):
@@ -177,7 +282,7 @@ class Auth(Helper):
         """
 
         route = 'v1/invitations/list/{0}/{1}/'.format(self.org_pk, team_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_invitation_details(self, pk):
@@ -187,14 +292,14 @@ class Auth(Helper):
         pk -- pk of the invitation
         """
         route = 'v1/invitations/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_invitation(self, pk, data):  # which pk ? already tested with orguser_pk and team_pk
         """ Create a new invitation """
 
         route = 'v1/invitations/{0}/'.format(pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def update_invitation_details(self, pk, data):
@@ -209,7 +314,7 @@ class Auth(Helper):
         """
 
         route = 'v1/invitations/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_invitation(self, pk):
@@ -219,7 +324,7 @@ class Auth(Helper):
         pk -- pk of the invitation
         """
         route = 'v1/invitations/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     ##### Projects #####
@@ -232,7 +337,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/{0}/'.format(id)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_project_details(self, id, data):
@@ -250,7 +355,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/{0}/'.format(id)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_project(self, id):
@@ -260,7 +365,7 @@ class Auth(Helper):
         id -- the id of the project
         """
         route = 'v1/projects/{0}/'.format(id)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_projects_list(self, team_pk=None):
@@ -273,14 +378,14 @@ class Auth(Helper):
         route = 'v1/projects/list/{0}/'.format(self.org_pk)
         if team_pk is not None:
             route += '{0}/'.format(team_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def export_projects_list(self):
         """ Export the list of projects as a .xls file """
 
         route = 'v1/projects/export/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         xls_file = open('projects_list.xls', 'wb')
         xls_file.write(response.content)
         xls_file.close()
@@ -289,7 +394,7 @@ class Auth(Helper):
     def get_access_projects_list(self):  # what is access on OOTI ?
 
         route = 'v1/projects/list/access/'
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_project(self, data):
@@ -314,7 +419,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_project_fee_summary(self, id):
@@ -325,14 +430,14 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/fee-summary/{0}/'.format(id)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_project_list_access(self):
         """ ? """
 
         route = 'v1/projects/list/access/'
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_project_revenue(self, id):
@@ -342,7 +447,7 @@ class Auth(Helper):
         id -- the id of the project
         """
         route = 'v1/projects/revenue/{0}/'.format(id)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_project_available_clients(self, id):
@@ -354,14 +459,14 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/available-clients/{0}/'.format(id)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_projects_list_deliverables(self):
         """ Get the list of projects and their associated deliverables where the current user is a member of """
 
         route = 'v1/projects/deliverables/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_project_users_list(self, id):
@@ -372,7 +477,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/users/list/{0}/'.format(id)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return {'status': response.status_code, 'data': json.loads(response.content)['results']}
 
     def get_project_user_details(self, user_pk):
@@ -383,7 +488,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/users/{0}/'.format(user_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def add_project_user(self, id, data):
@@ -401,7 +506,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/users/list/{0}/'.format(id)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def update_project_user_details(self, user_pk, data):
@@ -417,7 +522,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/users/{0}/'.format(user_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_project_user(self, user_pk):
@@ -428,14 +533,14 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/users/{0}/'.format(user_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_project_tags_groups_list(self):
         """ Get the list of groups of project tags """
 
         route = 'v1/projects/tags/groups/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_project_tags_group(self, data):
@@ -453,7 +558,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/tags/groups/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_project_tags_group_details(self, group_pk):
@@ -464,7 +569,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/tags/groups/{0}/'.format(group_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_project_tags_group_details(self, group_pk, data):
@@ -483,7 +588,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/tags/groups/{0}/'.format(group_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_project_tags_group_details(self, group_pk):
@@ -494,14 +599,14 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/tags/groups/{0}/'.format(group_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_project_tags_list(self):
         """ Get the list of tags """
 
         route = 'v1/projects/tags/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_project_tag(self, data):
@@ -517,7 +622,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/tags/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_project_tag_details(self, tag_pk):
@@ -527,7 +632,7 @@ class Auth(Helper):
         tag_pk -- pk of the tag
         """
         route = 'v1/projects/tags/{0}/'.format(tag_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_project_tag_details(self, tag_pk, data):
@@ -543,7 +648,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/tags/{0}/'.format(tag_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_project_tag(self, tag_pk):
@@ -554,7 +659,7 @@ class Auth(Helper):
         """
 
         route = 'v1/projects/tags/{0}/'.format(tag_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     #### Orgusers ####
@@ -563,21 +668,21 @@ class Auth(Helper):
         """ Get the list of users in the organization """
 
         route = 'v1/orgusers/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_orgusers_count(self):
         """ Get only the number of orguser inside the organization """
 
         route = 'v1/orgusers/count/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def export_orgusers_list(self):
         """ Export the list of orgusers as a .xls file """
 
         route = 'v1/orgusers/export/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         xls_file = open('orgusers_list.xls', 'wb')
         xls_file.write(response.content)
         xls_file.close()
@@ -596,7 +701,7 @@ class Auth(Helper):
             'orguser': pk,
             'team': team_pk
         }
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_orguser_details(self, pk):
@@ -607,7 +712,7 @@ class Auth(Helper):
         """
 
         route = 'v1/orgusers/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_orguser(self, data):
@@ -627,7 +732,7 @@ class Auth(Helper):
         """
 
         route = 'v1/orgusers/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def update_orguser_details(self, pk, data):
@@ -643,7 +748,7 @@ class Auth(Helper):
         """
 
         route = 'v1/orgusers/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_orguser(self, pk):
@@ -654,7 +759,7 @@ class Auth(Helper):
         """
 
         route = 'v1/orgusers/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     #### Organizations ####
@@ -663,14 +768,14 @@ class Auth(Helper):
         """ Returns short user information and orgs/teams/projects he is member of """
 
         route = 'v1/organizations/membership/'
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_organization_metrics(self):
         """ Get the admin dashboard metrics """
 
         route = 'v1/organizations/metrics/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_organization_details(self, pk):
@@ -681,7 +786,7 @@ class Auth(Helper):
         """
 
         route = 'v1/organizations/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_organization_details(self, data):
@@ -783,14 +888,14 @@ class Auth(Helper):
         }
         """
         route = 'v1/organizations/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def __get_teams(self):
         """ Set the organization id of the user """
 
         route = 'v1/organizations/membership/'
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         organizations = json.loads(response.content)['organizations']
         selected_organization = next((org for org in organizations if org.get('id') == self.org_pk), None)
         teams = selected_organization['teams']
@@ -806,7 +911,7 @@ class Auth(Helper):
         """ Get the list of permissions sets """
 
         route = 'v1/permissions/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_permissions(self, data):
@@ -829,14 +934,14 @@ class Auth(Helper):
         """
 
         route = 'v1/permissions/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_permissions_map(self):
         """ Return a dictionary with request.user permissions by level """
 
         route = 'v1/permissions/map/'
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_permissions_details(self, id):
@@ -847,7 +952,7 @@ class Auth(Helper):
         """
 
         route = 'v1/permissions/{0}/'.format(id)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_permissions_details(self, id, data):
@@ -871,7 +976,7 @@ class Auth(Helper):
         """
 
         route = 'v1/permissions/{0}/'.format(id)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_permissions(self, id):
@@ -882,7 +987,7 @@ class Auth(Helper):
         """
 
         route = 'v1/permissions/{0}/'.format(id)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     #### Profile ####
@@ -892,7 +997,7 @@ class Auth(Helper):
         """
 
         route = 'v1/profiles/profile/'
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         self.org_pk = json.loads(response.content)['selected_org']
         return self.process_response(response)
 
@@ -900,14 +1005,14 @@ class Auth(Helper):
         """ Get profile preferences """
 
         route = 'v1/profiles/preferences/'
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_profile_details(self):
         """ Get current profile details """
 
         route = 'v1/profiles/profile/'
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_profile_details(self, data):
@@ -922,7 +1027,7 @@ class Auth(Helper):
         """
 
         route = 'v1/profiles/profile/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     #### Team #####
@@ -931,14 +1036,14 @@ class Auth(Helper):
         """ Get the list of teams """
 
         route = 'v1/teams/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)  # no 'results' key
 
     def get_teams_access_list(self):
         """ Get teams orguser has or has not access to """
 
         route = 'v1/teams/list/access/'
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_team(self, data):
@@ -958,7 +1063,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_team_users_list(self, pk):
@@ -969,7 +1074,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/users/list/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def add_team_user(self, pk, data):
@@ -987,7 +1092,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/users/list/{0}/'.format(pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def add_team_user_to_multiple_projects(self, data):  # Error 500
@@ -1008,7 +1113,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/users/bulk/add/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def remove_team_user_to_multiple_projects(self, data):  # Error 500
@@ -1026,7 +1131,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/users/bulk/delete/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_team_user_details(self, user_pk):  # same thing as get_orguser_details ?
@@ -1037,7 +1142,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/users/{0}/'.format(user_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_team_user_details(self, user_pk, data):
@@ -1053,14 +1158,14 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/users/{0}/'.format(user_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def remove_team_user(self, user_pk):
         """ Delete a user from the team """
 
         route = 'v1/teams/users/{0}/'.format(user_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_team_details(self, pk):
@@ -1071,7 +1176,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_team_details(self, pk, data):
@@ -1087,7 +1192,7 @@ class Auth(Helper):
         """
 
         route = 'v1/teams/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     #### Token ####
@@ -1101,7 +1206,7 @@ class Auth(Helper):
             'username': self.username,
             'password': self.password
         }
-        response = self.process_request(requests, 'POST', self.base_url, route, None, headers, data)
+        response = self.process_request(requests, 'POST', self.base_url, route, headers, None, data)
 
         if response.content == b'{"non_field_errors":["Unable to log in with provided credentials."]}':
             print('Unable to log with provided credentials. Please modify your .ENV file.')
@@ -1134,7 +1239,7 @@ class Auth(Helper):
         data = {
             'token': self.access_token
         }
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         if response == 201:
             self.headers['Authorization'] = 'JWT {0}'.format(self.access_token)
         return response.status_code
@@ -1146,5 +1251,5 @@ class Auth(Helper):
         data = {
             'token': self.access_token
         }
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return response.status_code

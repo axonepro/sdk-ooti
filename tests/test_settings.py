@@ -10,7 +10,7 @@ PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from ooti import ooti # noqa E402
+from resources import ooti # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -18,7 +18,7 @@ load_dotenv()
 OOTI_AUTH = os.getenv("OOTI_AUTH")
 OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 
-sdk = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
+sdk = ooti.OotiAPI(OOTI_AUTH, OOTI_PASSWORD)
 sdk.connect()
 
 
@@ -28,7 +28,7 @@ class TestCustomfields(unittest.TestCase):
         self.team_pk = TeamFactory()
 
     def test_get_customfields_list(self):
-        response = sdk.Settings.get_customfields_list()
+        response = sdk.Customfields.get_customfields_list()
         self.assertEqual(response['status'], 200)
 
     def test_create_customfield(self):
@@ -40,14 +40,14 @@ class TestCustomfields(unittest.TestCase):
             "admin_only": False,
             "content_type": 'project',
         }
-        response = sdk.Settings.create_customfield(payload)
+        response = sdk.Customfields.create_customfield(payload)
         self.assertEqual(response['status'], 201)
         created_id = response['data']['pk']
-        update = sdk.Settings.update_customfield_details(created_id, payload)
+        update = sdk.Customfields.update_customfield_details(created_id, payload)
         self.assertEqual(update['status'], 200)
-        get = sdk.Settings.get_customfield_details(created_id)
+        get = sdk.Customfields.get_customfield_details(created_id)
         self.assertEqual(get['status'], 200)
-        delete = sdk.Settings.delete_customfield(created_id)
+        delete = sdk.Customfields.delete_customfield(created_id)
         self.assertEqual(delete['status'], 204)
 
 
@@ -115,11 +115,11 @@ class TestCeleryTasks(unittest.TestCase):
         cls.project_id = ProjectFactory()['id']
 
     def test_get_last_celery_task(self):
-        response = sdk.Settings.get_last_celery_task()
+        response = sdk.CeleryTasks.get_last_celery_task()
         self.assertIn(response['status'], [200, 404])
 
     def test_get_celery_tasks_list(self):
-        response = sdk.Settings.get_celery_tasks_list()
+        response = sdk.CeleryTasks.get_celery_tasks_list()
         self.assertEqual(response['status'], 200)
 
 
@@ -130,7 +130,7 @@ class TestInboundEmails(unittest.TestCase):
         cls.project_id = ProjectFactory()['id']
 
     def test_get_inbound_emails_list(self):
-        response = sdk.Settings.get_inbound_emails_list()
+        response = sdk.InboundEmails.get_inbound_emails_list()
         self.assertEqual(response['status'], 200)
 
     def test_create_inbound_email(self):
@@ -139,18 +139,18 @@ class TestInboundEmails(unittest.TestCase):
             "subject": "test subject",
             "body": "test body"
         }
-        response = sdk.Settings.create_inbound_email(payload)
+        response = sdk.InboundEmails.create_inbound_email(payload)
         self.assertEqual(response['status'], 201)
         created_id = response['data']['id']
         payload = {
             "subject": "updated",
             "body": "body update"
         }
-        update = sdk.Settings.update_inbound_email_details(created_id, payload)
+        update = sdk.InboundEmails.update_inbound_email_details(created_id, payload)
         self.assertEqual(update['status'], 200)
-        get = sdk.Settings.get_inbound_email_details(created_id)
+        get = sdk.InboundEmails.get_inbound_email_details(created_id)
         self.assertEqual(get['status'], 200)
-        delete = sdk.Settings.delete_inbound_email(created_id)
+        delete = sdk.InboundEmails.delete_inbound_email(created_id)
         self.assertEqual(delete['status'], 204)
 
 
@@ -161,14 +161,14 @@ class TestTags(unittest.TestCase):
         cls.orguser_pk = OrguserFactory()['pk']
 
     def test_get_tags_list(self):
-        response = sdk.Settings.get_tags_list()
+        response = sdk.Tags.get_tags_list()
         self.assertEqual(response['status'], 200)
 
     def test_create_tag(self):
         payload = {
             "name": "tag test",
         }
-        response = sdk.Settings.create_tag(payload)
+        response = sdk.Tags.create_tag(payload)
         self.assertEqual(response['status'], 201)
         created_id = response['data']['id']
         payload = {
@@ -176,11 +176,11 @@ class TestTags(unittest.TestCase):
                 self.orguser_pk,
             ]
         }
-        update = sdk.Settings.update_tag_details(created_id, payload)
+        update = sdk.Tags.update_tag_details(created_id, payload)
         self.assertEqual(update['status'], 200)
-        get = sdk.Settings.get_tag_details(created_id)
+        get = sdk.Tags.get_tag_details(created_id)
         self.assertEqual(get['status'], 200)
-        delete = sdk.Settings.delete_tag(created_id)
+        delete = sdk.Tags.delete_tag(created_id)
         self.assertEqual(delete['status'], 204)
 
 

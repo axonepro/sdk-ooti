@@ -12,7 +12,7 @@ class Currencies(Helper):
         """Get the currencies list """
 
         route = 'v1/currencies/list/?page_size={0}&page={1}'.format(self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_currency(self, data):
@@ -30,7 +30,7 @@ class Currencies(Helper):
         """
 
         route = 'v1/currencies/list/'
-        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     # TODO POST on /api/v1/currencies/list/actions/{org_pk}/
@@ -44,7 +44,7 @@ class Currencies(Helper):
         """
 
         route = 'v1/currencies/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_currency(self, pk, data):
@@ -64,7 +64,7 @@ class Currencies(Helper):
         """
 
         route = 'v1/currencies/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_currency(self, pk):
@@ -74,5 +74,5 @@ class Currencies(Helper):
         """
 
         route = 'v1/currencies/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

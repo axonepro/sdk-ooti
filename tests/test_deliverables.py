@@ -11,7 +11,7 @@ PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from ooti import ooti # noqa E402
+from resources import ooti # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -19,13 +19,13 @@ load_dotenv()
 OOTI_AUTH = os.getenv("OOTI_AUTH")
 OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 
-my_account = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
+my_account = ooti.OotiAPI(OOTI_AUTH, OOTI_PASSWORD)
 my_account.connect()
 
 team_pk = TeamFactory()
-currency_pk = my_account.Invoicing.get_currencies_list()['data'][0]['pk']
+currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.get_projects_list()['data'][0]['id']
-fee_project = my_account.Deliverables.get_fees_project_list_projects(project_pk)['data'][0]['id']
+fee_project = my_account.Fees.get_fees_project_list_projects(project_pk)['data'][0]['id']
 
 
 class TestAreas(unittest.TestCase):
@@ -41,7 +41,7 @@ class TestAreas(unittest.TestCase):
     def test_get_areas_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_areas_list(self.project_pk)
+        res = my_account.Areas.get_areas_list(self.project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_area(self):
@@ -55,16 +55,16 @@ class TestAreas(unittest.TestCase):
             "surface_area": 30
         }
 
-        res = my_account.Deliverables.create_areas(self.project_pk, area_data)
-        my_account.Deliverables.delete_area(res['data']['id'])
+        res = my_account.Areas.create_areas(self.project_pk, area_data)
+        my_account.Areas.delete_area(res['data']['id'])
 
         self.assertEqual(res['status'], 201)
 
     def test_get_area_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_areas_details(self.area_pk)
-        my_account.Deliverables.delete_area(self.area_pk)
+        res = my_account.Areas.get_areas_details(self.area_pk)
+        my_account.Areas.delete_area(self.area_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -77,13 +77,13 @@ class TestAreas(unittest.TestCase):
             "name": name,
         }
 
-        res = my_account.Deliverables.update_areas(self.area_pk, update)
+        res = my_account.Areas.update_areas(self.area_pk, update)
         self.assertEqual(res['status'], 200)
 
     def test_delete_area(self):
         """ Test that 204 is returned """
 
-        res = my_account.Deliverables.delete_area(self.area_pk)
+        res = my_account.Areas.delete_area(self.area_pk)
         self.assertEqual(res['status'], 204)
 
 
@@ -106,31 +106,31 @@ class TestPhases(unittest.TestCase):
         # phase_pk2 = self.testHelper._create_phase_return_pk(self.project_pk, self.fee_project_pk)
         # phase_pk3 = self.testHelper._create_phase_return_pk(self.project_pk, self.fee_project_pk)
 
-        res = my_account.Deliverables.get_phases_list(self.project_pk)
+        res = my_account.Phases.get_phases_list(self.project_pk)
         self.assertEqual(res['status'], 200)
         self.assertEqual(len(res['data']), 1)
         obj = res['data'][0]
 
-        res = my_account.Deliverables.get_phases_list(self.project_pk, page=2)
+        res = my_account.Phases.get_phases_list(self.project_pk, page=2)
         self.assertEqual(res['status'], 200)
         self.assertEqual(len(res['data']), 1)
         self.assertNotEqual(obj, res['data'][0])
 
         my_account.update_pagination(5)
-        res = my_account.Deliverables.get_phases_list(self.project_pk)
+        res = my_account.Phases.get_phases_list(self.project_pk)
         self.assertEqual(res['status'], 200)
         self.assertLessEqual(len(res['data']), 5)
 
     def test_get_phases_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_phases_list(self.project_pk)
+        res = my_account.Phases.get_phases_list(self.project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_get_phases_list_fee_project(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_phases_list_fee_project(
+        res = my_account.Phases.get_phases_list_fee_project(
             self.project_pk, self.fee_project_pk
         )
         self.assertEqual(res['status'], 200)
@@ -138,7 +138,7 @@ class TestPhases(unittest.TestCase):
     def test_get_phases_projections_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_phases_projections_list(self.project_pk)
+        res = my_account.Phases.get_phases_projections_list(self.project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_export_phase(self):
@@ -150,7 +150,7 @@ class TestPhases(unittest.TestCase):
         # fee_project_pk = self.testHelper._create_fee_project_return_pk(project_pk)
         # phase_pk = self.testHelper._create_phase_return_pk(project_pk, fee_project_pk)
 
-        res = my_account.Deliverables.export_phase(project_pk)
+        res = my_account.Phases.export_phase(project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_phase(self):
@@ -164,13 +164,13 @@ class TestPhases(unittest.TestCase):
             "dependants": []
         }
 
-        res = my_account.Deliverables.create_phase(self.project_pk, data)
+        res = my_account.Phases.create_phase(self.project_pk, data)
         self.assertEqual(res['status'], 201)
 
     def test_get_phase_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_phase_details(self.phase_pk)
+        res = my_account.Phases.get_phase_details(self.phase_pk)
         self.assertEqual(res['status'], 200)
 
     def test_update_phase(self):
@@ -180,55 +180,55 @@ class TestPhases(unittest.TestCase):
             "name": self.testHelper.create_name()
         }
 
-        res = my_account.Deliverables.update_phase(self.phase_pk, data)
+        res = my_account.Phases.update_phase(self.phase_pk, data)
         self.assertEqual(res['status'], 200)
 
     def test_delete_phase(self):
         """ Test that 204 is returned """
 
-        res = my_account.Deliverables.delete_phase(self.phase_pk)
+        res = my_account.Phases.delete_phase(self.phase_pk)
         self.assertEqual(res['status'], 204)
 
     def test_reset_phase_order(self):
         """ Test that 200 is returned """
-        res = my_account.Deliverables.reset_phases_order(self.project_pk)
+        res = my_account.Phases.reset_phases_order(self.project_pk)
 
         self.assertEqual(res['status'], 200)
 
     def test_get_phase_planphase_details(self):
         """ Test that 200 is returned """
 
-        planphase_pk = my_account.Deliverables.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
-        res = my_account.Deliverables.get_phase_planphase_details(planphase_pk)
+        planphase_pk = my_account.Plans.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
+        res = my_account.Phases.get_phase_planphase_details(planphase_pk)
 
         self.assertEqual(res['status'], 200)
 
     def test_update_phase_planphase(self):
         """ Test that 200 is returned """
 
-        planphase_pk = my_account.Deliverables.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
+        planphase_pk = my_account.Phases.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
 
         data = {
             "progress": 20
         }
 
-        res = my_account.Deliverables.update_phase_planphase(planphase_pk, data)
+        res = my_account.Phases.update_phase_planphase(planphase_pk, data)
         self.assertEqual(res['status'], 200)
 
     def test_delete_phase_planphase(self):
         """ Test that 204 is returned """
 
-        planphase_pk = my_account.Deliverables.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
+        planphase_pk = my_account.Plans.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
 
-        res = my_account.Deliverables.delete_phase_planphase(planphase_pk)
+        res = my_account.Phases.delete_phase_planphase(planphase_pk)
 
-        my_account.Deliverables.delete_plan(self.plan_pk)
+        my_account.Phases.delete_plan(self.plan_pk)
         self.assertEqual(res['status'], 204)
 
     def test_update_phases_progress(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.update_phases_progress()
+        res = my_account.Phases.update_phases_progress()
         self.assertEqual(res['status'], 200)
 
 
@@ -245,13 +245,13 @@ class TestMilestones(unittest.TestCase):
     def test_get_milestones_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_milestones_list()
+        res = my_account.Milestones.get_milestones_list()
         self.assertEqual(res['status'], 200)
 
     def test_get_milestone_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_milestone_details(self.milestone_pk)
+        res = my_account.Milestones.get_milestone_details(self.milestone_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_milestone(self):
@@ -265,7 +265,7 @@ class TestMilestones(unittest.TestCase):
             "in_timeline": True
         }
 
-        res = my_account.Deliverables.create_milestone(data)
+        res = my_account.Milestones.create_milestone(data)
         self.assertEqual(res['status'], 201)
 
     def test_update_milestone(self):
@@ -275,13 +275,13 @@ class TestMilestones(unittest.TestCase):
             "title": self.testHelper.create_name()
         }
 
-        res = my_account.Deliverables.update_milestone(self.milestone_pk, data)
+        res = my_account.Milestones.update_milestone(self.milestone_pk, data)
         self.assertEqual(res['status'], 200)
 
     def test_delete_milestone(self):
         """ Test that 204 is returned """
 
-        res = my_account.Deliverables.delete_milestone(self.milestone_pk)
+        res = my_account.Milestones.delete_milestone(self.milestone_pk)
         self.assertEqual(res['status'], 204)
 
 
@@ -317,19 +317,19 @@ class TestDefaults(unittest.TestCase):
             'project': self.project_pk,
         }
 
-        res = my_account.Deliverables.apply_defaults_phasesets(data)
+        res = my_account.Defaults.apply_defaults_phasesets(data)
         self.assertEqual(res['status'], 200)
 
     def test_duplicate_defaults_phasesets(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.duplicate_defaults_phasesets(self.phaseset_pk)
+        res = my_account.Defaults.duplicate_defaults_phasesets(self.phaseset_pk)
         self.assertEqual(res['status'], 200)
 
     def test_get_defaults_phasesets_org_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_defaults_phasesets_org_list()
+        res = my_account.Defaults.get_defaults_phasesets_org_list()
         self.assertEqual(res['status'], 200)
 
     def test_create_defaults_phasesets_org(self):
@@ -340,13 +340,13 @@ class TestDefaults(unittest.TestCase):
             "team": self.team_pk,
         }
 
-        res = my_account.Deliverables.create_defaults_phasesets_org(data)
+        res = my_account.Defaults.create_defaults_phasesets_org(data)
         self.assertEqual(res['status'], 201)
 
     def test_get_defaults_phasesets_team_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_defaults_phasesets_team_list(self.team_pk)
+        res = my_account.Defaults.get_defaults_phasesets_team_list(self.team_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_defaults_phasesets_team(self):
@@ -357,14 +357,14 @@ class TestDefaults(unittest.TestCase):
             "title": self.testHelper.create_name(),
         }
 
-        res = my_account.Deliverables.create_defaults_phasesets_team(self.team_pk, data)
+        res = my_account.Defaults.create_defaults_phasesets_team(self.team_pk, data)
         self.assertEqual(res['status'], 201)
 
     def test_get_defaults_phasesets_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_defaults_phasesets_details(self.phaseset_pk)
-        my_account.Deliverables.delete_defaults_phasesets(self.phaseset_pk)
+        res = my_account.Defaults.get_defaults_phasesets_details(self.phaseset_pk)
+        my_account.Defaults.delete_defaults_phasesets(self.phaseset_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -375,13 +375,13 @@ class TestDefaults(unittest.TestCase):
             "title": self.testHelper.create_name(),
         }
 
-        res = my_account.Deliverables.update_defaults_phasesets(self.phaseset_pk, data)
+        res = my_account.Defaults.update_defaults_phasesets(self.phaseset_pk, data)
         self.assertEqual(res['status'], 200)
 
     def test_delete_defaults_phasesets(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.delete_defaults_phasesets(self.phaseset_pk)
+        res = my_account.Defaults.delete_defaults_phasesets(self.phaseset_pk)
         self.assertEqual(res['status'], 204)
 
     ### Phases #### noqa: E266
@@ -389,23 +389,23 @@ class TestDefaults(unittest.TestCase):
     def test_duplicate_defaults_phase(self):
         """ Test that 201 is returned """
 
-        res = my_account.Deliverables.duplicate_defaults_phase(self.default_phase_pk)
+        res = my_account.Defaults.duplicate_defaults_phase(self.default_phase_pk)
 
-        my_account.Deliverables.delete_defaults_phase(self.default_phase_pk)
-        my_account.Deliverables.delete_defaults_phasesets(self.phaseset_pk)
+        my_account.Defaults.delete_defaults_phase(self.default_phase_pk)
+        my_account.Defaults.delete_defaults_phasesets(self.phaseset_pk)
 
         self.assertEqual(res['status'], 200)
 
     def test_get_defaults_phase_org_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_defaults_phase_org_list()
+        res = my_account.Defaults.get_defaults_phase_org_list()
         self.assertEqual(res['status'], 200)
 
     def test_get_defaults_phase_team_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_defaults_phase_team_list(self.team_pk)
+        res = my_account.Defaults.get_defaults_phase_team_list(self.team_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_defaults_phase_org(self):
@@ -419,7 +419,7 @@ class TestDefaults(unittest.TestCase):
             "team": self.team_pk
         }
 
-        res = my_account.Deliverables.create_defaults_phase_org(data)
+        res = my_account.Defaults.create_defaults_phase_org(data)
 
         self.assertEqual(res['status'], 201)
 
@@ -434,13 +434,13 @@ class TestDefaults(unittest.TestCase):
             "team": self.team_pk
         }
 
-        res = my_account.Deliverables.create_defaults_phase_team(self.team_pk, data)
+        res = my_account.Defaults.create_defaults_phase_team(self.team_pk, data)
         self.assertEqual(res['status'], 201)
 
     def test_get_defaults_phase_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_defaults_phase_details(self.default_phase_pk)
+        res = my_account.Defaults.get_defaults_phase_details(self.default_phase_pk)
         self.assertEqual(res['status'], 200)
 
     def test_update_defaults_phase(self):
@@ -450,13 +450,13 @@ class TestDefaults(unittest.TestCase):
             "name": self.testHelper.create_name()
         }
 
-        res = my_account.Deliverables.update_defaults_phase(self.default_phase_pk, data)
+        res = my_account.Defaults.update_defaults_phase(self.default_phase_pk, data)
         self.assertEqual(res['status'], 200)
 
     def test_delete_defaults_phase(self):
         """ Test that 204 is returned """
 
-        res = my_account.Deliverables.delete_defaults_phase(self.default_phase_pk)
+        res = my_account.Defaults.delete_defaults_phase(self.default_phase_pk)
 
         self.assertEqual(res['status'], 204)
 
@@ -471,19 +471,19 @@ class TestDefaults(unittest.TestCase):
             'zone_pk': self.zone_pk,
         }
 
-        res = my_account.Deliverables.apply_defaults_plansets(data)
+        res = my_account.Defaults.apply_defaults_plansets(data)
         self.assertEqual(res['status'], 200)
 
     def test_duplicate_defaults_plansets(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.duplicate_defaults_plansets(self.planset_pk)
+        res = my_account.Defaults.duplicate_defaults_plansets(self.planset_pk)
         self.assertEqual(res['status'], 200)
 
     def test_get_defaults_plansets_org_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_defaults_plansets_org_list()
+        res = my_account.Defaults.get_defaults_plansets_org_list()
         self.assertEqual(res['status'], 200)
 
     def test_create_defaults_plansets_org(self):
@@ -493,13 +493,13 @@ class TestDefaults(unittest.TestCase):
             "title": self.testHelper.create_name()
         }
 
-        res = my_account.Deliverables.create_defaults_plansets_org(data)
+        res = my_account.Defaults.create_defaults_plansets_org(data)
         self.assertEqual(res['status'], 201)
 
     def test_get_defaults_plansets_team_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_defaults_plansets_team_list(self.team_pk)
+        res = my_account.Defaults.get_defaults_plansets_team_list(self.team_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_defaults_plansets_team(self):
@@ -510,13 +510,13 @@ class TestDefaults(unittest.TestCase):
             "title": self.testHelper.create_name()
         }
 
-        res = my_account.Deliverables.create_defaults_plansets_team(self.team_pk, data)
+        res = my_account.Defaults.create_defaults_plansets_team(self.team_pk, data)
         self.assertEqual(res['status'], 201)
 
     def test_get_defaults_plansets_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_defaults_plansets_details(self.planset_pk)
+        res = my_account.Defaults.get_defaults_plansets_details(self.planset_pk)
         self.assertEqual(res['status'], 200)
 
     def test_update_defaults_plansets(self):
@@ -526,13 +526,13 @@ class TestDefaults(unittest.TestCase):
             "title": self.testHelper.create_name()
         }
 
-        res = my_account.Deliverables.update_defaults_plansets(self.planset_pk, data)
+        res = my_account.Defaults.update_defaults_plansets(self.planset_pk, data)
         self.assertEqual(res['status'], 200)
 
     def test_delete_defaults_plansets(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.delete_defaults_plansets(self.planset_pk)
+        res = my_account.Defaults.delete_defaults_plansets(self.planset_pk)
         self.assertEqual(res['status'], 204)
 
     ### Plans #### noqa: E266
@@ -541,19 +541,19 @@ class TestDefaults(unittest.TestCase):
         """ Test that 200 is returned """
         # !500
 
-        res = my_account.Deliverables.duplicate_defaults_plan(self.default_plan_pk)
+        res = my_account.Defaults.duplicate_defaults_plan(self.default_plan_pk)
         self.assertEqual(res['status'], 200)
 
     def test_get_defaults_plan_org_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_defaults_plans_org_list()
+        res = my_account.Defaults.get_defaults_plans_org_list()
         self.assertEqual(res['status'], 200)
 
     def test_get_defaults_plan_team_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_defaults_plans_team_list(self.team_pk)
+        res = my_account.Defaults.get_defaults_plans_team_list(self.team_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_defaults_plan_org(self):
@@ -568,7 +568,7 @@ class TestDefaults(unittest.TestCase):
             "library": self.planset_pk,
         }
 
-        res = my_account.Deliverables.create_defaults_plan_org(data)
+        res = my_account.Defaults.create_defaults_plan_org(data)
         self.assertEqual(res['status'], 201)
 
     def test_create_defaults_plan_team(self):
@@ -583,13 +583,13 @@ class TestDefaults(unittest.TestCase):
             "library": self.planset_pk
         }
 
-        res = my_account.Deliverables.create_defaults_plan_team(self.team_pk, data)
+        res = my_account.Defaults.create_defaults_plan_team(self.team_pk, data)
         self.assertEqual(res['status'], 201)
 
     def test_get_defaults_plan_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_defaults_plan_details(self.default_plan_pk)
+        res = my_account.Defaults.get_defaults_plan_details(self.default_plan_pk)
         self.assertEqual(res['status'], 200)
 
     def test_update_defaults_plan(self):
@@ -599,13 +599,13 @@ class TestDefaults(unittest.TestCase):
             "name": self.testHelper.create_name()
         }
 
-        res = my_account.Deliverables.update_defaults_plan(self.default_plan_pk, data)
+        res = my_account.Defaults.update_defaults_plan(self.default_plan_pk, data)
         self.assertEqual(res['status'], 200)
 
     def test_delete_defaults_plan(self):
         """ Test that 204 is returned """
 
-        res = my_account.Deliverables.delete_defaults_plan(self.default_plan_pk)
+        res = my_account.Defaults.delete_defaults_plan(self.default_plan_pk)
         self.assertEqual(res['status'], 204)
 
 
@@ -630,7 +630,7 @@ class TestContracts(unittest.TestCase):
     def test_get_contractors_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_contractors_list()
+        res = my_account.Contracts.get_contractors_list()
         self.assertEqual(res['status'], 200)
 
     def test_create_contractor(self):
@@ -641,13 +641,13 @@ class TestContracts(unittest.TestCase):
             "tags": []
         }
 
-        res = my_account.Deliverables.create_contractors(data)
+        res = my_account.Contracts.create_contractors(data)
         self.assertEqual(res['status'], 201)
 
     def test_get_contractor_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_contractor_details(self.contractor_pk)
+        res = my_account.Contracts.get_contractor_details(self.contractor_pk)
         self.assertEqual(res['status'], 200)
 
     def test_update_contractor(self):
@@ -657,14 +657,14 @@ class TestContracts(unittest.TestCase):
             "name": self.testHelper.create_name()
         }
 
-        res = my_account.Deliverables.update_contractor(self.contractor_pk, data)
+        res = my_account.Contracts.update_contractor(self.contractor_pk, data)
         self.assertEqual(res['status'], 200)
 
     def test_delete_contractor(self):
         """ Test that 204 is returned """
 
         contractor_pk_2 = self.testHelper._create_contractor_return_pk()
-        res = my_account.Deliverables.delete_contractor(contractor_pk_2)
+        res = my_account.Contracts.delete_contractor(contractor_pk_2)
         self.assertEqual(res['status'], 204)
 
     ## Contract items ### noqa: E266
@@ -672,19 +672,19 @@ class TestContracts(unittest.TestCase):
     def test_generate_contracts_project(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.generate_contracts_project(self.project_pk)
+        res = my_account.Contracts.generate_contracts_project(self.project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_generate_contracts_org(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.generate_contracts_org(self.project_pk)
+        res = my_account.Contracts.generate_contracts_org(self.project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_get_contract_items_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_contracts_items_list()
+        res = my_account.Contracts.get_contracts_items_list()
         self.assertEqual(res['status'], 200)
 
     def test_create_contract_item(self):
@@ -695,13 +695,13 @@ class TestContracts(unittest.TestCase):
             "fee": 100
         }
 
-        res = my_account.Deliverables.create_contracts_items(data)
+        res = my_account.Contracts.create_contracts_items(data)
         self.assertEqual(res['status'], 201)
 
     def test_get_contract_item_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_contract_item_details(self.contract_item_pk)
+        res = my_account.Contracts.get_contract_item_details(self.contract_item_pk)
         self.assertEqual(res['status'], 200)
 
     def test_update_contract_item(self):
@@ -712,14 +712,14 @@ class TestContracts(unittest.TestCase):
             "already_paid": 10
         }
 
-        res = my_account.Deliverables.update_contract_item(self.contract_item_pk, data)
+        res = my_account.Contracts.update_contract_item(self.contract_item_pk, data)
 
         self.assertEqual(res['status'], 200)
 
     def test_delete_contract_item_details(self):
         """ Test that 204 is returned """
 
-        res = my_account.Deliverables.delete_contract_item(self.contract_item_pk)
+        res = my_account.Contracts.delete_contract_item(self.contract_item_pk)
         self.assertEqual(res['status'], 204)
 
     ### Contracts ### noqa: E266
@@ -727,7 +727,7 @@ class TestContracts(unittest.TestCase):
     def test_get_contracts_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_contracts_list()
+        res = my_account.Contracts.get_contracts_list()
         self.assertEqual(res['status'], 200)
 
     def test_create_contract(self):
@@ -743,13 +743,13 @@ class TestContracts(unittest.TestCase):
             "tax_rate": 1,
             "project": self.project_pk,
         }
-        res = my_account.Deliverables.create_contract(data)
+        res = my_account.Contracts.create_contract(data)
         self.assertEqual(res['status'], 201)
 
     def test_get_contract_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_contract_details(self.contract_pk)
+        res = my_account.Contracts.get_contract_details(self.contract_pk)
         self.assertEqual(res['status'], 200)
 
     def test_update_contract(self):
@@ -759,14 +759,14 @@ class TestContracts(unittest.TestCase):
             "description": "UPDATED"
         }
 
-        res = my_account.Deliverables.update_contract(self.contract_pk, data)
+        res = my_account.Contracts.update_contract(self.contract_pk, data)
         self.assertEqual(res['status'], 200)
 
     def test_delete_contract(self):
         """ Test that 204 is returned """
 
-        res = my_account.Deliverables.get_contracts_list()
-        res = my_account.Deliverables.delete_contract(self.contract_pk)
+        res = my_account.Contracts.get_contracts_list()
+        res = my_account.Contracts.delete_contract(self.contract_pk)
         self.assertEqual(res['status'], 204)
 
     ### Contracts month ### noqa: E266
@@ -774,13 +774,13 @@ class TestContracts(unittest.TestCase):
     def test_generate_contracts_month(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.generate_contracts_month_org(self.contract_pk)
+        res = my_account.Contracts.generate_contracts_month_org(self.contract_pk)
         self.assertEqual(res['status'], 200)
 
     def test_get_contracts_month_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_contracts_month_list()
+        res = my_account.Contracts.get_contracts_month_list()
         self.assertEqual(res['status'], 200)
 
     def test_create_contract_month(self):
@@ -798,13 +798,13 @@ class TestContracts(unittest.TestCase):
             "pct": 0
         }
 
-        res = my_account.Deliverables.create_contracts_month(data)
+        res = my_account.Contracts.create_contracts_month(data)
         self.assertEqual(res['status'], 201)
 
     def test_get_contract_month_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_contract_month_details(self.contract_month_pk)
+        res = my_account.Contracts.get_contract_month_details(self.contract_month_pk)
         self.assertEqual(res['status'], 200)
 
     def test_update_contract_month(self):
@@ -814,13 +814,13 @@ class TestContracts(unittest.TestCase):
             "start_date": "05-05-2021"
         }
 
-        res = my_account.Deliverables.update_contracts_month(self.contract_month_pk, data)
+        res = my_account.Contracts.update_contracts_month(self.contract_month_pk, data)
         self.assertEqual(res['status'], 200)
 
     def test_delete_contract_month(self):
         """ Test that 204 is returned """
 
-        res = my_account.Deliverables.delete_contract_month(self.contract_month_pk)
+        res = my_account.Contracts.delete_contract_month(self.contract_month_pk)
         self.assertEqual(res['status'], 204)
 
 
@@ -847,7 +847,7 @@ class TestRevisions(unittest.TestCase):
     def test_get_revisions_annexes_team_project(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_revisions_annexes_team_project(self.team_pk, self.project_pk)
+        res = my_account.Revisions.get_revisions_annexes_team_project(self.team_pk, self.project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_annex_revision(self):
@@ -861,7 +861,7 @@ class TestRevisions(unittest.TestCase):
             "progress": 80
         }
 
-        res = my_account.Deliverables.create_annexe_revision(self.team_pk, self.project_pk, data)
+        res = my_account.Revisions.create_annexe_revision(self.team_pk, self.project_pk, data)
         self.assertEqual(res['status'], 201)
 
     def test_delete_annex_revision(self):
@@ -875,8 +875,8 @@ class TestRevisions(unittest.TestCase):
             "progress": 80
         }
 
-        pk = my_account.Deliverables.create_annexe_revision(self.team_pk, self.project_pk, data)['data']['id']
-        res = my_account.Deliverables.delete_revisions_annexe_detail(pk)
+        pk = my_account.Revisions.create_annexe_revision(self.team_pk, self.project_pk, data)['data']['id']
+        res = my_account.Revisions.delete_revisions_annexe_detail(pk)
 
         self.assertEqual(res['status'], 204)
 
@@ -885,7 +885,7 @@ class TestRevisions(unittest.TestCase):
     def test_get_revisions_documents_team_project(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_revisions_documents_team_project(self.team_pk, self.project_pk)
+        res = my_account.Revisions.get_revisions_documents_team_project(self.team_pk, self.project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_document_revision(self):
@@ -899,7 +899,7 @@ class TestRevisions(unittest.TestCase):
             "progress": 80
         }
 
-        res = my_account.Deliverables.create_document_revision(self.team_pk, self.project_pk, data)
+        res = my_account.Revisions.create_document_revision(self.team_pk, self.project_pk, data)
         self.assertEqual(res['status'], 201)
 
     def test_delete_document_revision(self):
@@ -913,8 +913,8 @@ class TestRevisions(unittest.TestCase):
             "progress": 80
         }
 
-        pk = my_account.Deliverables.create_document_revision(self.team_pk, self.project_pk, data)['data']['id']
-        res = my_account.Deliverables.delete_revisions_document_detail(pk)
+        pk = my_account.Revisions.create_document_revision(self.team_pk, self.project_pk, data)['data']['id']
+        res = my_account.Revisions.delete_revisions_document_detail(pk)
 
         self.assertEqual(res['status'], 204)
 
@@ -922,7 +922,7 @@ class TestRevisions(unittest.TestCase):
     def test_get_revisions_fee_items_team_project(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_revisions_fee_items_team_project(self.team_pk, self.project_pk)
+        res = my_account.Revisions.get_revisions_fee_items_team_project(self.team_pk, self.project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_fee_items_revision(self):
@@ -936,7 +936,7 @@ class TestRevisions(unittest.TestCase):
             "is_mockup": False,
         }
 
-        res = my_account.Deliverables.create_fee_items_revision(self.team_pk, self.project_pk, data)
+        res = my_account.Revisions.create_fee_items_revision(self.team_pk, self.project_pk, data)
         self.assertEqual(res['status'], 201)
 
     def test_delete_fee_items_revision(self):
@@ -950,8 +950,8 @@ class TestRevisions(unittest.TestCase):
             "is_mockup": False,
         }
 
-        pk = my_account.Deliverables.create_fee_items_revision(self.team_pk, self.project_pk, data)
-        res = my_account.Deliverables.delete_revisions_fee_items_detail(pk['data']['id'])
+        pk = my_account.Revisions.create_fee_items_revision(self.team_pk, self.project_pk, data)
+        res = my_account.Revisions.delete_revisions_fee_items_detail(pk['data']['id'])
         self.assertEqual(res['status'], 204)
 
     ### Phases ### noqa: E266
@@ -959,7 +959,7 @@ class TestRevisions(unittest.TestCase):
     def test_get_revisions_phases_team_project(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_revisions_phases_team_project(self.team_pk, self.project_pk)
+        res = my_account.Revisions.get_revisions_phases_team_project(self.team_pk, self.project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_phases_revision(self):
@@ -973,7 +973,7 @@ class TestRevisions(unittest.TestCase):
             "is_mockup": False,
         }
 
-        res = my_account.Deliverables.create_phase_revision(self.team_pk, self.project_pk, data)
+        res = my_account.Revisions.create_phase_revision(self.team_pk, self.project_pk, data)
         self.assertEqual(res['status'], 201)
 
     def test_delete_phase_revision(self):
@@ -987,8 +987,8 @@ class TestRevisions(unittest.TestCase):
             "is_mockup": False,
         }
 
-        pk = my_account.Deliverables.create_phase_revision(self.team_pk, self.project_pk, data)['data']['id']
-        res = my_account.Deliverables.delete_revisions_phases_detail(pk)
+        pk = my_account.Revisions.create_phase_revision(self.team_pk, self.project_pk, data)['data']['id']
+        res = my_account.Revisions.delete_revisions_phases_detail(pk)
 
         self.assertEqual(res['status'], 204)
 
@@ -997,13 +997,13 @@ class TestRevisions(unittest.TestCase):
     def test_get_revisions_plans_team_project(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_revisions_plans_team_project(self.team_pk, self.project_pk)
+        res = my_account.Revisions.get_revisions_plans_team_project(self.team_pk, self.project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_plan_revision(self):
         """ Test that 201 is returned """
 
-        planphase_pk = my_account.Deliverables.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
+        planphase_pk = my_account.Revisions.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
 
         data = {
             "is_valid": False,
@@ -1013,13 +1013,13 @@ class TestRevisions(unittest.TestCase):
             "progress": 80
         }
 
-        res = my_account.Deliverables.create_plan_revision(self.team_pk, self.project_pk, data)
+        res = my_account.Revisions.create_plan_revision(self.team_pk, self.project_pk, data)
         self.assertEqual(res['status'], 201)
 
     def test_delete_plan_revision(self):
         """ Test that 204 is returned """
 
-        planphase_pk = my_account.Deliverables.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
+        planphase_pk = my_account.Revisions.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
 
         data = {
             "is_valid": False,
@@ -1029,8 +1029,8 @@ class TestRevisions(unittest.TestCase):
             "progress": 80
         }
 
-        pk = my_account.Deliverables.create_plan_revision(self.team_pk, self.project_pk, data)['data']['id']
-        res = my_account.Deliverables.delete_revisions_plan_detail(pk)
+        pk = my_account.Revisions.create_plan_revision(self.team_pk, self.project_pk, data)['data']['id']
+        res = my_account.Revisions.delete_revisions_plan_detail(pk)
         self.assertEqual(res['status'], 204)
 
 
@@ -1051,7 +1051,7 @@ class TestAnnexes(unittest.TestCase):
     def test_get_annexes_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_annexes_list(self.project_pk)
+        res = my_account.Annexes.get_annexes_list(self.project_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_annexe(self):
@@ -1065,13 +1065,13 @@ class TestAnnexes(unittest.TestCase):
             "start_date": "06-05-2021"
         }
 
-        res = my_account.Deliverables.create_annexe(self.project_pk, data)
+        res = my_account.Annexes.create_annexe(self.project_pk, data)
         self.assertEqual(res['status'], 201)
 
     def test_get_annexe_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_annexe_details(self.annex_pk)
+        res = my_account.Annexes.get_annexe_details(self.annex_pk)
         self.assertEqual(res['status'], 200)
 
     def test_update_annexe(self):
@@ -1081,19 +1081,19 @@ class TestAnnexes(unittest.TestCase):
             "title": self.testHelper.create_name()
         }
 
-        res = my_account.Deliverables.update_annexe(self.annex_pk, data)
+        res = my_account.Annexes.update_annexe(self.annex_pk, data)
         self.assertEqual(res['status'], 200)
 
     def test_delete_annexe(self):
         """ Test that 204 is returned """
 
-        res = my_account.Deliverables.delete_annexe(self.annex_pk)
+        res = my_account.Annexes.delete_annexe(self.annex_pk)
         self.assertEqual(res['status'], 204)
 
     def test_get_annexes_projections_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_annexes_projections_list(self.project_pk)
+        res = my_account.Annexes.get_annexes_projections_list(self.project_pk)
         self.assertEqual(res['status'], 200)
 
 

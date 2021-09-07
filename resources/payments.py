@@ -17,14 +17,14 @@ class Payments(Helper):
         """
 
         route = 'v1/payments/{0}'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_payments_list(self, page=1):
         """Get the payment list"""
 
         route = 'v1/payments/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def update_payment(self, pk, data):
@@ -47,7 +47,7 @@ class Payments(Helper):
         """
 
         route = 'v1/payments/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def update_payment_invoice(self, pk, data):
@@ -66,7 +66,7 @@ class Payments(Helper):
             }
         """
         route = 'v1/payments/invoice/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def create_payment(self, team_pk, data):
@@ -89,7 +89,7 @@ class Payments(Helper):
 
         route = 'v1/payments/list/{0}/'.format(self.org_pk)
         parameters = '?team={0}'.format(team_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, parameters, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, parameters, json.dumps(data))
         return self.process_response(response)
 
     # TODO DELETE on /api/v1/payments/{id}/

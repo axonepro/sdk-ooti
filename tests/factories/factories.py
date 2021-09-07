@@ -17,7 +17,7 @@ load_dotenv()
 OOTI_AUTH = os.getenv("OOTI_AUTH")
 OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 
-sdk = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
+sdk = ooti.OotiAPI(OOTI_AUTH, OOTI_PASSWORD)
 sdk.connect()
 
 
@@ -172,7 +172,7 @@ def ExpenseGroupFactory(team_pk):
     payload = {
         'description': 'expense group test'
     }
-    response = sdk.Employees.create_expenses_group(payload, team_pk=team_pk)
+    response = sdk.Expenses.create_expenses_group(payload, team_pk=team_pk)
     if response['status'] == 201:
         return response['data']
     else:
@@ -214,7 +214,7 @@ def JobInvoiceFactory(team_pk=None, contractor_id=None):
 
 def TaskFactory():
     payload = {'title': 'task test'}
-    response = sdk.Collaboration.create_task(payload)
+    response = sdk.Tasks.create_task(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -225,7 +225,7 @@ def PostFactory():
     payload = {
         "title": "post test",
     }
-    response = sdk.Collaboration.create_post(payload)
+    response = sdk.Posts.create_post(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -239,7 +239,7 @@ def AlbumFactory(post_pk=None):
         "post": post_pk,
         "title": "album test",
     }
-    response = sdk.Collaboration.create_posts_album(payload)
+    response = sdk.Posts.create_posts_album(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -253,7 +253,7 @@ def GoalFactory(team_pk=None):
         'team': team_pk,
         'name': 'goal test'
     }
-    response = sdk.Others.create_goal(payload)
+    response = sdk.Goals.create_goal(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -265,7 +265,7 @@ def ContractorFactory():
         'name': 'contractor test',
         'tags': [],
     }
-    response = sdk.Deliverables.create_contractors(payload)
+    response = sdk.Contracts.create_contractors(payload)
     if response['status'] == 201:
         return response['data']
     else:
