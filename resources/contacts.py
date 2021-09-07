@@ -18,7 +18,7 @@ class Contacts(Helper):
         route = 'v1/contacts/categories/{0}/'.format(self.org_pk)
         if project_id is not None:
             route += '{0}/'.format(project_id)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def create_contact_category(self, data, project_id=None):
@@ -39,7 +39,7 @@ class Contacts(Helper):
         route = 'v1/contacts/categories/{0}/'.format(self.org_pk)
         if project_id is not None:
             route += '{0}/'.format(project_id)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response, True)
 
     def get_contact_category_details(self, category_pk):
@@ -50,7 +50,7 @@ class Contacts(Helper):
         """
 
         route = 'v1/contacts/category/{0}/'.format(category_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def update_contact_category_details(self, category_pk, data):
@@ -70,7 +70,7 @@ class Contacts(Helper):
         """
 
         route = 'v1/contacts/category/{0}/'.format(category_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_contact_category(self, category_pk):
@@ -81,13 +81,13 @@ class Contacts(Helper):
         """
 
         route = 'v1/contacts/category/{0}/'.format(category_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def get_contact_list_action(self):
 
         route = 'v1/contacts/list-action/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     # TODO POST on /api/v1/contacts/list-action/{org_pk}/
@@ -101,7 +101,7 @@ class Contacts(Helper):
         route = 'v1/contacts/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         if project_id is not None:
             route += '{0}/'.format(project_id)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def create_contact(self, data, project_id=None):
@@ -123,7 +123,7 @@ class Contacts(Helper):
         route = 'v1/contacts/list/{0}/'.format(self.org_pk)
         if project_id is not None:
             route += '{0}/'.format(project_id)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_number_uncategorized_contacts(self, team_pk=None, project_id=None):
@@ -139,7 +139,7 @@ class Contacts(Helper):
                     parameters += '&'
             if project_id is not None:
                 parameters += 'project={0}'.format(team_pk)
-        response = requests.get('{0}{1}{2}'.format(self.base_url, route, parameters), headers=self.headers)
+        response = self.process_request(requests, 'GET', self.base_url, route, parameters, self.headers, None)
         return self.process_response(response)
 
     def get_contact_details(self, pk):
@@ -150,7 +150,7 @@ class Contacts(Helper):
         """
 
         route = 'v1/contacts/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def update_contact_details(self, pk, data):
@@ -182,7 +182,7 @@ class Contacts(Helper):
         """
 
         route = 'v1/contacts/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_contact(self, pk):
@@ -193,5 +193,5 @@ class Contacts(Helper):
         """
 
         route = 'v1/contacts/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)

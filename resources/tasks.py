@@ -12,14 +12,14 @@ class Tasks(Helper):
         """ Set delete all not-completed archived tasks in project """
 
         route = 'v1/tasks/empty-trash/{0}/'.format(project_id)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def get_task_labels_list(self, page=1):
         """ Get the list of tasks labels """
 
         route = 'v1/tasks/label/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def create_task_label(self, data):
@@ -36,7 +36,7 @@ class Tasks(Helper):
         """
 
         route = 'v1/tasks/label/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_task_label_details(self, label_pk):
@@ -47,7 +47,7 @@ class Tasks(Helper):
         """
 
         route = 'v1/tasks/label/{0}/'.format(label_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def update_task_label_details(self, label_pk, data):
@@ -65,7 +65,7 @@ class Tasks(Helper):
         """
 
         route = 'v1/tasks/label/{0}/'.format(label_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_task_label(self, label_pk):
@@ -76,14 +76,14 @@ class Tasks(Helper):
         """
 
         route = 'v1/tasks/label/{0}/'.format(label_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def get_tasks_list(self, page=1):
         """ Get the tasks list """
 
         route = 'v1/tasks/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def create_task(self, data):
@@ -105,14 +105,14 @@ class Tasks(Helper):
         """
 
         route = 'v1/tasks/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_tasks_lists_list(self, page=1):
         """ Get the list of tasks list """
 
         route = 'v1/tasks/lists/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def create_tasks_list(self, data):
@@ -135,7 +135,7 @@ class Tasks(Helper):
         """
 
         route = 'v1/tasks/lists/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_tasks_list_details(self, list_pk):
@@ -146,7 +146,7 @@ class Tasks(Helper):
         """
 
         route = 'v1/tasks/lists/{0}/'.format(list_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def update_tasks_list_details(self, list_pk, data):
@@ -170,7 +170,7 @@ class Tasks(Helper):
         """
 
         route = 'v1/tasks/lists/{0}/'.format(list_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_tasks_list(self, list_pk):
@@ -181,20 +181,20 @@ class Tasks(Helper):
         """
 
         route = 'v1/tasks/lists/{0}/'.format(list_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def log_tasks(self):
         """ Set all tasks to is_logged True """
 
         route = 'v1/tasks/log-tasks/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def get_tasks_timeline(self):
 
         route = 'v1/tasks/timeline/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def get_task_details(self, pk):
@@ -205,7 +205,7 @@ class Tasks(Helper):
         """
 
         route = 'v1/tasks/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def update_task_details(self, pk, data):
@@ -231,7 +231,7 @@ class Tasks(Helper):
         """
 
         route = 'v1/tasks/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_task(self, pk):
@@ -242,5 +242,5 @@ class Tasks(Helper):
         """
 
         route = 'v1/tasks/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)

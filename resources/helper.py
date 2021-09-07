@@ -29,17 +29,29 @@ class Helper:
         except KeyError:
             return {'status': response.status_code, 'data': json.loads(response.content)}
 
-    def process_request(self, request, verb, _base_url, _route, _headers, _data=None):
+    def process_request(self, request, verb, _base_url, _route, _parameter=None, _headers, _data=None):
         try:
 
             if (verb == 'GET'):
-                return request.get('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+                if (_parameter is None):
+                    return request.get('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+                else:
+                    return request.get('{0}{1}{2}'.format(_base_url, _route, _parameter), headers=_headers, data=_data)
             if (verb == 'POST'):
-                return request.post('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+                if (_parameter is None):
+                    return request.post('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+                else:
+                    return request.post('{0}{1}{2}'.format(_base_url, _route, _parameter), headers=_headers, data=_data)
             if (verb == 'PATCH'):
-                return request.patch('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+                if (_parameter is None):
+                    return request.patch('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+                else:
+                    return request.patch('{0}{1}{2}'.format(_base_url, _route, _parameter), headers=_headers, data=_data)
             if (verb == 'DELETE'):
-                return request.delete('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+                if (_parameter is None):
+                    return request.delete('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+                else:
+                    return request.delete('{0}{1}{2}'.format(_base_url, _route, _parameter), headers=_headers, data=_data)
             else:
                 raise ValueError('Wrong verb! (', verb, ')')
         except ValueError as err:

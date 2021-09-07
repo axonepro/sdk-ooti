@@ -19,14 +19,14 @@ class Invoicing(Helper):
         """
 
         route = 'v1/invoices/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def get_invoices_list(self, page=1):
         """ Get the invoice list """
 
         route = 'v1/invoices/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def get_invoices_sent_valid_list(self, team_pk, page=1):
@@ -39,7 +39,7 @@ class Invoicing(Helper):
 
         route = 'v1/invoices/list/{0}/?team={1}&page_size={2}&page={3}&q=&is_sent=true&is_valid=true'.format(
             self.org_pk, team_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def update_invoice(self, pk, data):
@@ -62,7 +62,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/invoices/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def create_invoice(self, team_pk, data):
@@ -98,7 +98,7 @@ class Invoicing(Helper):
         data = {"is_valid": True}
 
         route = 'v1/invoices/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def send_invoice(self, pk):
@@ -109,7 +109,7 @@ class Invoicing(Helper):
         data = {"is_sent": True}
 
         route = 'v1/invoices/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def cancel_invoice(self, pk):
@@ -120,7 +120,7 @@ class Invoicing(Helper):
         data = {"is_closed": True}
 
         route = 'v1/invoices/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
 
         if(response.status_code == 200):
             response_data = json.loads(response.content)
@@ -138,7 +138,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/invoices/items/{0}/?page_size={1}&page={2}'.format(pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def create_invoice_item(self, pk, data):
@@ -158,7 +158,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/invoices/items/{0}/'.format(pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_invoice_item(self, pk, data):
@@ -176,7 +176,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/invoices/item/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_invoice_item(self, pk):
@@ -188,7 +188,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/invoices/item/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     #### Credit notes ####
@@ -197,7 +197,7 @@ class Invoicing(Helper):
         """ Get the invoice list """
 
         route = 'v1/invoices/list/{0}/?page_size={1}&page={2}&type=9'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def get_credit_notes_sent_valid_list(self, team_pk, page=1):
@@ -210,7 +210,7 @@ class Invoicing(Helper):
 
         route = 'v1/invoices/list/{0}/?team={1}&page_size={2}&page={3}&q=&is_sent=true&is_valid=true&type=9'.format(
             self.org_pk, team_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     #### Payments ####
@@ -224,14 +224,14 @@ class Invoicing(Helper):
         """
 
         route = 'v1/payments/{0}'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def get_payments_list(self, page=1):
         """Get the payment list"""
 
         route = 'v1/payments/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def update_payment(self, pk, data):
@@ -254,7 +254,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/payments/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_payment_invoice(self, pk, data):
@@ -273,7 +273,7 @@ class Invoicing(Helper):
             }
         """
         route = 'v1/payments/invoice/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def create_payment(self, team_pk, data):
@@ -313,7 +313,7 @@ class Invoicing(Helper):
         route = 'v1/clients/list/{0}/'.format(self.org_pk)
         parameters = '?team={0}&page_size={1}&page={2}'.format(team_pk, self.pagination, page)
 
-        response = requests.get('{0}{1}{2}'.format(self.base_url, route, parameters), headers=self.headers)
+        response = self.process_request(requests, 'GET', self.base_url, route, parameters, self.headers, None)
         return self.process_response(response, True)
 
     def get_clients_details(self, pk):
@@ -326,7 +326,7 @@ class Invoicing(Helper):
 
         route = 'v1/clients/{0}/'.format(pk)
 
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def create_client(self, data):
@@ -347,7 +347,7 @@ class Invoicing(Helper):
 
         route = 'v1/clients/list/{0}/'.format(self.org_pk)
 
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_client(self, pk, data):
@@ -369,7 +369,7 @@ class Invoicing(Helper):
         """
         route = 'v1/clients/{0}/'.format(pk)
 
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_client(self, pk):
@@ -381,7 +381,7 @@ class Invoicing(Helper):
         """
         route = 'v1/clients/{0}/'.format(pk)
 
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     ##### Currencies #####
@@ -390,7 +390,7 @@ class Invoicing(Helper):
         """Get the currencies list """
 
         route = 'v1/currencies/list/?page_size={0}&page={1}'.format(self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def get_currency_details(self, pk):
@@ -402,7 +402,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/currencies/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def delete_currency(self, pk):
@@ -412,7 +412,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/currencies/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def create_currency(self, data):
@@ -430,7 +430,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/currencies/list/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_currency(self, pk, data):
@@ -463,7 +463,7 @@ class Invoicing(Helper):
         """ Get the emails list """
 
         route = 'v1/emails/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def get_email_details(self, pk):
@@ -474,7 +474,7 @@ class Invoicing(Helper):
         pk -- the pk of the email
         """
         route = 'v1/emails/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def create_email(self, data):
@@ -503,7 +503,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/emails/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_email(self, pk, data):
@@ -533,7 +533,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/emails/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_email(self, pk):
@@ -544,7 +544,7 @@ class Invoicing(Helper):
         pk -- pk of the email
         """
         route = 'v1/emails/{0}'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def send_test_email(self, pk):
@@ -556,7 +556,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/emails/{0}/send-test/'.format(pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def apply_email(self, pk):
@@ -567,7 +567,7 @@ class Invoicing(Helper):
         pk -- pk of the email template
         """
         route = 'v1/emails/{0}/apply/'.format(pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     ### smtp ###
@@ -576,7 +576,7 @@ class Invoicing(Helper):
         """ Get the emails smtp list """
 
         route = 'v1/emails/smtp/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def get_email_smtp_details(self, pk):
@@ -588,7 +588,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/emails/smtp/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def create_email_smtp(self, data):
@@ -608,7 +608,7 @@ class Invoicing(Helper):
            }
         """
         route = 'v1/emails/smtp/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_email_smtp(self, pk, data):
@@ -630,7 +630,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/emails/smtp/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_email_smtp(self, pk):
@@ -641,7 +641,7 @@ class Invoicing(Helper):
         pk -- pk of the email smtp
         """
         route = 'v1/emails/smtp/{0}'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def send_test_email_smtp(self, pk):
@@ -653,7 +653,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/emails/smtp/{0}/send-test/'.format(pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     #### Files ####
@@ -669,7 +669,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/files/folder/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def get_folder_details(self, pk):
@@ -681,7 +681,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/files/folder/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def create_folder(self, project_pk, data):
@@ -699,7 +699,7 @@ class Invoicing(Helper):
             }
         """
         route = 'v1/files/folder/list/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_folder(self, pk, data):
@@ -717,7 +717,7 @@ class Invoicing(Helper):
             }
         """
         route = 'v1/files/folder/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_folder(self, pk):
@@ -728,7 +728,7 @@ class Invoicing(Helper):
         pk -- pk of the folder
         """
         route = 'v1/files/folder/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     ### Files ###
@@ -742,7 +742,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/files/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def create_file(self, project_pk, data):
@@ -754,7 +754,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/files/list/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response, True)
 
     def get_file_details(self, pk):
@@ -766,7 +766,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/files/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def delete_file(self, pk):
@@ -778,7 +778,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/files/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     #### Banks ####
@@ -787,7 +787,7 @@ class Invoicing(Helper):
         """ Get the banks list """
 
         route = 'v1/banks/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def get_bank_details(self, pk):
@@ -799,7 +799,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/banks/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def create_bank(self, data):
@@ -820,7 +820,7 @@ class Invoicing(Helper):
             }
         """
         route = 'v1/banks/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_bank(self, pk, data):
@@ -841,7 +841,7 @@ class Invoicing(Helper):
             }
         """
         route = 'v1/banks/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_bank(self, pk):
@@ -852,7 +852,7 @@ class Invoicing(Helper):
         pk -- pk of the bank
         """
         route = 'v1/banks/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     #### Reports ####
@@ -863,7 +863,7 @@ class Invoicing(Helper):
         """ Get the reports list """
 
         route = 'v1/reports/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def get_reports_project_list(self, project_pk, page=1):
@@ -871,7 +871,7 @@ class Invoicing(Helper):
 
         route = 'v1/reports/list/{0}/?project={1}&page_size={2}&page={3}'.format(
             self.org_pk, project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def get_report_details(self, pk):
@@ -883,7 +883,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/reports/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def create_report(self, data):
@@ -933,7 +933,7 @@ class Invoicing(Helper):
         Note: You can create a report without "type", but this will create a blank page.
         """
         route = 'v1/reports/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_report(self, pk, data):
@@ -963,7 +963,7 @@ class Invoicing(Helper):
         Note: You can create a report without "type", but this will create a blank page.
         """
         route = 'v1/reports/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_report(self, pk):
@@ -974,7 +974,7 @@ class Invoicing(Helper):
         pk -- pk of the report
         """
         route = 'v1/reports/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def generate_report(self, data):
@@ -989,7 +989,7 @@ class Invoicing(Helper):
             }
         """
         route = 'v1/reports/generate/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     ### Reports Templates ###
@@ -1003,7 +1003,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/reports/templates/list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def get_template_details(self, pk):
@@ -1015,7 +1015,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/reports/templates/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def create_template(self, team_pk, data):
@@ -1040,7 +1040,7 @@ class Invoicing(Helper):
             """
 
         route = 'v1/reports/templates/list/{0}/'.format(team_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_template(self, pk, data):
@@ -1065,7 +1065,7 @@ class Invoicing(Helper):
             """
 
         route = 'v1/reports/templates/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_template(self, pk):
@@ -1077,7 +1077,7 @@ class Invoicing(Helper):
          """
 
         route = 'v1/reports/templates/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def duplicate_template(self, pk):
@@ -1089,7 +1089,7 @@ class Invoicing(Helper):
          """
 
         route = 'v1/reports/templates/duplicate/{0}/'.format(pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     #### Revenue ####
@@ -1097,7 +1097,7 @@ class Invoicing(Helper):
         """ Get the revenue list """
 
         route = 'v1/revenue/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def get_revenue_details(self, pk):
@@ -1109,7 +1109,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/revenue/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def create_revenue(self, data):
@@ -1135,14 +1135,14 @@ class Invoicing(Helper):
         """
 
         route = 'v1/revenue/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_revenue_month_list(self, page=1):
         """ Get the revenue month list """
 
         route = 'v1/revenue/month/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def create_revenue_month(self, data):
@@ -1163,7 +1163,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/revenue/month/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def get_revenue_month_details(self, pk):
@@ -1175,7 +1175,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/revenue/month/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def update_revenue_month(self, pk, data):
@@ -1197,7 +1197,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/revenue/month/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_revenue_month(self, pk):
@@ -1209,7 +1209,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/revenue/month/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def update_revenue(self, pk, data):
@@ -1236,7 +1236,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/revenue/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_revenue(self, pk):
@@ -1248,7 +1248,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/revenue/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     #### Styleguides ####
@@ -1257,7 +1257,7 @@ class Invoicing(Helper):
         """ Get the styleguide list """
 
         route = 'v1/styleguides/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response, True)
 
     def get_styleguide_details(self, pk):
@@ -1269,7 +1269,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/styleguides/{0}/'.format(pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'GET', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
 
     def create_styleguide(self, data):
@@ -1284,7 +1284,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/styleguides/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'POST', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def update_styleguide(self, pk, data):
@@ -1306,7 +1306,7 @@ class Invoicing(Helper):
         """
 
         route = 'v1/styleguides/{0}/'.format(pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, json.dumps(data))
+        response = self.process_request(requests, 'PATCH', self.base_url, route, None, self.headers, json.dumps(data))
         return self.process_response(response)
 
     def delete_styleguide(self, pk):
@@ -1318,5 +1318,5 @@ class Invoicing(Helper):
         """
 
         route = 'v1/styleguides/{0}/'.format(pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None)
+        response = self.process_request(requests, 'DELETE', self.base_url, route, None, self.headers, None)
         return self.process_response(response)
