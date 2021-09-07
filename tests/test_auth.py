@@ -1,9 +1,11 @@
 from requests.api import delete
-from factories.factories import OrguserFactory, ProjectFactory, TeamFactory
+from factories.factories import OrguserFactory, ProjectFactory
 import unittest
 import os
-import sys
 from dotenv import load_dotenv
+import sys
+from test_helper import TestHelper
+
 
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
@@ -25,7 +27,8 @@ sdk.connect()
 class TestProject(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testhelper = TestHelper(sdk)
+        cls.team_pk = testhelper._get_selected_team()
         cls.project_id = ProjectFactory()['id']
         cls.orguser_pk = OrguserFactory()['pk']
 
@@ -111,7 +114,8 @@ class TestProject(unittest.TestCase):
 class TestOrguser(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
         cls.project_id = ProjectFactory()['id']
         cls.orguser_pk = OrguserFactory()['pk']
 
