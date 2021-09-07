@@ -1,11 +1,9 @@
 import unittest
 from test_helper import TestHelper
-from factories.factories import TeamFactory
 
 import os
 import sys
 from dotenv import load_dotenv
-
 
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
@@ -22,7 +20,8 @@ OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 my_account = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
 my_account.connect()
 
-team_pk = TeamFactory()
+testHelper = TestHelper(my_account)
+team_pk = testHelper._get_selected_team()
 currency_pk = my_account.Invoicing.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.get_projects_list()['data'][0]['id']
 fee_project = my_account.Deliverables.get_fees_project_list_projects(project_pk)['data'][0]['id']
@@ -33,7 +32,7 @@ class TestAreas(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = TeamFactory()
+        cls.team_pk = cls.testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.area_pk = cls.testHelper._create_area_return_pk(cls.project_pk)
@@ -92,7 +91,7 @@ class TestPhases(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = TeamFactory()
+        cls.team_pk = cls.testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.fee_project_pk = cls.testHelper._create_fee_project_return_pk(cls.project_pk)
@@ -237,7 +236,7 @@ class TestMilestones(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = TeamFactory()
+        cls.team_pk = cls.testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.milestone_pk = cls.testHelper._create_milestone_return_pk(cls.project_pk)
@@ -293,7 +292,7 @@ class TestDefaults(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = TeamFactory()
+        cls.team_pk = cls.testHelper._get_selected_team()
         cls.currency_pk = cls.testHelper._create_currency_if_none()
         cls.client_pk = cls.testHelper._create_client_return_pk(team_pk, currency_pk)
         cls.project_pk = cls.testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
@@ -614,7 +613,7 @@ class TestContracts(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = TeamFactory()
+        cls.team_pk = cls.testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.fee_project_pk = cls.testHelper._create_fee_project_return_pk(cls.project_pk)
@@ -829,7 +828,7 @@ class TestRevisions(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = TeamFactory()
+        cls.team_pk = cls.testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.fee_project_pk = cls.testHelper._create_fee_project_return_pk(cls.project_pk)
@@ -1039,7 +1038,7 @@ class TestAnnexes(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = TeamFactory()
+        cls.team_pk = cls.testHelper._get_selected_team()
         cls.currency_pk = cls.testHelper._create_currency_if_none()
         cls.client_pk = cls.testHelper._create_client_return_pk(team_pk, currency_pk)
         cls.project_pk = cls.testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
