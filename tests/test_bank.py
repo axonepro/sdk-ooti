@@ -97,5 +97,13 @@ class TestBanks(unittest.TestCase):
         res = my_account.Banks.delete_bank(self.bank_pk)
         self.assertEqual(res['status'], 204)
 
+    @classmethod
+    def tearDown(cls):
+        del cls.testHelper
+        del cls.team_pk
+        del cls.currency_pk
+        del cls.project_pk
+        del cls.bank_pk
+
 if __name__ == '__main__':
     unittest.main()

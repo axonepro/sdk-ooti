@@ -85,5 +85,12 @@ class TestAreas(unittest.TestCase):
         res = my_account.Areas.delete_area(self.area_pk)
         self.assertEqual(res['status'], 204)
 
+    @classmethod
+    def tearDown(cls):
+        del cls.testHelper
+        del cls.team_pk
+        del cls.project_pk
+        del cls.area_pk
+
 if __name__ == '__main__':
     unittest.main()

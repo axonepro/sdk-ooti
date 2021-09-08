@@ -89,5 +89,14 @@ class TestAnnexes(unittest.TestCase):
         res = my_account.Annexes.get_annexes_projections_list(self.project_pk)
         self.assertEqual(res['status'], 200)
 
+    @classmethod
+    def tearDown(cls):
+        del cls.testHelper
+        my_account.Teams
+        my_account.Currencies.delete_currency(cls.currency_pk)
+        my_account.Clients.delete_client(cls.client_pk)
+        my_account.Annexes.delete_annexe(cls.annex_pk) 
+        cls.project_pk
+
 if __name__ == '__main__':
     unittest.main()
