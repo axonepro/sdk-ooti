@@ -29,7 +29,7 @@ my_account = ooti.OotiAPI(OOTI_AUTH, OOTI_PASSWORD)
 my_account.connect()
 
 team_pk = TeamFactory()
-currency_pk = my_account.Invoicing.get_currencies_list()['data'][0]['pk']
+currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.get_projects_list()['data'][0]['id']
 
 
@@ -52,14 +52,14 @@ class TestPayements(unittest.TestCase):
     def test_get_payments_list(self):
         """ Test that 200 is returned """
 
-        res_payments = my_account.Payements.get_payments_list()
+        res_payments = my_account.Payments.get_payments_list()
 
         self.assertEqual(res_payments['status'], 200)
 
     def test_get_payments_details(self):
         """ Test that 200 is returned """
 
-        res_details = my_account.Payements.get_payment_details(self.payment_pk)
+        res_details = my_account.Payments.get_payment_details(self.payment_pk)
 
         self.assertEqual(res_details['status'], 200)
 
@@ -72,8 +72,8 @@ class TestPayements(unittest.TestCase):
             "amount": 1000
         }
 
-        res_creation_item = my_account.Payements.create_invoice_item(self.invoice_pk, invoice_item)
-        my_account.Payements.validate_invoice(self.invoice_pk)
+        res_creation_item = my_account.Invoices.create_invoice_item(self.invoice_pk, invoice_item)
+        my_account.Invoices.validate_invoice(self.invoice_pk)
 
         payment = {
             "date": "21-04-2021",
@@ -83,7 +83,7 @@ class TestPayements(unittest.TestCase):
             "invoice": self.invoice_pk,
         }
 
-        res_creation_payment = my_account.Payements.create_payment(self.team_pk, payment)
+        res_creation_payment = my_account.Payments.create_payment(self.team_pk, payment)
         self.assertEqual(res_creation_payment['status'], 201)
 
     def test_update_payment(self):
@@ -93,7 +93,7 @@ class TestPayements(unittest.TestCase):
             'date': '20-04-2021',
         }
 
-        res_update_payment = my_account.Payements.update_payment(self.payment_pk, update)
+        res_update_payment = my_account.Payments.update_payment(self.payment_pk, update)
         self.assertEqual(res_update_payment['status'], 200)
 
     def test_update_amount_payment_invoice(self):
@@ -103,9 +103,9 @@ class TestPayements(unittest.TestCase):
             "amount": 10
         }
 
-        my_account.Payements.update_payment(self.payment_pk, update)
-        invoice_payment_pk = my_account.Payements.get_payment_details(self.payment_pk)['data']['invoice_payments'][0]['pk']
-        res_update_amount_invoice = my_account.Payements.update_payment_invoice(invoice_payment_pk, update)
+        my_account.Payments.update_payment(self.payment_pk, update)
+        invoice_payment_pk = my_account.Payments.get_payment_details(self.payment_pk)['data']['invoice_payments'][0]['pk']
+        res_update_amount_invoice = my_account.Payments.update_payment_invoice(invoice_payment_pk, update)
         self.assertEqual(res_update_amount_invoice['status'], 200)
 
 
@@ -128,21 +128,21 @@ class TestInvoices(unittest.TestCase):
     def test_get_invoices_list(self):
         """ Test that 200 is returned """
 
-        res_get = my_account.Payements.get_invoices_list()
+        res_get = my_account.Invoices.get_invoices_list()
 
         self.assertEqual(res_get['status'], 200)
 
     def test_get_invoice_details(self):
         """ Test that 200 is returned """
 
-        res_details = my_account.Payements.get_invoice_details(self.invoice_pk)
+        res_details = my_account.Invoices.get_invoice_details(self.invoice_pk)
 
         self.assertEqual(res_details['status'], 200)
 
     def test_get_invoices_sent_valid_list(self):
         """ Test that 200 is returned """
 
-        res_sent_valid = my_account.Payements.get_invoices_sent_valid_list(self.team_pk)
+        res_sent_valid = my_account.Invoices.get_invoices_sent_valid_list(self.team_pk)
 
         self.assertEqual(res_sent_valid['status'], 200)
 
@@ -158,7 +158,7 @@ class TestInvoices(unittest.TestCase):
             "type": 4
         }
 
-        res_creation = my_account.Payements.create_invoice(self.team_pk, invoice_project)
+        res_creation = my_account.Invoices.create_invoice(self.team_pk, invoice_project)
         self.assertEqual(res_creation['status'], 201)
 
         # Test with client in paylaod
@@ -170,7 +170,7 @@ class TestInvoices(unittest.TestCase):
             "type": 4
         }
 
-        res_creation = my_account.Payements.create_invoice(self.team_pk, invoice_client)
+        res_creation = my_account.Invoices.create_invoice(self.team_pk, invoice_client)
         self.assertEqual(res_creation['status'], 201)
 
     def test_update_invoice(self):
@@ -182,31 +182,31 @@ class TestInvoices(unittest.TestCase):
             "purchase_order": "Hey this is the purchase order"
         }
 
-        res_update = my_account.Payements.update_invoice(self.invoice_pk_not_validated, invoice_updated)
+        res_update = my_account.Invoices.update_invoice(self.invoice_pk_not_validated, invoice_updated)
         self.assertEqual(res_update['status'], 200)
 
     def test_validate_invoice(self):
         """ Test that 200 is returned """
 
-        res_validate = my_account.Payements.validate_invoice(self.invoice_pk_not_validated)
+        res_validate = my_account.Invoices.validate_invoice(self.invoice_pk_not_validated)
         self.assertEqual(res_validate['status'], 200)
 
     def test_send_invoice(self):
         """ Test that 200 is returned """
 
-        res_send = my_account.Payements.send_invoice(self.invoice_pk)
+        res_send = my_account.Invoices.send_invoice(self.invoice_pk)
         self.assertEqual(res_send['status'], 200)
 
     def test_close_invoice(self):
         """ Test that 200 is returned """
 
-        res_close = my_account.Payements.cancel_invoice(self.invoice_pk)
+        res_close = my_account.Invoices.cancel_invoice(self.invoice_pk)
         self.assertEqual(res_close['status'], 200)
 
     def test_get_invoice_items(self):
         """ Test that 200 is returned """
 
-        res_items = my_account.Payements.get_invoice_items(self.invoice_pk)
+        res_items = my_account.Invoices.get_invoice_items(self.invoice_pk)
         self.assertEqual(res_items['status'], 200)
 
     def test_create_invoice_item(self):
@@ -218,7 +218,7 @@ class TestInvoices(unittest.TestCase):
             "amount": 1000
         }
 
-        res_creation = my_account.Payements.create_invoice_item(self.invoice_pk, invoice_item)
+        res_creation = my_account.Invoices.create_invoice_item(self.invoice_pk, invoice_item)
         self.assertEqual(res_creation['status'], 201)
 
     def test_update_invoice_item(self):
@@ -228,24 +228,24 @@ class TestInvoices(unittest.TestCase):
             "amount": 1200
         }
 
-        res_update = my_account.Payements.update_invoice_item(self.invoice_item_pk_not_validated, update)
+        res_update = my_account.Invoices.update_invoice_item(self.invoice_item_pk_not_validated, update)
         self.assertEqual(res_update['status'], 200)
 
     def test_delete_invoice_item(self):
         """ Test that 204 is returned """
 
-        res_delete = my_account.Payements.delete_invoice_item(self.invoice_item_pk)
+        res_delete = my_account.Invoices.delete_invoice_item(self.invoice_item_pk)
         self.assertEqual(res_delete['status'], 204)
 
     def test_get_credit_notes(self):
         """ Test that 200 is returned """
 
-        res = my_account.Payements.get_credit_notes_list()
+        res = my_account.Invoices.get_credit_notes_list()
         self.assertEqual(res['status'], 200)
 
     def test_get_credit_notes_sent_valid(self):
         """ Test that 200 is returned """
-        res = my_account.Payements.get_credit_notes_sent_valid_list(self.team_pk)
+        res = my_account.Invoices.get_credit_notes_sent_valid_list(self.team_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -515,7 +515,7 @@ class TestFiles(unittest.TestCase):
         """ Test that 200 is returned """
 
         res = my_account.Files.get_folder_details(self.folder_pk)
-        my_account.Invoicing.delete_folder(self.folder_pk)
+        my_account.Files.delete_folder(self.folder_pk)
 
         self.assertEqual(res['status'], 200)
 
@@ -597,14 +597,14 @@ class TestBanks(unittest.TestCase):
     def test_get_banks_list(self):
         """ Test that 200 is returned """
 
-        res = my_account.Files.get_banks_list()
+        res = my_account.Banks.get_banks_list()
 
         self.assertEqual(res['status'], 200)
 
     def test_get_banks_details(self):
         """ Test that 200 is returned """
 
-        res = my_account.Files.get_bank_details(self.bank_pk)
+        res = my_account.Banks.get_bank_details(self.bank_pk)
         self.assertEqual(res['status'], 200)
 
     def test_create_bank(self):
@@ -623,8 +623,8 @@ class TestBanks(unittest.TestCase):
             "projects": [str(self.project_pk)]
         }
 
-        res = my_account.Files.create_bank(data)
-        my_account.Files.delete_bank(res['data']['id'])
+        res = my_account.Banks.create_bank(data)
+        my_account.Banks.delete_bank(res['data']['id'])
 
         self.assertEqual(res['status'], 201)
 
@@ -637,15 +637,15 @@ class TestBanks(unittest.TestCase):
             "name": name
         }
 
-        res = my_account.Files.update_bank(self.bank_pk, update)
-        my_account.Files.delete_bank(self.bank_pk)
+        res = my_account.Banks.update_bank(self.bank_pk, update)
+        my_account.Banks.delete_bank(self.bank_pk)
 
         self.assertEqual(res['status'], 200)
 
     def test_delete_bank(self):
         """ Test that 204 is returned """
 
-        res = my_account.Files.delete_bank(self.bank_pk)
+        res = my_account.Banks.delete_bank(self.bank_pk)
         self.assertEqual(res['status'], 204)
 
 

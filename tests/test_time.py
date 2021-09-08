@@ -25,12 +25,12 @@ my_account = ooti.OotiAPI(OOTI_AUTH, OOTI_PASSWORD)
 my_account.connect()
 
 team_pk = TeamFactory()
-currency_pk = my_account.Invoicing.get_currencies_list()['data'][0]['pk']
+currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.get_projects_list()['data'][0]['id']
 
 orguser = OrguserPkFactory(my_account.org_pk)
-week_pk = my_account.Time.get_timelogs_week_list()['data'][0]['id']
-res = my_account.update_orguser_details(orguser, {'trip_enabled': True})
+week_pk = my_account.Timelogs.get_timelogs_week_list()['data'][0]['id']
+res = my_account.update_orguser_details(orguser, {'trips_enabled': True})
 print(res.get('status'))
 
 

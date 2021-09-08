@@ -115,11 +115,11 @@ class TestCeleryTasks(unittest.TestCase):
         cls.project_id = ProjectFactory()['id']
 
     def test_get_last_celery_task(self):
-        response = sdk.CeleryTasks.get_last_celery_task()
+        response = sdk.Celery_tasks.get_last_celery_task()
         self.assertIn(response['status'], [200, 404])
 
     def test_get_celery_tasks_list(self):
-        response = sdk.CeleryTasks.get_celery_tasks_list()
+        response = sdk.Celery_tasks.get_celery_tasks_list()
         self.assertEqual(response['status'], 200)
 
 
@@ -130,7 +130,7 @@ class TestInboundEmails(unittest.TestCase):
         cls.project_id = ProjectFactory()['id']
 
     def test_get_inbound_emails_list(self):
-        response = sdk.InboundEmails.get_inbound_emails_list()
+        response = sdk.Inbound_emails.get_inbound_emails_list()
         self.assertEqual(response['status'], 200)
 
     def test_create_inbound_email(self):
@@ -139,18 +139,18 @@ class TestInboundEmails(unittest.TestCase):
             "subject": "test subject",
             "body": "test body"
         }
-        response = sdk.InboundEmails.create_inbound_email(payload)
+        response = sdk.Inbound_emails.create_inbound_email(payload)
         self.assertEqual(response['status'], 201)
         created_id = response['data']['id']
         payload = {
             "subject": "updated",
             "body": "body update"
         }
-        update = sdk.InboundEmails.update_inbound_email_details(created_id, payload)
+        update = sdk.Inbound_emails.update_inbound_email_details(created_id, payload)
         self.assertEqual(update['status'], 200)
-        get = sdk.InboundEmails.get_inbound_email_details(created_id)
+        get = sdk.Inbound_emails.get_inbound_email_details(created_id)
         self.assertEqual(get['status'], 200)
-        delete = sdk.InboundEmails.delete_inbound_email(created_id)
+        delete = sdk.Inbound_emails.delete_inbound_email(created_id)
         self.assertEqual(delete['status'], 204)
 
 

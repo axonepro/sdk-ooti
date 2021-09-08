@@ -158,6 +158,10 @@ class Invoices(Helper):
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
+    # TODO DELETE on /api/v1/invoices/{id}/
+
+    # TODO GET on /api/v1/invoices/item/{id}/
+
     def update_invoice_item(self, pk, data):
         """ Update invoice's item
 
@@ -207,3 +211,103 @@ class Invoices(Helper):
             self.org_pk, team_pk, self.pagination, page)
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
+
+    # TODO GET on /api/v1/invoices/accounting-dashboard/{team_pk}/
+
+    # TODO GET on /api/v1/invoices/accounting_periods/{org_pk}/
+
+    # TODO GET on /api/v1/invoices/accounting_periods_per_project/{org_pk}/
+
+    # TODO POST on /api/v1/invoices/action/{org_pk}/
+
+    # TODO GET on /api/v1/invoices/billable-summary/{team_pk}/
+
+    # TODO GET on /api/v1/invoices/billable_items/{project_pk}
+
+    # TODO POST on /api/v1/invoices/contract/item/generate/{id}/
+
+    # TODO GET on /api/v1/invoices/contract/item/{id}/
+
+    # TODO PATCH on /api/v1/invoices/contract/item/{id}/
+
+    # TODO DELETE on /api/v1/invoices/contract/item/{id}/
+
+    # TODO GET on /api/v1/invoices/contract/items/{invoice_pk}/
+
+    # TODO POST on /api/v1/invoices/contract/items/{invoice_pk}/
+
+    # TODO GET on /api/v1/invoices/count/{org_pk}/
+
+    # TODO POST on /api/v1/invoices/followup/action/
+
+    # TODO GET on /api/v1/invoices/followup/list/{org_pk}/
+
+    # TODO POST on /api/v1/invoices/followup/list/{org_pk}/
+
+    # TODO GET on /api/v1/invoices/followup/list/{org_pk}/generate/
+
+    # TODO POST on /api/v1/invoices/followup/list/{org_pk}/generate/
+
+    # TODO GET on /api/v1/invoices/followup/rule/list/{org_pk}/
+
+    # TODO POST on /api/v1/invoices/followup/rule/list/{org_pk}/
+
+    # TODO GET on /api/v1/invoices/followup/rule/{id}/
+
+    # TODO PATCH on /api/v1/invoices/followup/rule/{id}/
+
+    # TODO DELETE on /api/v1/invoices/followup/rule/{id}/
+
+    # TODO GET on /api/v1/invoices/followup/{id}/
+
+    # TODO PATCH on /api/v1/invoices/followup/{id}/
+
+    # TODO DELETE on /api/v1/invoices/followup/{id}/
+
+    # TODO GET on /api/v1/invoices/followup/{id}/send/
+
+    # TODO POST on /api/v1/invoices/followup/{id}/send/
+
+    # TODO POST on /api/v1/invoices/generage-auto-draft-invoices/{org_pk}/
+
+    # TODO GET on /api/v1/invoices/get_invoice_pdf_count/{id}/
+
+    # TODO GET on /api/v1/invoices/invoice/items/deliverable/{project_pk}/
+
+    # TODO GET on /api/v1/invoices/invoicing-metrics/{team_pk}/{project_pk}/
+
+    # TODO POST on v1/invoices/item/actions/
+
+    # TODO GET on /api/v1/invoices/item/job/list/{org_pk}/
+
+    # TODO POST on /api/v1/invoices/item/job/list/{org_pk}/
+
+    # TODO GET on /api/v1/invoices/item/job/{id}/
+
+    # TODO PATCH on /api/v1/invoices/item/job/{id}/
+
+    # TODO DELETE on /api/v1/invoices/item/job/{id}/
+
+    # TODO GET on /api/v1/invoices/item/revisions/{id}/
+
+    # TODO GET on /api/v1/invoices/item/update/{id}/
+
+    # TODO GET on /api/v1/invoices/metrics/{org_pk}/
+
+    # TODO GET on /api/v1/invoices/recently-imported-invoices/{org_pk}/
+
+    # TODO DELETE on /api/v1/invoices/recently-imported-invoices/{org_pk}/
+
+    # TODO GET on /api/v1/invoices/revenue-composition-charts/{team_pk}/
+
+    # TODO GET on /api/v1/invoices/unpaid-composition-charts/{team_pk}/
+
+    # TODO POST on /api/v1/invoices/{id}/notify-contractors/
+
+    # TODO POST on /api/v1/invoices/{id}/remove-fee-project-titles/
+
+    # TODO POST on /api/v1/invoices/{id}/reset-orders/
+
+    # TODO POST on /api/v1/invoices/{id}/sync-contract-invoice-progress/
+
+    # TODO POST on /api/v1/invoices/{invoice_pk}/sync-clients/

@@ -62,23 +62,23 @@ class TestIndicators(unittest.TestCase):
         cls.project_id = ProjectFactory()['id']
 
     def test_get_indicators_financial_costs(self):
-        response = sdk.Goals.get_indicators_financial_costs(project_id=self.project_id)
+        response = sdk.Indicators.get_indicators_financial_costs(project_id=self.project_id)
         self.assertEqual(response['status'], 200)
 
     def test_get_indicators_financial_incomes(self):
-        response = sdk.Goals.get_indicators_financial_incomes()
+        response = sdk.Indicators.get_indicators_financial_incomes()
         self.assertEqual(response['status'], 200)
 
     def test_get_indicators_financial_revenues(self):
-        response = sdk.Goals.get_indicators_financial_revenues()
+        response = sdk.Indicators.get_indicators_financial_revenues()
         self.assertEqual(response['status'], 200)
 
     def test_get_indicators_financial_summary(self):
-        response = sdk.Goals.get_indicators_financial_summary()
+        response = sdk.Indicators.get_indicators_financial_summary()
         self.assertEqual(response['status'], 200)
 
     def test_get_indicators_revenue(self):
-        response = sdk.Goals.get_indicators_revenue()
+        response = sdk.Indicators.get_indicators_revenue()
         self.assertEqual(response['status'], 200)
 
 

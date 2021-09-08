@@ -22,6 +22,8 @@ class Clients(Helper):
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, parameters, None)
         return self.process_response(response, True)
 
+    # TODO POST on /api/v1/clients/list/{org_pk}/
+
     def get_clients_details(self, pk):
         """Get the client details
 
@@ -89,3 +91,37 @@ class Clients(Helper):
 
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
+
+    # TODO GET on /api/v1/clients/export/{org_pk}/
+
+    # TODO GET on /api/v1/clients/group/list/{org_pk}/
+
+    # TODO POST on /api/v1/clients/group/list/{org_pk}/
+
+    # TODO GET on /api/v1/clients/group/{id}/
+
+    # TODO PATCH on /api/v1/clients/group/{id}/
+
+    # TODO DELETE on /api/v1/clients/group/{id}/
+
+    # TODO GET on /api/v1/clients/project/list/{org_pk}/
+
+    # TODO POST on /api/v1/clients/project/list/{org_pk}/
+
+    # TODO GET on /api/v1/clients/project/{id}/
+
+    # TODO PATCH on /api/v1/clients/project/{id}/
+
+    # TODO DELETE on /api/v1/clients/project/{id}/
+
+    # TODO GET on /api/v1/clients/split/list/{org_pk}/
+
+    # TODO POST on /api/v1/clients/split/list/{org_pk}/
+
+    # TODO GET on /api/v1/clients/split/{id}/
+
+    # TODO PATCH on /api/v1/clients/split/{id}/
+
+    # TODO DELETE on /api/v1/clients/split/{id}/
+
+    # TODO POST on /api/v1/clients/{id}/apply_default_contact/

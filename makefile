@@ -33,6 +33,7 @@ tests:
 	pytest tests/test_invoicing.py
 	pytest tests/test_others.py
 	pytest tests/test_settings.py
+	pytest tests/test_time.py
 
 pythonalias:
 	echo '\npython="python3"\npip=pip3' >> ~/.zshrc

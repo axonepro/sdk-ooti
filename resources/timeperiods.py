@@ -133,6 +133,16 @@ class Timeperiods(Helper):
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
+    # TODO GET on /api/v1/timeperiods/role-phase-periods/list/{org_pk}/
+
+    # TODO POST on /api/v1/timeperiods/role-phase-periods/list/{org_pk}/
+
+    # TODO GET on /api/v1/timeperiods/role-phase-periods/{id}/
+
+    # TODO PATCH on /api/v1/timeperiods/role-phase-periods/{id}/
+
+    # TODO DELETE on /api/v1/timeperiods/role-phase-periods/{id}/
+
     def create_timeperiods_scheduling_timeline_actions(self, project_pk):
         """
         Get scheduling timeline actions for a project

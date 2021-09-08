@@ -46,6 +46,8 @@ class Timelogs(Helper):
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
+    # TODO GET on /api/v1/timelogs/dash_calendar/{org_pk}/
+
     def get_timelogs_delete_imported_worklogs_project(self, project_pk):
         """ Get the deleted/imported worklogs of a project
 
@@ -353,6 +355,16 @@ class Timelogs(Helper):
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
+    # TODO GET on /api/v1/timelogs/my-timeoff-request/list/{team_pk}/
+
+    # TODO POST on /api/v1/timelogs/my-timeoff-request/list/{team_pk}/
+
+    # TODO GET on /api/v1/timelogs/time-summary/{org_pk}/
+
+    # TODO GET on /api/v1/timelogs/time-summary/{org_pk}/{team_pk}/
+
+    # TODO GET on /api/v1/timelogs/timelogs-charts/{org_pk}/{team_pk}/
+
     def get_timelogs_my_timeoff_requests_list(self, team_pk, page=1):
         """ Get my timeoff requests 
 
@@ -460,6 +472,8 @@ class Timelogs(Helper):
         route = 'v1/timelogs/timeoff-balance/list/{0}/'.format(team_pk)
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
+
+    # TODO POST on /api/v1/timelogs/timeoff-requests/action/{team_pk}/
 
     def create_timeoff_requests_action(self, team_pk, data):
         """ Create timeoff request action
@@ -588,6 +602,12 @@ class Timelogs(Helper):
         route = 'v1/timelogs/types/timeoff/list/{0}/'.format(self.org_pk)
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response, True)
+
+    # TODO GET on /api/v1/timelogs/types/timeoff/{id}/
+
+    # TODO PATCH on /api/v1/timelogs/types/timeoff/{id}/
+
+    # TODO DELETE on /api/v1/timelogs/types/timeoff/{id}/
 
     def get_timelogs_types_details(self, pk):
         """ Get timelogs type details 

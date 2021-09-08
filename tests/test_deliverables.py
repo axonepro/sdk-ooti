@@ -206,7 +206,7 @@ class TestPhases(unittest.TestCase):
     def test_update_phase_planphase(self):
         """ Test that 200 is returned """
 
-        planphase_pk = my_account.Phases.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
+        planphase_pk = my_account.Plans.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
 
         data = {
             "progress": 20
@@ -222,7 +222,7 @@ class TestPhases(unittest.TestCase):
 
         res = my_account.Phases.delete_phase_planphase(planphase_pk)
 
-        my_account.Phases.delete_plan(self.plan_pk)
+        my_account.Plans.delete_plan(self.plan_pk)
         self.assertEqual(res['status'], 204)
 
     def test_update_phases_progress(self):
@@ -1003,7 +1003,7 @@ class TestRevisions(unittest.TestCase):
     def test_create_plan_revision(self):
         """ Test that 201 is returned """
 
-        planphase_pk = my_account.Revisions.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
+        planphase_pk = my_account.Plans.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
 
         data = {
             "is_valid": False,
@@ -1019,7 +1019,7 @@ class TestRevisions(unittest.TestCase):
     def test_delete_plan_revision(self):
         """ Test that 204 is returned """
 
-        planphase_pk = my_account.Revisions.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
+        planphase_pk = my_account.Plans.get_plan_details(self.plan_pk)['data']['plan_phases'][0]['id']
 
         data = {
             "is_valid": False,

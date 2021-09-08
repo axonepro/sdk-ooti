@@ -128,7 +128,7 @@ class TestHelper:
         }
 
         res_creation_item = self.my_account.Invoices.create_invoice_item(invoice_pk, invoice_item)
-        self.my_account.Invoicing.validate_invoice(invoice_pk)
+        self.my_account.Invoices.validate_invoice(invoice_pk)
 
         payment = {
             "date": "21-04-2021",
