@@ -45,7 +45,6 @@ tests:
 	pytest tests/test_import.py
 	pytest tests/test_inbound_email.py
 	pytest tests/test_indicator.py
-	pytest tests/test_invitation.py
 	pytest tests/test_invoice.py
 	pytest tests/test_job.py
 	pytest tests/test_milestone.py
