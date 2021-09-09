@@ -23,7 +23,7 @@ sdk.connect()
 
 class TestProject(unittest.TestCase):
     @ classmethod
-    def setUpClass(cls):
+    def setUp(cls):
         cls.team_pk = TeamFactory()
         cls.project_id = ProjectFactory()['id']
         cls.orguser_pk = OrguserFactory()['pk']

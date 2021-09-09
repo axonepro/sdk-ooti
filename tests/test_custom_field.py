@@ -23,7 +23,7 @@ sdk.connect()
 
 class TestCustomfields(unittest.TestCase):
     @ classmethod
-    def setUpClass(self):
+    def setUp(self):
         self.team_pk = TeamFactory()
 
     def test_get_customfields_list(self):

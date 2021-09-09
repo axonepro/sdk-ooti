@@ -42,7 +42,6 @@ tests:
 	pytest tests/test_expense.py
 	pytest tests/test_file.py
 	pytest tests/test_goal.py
-	pytest tests/test_import.py
 	pytest tests/test_inbound_email.py
 	pytest tests/test_indicator.py
 	pytest tests/test_invoice.py

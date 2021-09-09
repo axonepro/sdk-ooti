@@ -25,7 +25,7 @@ sdk.connect()
 
 class TestNewsletters(unittest.TestCase):
     @ classmethod
-    def setUpClass(cls):
+    def setUp(cls):
         cls.orguser_pk = OrguserFactory()['pk']
         cls.team_pk = TeamFactory()
 

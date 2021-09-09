@@ -25,7 +25,7 @@ sdk.connect()
 
 class TestNotes(unittest.TestCase):
     @ classmethod
-    def setUpClass(cls):
+    def setUp(cls):
         cls.project_pk = ProjectFactory()['id']
         cls.orguser_pk = OrguserFactory()['pk']
         cls.team_pk = TeamFactory()

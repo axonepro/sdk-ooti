@@ -34,7 +34,7 @@ sdk.connect()
 
 class TestJobs(unittest.TestCase):
     @ classmethod
-    def setUpClass(cls):
+    def setUp(cls):
         cls.team_pk = TeamFactory()
         cls.project = ProjectFactory()
         cls.job = JobFactory()

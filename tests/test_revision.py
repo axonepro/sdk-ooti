@@ -30,7 +30,7 @@ fee_project = my_account.Fees.get_fees_project_list_projects(project_pk)['data']
 class TestRevisions(unittest.TestCase):
 
     @classmethod
-    def setUpClass(cls):
+    def setUp(cls):
         cls.testHelper = HelperTest(my_account)
         cls.team_pk = TeamFactory()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)

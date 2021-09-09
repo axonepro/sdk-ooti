@@ -25,7 +25,7 @@ sdk.connect()
 
 class TestTasks(unittest.TestCase):
     @ classmethod
-    def setUpClass(cls):
+    def setUp(cls):
         cls.team_pk = TeamFactory()
         cls.orguser_pk = OrguserFactory()['pk']
         cls.task_pk = TaskFactory()['pk']

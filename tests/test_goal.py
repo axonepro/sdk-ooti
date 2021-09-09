@@ -24,7 +24,7 @@ sdk.connect()
 
 class TestGoals(unittest.TestCase):
     @ classmethod
-    def setUpClass(cls):
+    def setUp(cls):
         cls.team_pk = TeamFactory()
 
     def test_get_goals_list(self):

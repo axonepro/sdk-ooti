@@ -34,7 +34,7 @@ sdk.connect()
 
 class TestCosts(unittest.TestCase):
     @ classmethod
-    def setUpClass(cls):
+    def setUp(cls):
         cls.team_pk = TeamFactory()
         cls.cost = CostFactory(cls.team_pk)
         cls.cost_month = CostMonthFactory(team_pk=cls.team_pk, cost_id=cls.cost['id'])

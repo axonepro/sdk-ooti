@@ -34,7 +34,7 @@ sdk.connect()
 
 class TestExpenses(unittest.TestCase):
     @ classmethod
-    def setUpClass(cls):
+    def setUp(cls):
         cls.team_pk = TeamFactory()
         cls.expense_group = ExpenseGroupFactory(team_pk=cls.team_pk)
 

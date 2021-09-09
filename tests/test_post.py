@@ -25,7 +25,7 @@ sdk.connect()
 
 class TestPosts(unittest.TestCase):
     @ classmethod
-    def setUpClass(cls):
+    def setUp(cls):
         cls.team_pk = TeamFactory()
         cls.post_pk = PostFactory()['pk']
         cls.album_pk = AlbumFactory()['pk']

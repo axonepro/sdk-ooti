@@ -23,7 +23,7 @@ sdk.connect()
 
 class TestInboundEmails(unittest.TestCase):
     @ classmethod
-    def setUpClass(cls):
+    def setUp(cls):
         cls.team_pk = TeamFactory()
         cls.project_id = ProjectFactory()['id']
 
