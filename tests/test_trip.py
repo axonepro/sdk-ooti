@@ -1,6 +1,6 @@
 from tests.factories.factories import OrguserPkFactory
 import unittest
-from test_helper import TestHelper
+from test_helper import HelperTest
 from factories.factories import TeamFactory
 
 import os
@@ -36,7 +36,7 @@ print(res.get('status'))
 class TestTrips(unittest.TestCase):
     @classmethod
     def setUp(cls):
-        cls.testHelper = TestHelper(my_account)
+        cls.testHelper = HelperTest(my_account)
         cls.orguser_pk = OrguserPkFactory(my_account.org_pk)
         cls.team_pk = TeamFactory()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)

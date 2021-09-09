@@ -1,7 +1,7 @@
 import unittest
 
 from requests.models import Response
-from test_helper import TestHelper
+from test_helper import HelperTest
 from factories.factories import TeamFactory
 
 import random
@@ -36,7 +36,7 @@ class TestCurrencies(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.testHelper = TestHelper(my_account)
+        cls.testHelper = HelperTest(my_account)
         cls.team_pk = TeamFactory()
         cls.currency_pk = cls.testHelper._create_currency_if_none()
 

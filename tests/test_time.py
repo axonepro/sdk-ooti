@@ -1,6 +1,6 @@
 from tests.factories.factories import OrguserPkFactory
 import unittest
-from test_helper import TestHelper
+from test_helper import HelperTest
 from factories.factories import TeamFactory
 
 import os

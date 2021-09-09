@@ -1,5 +1,5 @@
 import unittest
-from test_helper import TestHelper
+from test_helper import HelperTest
 from factories.factories import TeamFactory
 
 import os
@@ -31,7 +31,7 @@ class TestRevisions(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.testHelper = TestHelper(my_account)
+        cls.testHelper = HelperTest(my_account)
         cls.team_pk = TeamFactory()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.Projects.get_projects_list()['data'][0]['id']

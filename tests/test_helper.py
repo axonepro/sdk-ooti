@@ -4,8 +4,8 @@ import string
 import time
 
 
-class TestHelper:
-    """ TestHelper class 
+class HelperTest:
+    """ HelperTest class 
 
     Create all needed object to do tests
     """

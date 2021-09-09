@@ -1,7 +1,7 @@
 import unittest
 
 from requests.models import Response
-from test_helper import TestHelper
+from test_helper import HelperTest
 from factories.factories import TeamFactory
 
 import random
@@ -36,7 +36,7 @@ class TestEmails(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        testHelper = TestHelper(my_account)
+        testHelper = HelperTest(my_account)
         cls.email_pk = testHelper._create_email_return_pk()
         cls.smtp_pk = testHelper._create_email_smtp_return_pk()
 

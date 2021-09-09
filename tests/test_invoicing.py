@@ -1,7 +1,7 @@
 import unittest
 
 from requests.models import Response
-from test_helper import TestHelper
+from test_helper import HelperTest
 from factories.factories import TeamFactory
 
 import random

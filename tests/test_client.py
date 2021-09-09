@@ -1,7 +1,7 @@
 import unittest
 
 from requests.models import Response
-from test_helper import TestHelper
+from test_helper import HelperTest
 from factories.factories import TeamFactory
 
 import random
@@ -36,7 +36,7 @@ class TestClients(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        testHelper = TestHelper(my_account)
+        testHelper = HelperTest(my_account)
         cls.team_pk = TeamFactory()
         cls.currency_pk = testHelper._create_currency_if_none()
         cls.client_pk = testHelper._create_client_return_pk(cls.team_pk, cls.currency_pk)
