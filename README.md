@@ -88,6 +88,7 @@ Run  the following command to install package ```ooti-api```:
 
 ## Example
 
+```
 import ooti
 import pprint
 
@@ -164,7 +165,7 @@ pprint.pp(phase)  # Print details of the phase
 data = {'progress': 66}
 phase = my_account.update_phase_details(pk='phase_pk', data=data)  # Update the details of one phase
 pprint.pp(phase)  # Print details of the updated phase
-
+```
 
 <!-- LICENSE -->
 ## License
