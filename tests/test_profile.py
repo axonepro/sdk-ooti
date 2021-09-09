@@ -23,18 +23,18 @@ sdk.connect()
 
 class TestProfile(unittest.TestCase):
     def test_get_profile_preferences(self):
-        response = sdk.get_profile_preferences()
+        response = sdk.Profiles.get_profile_preferences()
         self.assertEqual(response['status'], 200)
 
     def test_get_profile_details(self):
-        response = sdk.get_profile_details()
+        response = sdk.Profiles.get_profile_details()
         self.assertEqual(response['status'], 200)
 
     def test_update_profile_details(self):
         payload = {
             "locale": "en"
         }
-        response = sdk.update_profile_details(payload)
+        response = sdk.Profiles.update_profile_details(payload)
         self.assertEqual(response['status'], 200)
 
 if __name__ == '__main__':

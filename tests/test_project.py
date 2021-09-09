@@ -29,15 +29,15 @@ class TestProject(unittest.TestCase):
         cls.orguser_pk = OrguserFactory()['pk']
 
     def test_get_project_details(self):
-        response = sdk.get_project_details(self.project_id)
+        response = sdk.Projects.get_project_details(self.project_id)
         self.assertEqual(response['status'], 200)
 
     def test_get_projects_list(self):
-        response = sdk.get_projects_list()
+        response = sdk.Projects.get_projects_list()
         self.assertEqual(response['status'], 200)
 
     def test_export_projects_list(self):
-        response = sdk.export_projects_list()
+        response = sdk.Projects.export_projects_list()
         self.assertEqual(response['status'], 200)
 
     def test_create_project(self):
@@ -48,7 +48,7 @@ class TestProject(unittest.TestCase):
             "city": "Paris",
             "country": "FR"
         }
-        response = sdk.create_project(payload)
+        response = sdk.Projects.create_project(payload)
         self.assertEqual(response['status'], 400)
         payload = {
             "project_title": "New project",
@@ -58,7 +58,7 @@ class TestProject(unittest.TestCase):
             "city": "Paris",
             "country": "FR"
         }
-        response = sdk.create_project(payload)
+        response = sdk.Projects.create_project(payload)
         self.assertEqual(response['status'], 201)
 
     def test_update_project_details(self):
@@ -66,27 +66,27 @@ class TestProject(unittest.TestCase):
         payload = {
             "surface_area": 730
         }
-        response = sdk.update_project_details(self.project_id, payload)
+        response = sdk.Projects.update_project_details(self.project_id, payload)
         self.assertEqual(response['status'], 200)
 
     def test_get_project_fee_summary(self):
 
-        response = sdk.get_project_fee_summary(self.project_id)
+        response = sdk.Projects.get_project_fee_summary(self.project_id)
         self.assertEqual(response['status'], 200)
 
     def test_get_projects_list_deliverables(self):
 
-        response = sdk.get_projects_list_deliverables()
+        response = sdk.Projects.get_projects_list_deliverables()
         self.assertEqual(response['status'], 200)
 
     def test_get_project_available_clients(self):
 
-        response = sdk.get_project_available_clients(self.project_id)
+        response = sdk.Projects.get_project_available_clients(self.project_id)
         self.assertEqual(response['status'], 200)
 
     def test_get_project_users_list(self):
 
-        response = sdk.get_project_users_list(self.project_id)
+        response = sdk.Projects.get_project_users_list(self.project_id)
         self.assertEqual(response['status'], 200)
 
     def test_add_project_user(self):
@@ -95,15 +95,15 @@ class TestProject(unittest.TestCase):
             "project": self.project_id,
             "is_visible": True
         }
-        response = sdk.add_project_user(self.project_id, payload)
+        response = sdk.Projects.add_project_user(self.project_id, payload)
         project_user_pk = response['data']['pk']
         self.assertEqual(response['status'], 201)
         payload = {
             "is_billable": True
         }
-        update = sdk.update_project_user_details(project_user_pk, payload)
+        update = sdk.Projects.update_project_user_details(project_user_pk, payload)
         self.assertEqual(update['status'], 200)
-        delete = sdk.delete_project_user(project_user_pk)
+        delete = sdk.Projects.delete_project_user(project_user_pk)
         self.assertEqual(delete['status'], 204)
 
     @classmethod

@@ -53,7 +53,6 @@ tests:
 	pytest tests/test_notification.py
 	pytest tests/test_orguser.py
 	pytest tests/test_payment.py
-	pytest tests/test_permission.py
 	pytest tests/test_phase.py
 	pytest tests/test_post.py
 	pytest tests/test_profile.py

@@ -29,15 +29,15 @@ class TestOrguser(unittest.TestCase):
         cls.orguser_pk = OrguserFactory()['pk']
 
     def test_get_orguser_details(self):
-        response = sdk.get_orguser_details(self.orguser_pk)
+        response = sdk.Orgusers.get_orguser_details(self.orguser_pk)
         self.assertEqual(response['status'], 200)
 
     def test_get_orgusers_list(self):
-        response = sdk.get_orgusers_list()
+        response = sdk.Orgusers.get_orgusers_list()
         self.assertEqual(response['status'], 200)
 
     def test_export_orgusers_list(self):
-        response = sdk.export_orgusers_list()
+        response = sdk.Orgusers.export_orgusers_list()
         self.assertEqual(response['status'], 200)
 
     def test_create_orguser(self):  # Error 500
@@ -46,9 +46,9 @@ class TestOrguser(unittest.TestCase):
             "first_name": "Julie",
             "last_name": "TEST",
         }
-        response = sdk.create_orguser(payload)
+        response = sdk.Orgusers.create_orguser(payload)
         self.assertEqual(response['status'], 201)
-        delete = sdk.delete_orguser(response['data']['pk'])
+        delete = sdk.Orgusers.delete_orguser(response['data']['pk'])
         self.assertEqual(delete['status'], 204)
 
     def test_update_orguser_details(self):
@@ -57,12 +57,12 @@ class TestOrguser(unittest.TestCase):
             "birthday": "28-06-1989"
         }
 
-        response = sdk.update_orguser_details(self.orguser_pk, payload)
+        response = sdk.Orgusers.update_orguser_details(self.orguser_pk, payload)
         self.assertEqual(response['status'], 200)
 
     def test_invite_orguser(self):
 
-        response = sdk.invite_orguser(self.orguser_pk, self.team_pk)
+        response = sdk.Orgusers.invite_orguser(self.orguser_pk, self.team_pk)
         self.assertEqual(response['status'], 200)
 
     @classmethod

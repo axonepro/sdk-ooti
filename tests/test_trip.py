@@ -30,7 +30,7 @@ project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
 
 orguser = OrguserPkFactory(my_account.org_pk)
 week_pk = my_account.Timelogs.get_timelogs_week_list()['data'][0]['id']
-res = my_account.update_orguser_details(orguser, {'trips_enabled': True})
+res = my_account.Orgusers.update_orguser_details(orguser, {'trips_enabled': True})
 print(res.get('status'))
 
 class TestTrips(unittest.TestCase):
