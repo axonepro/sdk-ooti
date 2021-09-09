@@ -101,5 +101,10 @@ class TestPosts(unittest.TestCase):
         response = sdk.Posts.get_posts_likes_list()
         self.assertEqual(response['status'], 200)
 
+    @classmethod
+    def tearDown(cls):
+        sdk.Posts.delete_post(cls.post_pk)
+        sdk.Posts.delete_posts_album(cls.album_pk)
+
 if __name__ == '__main__':
     unittest.main()

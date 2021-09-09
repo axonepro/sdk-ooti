@@ -93,5 +93,9 @@ class TestExpenses(unittest.TestCase):
         self.assertEqual(response['status'], 201)
     """
 
+    @classmethod
+    def tearDown(cls):
+        sdk.Expenses.delete_expenses_group(cls.expense_group)
+
 if __name__ == '__main__':
     unittest.main()

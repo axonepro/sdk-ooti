@@ -30,7 +30,7 @@ my_account.connect()
 
 team_pk = TeamFactory()
 currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
-project_pk = my_account.get_projects_list()['data'][0]['id']
+project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
 
 class TestInvoices(unittest.TestCase):
     @classmethod
@@ -40,7 +40,7 @@ class TestInvoices(unittest.TestCase):
         cls.currency_pk = testHelper._create_currency_if_none()
         cls.client_pk = testHelper._create_client_return_pk(cls.team_pk, cls.currency_pk)
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
-        cls.project_pk = my_account.get_projects_list()['data'][0]['id']
+        cls.project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
         cls.invoice_pk = testHelper._create_invoice_return_pk(cls.team_pk, cls.project_pk)
         cls.invoice_item_pk = testHelper._create_invoice_item_return_pk(cls.invoice_pk)
         cls.payment_pk = testHelper._create_payment_return_pk(cls.team_pk, cls.invoice_pk, cls.currency_pk)
@@ -171,6 +171,17 @@ class TestInvoices(unittest.TestCase):
         res = my_account.Invoices.get_credit_notes_sent_valid_list(self.team_pk)
 
         self.assertEqual(res['status'], 200)
+
+    @classmethod
+    def tearDown(cls):
+        my_account.Currencies.delete_currency(cls.currency_pk)
+        my_account.Clients.delete_client(cls.client_pk)
+        # TODO Delete invoice_pk when the delete function will be written
+        my_account.Invoices.delete_invoice_item(cls.invoice_item_pk)
+        # TODO Delete payment_pk when the delete function will be written
+        # TODO Delete invoice_pk_not_validated when the delete function will be return
+        my_account.Invoices.delete_invoice_item(cls.invoice_item_pk_not_validated)
+
 
 if __name__ == '__main__':
     unittest.main()

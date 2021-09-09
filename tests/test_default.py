@@ -24,7 +24,7 @@ my_account.connect()
 
 team_pk = TeamFactory()
 currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
-project_pk = my_account.get_projects_list()['data'][0]['id']
+project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
 fee_project = my_account.Fees.get_fees_project_list_projects(project_pk)['data'][0]['id']
 
 class TestDefaults(unittest.TestCase):
@@ -39,7 +39,7 @@ class TestDefaults(unittest.TestCase):
         cls.currency_pk = cls.testHelper._create_currency_if_none()
         cls.client_pk = cls.testHelper._create_client_return_pk(team_pk, currency_pk)
         cls.project_pk = cls.testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
-        # cls.project_pk = my_account.get_projects_list()['data'][0]['id']
+        # cls.project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
 
         cls.area_pk = cls.testHelper._create_area_return_pk(cls.project_pk)
         cls.zone_pk = cls.testHelper._create_zone_return_pk(cls.area_pk)
@@ -349,6 +349,18 @@ class TestDefaults(unittest.TestCase):
 
         res = my_account.Defaults.delete_defaults_plan(self.default_plan_pk)
         self.assertEqual(res['status'], 204)
+
+    @classmethod
+    def tearDown(cls):
+        my_account.Currencies.delete_currency(cls.currency_pk)
+        my_account.Clients.delete_client(cls.client_pk)
+        my_account.Projects.delete_project(cls.project_pk)
+        my_account.Areas.delete_area(cls.area_pk)
+        my_account.Zones.delete_zone(cls.zone_pk)
+        my_account.Defaults.delete_defaults_phasesets(cls.phaseset_pk)
+        my_account.Defaults.delete_defaults_phase(cls.default_phase_pk)
+        my_account.Defaults.delete_defaults_plansets(cls.planset_pk)
+        my_account.Defaults.delete_defaults_plan(cls.default_plan_pk)
 
 if __name__ == '__main__':
     unittest.main()

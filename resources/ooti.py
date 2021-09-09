@@ -383,271 +383,6 @@ class OotiAPI(Helper):
             self.Trips.pagination = pagination
             self.Zones.pagination = pagination
 
-
-    ##### AUTH #####
-
-    ##### Invitation #####
-
-    ##### Projects #####
-
-    def get_project_details(self, id):
-        """ Get the project details
-
-        Keyword arguments:
-        pk -- the pk of the project
-        """
-
-        route = 'v1/projects/{0}/'.format(id)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
-        return self.process_response(response)
-
-    def update_project_details(self, id, data):
-        """ Update the project details
-
-        Keyword arguments:
-        id -- the id of the project
-        data -- content of the update:
-        {
-            "surface_area": 238,
-            "surface_unit": "m",
-            "notes": "some notes",
-            "project_title": "New title"
-        }
-        """
-
-        route = 'v1/projects/{0}/'.format(id)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
-        return self.process_response(response)
-
-    def delete_project(self, id):
-        """ Delete a project
-
-        Keyword arguments:
-        id -- the id of the project
-        """
-        route = 'v1/projects/{0}/'.format(id)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
-        return self.process_response(response)
-
-    def get_access_projects_list(self):  # what is access on OOTI ?
-
-        route = 'v1/projects/list/access/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
-        return self.process_response(response)
-
-    def get_project_revenue(self, id):
-        """ Get the list of project revenues by years and by months
-
-        Keywords arguments:
-        id -- the id of the project
-        """
-        route = 'v1/projects/revenue/{0}/'.format(id)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
-        return self.process_response(response)
-
-    def get_project_users_list(self, id):
-        """ Get the list of users of a project 
-
-        Keyword arguments:
-        id -- the id of the project
-        """
-
-        route = 'v1/projects/users/list/{0}/'.format(id)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
-        return {'status': response.status_code, 'data': json.loads(response.content)['results']}
-
-    def get_project_user_details(self, user_pk):
-        """ Get the project user details 
-
-        Keyword arguments:
-        user_pk -- pk of the user
-        """
-
-        route = 'v1/projects/users/{0}/'.format(user_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
-        return self.process_response(response)
-
-    def add_project_user(self, id, data):
-        """ Add a new user to the project 
-
-        Keyword arguments:
-        id -- id of the project
-        data -- content of the user to add to the project:
-        {
-            "orguser": orguser_pk,
-            "permissionsset": permission_pk,
-            "project": project_id,
-            "is_visible": true
-        }
-        """
-
-        route = 'v1/projects/users/list/{0}/'.format(id)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
-        return self.process_response(response)
-
-    def update_project_user_details(self, user_pk, data):
-        """ Update the project user details 
-
-        Keyword arguments:
-        user_pk -- pk of the user
-        data -- content of the update:
-        {
-            "hours_actual": 10,
-            "is_billable": False
-        }
-        """
-
-        route = 'v1/projects/users/{0}/'.format(user_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
-        return self.process_response(response)
-
-    def delete_project_user(self, user_pk):
-        """ Delete the project user
-
-        Keyword arguments:
-        user_pk -- pk of the user
-        """
-
-        route = 'v1/projects/users/{0}/'.format(user_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
-        return self.process_response(response)
-
-    def get_project_tags_groups_list(self):
-        """ Get the list of groups of project tags """
-
-        route = 'v1/projects/tags/groups/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
-        return self.process_response(response, True)
-
-    def create_project_tags_group(self, data):
-        """ Create a new group of project tags
-
-        Keywords arguments:
-        data -- data of the new group to be created:
-        {
-            "name": "New group",
-            "tags": [
-                tag_pk,
-                ...
-            ]
-        }
-        """
-
-        route = 'v1/projects/tags/groups/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
-        return self.process_response(response)
-
-    def get_project_tags_group_details(self, group_pk):
-        """ Get the details about the group of project tags
-
-        Keywords arguments:
-        group_pk -- pk of the group of project tags
-        """
-
-        route = 'v1/projects/tags/groups/{0}/'.format(group_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
-        return self.process_response(response)
-
-    def update_project_tags_group_details(self, group_pk, data):
-        """ Update the group
-
-        Keywords arguments:
-        group_pk -- pk of the group of project tags
-        data -- content of the update:
-        {
-            "name": "New group name",
-            "tags": [
-                tag_pk,
-                ...
-            ]
-        }
-        """
-
-        route = 'v1/projects/tags/groups/{0}/'.format(group_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
-        return self.process_response(response)
-
-    def delete_project_tags_group_details(self, group_pk):
-        """ Delete the group of project tags 
-
-        Keywords arguments:
-        group_pk -- pk of the group of project tags
-        """
-
-        route = 'v1/projects/tags/groups/{0}/'.format(group_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
-        return self.process_response(response)
-
-    def get_project_tags_list(self):
-        """ Get the list of tags """
-
-        route = 'v1/projects/tags/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
-        return self.process_response(response, True)
-
-    def create_project_tag(self, data):
-        """ Create a new tag 
-
-        Keywords arguments:
-        data -- content of the tag to be created:
-        {
-            "name": "new tag", (required)
-            "group": group_id, (optional)
-            "projects": [project_id, project_id, ...] (optional) # list of projects to add the tag
-        }
-        """
-
-        route = 'v1/projects/tags/list/{0}/'.format(self.org_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
-        return self.process_response(response)
-
-    def get_project_tag_details(self, tag_pk):
-        """ Get project tag details 
-
-        Keywords arguments:
-        tag_pk -- pk of the tag
-        """
-        route = 'v1/projects/tags/{0}/'.format(tag_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
-        return self.process_response(response)
-
-    def update_project_tag_details(self, tag_pk, data):
-        """ Update project tag details 
-
-        Keywords arguments:
-        tag_pk -- pk of the tag
-        data -- content of the update:
-        {
-            "name": "new name",
-            "projects": [project_id, project_id, ...]
-        }
-        """
-
-        route = 'v1/projects/tags/{0}/'.format(tag_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
-        return self.process_response(response)
-
-    def delete_project_tag(self, tag_pk):
-        """ Delete project tag 
-
-        Keywords arguments:
-        tag_pk -- pk of the tag to be deleted
-        """
-
-        route = 'v1/projects/tags/{0}/'.format(tag_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
-        return self.process_response(response)
-
-    #### Orgusers ####
-
-    #### Organizations ####
-
-    #### Permissions ####
-
-    #### Profile ####
-
-    #### Team #####
-
     #### Token ####
 
     def __get_csrf_token(self):
@@ -660,3 +395,50 @@ class OotiAPI(Helper):
             csrftoken = client.cookies['csrf']
 
         self._csrf_token = csrftoken
+
+    def __get_token(self):
+        route = 'v1/token-auth/'
+        headers = {
+            'Accept': 'application/json'
+        }
+        data = {
+            'username': self.username,
+            'password': self.password
+        }
+        response = self.process_request(requests, 'POST', self.base_url, route, headers, None, data)
+
+        if response.content == b'{"non_field_errors":["Unable to log in with provided credentials."]}':
+            print('Unable to log with provided credentials. Please modify your .ENV file.')
+            sys.exit('Authentication failed.')
+
+        self.access_token = json.loads(response.content)['token']
+        self.headers = {
+            'Authorization': 'JWT {0}'.format(self.access_token),
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-Token': self._csrf_token
+        }
+        return response.status_code
+
+    def __get_selected_org(self):
+        """ Get the organization selected on user profile
+        """
+
+        route = 'v1/profiles/profile/'
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        self.org_pk = json.loads(response.content)['selected_org']
+        return self.process_response(response)
+
+    def __get_teams(self):
+        """ Set the organization id of the user """
+
+        route = 'v1/organizations/membership/'
+        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        organizations = json.loads(response.content)['organizations']
+        selected_organization = next((org for org in organizations if org.get('id') == self.org_pk), None)
+        teams = selected_organization['teams']
+        # teams = json.loads(response.content)['organizations'][0]['teams']
+        self.teams_pk = []
+        for team in range(len(teams)):
+            self.teams_pk.append({key: teams[team][key] for key in ('id', 'title')})
+        return response.status_code

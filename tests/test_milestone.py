@@ -24,7 +24,7 @@ my_account.connect()
 
 team_pk = TeamFactory()
 currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
-project_pk = my_account.get_projects_list()['data'][0]['id']
+project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
 fee_project = my_account.Fees.get_fees_project_list_projects(project_pk)['data'][0]['id']
 
 class TestMilestones(unittest.TestCase):
@@ -34,7 +34,7 @@ class TestMilestones(unittest.TestCase):
         cls.testHelper = TestHelper(my_account)
         cls.team_pk = TeamFactory()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
-        cls.project_pk = my_account.get_projects_list()['data'][0]['id']
+        cls.project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
         cls.milestone_pk = cls.testHelper._create_milestone_return_pk(cls.project_pk)
 
     def test_get_milestones_list(self):
@@ -78,6 +78,10 @@ class TestMilestones(unittest.TestCase):
 
         res = my_account.Milestones.delete_milestone(self.milestone_pk)
         self.assertEqual(res['status'], 204)
+
+    @classmethod
+    def tearDown(cls):
+        my_account.Milestones.delete_milestone(cls.milestone_pk)
 
 if __name__ == '__main__':
     unittest.main()

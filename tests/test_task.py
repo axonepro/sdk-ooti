@@ -63,5 +63,10 @@ class TestTasks(unittest.TestCase):
         delete = sdk.Tasks.delete_tasks_list(response['data']['id'])
         self.assertEqual(delete['status'], 204)
 
+    @classmethod
+    def tearDown(cls):
+        sdk.Orgusers.delete_orguser(cls.orguser_pk)
+        sdk.Tasks.delete_task(cls.task_pk)
+
 if __name__ == '__main__':
     unittest.main()

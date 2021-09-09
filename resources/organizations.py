@@ -25,20 +25,6 @@ class Organizations(Helper):
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
-    def __get_teams(self): # Warning Même url que la fonction au dessus
-        """ Set the organization id of the user """
-
-        route = 'v1/organizations/membership/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
-        organizations = json.loads(response.content)['organizations']
-        selected_organization = next((org for org in organizations if org.get('id') == self.org_pk), None)
-        teams = selected_organization['teams']
-        # teams = json.loads(response.content)['organizations'][0]['teams']
-        self.teams_pk = []
-        for team in range(len(teams)):
-            self.teams_pk.append({key: teams[team][key] for key in ('id', 'title')})
-        return response.status_code
-
     def get_organization_metrics(self):
         """ Get the admin dashboard metrics """
 

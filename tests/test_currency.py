@@ -30,7 +30,7 @@ my_account.connect()
 
 team_pk = TeamFactory()
 currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
-project_pk = my_account.get_projects_list()['data'][0]['id']
+project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
 
 class TestCurrencies(unittest.TestCase):
 
@@ -92,6 +92,10 @@ class TestCurrencies(unittest.TestCase):
         currency_pk = self.testHelper._create_currency_return_pk()
         res_del = my_account.Currencies.delete_currency(currency_pk)
         self.assertEqual(res_del['status'], 204)
+
+    @classmethod
+    def tearDown(cls):
+        my_account.Currencies.delete_currency(cls.currency_pk)
 
 if __name__ == '__main__':
     unittest.main()

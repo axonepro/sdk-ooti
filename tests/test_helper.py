@@ -85,7 +85,7 @@ class TestHelper:
             "end_date": "23-07-2021",
         }
 
-        return self.my_account.create_project(data_project)['data']['id']
+        return self.my_account.Projects.create_project(data_project)['data']['id']
 
     def _create_invoice_return_pk(self, team_pk, project_pk):
         """ Create and return the pk of an invoice 

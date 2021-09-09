@@ -24,7 +24,7 @@ my_account.connect()
 
 team_pk = TeamFactory()
 currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
-project_pk = my_account.get_projects_list()['data'][0]['id']
+project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
 fee_project = my_account.Fees.get_fees_project_list_projects(project_pk)['data'][0]['id']
 
 class TestContracts(unittest.TestCase):
@@ -34,7 +34,7 @@ class TestContracts(unittest.TestCase):
         cls.testHelper = TestHelper(my_account)
         cls.team_pk = TeamFactory()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
-        cls.project_pk = my_account.get_projects_list()['data'][0]['id']
+        cls.project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
         cls.fee_project_pk = cls.testHelper._create_fee_project_return_pk(cls.project_pk)
 
         cls.contractor_pk = cls.testHelper._create_contractor_return_pk()
@@ -240,6 +240,14 @@ class TestContracts(unittest.TestCase):
 
         res = my_account.Contracts.delete_contract_month(self.contract_month_pk)
         self.assertEqual(res['status'], 204)
+
+    @classmethod
+    def tearDown(cls):
+        my_account.Fees.delete_fee_project(cls.fee_project_pk)
+        my_account.Contracts.delete_contractor(cls.contractor_pk)
+        my_account.Contracts.delete_contract(cls.contract_pk)
+        my_account.Contracts.delete_contract_item(cls.contract_item_pk)
+        my_account.Contracts.delete_contract_month(cls.contract_month_pk)
 
 if __name__ == '__main__':
     unittest.main()

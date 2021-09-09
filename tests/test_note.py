@@ -48,5 +48,10 @@ class TestNotes(unittest.TestCase):
         delete = sdk.Notes.delete_note(response['data']['pk'])
         self.assertEqual(delete['status'], 204)
 
+    @classmethod
+    def tearDown(cls):
+        sdk.Projects.delete_project(cls.project_pk)
+        sdk.Orgusers.delete_orguser(cls.orguser_pk)
+
 if __name__ == '__main__':
     unittest.main()

@@ -59,12 +59,10 @@ tests:
 	pytest tests/test_post.py
 	pytest tests/test_profile.py
 	pytest tests/test_project.py
-	pytest tests/test_projection.py
 	pytest tests/test_revision.py
 	pytest tests/test_role.py
 	pytest tests/test_tag.py
 	pytest tests/test_task.py
-	pytest tests/test_team.py
 	pytest tests/test_timeperiod.py
 	pytest tests/test_trip.py
 

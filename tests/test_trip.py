@@ -26,7 +26,7 @@ my_account.connect()
 
 team_pk = TeamFactory()
 currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
-project_pk = my_account.get_projects_list()['data'][0]['id']
+project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
 
 orguser = OrguserPkFactory(my_account.org_pk)
 week_pk = my_account.Timelogs.get_timelogs_week_list()['data'][0]['id']
@@ -40,7 +40,7 @@ class TestTrips(unittest.TestCase):
         cls.orguser_pk = OrguserPkFactory(my_account.org_pk)
         cls.team_pk = TeamFactory()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
-        cls.project_pk = my_account.get_projects_list()['data'][0]['id']
+        cls.project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
         cls.trip_pk = cls.testHelper._create_trip_return_pk(cls.team_pk, cls.project_pk, cls.orguser_pk)
 
     def test_get_trips_list(self):
@@ -85,6 +85,10 @@ class TestTrips(unittest.TestCase):
 
         res = my_account.Trips.delete_trip(self.trip_pk)
         self.assertEqual(res['status'], 204)
+
+    @classmethod
+    def tearDown(cls):
+        my_account.Trips.delete_trip(cls.trip_pk)
 
 if __name__ == '__main__':
     unittest.main()

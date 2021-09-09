@@ -30,7 +30,7 @@ my_account.connect()
 
 team_pk = TeamFactory()
 currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
-project_pk = my_account.get_projects_list()['data'][0]['id']
+project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
 
 class TestBanks(unittest.TestCase):
 
@@ -40,7 +40,7 @@ class TestBanks(unittest.TestCase):
         cls.team_pk = TeamFactory()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.currency_pk = cls.testHelper._create_currency_if_none()
-        cls.project_pk = my_account.get_projects_list()['data'][0]['id']
+        cls.project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
         cls.bank_pk = cls.testHelper._create_bank_return_pk(cls.team_pk, cls.project_pk, cls.currency_pk)
 
     def test_get_banks_list(self):
@@ -99,11 +99,8 @@ class TestBanks(unittest.TestCase):
 
     @classmethod
     def tearDown(cls):
-        del cls.testHelper
-        del cls.team_pk
-        del cls.currency_pk
-        del cls.project_pk
-        del cls.bank_pk
+        my_account.Currencies.delete_currency(cls.currency_pk)
+        my_account.Banks.delete_bank(cls.bank_pk)
 
 if __name__ == '__main__':
     unittest.main()

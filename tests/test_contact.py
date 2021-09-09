@@ -48,6 +48,10 @@ class TestContacts(unittest.TestCase):
         delete = sdk.Contacts.delete_contact_category(response['data']['id'])
         self.assertEqual(delete['status'], 204)
 
+    @classmethod
+    def tearDown(cls):
+        sdk.Posts.delete_post(cls.post_pk)
+        sdk.Posts.delete_posts_album(cls.album_pk)
 
 if __name__ == '__main__':
     unittest.main()

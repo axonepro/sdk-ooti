@@ -51,5 +51,9 @@ class TestInboundEmails(unittest.TestCase):
         delete = sdk.Inbound_emails.delete_inbound_email(created_id)
         self.assertEqual(delete['status'], 204)
 
+    @classmethod
+    def tearDown(cls):
+        sdk.Projects.delete_project(cls.project_id)
+
 if __name__ == '__main__':
     unittest.main()

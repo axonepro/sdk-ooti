@@ -30,7 +30,7 @@ my_account.connect()
 
 team_pk = TeamFactory()
 currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
-project_pk = my_account.get_projects_list()['data'][0]['id']
+project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
 
 class TestEmails(unittest.TestCase):
 
@@ -154,6 +154,11 @@ class TestEmails(unittest.TestCase):
 
         res = my_account.Emails.send_test_email_smtp(self.smtp_pk)
         self.assertEqual(res['status'], 200)
+
+    @classmethod
+    def tearDown(cls):
+        my_account.Emails.delete_email(cls.email_pk)
+        my_account.Emails.delete_email_smtp(cls.smtp_pk)
 
 if __name__ == '__main__':
     unittest.main()

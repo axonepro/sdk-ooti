@@ -22,7 +22,7 @@ sdk.connect()
 
 
 def UserFactory():
-    response = sdk.get_profile_details()
+    response = sdk.Profiles.get_profile_details()
     return response['data']['user']
 
 
@@ -32,7 +32,7 @@ def OrguserFactory():
         "first_name": "Julie",
         "last_name": "TEST",
     }
-    response = sdk.create_orguser(payload)
+    response = sdk.Orgusers.create_orguser(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -41,12 +41,12 @@ def OrguserFactory():
 
 
 def TeamFactory():
-    response = sdk.get_profile_details()
+    response = sdk.Profiles.get_profile_details()
     return response['data']['selected_team']
 
 
 def OrguserPkFactory(org_pk=None):
-    response = sdk.get_user_organization_details()
+    response = sdk.Organizations.get_user_organization_details()
     organizations = response['data']['organizations']
     if org_pk is not None:
         organization = next((org for org in organizations if org.get('id') == org_pk), None)
@@ -61,7 +61,7 @@ def ProjectFactory(team_pk=None):
     payload = {
         'project_title': 'project test',
     }
-    response = sdk.create_project(payload)
+    response = sdk.Projects.create_project(payload)
     if response['status'] == 201:
         return response['data']
     else:

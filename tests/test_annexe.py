@@ -24,7 +24,7 @@ my_account.connect()
 
 team_pk = TeamFactory()
 currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
-project_pk = my_account.get_projects_list()['data'][0]['id']
+project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
 fee_project = my_account.Fees.get_fees_project_list_projects(project_pk)['data'][0]['id']
 
 class TestAnnexes(unittest.TestCase):
@@ -91,12 +91,10 @@ class TestAnnexes(unittest.TestCase):
 
     @classmethod
     def tearDown(cls):
-        del cls.testHelper
-        my_account.Teams
         my_account.Currencies.delete_currency(cls.currency_pk)
         my_account.Clients.delete_client(cls.client_pk)
+        my_account.Projects.delete_project(cls.project_pk)
         my_account.Annexes.delete_annexe(cls.annex_pk) 
-        cls.project_pk
 
 if __name__ == '__main__':
     unittest.main()

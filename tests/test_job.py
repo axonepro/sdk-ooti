@@ -103,5 +103,12 @@ class TestJobs(unittest.TestCase):
         response = sdk.Jobs.generate_jobs_invoices_items(payload)
         self.assertEqual(response['status'], 200)
 
+    @classmethod
+    def tearDown(cls):
+        sdk.Projects.delete_project(cls.project)
+        sdk.Jobs.delete_job(cls.job)
+        sdk.Jobs.delete_jobs_invoice(cls.job_invoice)
+        sdk.Contracts.delete_contractor(cls.contractor_id)
+
 if __name__ == '__main__':
     unittest.main()

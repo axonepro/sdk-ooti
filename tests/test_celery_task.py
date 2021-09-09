@@ -35,5 +35,9 @@ class TestCeleryTasks(unittest.TestCase):
         response = sdk.Celery_tasks.get_celery_tasks_list()
         self.assertEqual(response['status'], 200)
 
+    @classmethod
+    def tearDown(cls):
+        sdk.Projects.delete_project(cls.project_id)
+
 if __name__ == '__main__':
     unittest.main()

@@ -48,5 +48,9 @@ class TestIndicators(unittest.TestCase):
         response = sdk.Indicators.get_indicators_revenue()
         self.assertEqual(response['status'], 200)
 
+    @classmethod
+    def tearDown(cls):
+        sdk.Projects.delete_project(cls.project_id)
+
 if __name__ == '__main__':
     unittest.main()

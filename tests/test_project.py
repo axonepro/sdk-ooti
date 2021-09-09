@@ -106,5 +106,10 @@ class TestProject(unittest.TestCase):
         delete = sdk.delete_project_user(project_user_pk)
         self.assertEqual(delete['status'], 204)
 
+    @classmethod
+    def tearDown(cls):
+        sdk.Projects.delete_project(cls.project_id)
+        sdk.Orgusers.delete_orguser(cls.orguser_pk)
+
 if __name__ == '__main__':
     unittest.main()

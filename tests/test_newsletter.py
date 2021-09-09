@@ -45,5 +45,9 @@ class TestNewsletters(unittest.TestCase):
         delete = sdk.Newsletters.delete_newsletter(response['data']['pk'])
         self.assertEqual(delete['status'], 204)
 
+    @classmethod
+    def tearDown(cls):
+        sdk.Orgusers.delete_orguser(cls.orguser_pk)
+
 if __name__ == '__main__':
     unittest.main()

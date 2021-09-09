@@ -28,15 +28,6 @@ class Profiles(Helper):
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
-    def __get_selected_org(self):
-        """ Get the organization selected on user profile
-        """
-
-        route = 'v1/profiles/profile/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
-        self.org_pk = json.loads(response.content)['selected_org']
-        return self.process_response(response)
-
     def update_profile_details(self, data):
         """ Update current profile details 
 

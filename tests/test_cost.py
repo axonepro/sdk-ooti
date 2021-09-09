@@ -114,5 +114,10 @@ class TestCosts(unittest.TestCase):
         response = sdk.Costs.get_costs_months_list()
         self.assertEqual(response['status'], 200)
 
+    @classmethod
+    def tearDown(cls):
+        sdk.Costs.delete_cost(cls.cost)
+        sdk.Costs.delete_costs_month(cls.cost_month)
+
 if __name__ == '__main__':
     unittest.main()

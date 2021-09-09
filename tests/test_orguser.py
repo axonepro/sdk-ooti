@@ -65,5 +65,10 @@ class TestOrguser(unittest.TestCase):
         response = sdk.invite_orguser(self.orguser_pk, self.team_pk)
         self.assertEqual(response['status'], 200)
 
+    @classmethod
+    def tearDown(cls):
+        sdk.Projects.delete_project(cls.project_id)
+        sdk.Orgusers.delete_orguser(cls.orguser_pk)
+
 if __name__ == '__main__':
     unittest.main()

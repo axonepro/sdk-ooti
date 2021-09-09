@@ -50,5 +50,9 @@ class TestTags(unittest.TestCase):
         delete = sdk.Tags.delete_tag(created_id)
         self.assertEqual(delete['status'], 204)
 
+    @classmethod
+    def tearDown(cls):
+        sdk.Orgusers.delete_orguser(cls.orguser_pk)
+
 if __name__ == '__main__':
     unittest.main()

@@ -85,5 +85,10 @@ class TestEmployees(unittest.TestCase):
         response = sdk.Employees.delete_employees_period(employee_period['id'])
         self.assertEqual(response['status'], 204)
 
+    @classmethod
+    def tearDown(cls):
+        sdk.Orgusers.delete_orguser(cls.orguser)
+        sdk.Employees.delete_employees_contract(cls.employee_contract)
+
 if __name__ == '__main__':
     unittest.main()
