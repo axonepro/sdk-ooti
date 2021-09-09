@@ -1,4 +1,4 @@
-from tests.factories.factories import OrguserPkFactory
+from factories.factories import OrguserPkFactory
 import unittest
 from test_helper import HelperTest
 from factories.factories import TeamFactory
