@@ -1,14 +1,22 @@
 import unittest
-from ooti import ooti
+
+from requests.models import Response
 from test_helper import TestHelper
 
 import random
 import string
 import time
 
-# To read .env variables
 import os
+import sys
 from dotenv import load_dotenv
+
+
+PACKAGE_PARENT = '..'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+
+from ooti import ooti # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -19,17 +27,23 @@ OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 my_account = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
 my_account.connect()
 
-team_pk = my_account.teams_pk[0]['id']
+
+testHelper = TestHelper(my_account)
+team_pk = testHelper._get_selected_team()
 currency_pk = my_account.Invoicing.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.get_projects_list()['data'][0]['id']
 
 
+# invoice_payment_pk = my_account.Invoicing.get_payment_details(584321)
+# print(invoice_payment_pk)
+# quit()
 class TestPayements(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
         testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        # cls.team_pk = TeamFactory()
+        cls.team_pk = testHelper._get_selected_team()
         cls.currency_pk = testHelper._create_currency_if_none()
         cls.client_pk = testHelper._create_client_return_pk(cls.team_pk, cls.currency_pk)
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
@@ -82,7 +96,6 @@ class TestPayements(unittest.TestCase):
         }
 
         res_update_payment = my_account.Invoicing.update_payment(self.payment_pk, update)
-
         self.assertEqual(res_update_payment['status'], 200)
 
     def test_update_amount_payment_invoice(self):
@@ -93,8 +106,8 @@ class TestPayements(unittest.TestCase):
         }
 
         my_account.Invoicing.update_payment(self.payment_pk, update)
-        res_update_amount_invoice = my_account.Invoicing.update_payment_invoice(self.payment_pk, update)
-
+        invoice_payment_pk = my_account.Invoicing.get_payment_details(self.payment_pk)['data']['invoice_payments'][0]['pk']
+        res_update_amount_invoice = my_account.Invoicing.update_payment_invoice(invoice_payment_pk, update)
         self.assertEqual(res_update_amount_invoice['status'], 200)
 
 
@@ -102,13 +115,16 @@ class TestInvoices(unittest.TestCase):
     @classmethod
     def setUp(cls):
         testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = testHelper._get_selected_team()
         cls.currency_pk = testHelper._create_currency_if_none()
         cls.client_pk = testHelper._create_client_return_pk(cls.team_pk, cls.currency_pk)
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.invoice_pk = testHelper._create_invoice_return_pk(cls.team_pk, cls.project_pk)
+        cls.invoice_clean_pk = testHelper._create_invoice_return_pk(cls.team_pk, cls.project_pk)
+
         cls.invoice_item_pk = testHelper._create_invoice_item_return_pk(cls.invoice_pk)
+        cls.invoice_item_clean_pk = testHelper._create_invoice_item_return_pk(cls.invoice_clean_pk)
         cls.payment_pk = testHelper._create_payment_return_pk(cls.team_pk, cls.invoice_pk, cls.currency_pk)
 
         cls.invoice_pk_not_validated = testHelper._create_invoice_return_pk(cls.team_pk, cls.project_pk)
@@ -146,7 +162,6 @@ class TestInvoices(unittest.TestCase):
             "references": 'UNITTEST',
             "type": 4
         }
-
         res_creation = my_account.Invoicing.create_invoice(self.team_pk, invoice_project)
         self.assertEqual(res_creation['status'], 201)
 
@@ -192,6 +207,7 @@ class TestInvoices(unittest.TestCase):
         res_close = my_account.Invoicing.cancel_invoice(self.invoice_pk)
         self.assertEqual(res_close['status'], 200)
 
+    # TODO:Fix FAILED tests/test_invoicing.py::TestInvoices::test_create_invoice_item - AssertionError: 400 != 201
     def test_get_invoice_items(self):
         """ Test that 200 is returned """
 
@@ -207,7 +223,7 @@ class TestInvoices(unittest.TestCase):
             "amount": 1000
         }
 
-        res_creation = my_account.Invoicing.create_invoice_item(self.invoice_pk, invoice_item)
+        res_creation = my_account.Invoicing.create_invoice_item(self.invoice_clean_pk, invoice_item)
         self.assertEqual(res_creation['status'], 201)
 
     def test_update_invoice_item(self):
@@ -222,8 +238,8 @@ class TestInvoices(unittest.TestCase):
 
     def test_delete_invoice_item(self):
         """ Test that 204 is returned """
-
-        res_delete = my_account.Invoicing.delete_invoice_item(self.invoice_item_pk)
+        res_delete = my_account.Invoicing.delete_invoice_item(self.invoice_item_clean_pk)
+        print(res_delete)
         self.assertEqual(res_delete['status'], 204)
 
     def test_get_credit_notes(self):
@@ -244,7 +260,7 @@ class TestCurrencies(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = cls.testHelper._get_selected_team()
         cls.currency_pk = cls.testHelper._create_currency_if_none()
 
     def test_get_currencies_list(self):
@@ -306,7 +322,7 @@ class TestClients(unittest.TestCase):
     @classmethod
     def setUp(cls):
         testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = testHelper._get_selected_team()
         cls.currency_pk = testHelper._create_currency_if_none()
         cls.client_pk = testHelper._create_client_return_pk(cls.team_pk, cls.currency_pk)
 
@@ -413,7 +429,10 @@ class TestEmails(unittest.TestCase):
     def test_send_test_email(self):
         """ Test that 200 is returned """
 
+        t = time.time()
         res = my_account.Invoicing.send_test_email(self.email_pk)
+        t2 = time.time()
+        print(f"{t2-t} secondes")
         my_account.Invoicing.delete_email(self.email_pk)
 
         self.assertEqual(res['status'], 200)
@@ -483,7 +502,7 @@ class TestFiles(unittest.TestCase):
     @classmethod
     def setUp(cls):
         testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.folder_pk = testHelper._create_folder_return_pk(cls.project_pk)
@@ -577,7 +596,7 @@ class TestBanks(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.currency_pk = cls.testHelper._create_currency_if_none()
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']

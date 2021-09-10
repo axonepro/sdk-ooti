@@ -1,10 +1,18 @@
-from factories import ProjectFactory, TeamFactory
-from ooti import ooti
+from factories.factories import ProjectFactory
 import unittest
 
 # To read .env variables
 import os
+import sys
 from dotenv import load_dotenv
+from test_helper import TestHelper
+
+PACKAGE_PARENT = '..'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+
+from ooti import ooti # noqa E402
+
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -19,7 +27,8 @@ sdk.connect()
 class TestGoals(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
 
     def test_get_goals_list(self):
         response = sdk.Others.get_goals_list()
@@ -51,7 +60,8 @@ class TestGoals(unittest.TestCase):
 class TestIndicators(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
         cls.project_id = ProjectFactory()['id']
 
     def test_get_indicators_financial_costs(self):

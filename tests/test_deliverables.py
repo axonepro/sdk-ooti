@@ -1,10 +1,15 @@
 import unittest
-from ooti import ooti
 from test_helper import TestHelper
 
-# To read .env variables
 import os
+import sys
 from dotenv import load_dotenv
+
+PACKAGE_PARENT = '..'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+
+from ooti import ooti # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -15,7 +20,8 @@ OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 my_account = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
 my_account.connect()
 
-team_pk = my_account.teams_pk[0]['id']
+testHelper = TestHelper(my_account)
+team_pk = testHelper._get_selected_team()
 currency_pk = my_account.Invoicing.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.get_projects_list()['data'][0]['id']
 fee_project = my_account.Deliverables.get_fees_project_list_projects(project_pk)['data'][0]['id']
@@ -26,7 +32,7 @@ class TestAreas(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = cls.testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.area_pk = cls.testHelper._create_area_return_pk(cls.project_pk)
@@ -85,7 +91,7 @@ class TestPhases(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = cls.testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.fee_project_pk = cls.testHelper._create_fee_project_return_pk(cls.project_pk)
@@ -95,9 +101,9 @@ class TestPhases(unittest.TestCase):
     def test_pagination(self):
         my_account.update_pagination(1)
 
-        phase_pk1 = self.testHelper._create_phase_return_pk(self.project_pk, self.fee_project_pk)
-        phase_pk2 = self.testHelper._create_phase_return_pk(self.project_pk, self.fee_project_pk)
-        phase_pk3 = self.testHelper._create_phase_return_pk(self.project_pk, self.fee_project_pk)
+        # phase_pk1 = self.testHelper._create_phase_return_pk(self.project_pk, self.fee_project_pk)
+        # phase_pk2 = self.testHelper._create_phase_return_pk(self.project_pk, self.fee_project_pk)
+        # phase_pk3 = self.testHelper._create_phase_return_pk(self.project_pk, self.fee_project_pk)
 
         res = my_account.Deliverables.get_phases_list(self.project_pk)
         self.assertEqual(res['status'], 200)
@@ -123,7 +129,9 @@ class TestPhases(unittest.TestCase):
     def test_get_phases_list_fee_project(self):
         """ Test that 200 is returned """
 
-        res = my_account.Deliverables.get_phases_list_fee_project(self.project_pk, self.fee_project_pk)
+        res = my_account.Deliverables.get_phases_list_fee_project(
+            self.project_pk, self.fee_project_pk
+        )
         self.assertEqual(res['status'], 200)
 
     def test_get_phases_projections_list(self):
@@ -138,8 +146,8 @@ class TestPhases(unittest.TestCase):
         client_pk = self.testHelper._create_client_return_pk(team_pk, currency_pk)
         project_pk = self.testHelper._create_project_return_pk(client_pk, currency_pk)
 
-        fee_project_pk = self.testHelper._create_fee_project_return_pk(project_pk)
-        phase_pk = self.testHelper._create_phase_return_pk(project_pk, fee_project_pk)
+        # fee_project_pk = self.testHelper._create_fee_project_return_pk(project_pk)
+        # phase_pk = self.testHelper._create_phase_return_pk(project_pk, fee_project_pk)
 
         res = my_account.Deliverables.export_phase(project_pk)
         self.assertEqual(res['status'], 200)
@@ -228,7 +236,7 @@ class TestMilestones(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = cls.testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.milestone_pk = cls.testHelper._create_milestone_return_pk(cls.project_pk)
@@ -284,7 +292,7 @@ class TestDefaults(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = cls.testHelper._get_selected_team()
         cls.currency_pk = cls.testHelper._create_currency_if_none()
         cls.client_pk = cls.testHelper._create_client_return_pk(team_pk, currency_pk)
         cls.project_pk = cls.testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
@@ -298,7 +306,7 @@ class TestDefaults(unittest.TestCase):
         cls.planset_pk = cls.testHelper._create_plansets_return_pk()
         cls.default_plan_pk = cls.testHelper._create_defaults_plan_return_pk(cls.planset_pk, cls.zone_pk)
 
-    ## Phasesets ###
+    ## Phasesets ### #     # noqa: E266
 
     def test_apply_defaults_phasesets(self):
         """ Test that 200 is returned """
@@ -375,7 +383,7 @@ class TestDefaults(unittest.TestCase):
         res = my_account.Deliverables.delete_defaults_phasesets(self.phaseset_pk)
         self.assertEqual(res['status'], 204)
 
-    ### Phases ###
+    ### Phases #### noqa: E266
 
     def test_duplicate_defaults_phase(self):
         """ Test that 201 is returned """
@@ -451,7 +459,7 @@ class TestDefaults(unittest.TestCase):
 
         self.assertEqual(res['status'], 204)
 
-    ### Plansets ###
+    ### Plansets #### noqa: E266
 
     def test_apply_defaults_plansets(self):
         """ Test that 200 is returned """
@@ -526,11 +534,11 @@ class TestDefaults(unittest.TestCase):
         res = my_account.Deliverables.delete_defaults_plansets(self.planset_pk)
         self.assertEqual(res['status'], 204)
 
-    ### Plans ###
+    ### Plans #### noqa: E266
 
     def test_duplicate_defaults_plan(self):
         """ Test that 200 is returned """
-        #!500
+        # !500
 
         res = my_account.Deliverables.duplicate_defaults_plan(self.default_plan_pk)
         self.assertEqual(res['status'], 200)
@@ -605,7 +613,7 @@ class TestContracts(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = cls.testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.fee_project_pk = cls.testHelper._create_fee_project_return_pk(cls.project_pk)
@@ -616,7 +624,7 @@ class TestContracts(unittest.TestCase):
         cls.contract_item_pk = cls.testHelper._create_contract_item_return_pk(cls.contract_pk)
         cls.contract_month_pk = cls.testHelper._create_contract_month_return_pk(cls.contract_pk)
 
-    ### Contractors ###
+    ### Contractors #### noqa: E266
 
     def test_get_contractors_list(self):
         """ Test that 200 is returned """
@@ -658,7 +666,7 @@ class TestContracts(unittest.TestCase):
         res = my_account.Deliverables.delete_contractor(contractor_pk_2)
         self.assertEqual(res['status'], 204)
 
-    ## Contract items ###
+    ## Contract items ### noqa: E266
 
     def test_generate_contracts_project(self):
         """ Test that 200 is returned """
@@ -713,7 +721,7 @@ class TestContracts(unittest.TestCase):
         res = my_account.Deliverables.delete_contract_item(self.contract_item_pk)
         self.assertEqual(res['status'], 204)
 
-    ### Contracts ###
+    ### Contracts ### noqa: E266
 
     def test_get_contracts_list(self):
         """ Test that 200 is returned """
@@ -734,7 +742,6 @@ class TestContracts(unittest.TestCase):
             "tax_rate": 1,
             "project": self.project_pk,
         }
-
         res = my_account.Deliverables.create_contract(data)
         self.assertEqual(res['status'], 201)
 
@@ -757,10 +764,11 @@ class TestContracts(unittest.TestCase):
     def test_delete_contract(self):
         """ Test that 204 is returned """
 
+        res = my_account.Deliverables.get_contracts_list()
         res = my_account.Deliverables.delete_contract(self.contract_pk)
         self.assertEqual(res['status'], 204)
 
-    ### Contracts month ###
+    ### Contracts month ### noqa: E266
 
     def test_generate_contracts_month(self):
         """ Test that 200 is returned """
@@ -820,7 +828,7 @@ class TestRevisions(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = cls.testHelper._get_selected_team()
         # cls.project_pk = testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.project_pk = my_account.get_projects_list()['data'][0]['id']
         cls.fee_project_pk = cls.testHelper._create_fee_project_return_pk(cls.project_pk)
@@ -831,9 +839,9 @@ class TestRevisions(unittest.TestCase):
         cls.phase_pk = cls.testHelper._create_phase_return_pk(cls.project_pk, cls.fee_project_pk)
         cls.plan_pk = cls.testHelper._create_plan_return_pk(cls.project_pk)
 
-    #### Revisions ####
+    #### Revisions #### noqa: E266
 
-    ### Annexes ###
+    ### Annexes ### noqa: E266
 
     def test_get_revisions_annexes_team_project(self):
         """ Test that 200 is returned """
@@ -871,7 +879,7 @@ class TestRevisions(unittest.TestCase):
 
         self.assertEqual(res['status'], 204)
 
-    ### Documents ###
+    ### Documents ### noqa: E266
 
     def test_get_revisions_documents_team_project(self):
         """ Test that 200 is returned """
@@ -909,7 +917,7 @@ class TestRevisions(unittest.TestCase):
 
         self.assertEqual(res['status'], 204)
 
-    ### Fee items ###
+    ### Fee items ### noqa: E266
     def test_get_revisions_fee_items_team_project(self):
         """ Test that 200 is returned """
 
@@ -945,7 +953,7 @@ class TestRevisions(unittest.TestCase):
         res = my_account.Deliverables.delete_revisions_fee_items_detail(pk['data']['id'])
         self.assertEqual(res['status'], 204)
 
-    ### Phases ###
+    ### Phases ### noqa: E266
 
     def test_get_revisions_phases_team_project(self):
         """ Test that 200 is returned """
@@ -983,7 +991,7 @@ class TestRevisions(unittest.TestCase):
 
         self.assertEqual(res['status'], 204)
 
-    ### Plans ###
+    ### Plans ### noqa: E266
 
     def test_get_revisions_plans_team_project(self):
         """ Test that 200 is returned """
@@ -1030,13 +1038,14 @@ class TestAnnexes(unittest.TestCase):
     @classmethod
     def setUp(cls):
         cls.testHelper = TestHelper(my_account)
-        cls.team_pk = my_account.teams_pk[0]['id']
+        cls.team_pk = cls.testHelper._get_selected_team()
         cls.currency_pk = cls.testHelper._create_currency_if_none()
         cls.client_pk = cls.testHelper._create_client_return_pk(team_pk, currency_pk)
         cls.project_pk = cls.testHelper._create_project_return_pk(cls.client_pk, cls.currency_pk)
         cls.annex_pk = cls.testHelper._create_annex_return_pk(cls.project_pk)
 
-    ### Annexes ####
+    ### Plans ### noqa: E266
+    ### Annexes #### noqa: E266
 
     def test_get_annexes_list(self):
         """ Test that 200 is returned """
@@ -1085,6 +1094,10 @@ class TestAnnexes(unittest.TestCase):
 
         res = my_account.Deliverables.get_annexes_projections_list(self.project_pk)
         self.assertEqual(res['status'], 200)
+
+
+
+# WAS DISABLED :::: 
 
 
 # class Tests(unittest.TestCase):

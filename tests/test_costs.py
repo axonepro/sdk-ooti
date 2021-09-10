@@ -1,22 +1,19 @@
-from ooti import ooti
 import unittest
 
-from factories import ContractorFactory
-from factories import EmployeeContractFactory
-from factories import EmployeePeriodFactory
-from factories import ExpenseGroupFactory
-from factories import FreelancerFactory
-from factories import JobFactory
-from factories import JobInvoiceFactory
-from factories import OrguserFactory
-from factories import ProjectFactory
-from factories import TeamFactory
-from factories import CostFactory
-from factories import CostMonthFactory
-
-# To read .env variables
+from factories.factories import ContractorFactory
+from factories.factories import EmployeeContractFactory
+from factories.factories import EmployeePeriodFactory
+from factories.factories import ExpenseGroupFactory
+from factories.factories import JobFactory
+from factories.factories import JobInvoiceFactory
+from factories.factories import OrguserFactory
+from factories.factories import ProjectFactory
+from factories.factories import CostFactory
+from factories.factories import CostMonthFactory
+from test_helper import TestHelper
 import os
 from dotenv import load_dotenv
+from ooti import ooti
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -28,39 +25,12 @@ sdk = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
 sdk.connect()
 
 
-class TestFreelancers(unittest.TestCase):
-    @ classmethod
-    def setUpClass(cls):
-        cls.freelancer = FreelancerFactory()
-
-    def test_get_freelancer_details(self):
-        response = sdk.Costs.get_freelancer_details(self.freelancer['pk'])
-        self.assertEqual(response['status'], 200)
-
-    def test_get_freelancers_list(self):
-        response = sdk.Costs.get_freelancers_list()
-        self.assertEqual(response['status'], 200)
-
-    def test_delete_freelancer(self):
-        freelancer = FreelancerFactory()
-        response = sdk.Costs.delete_freelancer(freelancer['pk'])
-        self.assertEqual(response['status'], 204)
-
-    def test_create_freelancer(self):
-        payload = {
-            'name': 'freelancer test'
-        }
-        response = sdk.Costs.create_freelancer(payload)
-        self.assertEqual(response['status'], 201)
-        delete = sdk.Costs.delete_freelancer(response['data']['pk'])
-        self.assertEqual(delete['status'], 204)
-
-
 class TestEmployees(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
+        testHelper = TestHelper(sdk)
         cls.orguser = OrguserFactory()
-        cls.team_pk = TeamFactory()
+        cls.team_pk = testHelper._get_selected_team()
         cls.employee_contract = EmployeeContractFactory()
 
     def test_create_employee_contract(self):
@@ -113,7 +83,8 @@ class TestEmployees(unittest.TestCase):
 class TestExpenses(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
         cls.expense_group = ExpenseGroupFactory(team_pk=cls.team_pk)
 
     def test_create_expenses_category(self):
@@ -175,7 +146,8 @@ class TestExpenses(unittest.TestCase):
 class TestCosts(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
         cls.cost = CostFactory(cls.team_pk)
         cls.cost_month = CostMonthFactory(team_pk=cls.team_pk, cost_id=cls.cost['id'])
 
@@ -258,7 +230,8 @@ class TestCosts(unittest.TestCase):
 class TestJobs(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        cls.team_pk = TeamFactory()
+        testHelper = TestHelper(sdk)
+        cls.team_pk = testHelper._get_selected_team()
         cls.project = ProjectFactory()
         cls.job = JobFactory()
         cls.job_invoice = JobInvoiceFactory()
