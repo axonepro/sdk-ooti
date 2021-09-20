@@ -5,6 +5,7 @@ CHANGELOG?=CHANGELOG.md
 init: 
 	echo "ENVIRONMENT=STAGING\nOOTI_AUTH=youremail\nOOTI_PASSWORD=yourpassword\nPYTHONPATH=$(PWD)" > .env	
 	pip install pipenv
+	pip install gitchangelog
 	pipenv --$(PYTHON)
 	pipenv install -r ./requirements/requirements.txt
 	pipenv install -r ./requirements/dev-requirements.txt --dev
@@ -77,4 +78,9 @@ clean:
 	rm -Rf Pipfile Pipfile.lock
 	rm -Rf $(shell pipenv --py | rev | cut -d'/' -f3- | rev)
 
-.PHONY: venv stop test tests test-class test-method cover clean
+deploy:
+	python setup.py sdist bdist_whee
+	python -m twine check dist/*
+	python -m twine upload -r pypi dist/*
+
+.PHONY: venv stop test tests test-class test-method cover clean deploy first-deploy
