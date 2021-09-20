@@ -4,8 +4,8 @@ import string
 import time
 
 
-class TestHelper:
-    """ TestHelper class 
+class HelperTest:
+    """ HelperTest class 
 
     Create all needed object to do tests
     """
@@ -15,7 +15,7 @@ class TestHelper:
 
     def _create_currency_if_none(self):
         currency_pk = -1
-        currencies = self.my_account.Invoicing.get_currencies_list()['data']
+        currencies = self.my_account.Currencies.get_currencies_list()['data']
 
         if len(currencies) == 0:
             data_currency = {
@@ -24,7 +24,7 @@ class TestHelper:
                 "symbol": "$",
             }
 
-            res = self.my_account.Invoicing.create_currency(data_currency)
+            res = self.my_account.Currencies.create_currency(data_currency)
             currency_pk = res['data']['pk']
         else:
             currency_pk = currencies[0]['pk']
@@ -46,7 +46,7 @@ class TestHelper:
             "symbol": "$",
         }
 
-        res = self.my_account.Invoicing.create_currency(data_currency)
+        res = self.my_account.Currencies.create_currency(data_currency)
         if res['status'] == 201:
             currency_pk = res['data']['pk']
             return currency_pk
@@ -67,7 +67,7 @@ class TestHelper:
             "tags": [],
         }
 
-        client = self.my_account.Invoicing.create_client(data_client)
+        client = self.my_account.Clients.create_client(data_client)
         return client['data']['pk']
 
     def _create_project_return_pk(self, client_pk, currency_pk):
@@ -85,7 +85,7 @@ class TestHelper:
             "end_date": "23-07-2021",
         }
 
-        return self.my_account.create_project(data_project)['data']['id']
+        return self.my_account.Projects.create_project(data_project)['data']['id']
 
     def _create_invoice_return_pk(self, team_pk, project_pk):
         """ Create and return the pk of an invoice 
@@ -101,7 +101,7 @@ class TestHelper:
             "type": 4
         }
 
-        invoice_pk = self.my_account.Invoicing.create_invoice(team_pk, invoice)['data']['pk']
+        invoice_pk = self.my_account.Invoices.create_invoice(team_pk, invoice)['data']['pk']
         return invoice_pk
 
     def _create_invoice_item_return_pk(self, invoice_pk):
@@ -111,7 +111,7 @@ class TestHelper:
             "amount": 1000
         }
 
-        res = self.my_account.Invoicing.create_invoice_item(invoice_pk, data_invoice_item)
+        res = self.my_account.Invoices.create_invoice_item(invoice_pk, data_invoice_item)
         return res['data']['pk']
 
     def _create_payment_return_pk(self, team_pk, invoice_pk, currency_pk):
@@ -127,8 +127,8 @@ class TestHelper:
             "amount": 1000
         }
 
-        res_creation_item = self.my_account.Invoicing.create_invoice_item(invoice_pk, invoice_item)
-        self.my_account.Invoicing.validate_invoice(invoice_pk)
+        res_creation_item = self.my_account.Invoices.create_invoice_item(invoice_pk, invoice_item)
+        self.my_account.Invoices.validate_invoice(invoice_pk)
 
         payment = {
             "date": "21-04-2021",
@@ -138,7 +138,7 @@ class TestHelper:
             "team": team_pk
         }
 
-        res_creation_payment = self.my_account.Invoicing.create_payment(team_pk, payment)
+        res_creation_payment = self.my_account.Payments.create_payment(team_pk, payment)
         payment_pk = res_creation_payment['data']['pk']
 
         return payment_pk
@@ -155,7 +155,7 @@ class TestHelper:
             "name_from": "Test de OOTI"
         }
 
-        email_pk = self.my_account.Invoicing.create_email(email)['data']['id']
+        email_pk = self.my_account.Emails.create_email(email)['data']['id']
         return email_pk
 
     def _create_email_smtp_return_pk(self):
@@ -171,7 +171,7 @@ class TestHelper:
             "port": 0
         }
 
-        smtp_pk = self.my_account.Invoicing.create_email_smtp(data)['data']['id']
+        smtp_pk = self.my_account.Emails.create_email_smtp(data)['data']['id']
         return smtp_pk
 
     def _create_folder_return_pk(self, project_pk):
@@ -183,7 +183,7 @@ class TestHelper:
             "name": name
         }
 
-        folder_pk = self.my_account.Invoicing.create_folder(project_pk, folder)['data']['pk']
+        folder_pk = self.my_account.Files.create_folder(project_pk, folder)['data']['pk']
         return folder_pk
 
     def _create_file_return_pk(self, project_pk, folder_pk):
@@ -197,7 +197,7 @@ class TestHelper:
             "folder": folder_pk,
         }
 
-        res = self.my_account.Invoicing.create_file(project_pk, data)
+        res = self.my_account.Files.create_file(project_pk, data)
         if res['status'] == 201:
             return res['data']['pk']
         elif 'non_field_errors' in res['data'] and res['data']['non_field_errors'] == ['The fields folder, name must make a unique set.']:
@@ -218,7 +218,7 @@ class TestHelper:
             "projects": [str(project_pk)]
         }
 
-        res = self.my_account.Invoicing.create_bank(data)
+        res = self.my_account.Banks.create_bank(data)
         return res['data']['id']
 
     def _create_area_return_pk(self, project_pk):
@@ -233,7 +233,7 @@ class TestHelper:
             "zones": []
         }
 
-        res = self.my_account.Deliverables.create_areas(project_pk, area)
+        res = self.my_account.Areas.create_areas(project_pk, area)
         return res['data']['id']
 
     def _create_zone_return_pk(self, area_pk):
@@ -251,7 +251,7 @@ class TestHelper:
             "num_units": 0
         }
 
-        return self.my_account.Deliverables.create_zone(area_pk, data)['data']['id']
+        return self.my_account.Zones.create_zone(area_pk, data)['data']['id']
 
     def _create_fee_project_return_pk(self, project_pk):
         """ Create a fee project and return pk """
@@ -261,7 +261,7 @@ class TestHelper:
             "project": project_pk
         }
 
-        return self.my_account.Deliverables.create_fee_project(data)['data']['id']
+        return self.my_account.Fees.create_fee_project(data)['data']['id']
 
     def _create_phase_return_pk(self, project_pk, fee_project_pk):
         """ Create phase and return pk """
@@ -274,7 +274,7 @@ class TestHelper:
             "dependants": []
         }
 
-        return self.my_account.Deliverables.create_phase(project_pk, data)['data']['id']
+        return self.my_account.Phases.create_phase(project_pk, data)['data']['id']
 
     def _create_plan_return_pk(self, project_pk):
         """ Create plan and return pk """
@@ -288,7 +288,7 @@ class TestHelper:
             "code": "pln",
             "org": self.my_account.org_pk
         }
-        response = self.my_account.Deliverables.create_plan(project_pk, data)
+        response = self.my_account.Plans.create_plan(project_pk, data)
         return response['data']['id']
 
     def _create_milestone_return_pk(self, project_pk):
@@ -302,7 +302,7 @@ class TestHelper:
             "in_timeline": True
         }
 
-        return self.my_account.Deliverables.create_milestone(data)['data']['pk']
+        return self.my_account.Milestones.create_milestone(data)['data']['pk']
 
     def _create_phaseset_return_pk(self, team_pk):
         """ Create a phaseset and return pk """
@@ -312,7 +312,7 @@ class TestHelper:
             "team": team_pk
         }
 
-        return self.my_account.Deliverables.create_defaults_phasesets_org(data)['data']['id']
+        return self.my_account.Defaults.create_defaults_phasesets_org(data)['data']['id']
 
     def _create_defaults_phase_return_pk(self, team_pk, phaseset_pk):
         """ Create a default phase and return it """
@@ -325,7 +325,7 @@ class TestHelper:
             "team": team_pk
         }
 
-        return self.my_account.Deliverables.create_defaults_phase_org(data)['data']['id']
+        return self.my_account.Defaults.create_defaults_phase_org(data)['data']['id']
 
     def _create_plansets_return_pk(self):
         """ Create a plansets and return pk """
@@ -334,7 +334,7 @@ class TestHelper:
             "title": self.create_name()
         }
 
-        return self.my_account.Deliverables.create_defaults_plansets_org(data)['data']['id']
+        return self.my_account.Defaults.create_defaults_plansets_org(data)['data']['id']
 
     def _create_defaults_plan_return_pk(self, plansets_pk, zone_pk):
         """ Create a default plan and return it 
@@ -351,7 +351,7 @@ class TestHelper:
             "library": plansets_pk
         }
 
-        return self.my_account.Deliverables.create_defaults_plan_org(data)['data']['id']
+        return self.my_account.Defaults.create_defaults_plan_org(data)['data']['id']
 
     def _create_contractor_return_pk(self):
         """ Create contractor and return pk """
@@ -361,7 +361,7 @@ class TestHelper:
             "tags": []
         }
 
-        return self.my_account.Deliverables.create_contractors(data)['data']['id']
+        return self.my_account.Contracts.create_contractors(data)['data']['id']
 
     def _create_contract_return_pk(self, contractor_pk, project_pk, fee_project_pk):
         """ Create contract and return pk """
@@ -375,7 +375,7 @@ class TestHelper:
             "project": project_pk,
         }
 
-        return self.my_account.Deliverables.create_contract(data)['data']['id']
+        return self.my_account.Contracts.create_contract(data)['data']['id']
 
     def _create_contract_item_return_pk(self, contract_pk):
         """ Create a contract item and return pk """
@@ -385,7 +385,7 @@ class TestHelper:
             "fee": 100
         }
 
-        return self.my_account.Deliverables.create_contracts_items(data)['data']['id']
+        return self.my_account.Contracts.create_contracts_items(data)['data']['id']
 
     def _create_contract_month_return_pk(self, contract_pk):
         """ Create contract month return pk """
@@ -402,7 +402,7 @@ class TestHelper:
             "pct": 0
         }
 
-        return self.my_account.Deliverables.create_contracts_month(data)['data']['id']
+        return self.my_account.Contracts.create_contracts_month(data)['data']['id']
 
     def _create_annex_return_pk(self, project_pk):
         """ Create annexe and return pk """
@@ -415,7 +415,7 @@ class TestHelper:
             "start_date": "26-07-2021",
         }
 
-        res = self.my_account.Deliverables.create_annexe(project_pk, data)
+        res = self.my_account.Annexes.create_annexe(project_pk, data)
         if 'data' in res:
             return res['data']['id']
         else:
@@ -430,7 +430,7 @@ class TestHelper:
             "annexes": []
         }
 
-        return self.my_account.Deliverables.create_document(project_pk, data)['data']['id']
+        return self.my_account.Documents.create_document(project_pk, data)['data']['id']
 
     def _create_fee_return_pk(self, project_pk):
         """ Create a fee and return pk """
@@ -443,7 +443,7 @@ class TestHelper:
             "in_timeline": True
         }
 
-        return self.my_account.Deliverables.create_fee(project_pk, data)['data']['pk']
+        return self.my_account.Fees.create_fee(project_pk, data)['data']['pk']
 
     # Time
     def _create_role_annex_period_return_pk(self, orguser_pk, annex_pk):
@@ -458,7 +458,7 @@ class TestHelper:
             "end_date": "06-05-2021"
         }
 
-        return self.my_account.Time.create_timeperiods_role_annex_periods(data)['data']['pk']
+        return self.my_account.Timeperiods.create_timeperiods_role_annex_periods(data)['data']['pk']
 
     def _create_user_period_return_pk(self, orguser_pk, team_pk, project_pk):
         """ Create user period and return pk """
@@ -470,7 +470,7 @@ class TestHelper:
             "description": "string",
         }
 
-        return self.my_account.Time.create_user_period_list(data)['data']['pk']
+        return self.my_account.Timeperiods.create_user_period_list(data)['data']['pk']
 
     def _create_roles_return_pk(self):
         """ Create role and return pk """
@@ -479,7 +479,7 @@ class TestHelper:
             "title": self.create_name()
         }
 
-        return self.my_account.Time.create_roles(data)['data']['pk']
+        return self.my_account.Roles.create_roles(data)['data']['pk']
 
     def _create_roles_project_return_pk(self, project_pk, role_pk):
         """ Create role project and return pk """
@@ -490,7 +490,7 @@ class TestHelper:
             "role": role_pk,
         }
 
-        res = self.my_account.Time.create_roles_project(data)['data']
+        res = self.my_account.Roles.create_roles_project(data)['data']
         return res['id']
 
     def _create_trip_return_pk(self, team_pk, project_pk, orguser_pk):
@@ -504,7 +504,7 @@ class TestHelper:
             "end_date": "11-06-2021",
             "notes": "UNITTEST"
         }
-        response = self.my_account.Time.create_trip(data)
+        response = self.my_account.Trips.create_trip(data)
         if response['status'] != 201:  # trips must be enabled
             print(response)
         return response['data']['id']

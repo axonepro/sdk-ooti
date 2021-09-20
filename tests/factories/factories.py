@@ -9,7 +9,7 @@ PACKAGE_PARENT = '../..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from ooti import ooti # noqa E402
+from resources import ooti # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -17,12 +17,12 @@ load_dotenv()
 OOTI_AUTH = os.getenv("OOTI_AUTH")
 OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 
-sdk = ooti.Auth(OOTI_AUTH, OOTI_PASSWORD)
+sdk = ooti.OotiAPI(OOTI_AUTH, OOTI_PASSWORD)
 sdk.connect()
 
 
 def UserFactory():
-    response = sdk.get_profile_details()
+    response = sdk.Profiles.get_profile_details()
     return response['data']['user']
 
 
@@ -32,7 +32,7 @@ def OrguserFactory():
         "first_name": "Julie",
         "last_name": "TEST",
     }
-    response = sdk.create_orguser(payload)
+    response = sdk.Orgusers.create_orguser(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -41,12 +41,12 @@ def OrguserFactory():
 
 
 def TeamFactory():
-    response = sdk.get_profile_details()
+    response = sdk.Profiles.get_profile_details()
     return response['data']['selected_team']
 
 
 def OrguserPkFactory(org_pk=None):
-    response = sdk.get_user_organization_details()
+    response = sdk.Organizations.get_user_organization_details()
     organizations = response['data']['organizations']
     if org_pk is not None:
         organization = next((org for org in organizations if org.get('id') == org_pk), None)
@@ -61,7 +61,7 @@ def ProjectFactory(team_pk=None):
     payload = {
         'project_title': 'project test',
     }
-    response = sdk.create_project(payload)
+    response = sdk.Projects.create_project(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -120,7 +120,7 @@ def EmployeeContractFactory(orguser_pk=None, team_pk=None):
         'status': 'active',
         'end_date': '20-10-2022',
     }
-    response = sdk.Costs.create_employees_contract(payload)
+    response = sdk.Employees.create_employees_contract(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -148,7 +148,7 @@ def EmployeePeriodFactory(employee_contract_pk=None):
         'overtime_hours_limit': 5,
         'days_per_week': 6
     }
-    response = sdk.Costs.create_employees_period(payload)
+    response = sdk.Employees.create_employees_period(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -159,7 +159,7 @@ def FreelancerFactory():
     payload = {
         'name': 'test freelancer'
     }
-    response = sdk.Costs.create_freelancer(payload)
+    response = sdk.Employees.create_freelancer(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -172,7 +172,7 @@ def ExpenseGroupFactory(team_pk):
     payload = {
         'description': 'expense group test'
     }
-    response = sdk.Costs.create_expenses_group(payload, team_pk=team_pk)
+    response = sdk.Expenses.create_expenses_group(payload, team_pk=team_pk)
     if response['status'] == 201:
         return response['data']
     else:
@@ -186,7 +186,7 @@ def JobFactory(project_pk=None):
         'title': 'job test',
         'project': project_pk,
     }
-    response = sdk.Costs.create_job(payload)
+    response = sdk.Jobs.create_job(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -204,7 +204,7 @@ def JobInvoiceFactory(team_pk=None, contractor_id=None):
         'date': '19-03-2020',
         'amount': '10',
     }
-    response = sdk.Costs.create_jobs_invoice(payload)
+    response = sdk.Jobs.create_jobs_invoice(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -214,7 +214,7 @@ def JobInvoiceFactory(team_pk=None, contractor_id=None):
 
 def TaskFactory():
     payload = {'title': 'task test'}
-    response = sdk.Collaboration.create_task(payload)
+    response = sdk.Tasks.create_task(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -225,7 +225,7 @@ def PostFactory():
     payload = {
         "title": "post test",
     }
-    response = sdk.Collaboration.create_post(payload)
+    response = sdk.Posts.create_post(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -239,7 +239,7 @@ def AlbumFactory(post_pk=None):
         "post": post_pk,
         "title": "album test",
     }
-    response = sdk.Collaboration.create_posts_album(payload)
+    response = sdk.Posts.create_posts_album(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -253,7 +253,7 @@ def GoalFactory(team_pk=None):
         'team': team_pk,
         'name': 'goal test'
     }
-    response = sdk.Others.create_goal(payload)
+    response = sdk.Goals.create_goal(payload)
     if response['status'] == 201:
         return response['data']
     else:
@@ -265,7 +265,7 @@ def ContractorFactory():
         'name': 'contractor test',
         'tags': [],
     }
-    response = sdk.Deliverables.create_contractors(payload)
+    response = sdk.Contracts.create_contractors(payload)
     if response['status'] == 201:
         return response['data']
     else:
