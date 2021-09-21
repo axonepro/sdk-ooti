@@ -32,7 +32,6 @@ team_pk = TeamFactory()
 currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
 
-
 # class Tests(unittest.TestCase):
 #     def _create_invoice_return_pk(self):
 #         """ Create and return the pk of an invoice """

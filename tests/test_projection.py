@@ -1,17 +1,18 @@
-from factories.factories import ProjectFactory, TeamFactory
+from factories.factories import ProjectFactory
 import unittest
 
 # To read .env variables
 import os
 import sys
 from dotenv import load_dotenv
-
+from test_helper import TestHelper
 
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
 from resources import ooti # noqa E402
+
 
 # Loading environment variables (stored in .env file)
 load_dotenv()

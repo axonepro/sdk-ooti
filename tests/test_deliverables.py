@@ -6,7 +6,6 @@ import os
 import sys
 from dotenv import load_dotenv
 
-
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
@@ -21,6 +20,7 @@ OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 
 my_account = ooti.OotiAPI(OOTI_AUTH, OOTI_PASSWORD)
 my_account.connect()
+
 
 team_pk = TeamFactory()
 currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']

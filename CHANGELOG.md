@@ -22,34 +22,19 @@ Fix
   pk. [ylesueur]
   variable (0.0.4) [ylesueur]
 
+0.0.4 (2021-09-06)
+------------------
+
+New
+- Makefile to init envrionement and run tests (0.0.4) [ylesueur]
+- Requirements folder with dev and prod files. [ylesueur]
+
+Changes
+- Move requirements.txt into requirements folder. [ylesueur]
+- Get the selected organisation instead of the first one. [ylesueur]
+- Add flake8, autopep8 in dev dependancies. [ylesueur]
+
 Other
-- Fix tests. [Baptiste VINCENT]
-- Fix tests. [Baptiste VINCENT]
-- Remove warning test_helper. [Baptiste VINCENT]
-- Fix tests. [Baptiste VINCENT]
-- Fix README. [Baptiste VINCENT]
-- Fix ci. [Baptiste VINCENT]
-- Add teardown() functions + fix tests. [Baptiste VINCENT]
-- Fill more resources + add all new tests to travis and makefile.
-  [Baptiste VINCENT]
-- Separate tests depending on the associated resource. [Baptiste
-  VINCENT]
-- Fix tests + Add test_time to travis and makefile. [Baptiste VINCENT]
-- Fix tests. [Baptiste VINCENT]
-- Fill last resources + delete ooti folder. [Baptiste VINCENT]
-- Fill more resources. [Baptiste VINCENT]
-- Move logo + remove example.py file + put example in README. [Baptiste
-  VINCENT]
-- Fill more resources. [Baptiste VINCENT]
-- Add parameter argument for process_request method. [Baptiste VINCENT]
-- Fill more resources + add process_request method + replace all
-  requests. [Baptiste VINCENT]
-- All requests replaced by call of process_request method. [Baptiste
-  VINCENT]
-- Fill costs, employees, expenses and jobs. [Baptiste VINCENT]
-- Add all python files. [Baptiste VINCENT]
-- Fix travis. [Baptiste VINCENT]
-- Try to fix tests. [Baptiste Vincent]
 - Removed __init__.py for pytest. [ylesueur]
 - Fixed parent package error on import ooti module. [ylesueur]
 - Contrib.md is a guideline to contributors of the sdk. [ylesueur]
