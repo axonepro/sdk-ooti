@@ -7,15 +7,20 @@ Changelog
 
 New
 - Config file for gitchangelog API. [ylesueur]
+- Makefile to init envrionement and run tests (0.0.4) [ylesueur]
+- Requirements folder with dev and prod files. [ylesueur]
 
 Changes
+- Remove dead links from table index. [ylesueur]
 - Rules ordering (0.0.4) [ylesueur]
+- Move requirements.txt into requirements folder. [ylesueur]
+- Get the selected organisation instead of the first one. [ylesueur]
+- Add flake8, autopep8 in dev dependancies. [ylesueur]
 
 Fix
 - __get_selected_org should be called before __get_teams to avoid None
   pk. [ylesueur]
   variable (0.0.4) [ylesueur]
-
 
 0.0.4 (2021-09-06)
 ------------------
