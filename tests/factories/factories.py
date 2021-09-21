@@ -2,7 +2,7 @@
 # To read .env variables
 import os
 from dotenv import load_dotenv
-from test_helper import HelperHelper
+from test_helper import HelperTest
 import sys
 
 PACKAGE_PARENT = '../..'
