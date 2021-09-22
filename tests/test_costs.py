@@ -10,7 +10,7 @@ from factories.factories import OrguserFactory
 from factories.factories import ProjectFactory
 from factories.factories import CostFactory
 from factories.factories import CostMonthFactory
-from test_helper import TestHelper
+from test_helper import HelperTest
 import os
 from dotenv import load_dotenv
 from ooti import ooti
@@ -28,7 +28,7 @@ sdk.connect()
 class TestEmployees(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        testHelper = TestHelper(sdk)
+        testHelper = HelperTest(sdk)
         cls.orguser = OrguserFactory()
         cls.team_pk = testHelper._get_selected_team()
         cls.employee_contract = EmployeeContractFactory()
@@ -83,7 +83,7 @@ class TestEmployees(unittest.TestCase):
 class TestExpenses(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        testHelper = TestHelper(sdk)
+        testHelper = HelperTest(sdk)
         cls.team_pk = testHelper._get_selected_team()
         cls.expense_group = ExpenseGroupFactory(team_pk=cls.team_pk)
 
@@ -146,7 +146,7 @@ class TestExpenses(unittest.TestCase):
 class TestCosts(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        testHelper = TestHelper(sdk)
+        testHelper = HelperTest(sdk)
         cls.team_pk = testHelper._get_selected_team()
         cls.cost = CostFactory(cls.team_pk)
         cls.cost_month = CostMonthFactory(team_pk=cls.team_pk, cost_id=cls.cost['id'])
@@ -230,7 +230,7 @@ class TestCosts(unittest.TestCase):
 class TestJobs(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        testHelper = TestHelper(sdk)
+        testHelper = HelperTest(sdk)
         cls.team_pk = testHelper._get_selected_team()
         cls.project = ProjectFactory()
         cls.job = JobFactory()

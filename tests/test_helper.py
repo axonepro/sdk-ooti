@@ -24,7 +24,7 @@ class HelperTest:
         return organization['orguser']['pk']
 
     def _get_selected_team(self):
-        response = self.my_account.get_profile_details()
+        response = self.my_account.Profiles.get_profile_details()
         return response['data']['selected_team']
 
     def _create_currency_if_none(self):

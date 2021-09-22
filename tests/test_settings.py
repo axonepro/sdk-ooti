@@ -1,6 +1,6 @@
 from factories.factories import OrguserFactory, ProjectFactory
 import unittest
-from test_helper import TestHelper
+from test_helper import HelperTest
 import os
 import sys
 from dotenv import load_dotenv
@@ -25,7 +25,7 @@ sdk.connect()
 class TestCustomfields(unittest.TestCase):
     @ classmethod
     def setUpClass(self):
-        testHelper = TestHelper(sdk)
+        testHelper = HelperTest(sdk)
         self.team_pk = testHelper._get_selected_team()
 
     def test_get_customfields_list(self):
@@ -111,7 +111,7 @@ class TestImports(unittest.TestCase):
 class TestCeleryTasks(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        testHelper = TestHelper(sdk)
+        testHelper = HelperTest(sdk)
         cls.team_pk = testHelper._get_selected_team()
         cls.project_id = ProjectFactory()['id']
 
@@ -127,7 +127,7 @@ class TestCeleryTasks(unittest.TestCase):
 class TestInboundEmails(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        testHelper = TestHelper(sdk)
+        testHelper = HelperTest(sdk)
         cls.team_pk = testHelper._get_selected_team()
         cls.project_id = ProjectFactory()['id']
 
@@ -159,7 +159,7 @@ class TestInboundEmails(unittest.TestCase):
 class TestTags(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        testHelper = TestHelper(sdk)
+        testHelper = HelperTest(sdk)
         cls.team_pk = testHelper._get_selected_team()
         cls.orguser_pk = OrguserFactory()['pk']
 
