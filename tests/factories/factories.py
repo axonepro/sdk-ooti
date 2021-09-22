@@ -20,7 +20,7 @@ OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
 sdk = ooti.OotiAPI(OOTI_AUTH, OOTI_PASSWORD)
 sdk.connect()
 
-testHelper = TestHelper(sdk)
+testHelper = HelperTest(sdk)
 team_pk = testHelper._get_selected_team()
 
 

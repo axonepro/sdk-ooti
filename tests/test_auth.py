@@ -4,7 +4,7 @@ import unittest
 import os
 from dotenv import load_dotenv
 import sys
-from test_helper import TestHelper
+from test_helper import HelperTest
 
 
 PACKAGE_PARENT = '..'
@@ -27,7 +27,7 @@ sdk.connect()
 class TestProject(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        testhelper = TestHelper(sdk)
+        testhelper = HelperTest(sdk)
         cls.team_pk = testhelper._get_selected_team()
         cls.project_id = ProjectFactory()['id']
         cls.orguser_pk = OrguserFactory()['pk']
@@ -114,7 +114,7 @@ class TestProject(unittest.TestCase):
 class TestOrguser(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        testHelper = TestHelper(sdk)
+        testHelper = HelperTest(sdk)
         cls.team_pk = testHelper._get_selected_team()
         cls.project_id = ProjectFactory()['id']
         cls.orguser_pk = OrguserFactory()['pk']

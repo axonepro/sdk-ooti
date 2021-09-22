@@ -5,7 +5,7 @@ import unittest
 import os
 import sys
 from dotenv import load_dotenv
-from test_helper import TestHelper
+from test_helper import HelperTest
 
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))

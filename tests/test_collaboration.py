@@ -1,6 +1,6 @@
 from factories.factories import AlbumFactory, OrguserFactory, PostFactory, ProjectFactory
 from factories.factories import TaskFactory
-from test_helper import TestHelper
+from test_helper import HelperTest
 
 import unittest
 
@@ -31,7 +31,7 @@ class TestNewsletters(unittest.TestCase):
     def setUpClass(cls):
         cls.orguser_pk = OrguserFactory()['pk']
 
-        testHelper = TestHelper(sdk)
+        testHelper = HelperTest(sdk)
         cls.team_pk = testHelper._get_selected_team()
 
     def test_create_newsletter(self):
@@ -54,7 +54,7 @@ class TestNewsletters(unittest.TestCase):
 class TestNotes(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        testHelper = TestHelper(sdk)
+        testHelper = HelperTest(sdk)
         cls.project_pk = ProjectFactory()['id']
         cls.orguser_pk = OrguserFactory()['pk']
         cls.team_pk = testHelper._get_selected_team()
@@ -95,7 +95,7 @@ class TestNotifications(unittest.TestCase):
 class TestTasks(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        testHelper = TestHelper(sdk)
+        testHelper = HelperTest(sdk)
         cls.team_pk = testHelper._get_selected_team()
         cls.orguser_pk = OrguserFactory()['pk']
         cls.task_pk = TaskFactory()['pk']
@@ -137,7 +137,7 @@ class TestTasks(unittest.TestCase):
 class TestPosts(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        testHelper = TestHelper(sdk)
+        testHelper = HelperTest(sdk)
         cls.team_pk = testHelper._get_selected_team()
         cls.post_pk = PostFactory()['pk']
         cls.album_pk = AlbumFactory()['pk']
@@ -217,7 +217,7 @@ class TestPosts(unittest.TestCase):
 class TestContacts(unittest.TestCase):
     @ classmethod
     def setUpClass(cls):
-        testHelper = TestHelper(sdk)
+        testHelper = HelperTest(sdk)
         cls.team_pk = testHelper._get_selected_team()
         cls.post_pk = PostFactory()['pk']
         cls.album_pk = AlbumFactory()['pk']
