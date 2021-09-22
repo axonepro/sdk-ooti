@@ -6,8 +6,10 @@ from dotenv import load_dotenv
 from factories.factories import OrguserFactory, ProjectFactory, TeamFactory
 from requests.api import delete
 
-PACKAGE_PARENT = '..'
-SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+PACKAGE_PARENT = ".."
+SCRIPT_DIR = os.path.dirname(
+    os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__)))
+)
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
 from resources import ooti  # noqa E402
@@ -59,5 +61,5 @@ class TestPermissions(unittest.TestCase):
         self.assertEqual(response['status'], 204)
 """
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

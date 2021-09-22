@@ -6,8 +6,10 @@ from dotenv import load_dotenv
 from factories.factories import TeamFactory
 from test_helper import HelperTest
 
-PACKAGE_PARENT = '..'
-SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+PACKAGE_PARENT = ".."
+SCRIPT_DIR = os.path.dirname(
+    os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__)))
+)
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
 from resources import ooti  # noqa E402
@@ -23,13 +25,14 @@ my_account.connect()
 
 
 team_pk = TeamFactory()
-currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
-project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
-fee_project = my_account.Fees.get_fees_project_list_projects(project_pk)['data'][0]['id']
+currency_pk = my_account.Currencies.get_currencies_list()["data"][0]["pk"]
+project_pk = my_account.Projects.get_projects_list()["data"][0]["id"]
+fee_project = my_account.Fees.get_fees_project_list_projects(project_pk)["data"][0][
+    "id"
+]
 
 
-
-# WAS DISABLED :::: 
+# WAS DISABLED ::::
 
 
 # class Tests(unittest.TestCase):
@@ -862,5 +865,5 @@ fee_project = my_account.Fees.get_fees_project_list_projects(project_pk)['data']
 #     #     self.assertEqual(res['status'], 201)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

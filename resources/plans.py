@@ -6,47 +6,59 @@ from .helper import Helper
 
 
 class Plans(Helper):
-    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
-        super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
+    def __init__(
+        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+    ):
+        super().__init__(
+            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+        )
 
     def get_plans_list_action(self, project_pk):
-        """ Get data needed to perfom actions
+        """Get data needed to perfom actions
 
         Keyword arguments:
 
         project_pk -- the pk of the project
         """
 
-        route = 'v1/plans/list-action/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = "v1/plans/list-action/{0}/".format(project_pk)
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def create_plans_list_action(self, project_pk):
-        """ Create plans list action
+        """Create plans list action
 
         Keyword arguments:
 
         project_pk -- the pk of the project
         """
 
-        route = 'v1/plans/list-action/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
+        route = "v1/plans/list-action/{0}/".format(project_pk)
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def get_plans_list(self, project_pk, page=1):
-        """ Get plans list
+        """Get plans list
 
         Keyword arguments:
 
         project_pk -- the pk of the project
         """
 
-        route = 'v1/plans/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = "v1/plans/list/{0}/?page_size={1}&page={2}".format(
+            project_pk, self.pagination, page
+        )
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def create_plan(self, project_pk, data):
-        """ Create plan
+        """Create plan
 
         Keyword arguments:
 
@@ -74,24 +86,28 @@ class Plans(Helper):
             }
         """
 
-        route = 'v1/plans/list/{0}/'.format(project_pk)
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+        route = "v1/plans/list/{0}/".format(project_pk)
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response)
-    
+
     def get_plan_details(self, plan_pk):
-        """ Get plans details
+        """Get plans details
 
         Keyword arguments:
 
         plan_pk -- the pk of the plan
         """
 
-        route = 'v1/plans/{0}/?plan_phases=true'.format(plan_pk)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = "v1/plans/{0}/?plan_phases=true".format(plan_pk)
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def update_plan(self, plan_pk, data):
-        """ Update plan
+        """Update plan
 
         Keyword arguments:
 
@@ -118,30 +134,44 @@ class Plans(Helper):
             }
         """
 
-        route = 'v1/plans/{0}/'.format(plan_pk)
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = "v1/plans/{0}/".format(plan_pk)
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def delete_plan(self, plan_pk):
-        """ Delete plan
+        """Delete plan
 
         Keyword arguments:
 
         plan_pk -- the pk of the plan
         """
 
-        route = 'v1/plans/{0}/'.format(plan_pk)
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
+        route = "v1/plans/{0}/".format(plan_pk)
+        response = self.process_request(
+            requests, "DELETE", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def get_plans_planphases_list(self, project_pk, page=1):
-        """ Get plans planphases list
+        """Get plans planphases list
 
         Keyword arguments:
 
         project_pk -- the pk of the project
         """
 
-        route = 'v1/plans/list/{0}/?page_size={1}&page={2}&plan_phases=true'.format(project_pk, self.pagination, page)
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = "v1/plans/list/{0}/?page_size={1}&page={2}&plan_phases=true".format(
+            project_pk, self.pagination, page
+        )
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)

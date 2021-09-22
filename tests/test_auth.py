@@ -7,8 +7,10 @@ from factories.factories import OrguserFactory, ProjectFactory
 from requests.api import delete
 from test_helper import HelperTest
 
-PACKAGE_PARENT = '..'
-SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+PACKAGE_PARENT = ".."
+SCRIPT_DIR = os.path.dirname(
+    os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__)))
+)
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
 from ooti import ooti  # noqa E402
@@ -24,24 +26,24 @@ sdk.connect()
 
 
 class TestProject(unittest.TestCase):
-    @ classmethod
+    @classmethod
     def setUpClass(cls):
         testhelper = HelperTest(sdk)
         cls.team_pk = testhelper._get_selected_team()
-        cls.project_id = ProjectFactory()['id']
-        cls.orguser_pk = OrguserFactory()['pk']
+        cls.project_id = ProjectFactory()["id"]
+        cls.orguser_pk = OrguserFactory()["pk"]
 
     def test_get_project_details(self):
         response = sdk.get_project_details(self.project_id)
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
     def test_get_projects_list(self):
         response = sdk.get_projects_list()
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
     def test_export_projects_list(self):
         response = sdk.export_projects_list()
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
     def test_create_project(self):
         payload = {
@@ -49,86 +51,82 @@ class TestProject(unittest.TestCase):
             "end_date": "28-08-2020",
             "orgusers": [self.orguser_pk],
             "city": "Paris",
-            "country": "FR"
+            "country": "FR",
         }
         response = sdk.create_project(payload)
-        self.assertEqual(response['status'], 400)
+        self.assertEqual(response["status"], 400)
         payload = {
             "project_title": "New project",
             "start_date": "28-04-2020",
             "end_date": "28-08-2020",
             "orgusers": [self.orguser_pk],
             "city": "Paris",
-            "country": "FR"
+            "country": "FR",
         }
         response = sdk.create_project(payload)
-        self.assertEqual(response['status'], 201)
+        self.assertEqual(response["status"], 201)
 
     def test_update_project_details(self):
 
-        payload = {
-            "surface_area": 730
-        }
+        payload = {"surface_area": 730}
         response = sdk.update_project_details(self.project_id, payload)
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
     def test_get_project_fee_summary(self):
 
         response = sdk.get_project_fee_summary(self.project_id)
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
     def test_get_projects_list_deliverables(self):
 
         response = sdk.get_projects_list_deliverables()
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
     def test_get_project_available_clients(self):
 
         response = sdk.get_project_available_clients(self.project_id)
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
     def test_get_project_users_list(self):
 
         response = sdk.get_project_users_list(self.project_id)
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
     def test_add_project_user(self):
         payload = {
             "orguser": self.orguser_pk,
             "project": self.project_id,
-            "is_visible": True
+            "is_visible": True,
         }
         response = sdk.add_project_user(self.project_id, payload)
-        project_user_pk = response['data']['pk']
-        self.assertEqual(response['status'], 201)
-        payload = {
-            "is_billable": True
-        }
+        project_user_pk = response["data"]["pk"]
+        self.assertEqual(response["status"], 201)
+        payload = {"is_billable": True}
         update = sdk.update_project_user_details(project_user_pk, payload)
-        self.assertEqual(update['status'], 200)
+        self.assertEqual(update["status"], 200)
         delete = sdk.delete_project_user(project_user_pk)
-        self.assertEqual(delete['status'], 204)
+        self.assertEqual(delete["status"], 204)
 
 
 class TestOrguser(unittest.TestCase):
-    @ classmethod
+    @classmethod
     def setUpClass(cls):
         testHelper = HelperTest(sdk)
         cls.team_pk = testHelper._get_selected_team()
-        cls.project_id = ProjectFactory()['id']
-        cls.orguser_pk = OrguserFactory()['pk']
+        cls.project_id = ProjectFactory()["id"]
+        cls.orguser_pk = OrguserFactory()["pk"]
 
     def test_get_orguser_details(self):
         response = sdk.get_orguser_details(self.orguser_pk)
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
     def test_get_orgusers_list(self):
         response = sdk.get_orgusers_list()
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
     def test_export_orgusers_list(self):
         response = sdk.export_orgusers_list()
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
     def test_create_orguser(self):  # Error 500
         payload = {
@@ -137,40 +135,35 @@ class TestOrguser(unittest.TestCase):
             "last_name": "TEST",
         }
         response = sdk.create_orguser(payload)
-        self.assertEqual(response['status'], 201)
-        delete = sdk.delete_orguser(response['data']['pk'])
-        self.assertEqual(delete['status'], 204)
+        self.assertEqual(response["status"], 201)
+        delete = sdk.delete_orguser(response["data"]["pk"])
+        self.assertEqual(delete["status"], 204)
 
     def test_update_orguser_details(self):
-        payload = {
-            "mobile": "0777777777",
-            "birthday": "28-06-1989"
-        }
+        payload = {"mobile": "0777777777", "birthday": "28-06-1989"}
 
         response = sdk.update_orguser_details(self.orguser_pk, payload)
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
     def test_invite_orguser(self):
 
         response = sdk.invite_orguser(self.orguser_pk, self.team_pk)
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
 
 class TestProfile(unittest.TestCase):
     def test_get_profile_preferences(self):
         response = sdk.get_profile_preferences()
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
     def test_get_profile_details(self):
         response = sdk.get_profile_details()
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
     def test_update_profile_details(self):
-        payload = {
-            "locale": "en"
-        }
+        payload = {"locale": "en"}
         response = sdk.update_profile_details(payload)
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response["status"], 200)
 
 
 """ Not cleanup yet
@@ -326,5 +319,5 @@ class TestInvitation(unittest.TestCase):
         self.assertEqual(response['status'], 204)
 """
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
