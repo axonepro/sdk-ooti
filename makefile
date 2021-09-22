@@ -79,7 +79,8 @@ clean:
 	rm -Rf $(shell pipenv --py | rev | cut -d'/' -f3- | rev)
 
 deploy:
-	python setup.py sdist bdist_whee
+	git checkout master
+	python setup.py sdist bdist_wheel
 	python -m twine check dist/*
 	python -m twine upload -r pypi dist/*
 
