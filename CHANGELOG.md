@@ -6,11 +6,35 @@ Changelog
 ------------
 
 New
+- Get_selected_org and get_selected_team instead of Factories.
+  [ylesueur]
+- Change log file (0.0.4) [ylesueur]
 - Config file for gitchangelog API. [ylesueur]
 - Makefile to init envrionement and run tests (0.0.4) [ylesueur]
 - Requirements folder with dev and prod files. [ylesueur]
 
 Changes
+- Versionning (1.0.1) [Jordan martin]
+- Use test_helper methods instead of TeamFactory or OrgUserPK.
+  [ylesueur]
+- Use test_helper methods instead of TeamFactory or OrgUserPK.
+  [ylesueur]
+- Use test_helper methods instead of TeamFactory or OrgUserPK.
+  [ylesueur]
+- Use test_helper methods instead of TeamFactory or OrgUserPK.
+  [ylesueur]
+- Use test_helper methods instead of TeamFactory or OrgUserPK.
+  [ylesueur]
+- Use test_helper methods instead of TeamFactory or OrgUserPK.
+  [ylesueur]
+- Use test_helper methods instead of TeamFactory or OrgUserPK.
+  [ylesueur]
+- Move TeamFactory and OrguserPkFactory into test_helper. [ylesueur]
+- Remove pytest warning with the attribute __test__=False (0.0.4)
+  [ylesueur]
+- Need to fix create_invoice_item (0.0.4) [ylesueur]
+- Python for first test (0.0.4) [ylesueur]
+- Requirements folder  (0.0.4) [ylesueur]
 - Remove dead links from table index. [ylesueur]
 - Rules ordering (0.0.4) [ylesueur]
 - Move requirements.txt into requirements folder. [ylesueur]
@@ -18,23 +42,66 @@ Changes
 - Add flake8, autopep8 in dev dependancies. [ylesueur]
 
 Fix
+- Add a clean object Invoice to create_invoice_item and
+  delete_invoice_item. [ylesueur]
 - __get_selected_org should be called before __get_teams to avoid None
   pk. [ylesueur]
   variable (0.0.4) [ylesueur]
 
-0.0.4 (2021-09-06)
-------------------
-
-New
-- Makefile to init envrionement and run tests (0.0.4) [ylesueur]
-- Requirements folder with dev and prod files. [ylesueur]
-
-Changes
-- Move requirements.txt into requirements folder. [ylesueur]
-- Get the selected organisation instead of the first one. [ylesueur]
-- Add flake8, autopep8 in dev dependancies. [ylesueur]
-
 Other
+- Feat(folders-name): Change folder name, little fix in makefile.
+  [Jordan martin]
+- Merge pull request #31 from axonepro/0.0.4. [Max Riahi]
+
+  Fix tests
+- Fix tests. [Baptiste Vincent]
+- Merge pull request #28 from axonepro/0.0.4. [Max Riahi]
+
+  0.0.4
+- Fix HelperHelper error. [Baptiste Vincent]
+- Fix test_helper error. [Baptiste Vincent]
+- Fix merge conflicts. [Baptiste Vincent]
+- Merge pull request #26 from axonepro/0.0.3. [Max Riahi]
+
+  0.0.4
+- Merge pull request #25 from ylesueur-ooti/0.0.4. [Max Riahi]
+
+  Fixing test and move into tests folder
+- Merge branch 'master' into 0.0.4. [Baptiste Vincent]
+- Merge pull request #23 from axonepro/0.0.3. [Max Riahi]
+
+  0.0.3
+- Fix for deploy 1.0.0. [Baptiste VINCENT]
+- Merge pull request #27 from axonepro/structuration. [Baptiste Vincent]
+
+  Structuration
+- Fix tests. [Baptiste VINCENT]
+- Fix tests. [Baptiste VINCENT]
+- Remove warning test_helper. [Baptiste VINCENT]
+- Fix tests. [Baptiste VINCENT]
+- Fix README. [Baptiste VINCENT]
+- Fix ci. [Baptiste VINCENT]
+- Add teardown() functions + fix tests. [Baptiste VINCENT]
+- Fill more resources + add all new tests to travis and makefile.
+  [Baptiste VINCENT]
+- Separate tests depending on the associated resource. [Baptiste
+  VINCENT]
+- Fix tests + Add test_time to travis and makefile. [Baptiste VINCENT]
+- Fix tests. [Baptiste VINCENT]
+- Fill last resources + delete ooti folder. [Baptiste VINCENT]
+- Fill more resources. [Baptiste VINCENT]
+- Move logo + remove example.py file + put example in README. [Baptiste
+  VINCENT]
+- Fill more resources. [Baptiste VINCENT]
+- Add parameter argument for process_request method. [Baptiste VINCENT]
+- Fill more resources + add process_request method + replace all
+  requests. [Baptiste VINCENT]
+- All requests replaced by call of process_request method. [Baptiste
+  VINCENT]
+- Fill costs, employees, expenses and jobs. [Baptiste VINCENT]
+- Add all python files. [Baptiste VINCENT]
+- Fix travis. [Baptiste VINCENT]
+- Try to fix tests. [Baptiste Vincent]
 - Removed __init__.py for pytest. [ylesueur]
 - Fixed parent package error on import ooti module. [ylesueur]
 - Contrib.md is a guideline to contributors of the sdk. [ylesueur]
