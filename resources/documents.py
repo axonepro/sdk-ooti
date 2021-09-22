@@ -16,7 +16,7 @@ class Documents(Helper):
         project_pk -- the pk of the project
         """
 
-        route = 'v1/documents/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
+        route = f'v1/documents/list/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -46,7 +46,7 @@ class Documents(Helper):
             }
         """
 
-        route = 'v1/documents/list/{0}/'.format(project_pk)
+        route = f'v1/documents/list/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -58,7 +58,7 @@ class Documents(Helper):
         project_pk -- the pk of the project
         """
 
-        route = 'v1/documents/set-price/{0}/'.format(project_pk)
+        route = f'v1/documents/set-price/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -70,7 +70,7 @@ class Documents(Helper):
         pk -- the pk of the document
         """
 
-        route = 'v1/documents/{0}/'.format(pk)
+        route = f'v1/documents/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -100,7 +100,7 @@ class Documents(Helper):
             }
         """
 
-        route = 'v1/documents/{0}/'.format(pk)
+        route = f'v1/documents/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -112,6 +112,6 @@ class Documents(Helper):
         pk -- the pk of the document
         """
 
-        route = 'v1/documents/{0}/'.format(pk)
+        route = f'v1/documents/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

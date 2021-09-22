@@ -10,7 +10,7 @@ class Employees(Helper):
     def get_employees_contracts_list(self, page=1):
         """ Get the employees contracts """
 
-        route = 'v1/employees/contracts/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/employees/contracts/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -46,7 +46,7 @@ class Employees(Helper):
         }
         """
 
-        route = 'v1/employees/contracts/list/{0}/'.format(self.org_pk)
+        route = f'v1/employees/contracts/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -57,7 +57,7 @@ class Employees(Helper):
         contract_id -- id of the employees contract
         """
 
-        route = 'v1/employees/contracts/{0}/'.format(contract_id)
+        route = f'v1/employees/contracts/{contract_id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -94,7 +94,7 @@ class Employees(Helper):
         }
         """
 
-        route = 'v1/employees/contracts/{0}/'.format(contract_id)
+        route = f'v1/employees/contracts/{contract_id}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -105,14 +105,14 @@ class Employees(Helper):
         contract_id -- id of the employees contract
         """
 
-        route = 'v1/employees/contracts/{0}/'.format(contract_id)
+        route = f'v1/employees/contracts/{contract_id}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_employees_period_list(self, page=1):
         """ Get the list of employees periods """
 
-        route = 'v1/employees/period/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/employees/period/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -141,7 +141,7 @@ class Employees(Helper):
         }
         """
 
-        route = 'v1/employees/period/list/{0}/'.format(self.org_pk)
+        route = f'v1/employees/period/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -152,7 +152,7 @@ class Employees(Helper):
         period_id -- id of the period
         """
 
-        route = 'v1/employees/period/{0}/'.format(period_id)
+        route = f'v1/employees/period/{period_id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -182,7 +182,7 @@ class Employees(Helper):
         }
         """
 
-        route = 'v1/employees/period/{0}/'.format(period_id)
+        route = f'v1/employees/period/{period_id}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -193,6 +193,6 @@ class Employees(Helper):
         period_id -- id of the period
         """
 
-        route = 'v1/employees/period/{0}/'.format(period_id)
+        route = f'v1/employees/period/{period_id}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

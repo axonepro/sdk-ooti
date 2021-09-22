@@ -11,7 +11,7 @@ class Inbound_emails(Helper):
     def get_inbound_emails_list(self, page=1):
         """ Get the list of inbound emails """
 
-        route = 'v1/inbound_emails/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/inbound_emails/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -34,7 +34,7 @@ class Inbound_emails(Helper):
         }
         """
 
-        route = 'v1/inbound_emails/list/{0}/'.format(self.org_pk)
+        route = f'v1/inbound_emails/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -45,7 +45,7 @@ class Inbound_emails(Helper):
         id -- id of the inbound email
         """
 
-        route = 'v1/inbound_emails/{0}/'.format(id)
+        route = f'v1/inbound_emails/{id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -69,7 +69,7 @@ class Inbound_emails(Helper):
         }
         """
 
-        route = 'v1/inbound_emails/{0}/'.format(id)
+        route = f'v1/inbound_emails/{id}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -80,6 +80,6 @@ class Inbound_emails(Helper):
         id -- id of the inbound email
         """
 
-        route = 'v1/inbound_emails/{0}/'.format(id)
+        route = f'v1/inbound_emails/{id}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

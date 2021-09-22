@@ -15,7 +15,7 @@ class Revisions(Helper):
         pk -- the pk of the annex revision
         """
 
-        route = 'v1/revisions/annexes/detail/{0}/'.format(pk)
+        route = f'v1/revisions/annexes/detail/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -29,8 +29,7 @@ class Revisions(Helper):
 
         """
 
-        route = 'v1/revisions/annexes/{0}/{1}/?page_size={2}&page={3}'.format(
-            team_pk, project_pk, self.pagination, page)
+        route = f'v1/revisions/annexes/{team_pk}/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -50,7 +49,7 @@ class Revisions(Helper):
             }
         """
 
-        route = 'v1/revisions/annexes/{0}/{1}/'.format(team_pk, project_pk)
+        route = f'v1/revisions/annexes/{team_pk}/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -61,7 +60,7 @@ class Revisions(Helper):
         pk -- the pk of the document revision
         """
 
-        route = 'v1/revisions/documents/detail/{0}/'.format(pk)
+        route = f'v1/revisions/documents/detail/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -75,8 +74,7 @@ class Revisions(Helper):
 
         """
 
-        route = 'v1/revisions/documents/{0}/{1}/?page_size={2}&page={3}'.format(
-            team_pk, project_pk, self.pagination, page)
+        route = f'v1/revisions/documents/{team_pk}/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -95,7 +93,7 @@ class Revisions(Helper):
             }
         """
 
-        route = 'v1/revisions/documents/{0}/{1}/'.format(team_pk, project_pk)
+        route = f'v1/revisions/documents/{team_pk}/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -107,7 +105,7 @@ class Revisions(Helper):
         pk -- the pk of the fee_items revision
         """
 
-        route = 'v1/revisions/fee_items/detail/{0}/'.format(pk)
+        route = f'v1/revisions/fee_items/detail/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -121,8 +119,7 @@ class Revisions(Helper):
 
         """
 
-        route = 'v1/revisions/fee_items/{0}/{1}/?page_size={2}&page={3}'.format(
-            team_pk, project_pk, self.pagination, page)
+        route = f'v1/revisions/fee_items/{team_pk}/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -142,7 +139,7 @@ class Revisions(Helper):
             }
         """
 
-        route = 'v1/revisions/fee_items/{0}/{1}/'.format(team_pk, project_pk)
+        route = f'v1/revisions/fee_items/{team_pk}/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -154,7 +151,7 @@ class Revisions(Helper):
         pk -- the pk of the phases revision
         """
 
-        route = 'v1/revisions/phases/detail/{0}/'.format(pk)
+        route = f'v1/revisions/phases/detail/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -168,7 +165,7 @@ class Revisions(Helper):
 
         """
 
-        route = 'v1/revisions/phases/{0}/{1}/?page_size={2}&page={3}'.format(team_pk, project_pk, self.pagination, page)
+        route = f'v1/revisions/phases/{team_pk}/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -188,7 +185,7 @@ class Revisions(Helper):
             }
         """
 
-        route = 'v1/revisions/phases/{0}/{1}/'.format(team_pk, project_pk)
+        route = f'v1/revisions/phases/{team_pk}/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -200,7 +197,7 @@ class Revisions(Helper):
         pk -- the pk of the plans revision
         """
 
-        route = 'v1/revisions/plans/detail/{0}/'.format(pk)
+        route = f'v1/revisions/plans/detail/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -214,7 +211,7 @@ class Revisions(Helper):
 
         """
 
-        route = 'v1/revisions/plans/{0}/{1}/?page_size={2}&page={3}'.format(team_pk, project_pk, self.pagination, page)
+        route = f'v1/revisions/plans/{team_pk}/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -233,6 +230,6 @@ class Revisions(Helper):
             }
         """
 
-        route = 'v1/revisions/plans/{0}/{1}/'.format(team_pk, project_pk)
+        route = f'v1/revisions/plans/{team_pk}/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)

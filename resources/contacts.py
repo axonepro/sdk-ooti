@@ -15,9 +15,9 @@ class Contacts(Helper):
         project_id -- id of the project if the category is specific to a project
         """
 
-        route = 'v1/contacts/categories/{0}/'.format(self.org_pk)
+        route = f'v1/contacts/categories/{self.org_pk}/'
         if project_id is not None:
-            route += '{0}/'.format(project_id)
+            route += f'{project_id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -36,9 +36,9 @@ class Contacts(Helper):
             ]
         }
         """
-        route = 'v1/contacts/categories/{0}/'.format(self.org_pk)
+        route = f'v1/contacts/categories/{self.org_pk}/'
         if project_id is not None:
-            route += '{0}/'.format(project_id)
+            route += f'{project_id}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response, True)
 
@@ -49,7 +49,7 @@ class Contacts(Helper):
         category_pk -- the pk of the contact
         """
 
-        route = 'v1/contacts/category/{0}/'.format(category_pk)
+        route = f'v1/contacts/category/{category_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -69,7 +69,7 @@ class Contacts(Helper):
         }
         """
 
-        route = 'v1/contacts/category/{0}/'.format(category_pk)
+        route = f'v1/contacts/category/{category_pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -80,13 +80,13 @@ class Contacts(Helper):
         category_pk -- the pk of the contact category
         """
 
-        route = 'v1/contacts/category/{0}/'.format(category_pk)
+        route = f'v1/contacts/category/{category_pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_contact_list_action(self):
 
-        route = 'v1/contacts/list-action/{0}/'.format(self.org_pk)
+        route = f'v1/contacts/list-action/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -98,9 +98,9 @@ class Contacts(Helper):
         project_id -- id of the contacts' project (optional)
         """
 
-        route = 'v1/contacts/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/contacts/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         if project_id is not None:
-            route += '{0}/'.format(project_id)
+            route += f'{project_id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -120,25 +120,25 @@ class Contacts(Helper):
             }
         """
 
-        route = 'v1/contacts/list/{0}/'.format(self.org_pk)
+        route = f'v1/contacts/list/{self.org_pk}/'
         if project_id is not None:
-            route += '{0}/'.format(project_id)
+            route += f'{project_id}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_number_uncategorized_contacts(self, team_pk=None, project_id=None):
         """ Return the number of uncategorized contacts """
 
-        route = 'v1/contacts/uncategorized/count/{0}/'.format(self.org_pk)
+        route = f'v1/contacts/uncategorized/count/{self.org_pk}/'
         parameters = ''
         if team_pk is not None or project_id is not None:
             parameters = '?'
             if team_pk is not None:
-                parameters += 'team={0}'.format(team_pk)
+                parameters += f'team={team_pk}'
                 if project_id is not None:
                     parameters += '&'
             if project_id is not None:
-                parameters += 'project={0}'.format(team_pk)
+                parameters += f'project={team_pk}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, parameters, None)
         return self.process_response(response)
 
@@ -149,7 +149,7 @@ class Contacts(Helper):
         pk -- the pk of the contact
         """
 
-        route = 'v1/contacts/{0}/'.format(pk)
+        route = f'v1/contacts/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -181,7 +181,7 @@ class Contacts(Helper):
         }
         """
 
-        route = 'v1/contacts/{0}/'.format(pk)
+        route = f'v1/contacts/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -192,6 +192,6 @@ class Contacts(Helper):
         pk -- the pk of the contact
         """
 
-        route = 'v1/contacts/{0}/'.format(pk)
+        route = f'v1/contacts/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

@@ -10,7 +10,7 @@ class Milestones(Helper):
 
     def get_milestones_list(self, page=1):
         """ Get milestones list """
-        route = 'v1/milestones/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/milestones/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -35,7 +35,7 @@ class Milestones(Helper):
                 "in_timeline": true
             }
         """
-        route = 'v1/milestones/list/{0}/'.format(self.org_pk)
+        route = f'v1/milestones/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -46,7 +46,7 @@ class Milestones(Helper):
 
         pk -- pk of the milestone
         """
-        route = 'v1/milestones/{0}/'.format(pk)
+        route = f'v1/milestones/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -71,7 +71,7 @@ class Milestones(Helper):
                 "in_timeline": true
             }
         """
-        route = 'v1/milestones/{0}/'.format(pk)
+        route = f'v1/milestones/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -82,6 +82,6 @@ class Milestones(Helper):
 
         pk -- pk of the milestone
         """
-        route = 'v1/milestones/{0}/'.format(pk)
+        route = f'v1/milestones/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

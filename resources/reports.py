@@ -13,15 +13,14 @@ class Reports(Helper):
     def get_reports_list(self, page=1):
         """ Get the reports list """
 
-        route = 'v1/reports/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/reports/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def get_reports_project_list(self, project_pk, page=1):
         """ Get the reports list for a project """
 
-        route = 'v1/reports/list/{0}/?project={1}&page_size={2}&page={3}'.format(
-            self.org_pk, project_pk, self.pagination, page)
+        route = f'v1/reports/list/{self.org_pk}/?project={project_pk}&page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -33,7 +32,7 @@ class Reports(Helper):
         pk -- pk of the report
         """
 
-        route = 'v1/reports/{0}/'.format(pk)
+        route = f'v1/reports/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -83,7 +82,7 @@ class Reports(Helper):
 
         Note: You can create a report without "type", but this will create a blank page.
         """
-        route = 'v1/reports/list/{0}/'.format(self.org_pk)
+        route = f'v1/reports/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -113,7 +112,7 @@ class Reports(Helper):
 
         Note: You can create a report without "type", but this will create a blank page.
         """
-        route = 'v1/reports/{0}/'.format(pk)
+        route = f'v1/reports/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -124,7 +123,7 @@ class Reports(Helper):
 
         pk -- pk of the report
         """
-        route = 'v1/reports/{0}/'.format(pk)
+        route = f'v1/reports/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -139,7 +138,7 @@ class Reports(Helper):
                 "project": 0 (project linked to the report)
             }
         """
-        route = 'v1/reports/generate/{0}/'.format(self.org_pk)
+        route = f'v1/reports/generate/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -151,7 +150,7 @@ class Reports(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/reports/templates/list/{0}/?page_size={1}&page={2}'.format(team_pk, self.pagination, page)
+        route = f'v1/reports/templates/list/{team_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -163,7 +162,7 @@ class Reports(Helper):
         pk -- pk of the template
         """
 
-        route = 'v1/reports/templates/{0}/'.format(pk)
+        route = f'v1/reports/templates/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -188,7 +187,7 @@ class Reports(Helper):
             }
             """
 
-        route = 'v1/reports/templates/list/{0}/'.format(team_pk)
+        route = f'v1/reports/templates/list/{team_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -213,7 +212,7 @@ class Reports(Helper):
             }
             """
 
-        route = 'v1/reports/templates/{0}/'.format(pk)
+        route = f'v1/reports/templates/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -225,7 +224,7 @@ class Reports(Helper):
         pk -- pk of the template
          """
 
-        route = 'v1/reports/templates/{0}/'.format(pk)
+        route = f'v1/reports/templates/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -237,7 +236,7 @@ class Reports(Helper):
         pk -- pk of the template
          """
 
-        route = 'v1/reports/templates/duplicate/{0}/'.format(pk)
+        route = f'v1/reports/templates/duplicate/{pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 

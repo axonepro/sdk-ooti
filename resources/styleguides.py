@@ -13,7 +13,7 @@ class Styleguides(Helper):
     def get_styleguides_list(self, page=1):
         """ Get the styleguide list """
 
-        route = 'v1/styleguides/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/styleguides/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -25,7 +25,7 @@ class Styleguides(Helper):
         pk -- pk of the styleguide
         """
 
-        route = 'v1/styleguides/{0}/'.format(pk)
+        route = f'v1/styleguides/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -40,7 +40,7 @@ class Styleguides(Helper):
             }
         """
 
-        route = 'v1/styleguides/list/{0}/'.format(self.org_pk)
+        route = f'v1/styleguides/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -62,7 +62,7 @@ class Styleguides(Helper):
             }
         """
 
-        route = 'v1/styleguides/{0}/'.format(pk)
+        route = f'v1/styleguides/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -74,6 +74,6 @@ class Styleguides(Helper):
         pk -- pk of the styleguide
         """
 
-        route = 'v1/styleguides/{0}/'.format(pk)
+        route = f'v1/styleguides/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

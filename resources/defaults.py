@@ -27,8 +27,7 @@ class Defaults(Helper):
     def get_defaults_phase_org_list(self, page=1):
         """ Get defaults phase list for organization """
 
-        route = 'v1/defaults/defaults/phases/list/{0}/?page_size={1}&page={2}'.format(
-            self.org_pk, self.pagination, page)
+        route = f'v1/defaults/defaults/phases/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -53,7 +52,7 @@ class Defaults(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/phases/list/{0}/'.format(self.org_pk)
+        route = f'v1/defaults/defaults/phases/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -65,8 +64,7 @@ class Defaults(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/defaults/defaults/phases/list/{0}/{1}/?page_size={2}&page={3}'.format(
-            self.org_pk, team_pk, self.pagination, page)
+        route = f'v1/defaults/defaults/phases/list/{self.org_pk}/{team_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -91,7 +89,7 @@ class Defaults(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/phases/list/{0}/{1}/'.format(self.org_pk, team_pk)
+        route = f'v1/defaults/defaults/phases/list/{self.org_pk}/{team_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -103,7 +101,7 @@ class Defaults(Helper):
         pk -- the pk of the default phase
         """
 
-        route = 'v1/defaults/defaults/phases/{0}/'.format(pk)
+        route = f'v1/defaults/defaults/phases/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -128,7 +126,7 @@ class Defaults(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/phases/{0}/'.format(pk)
+        route = f'v1/defaults/defaults/phases/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -139,7 +137,7 @@ class Defaults(Helper):
 
         pk -- pk of the phase
         """
-        route = 'v1/defaults/defaults/phases/{0}/'.format(pk)
+        route = f'v1/defaults/defaults/phases/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -175,8 +173,7 @@ class Defaults(Helper):
     def get_defaults_phasesets_org_list(self, page=1):
         """ Get defaults phase sets list for organization """
 
-        route = 'v1/defaults/defaults/phasesets/list/{0}/?page_size={1}&page={2}'.format(
-            self.org_pk, self.pagination, page)
+        route = f'v1/defaults/defaults/phasesets/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -193,7 +190,7 @@ class Defaults(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/phasesets/list/{0}/'.format(self.org_pk)
+        route = f'v1/defaults/defaults/phasesets/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -205,8 +202,7 @@ class Defaults(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/defaults/defaults/phasesets/list/{0}/{1}/?page_size={2}&page={3}'.format(
-            self.org_pk, team_pk, self.pagination, page)
+        route = f'v1/defaults/defaults/phasesets/list/{self.org_pk}/{team_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -224,7 +220,7 @@ class Defaults(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/phasesets/list/{0}/{1}/'.format(self.org_pk, team_pk)
+        route = f'v1/defaults/defaults/phasesets/list/{self.org_pk}/{team_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -236,7 +232,7 @@ class Defaults(Helper):
         pk -- the pk of the default phase set
         """
 
-        route = 'v1/defaults/defaults/phasesets/{0}/'.format(pk)
+        route = f'v1/defaults/defaults/phasesets/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -253,7 +249,7 @@ class Defaults(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/phasesets/{0}/'.format(pk)
+        route = f'v1/defaults/defaults/phasesets/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -264,7 +260,7 @@ class Defaults(Helper):
 
         pk -- pk of the phase sets
         """
-        route = 'v1/defaults/defaults/phasesets/{0}/'.format(pk)
+        route = f'v1/defaults/defaults/phasesets/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -287,7 +283,7 @@ class Defaults(Helper):
     def get_defaults_plans_org_list(self, page=1):
         """ Get defaults plans list for organization """
 
-        route = 'v1/defaults/defaults/plans/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/defaults/defaults/plans/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -311,7 +307,7 @@ class Defaults(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/plans/list/{0}/'.format(self.org_pk)
+        route = f'v1/defaults/defaults/plans/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -323,8 +319,7 @@ class Defaults(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/defaults/defaults/plans/list/{0}/{1}/?page_size={1}&page={2}'.format(
-            self.org_pk, team_pk, self.pagination, page)
+        route = f'v1/defaults/defaults/plans/list/{self.org_pk}/{team_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -349,7 +344,7 @@ class Defaults(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/plans/list/{0}/{1}/'.format(self.org_pk, team_pk)
+        route = f'v1/defaults/defaults/plans/list/{self.org_pk}/{team_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -361,7 +356,7 @@ class Defaults(Helper):
         pk -- the pk of the default plan
         """
 
-        route = 'v1/defaults/defaults/plans/{0}/'.format(pk)
+        route = f'v1/defaults/defaults/plans/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -387,7 +382,7 @@ class Defaults(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/plans/{0}/'.format(pk)
+        route = f'v1/defaults/defaults/plans/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -398,7 +393,7 @@ class Defaults(Helper):
 
         pk -- pk of the plan
         """
-        route = 'v1/defaults/defaults/plans/{0}/'.format(pk)
+        route = f'v1/defaults/defaults/plans/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -428,8 +423,7 @@ class Defaults(Helper):
     def get_defaults_plansets_org_list(self, page=1):
         """ Get defaults plan sets list for organization """
 
-        route = 'v1/defaults/defaults/plansets/list/{0}/?page_size={1}&page={2}'.format(
-            self.org_pk, self.pagination, page)
+        route = f'v1/defaults/defaults/plansets/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -444,7 +438,7 @@ class Defaults(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/plansets/list/{0}/'.format(self.org_pk)
+        route = f'v1/defaults/defaults/plansets/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -456,8 +450,7 @@ class Defaults(Helper):
         team_pk -- pk of the team
         """
 
-        route = 'v1/defaults/defaults/plansets/list/{0}/{1}/?page_size={2}&page={3}'.format(
-            self.org_pk, team_pk, self.pagination, page)
+        route = f'v1/defaults/defaults/plansets/list/{self.org_pk}/{team_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -473,7 +466,7 @@ class Defaults(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/plansets/list/{0}/{1}/'.format(self.org_pk, team_pk)
+        route = f'v1/defaults/defaults/plansets/list/{self.org_pk}/{team_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -485,7 +478,7 @@ class Defaults(Helper):
         pk -- the pk of the default plan set
         """
 
-        route = 'v1/defaults/defaults/plansets/{0}/'.format(pk)
+        route = f'v1/defaults/defaults/plansets/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -501,7 +494,7 @@ class Defaults(Helper):
             }
         """
 
-        route = 'v1/defaults/defaults/plansets/{0}/'.format(pk)
+        route = f'v1/defaults/defaults/plansets/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -512,6 +505,6 @@ class Defaults(Helper):
 
         pk -- pk of the plan sets
         """
-        route = 'v1/defaults/defaults/plansets/{0}/'.format(pk)
+        route = f'v1/defaults/defaults/plansets/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

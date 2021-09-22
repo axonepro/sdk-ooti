@@ -16,14 +16,14 @@ class Payments(Helper):
         pk -- the pk of the payment
         """
 
-        route = 'v1/payments/{0}'.format(pk)
+        route = f'v1/payments/{pk}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_payments_list(self, page=1):
         """Get the payment list"""
 
-        route = 'v1/payments/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/payments/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -46,7 +46,7 @@ class Payments(Helper):
             }
         """
 
-        route = 'v1/payments/{0}/'.format(pk)
+        route = f'v1/payments/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -65,7 +65,7 @@ class Payments(Helper):
                 "amount": 0
             }
         """
-        route = 'v1/payments/invoice/{0}/'.format(pk)
+        route = f'v1/payments/invoice/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -87,8 +87,8 @@ class Payments(Helper):
             }
         """
 
-        route = 'v1/payments/list/{0}/'.format(self.org_pk)
-        parameters = '?team={0}'.format(team_pk)
+        route = f'v1/payments/list/{self.org_pk}/'
+        parameters = f'?team={team_pk}'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, parameters, json.dumps(data))
         return self.process_response(response)
 
