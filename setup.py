@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
-import resources
+import ooti
 
 setup(
     name='ooti-api',
 
-    version=resources.__version__,
+    version=ooti.__version__,
 
     packages=find_packages(exclude=["tests", "tests.*"]),
 
