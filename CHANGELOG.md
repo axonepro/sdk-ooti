@@ -6,6 +6,7 @@ Changelog
 ------------
 
 New
+- Run only one test method or class (v1.0.1) [ylesueur]
 - Get_selected_org and get_selected_team instead of Factories.
   [ylesueur]
 - Change log file (0.0.4) [ylesueur]
@@ -49,6 +50,7 @@ Fix
   variable (0.0.4) [ylesueur]
 
 Other
+- Feat(changelog): Add changelog. [Jordan martin]
 - Feat(folders-name): Change folder name, little fix in makefile.
   [Jordan martin]
 - Merge pull request #31 from axonepro/0.0.4. [Max Riahi]
