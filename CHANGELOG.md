@@ -15,6 +15,8 @@ New
 - Requirements folder with dev and prod files. [ylesueur]
 
 Changes
+- Exclude .env file from deploy. [ylesueur]
+- Update Changelog 22/09/2021 (v1.0.1) [ylesueur]
 - Versionning (1.0.1) [Jordan martin]
 - Use test_helper methods instead of TeamFactory or OrgUserPK.
   [ylesueur]
@@ -43,6 +45,7 @@ Changes
 - Add flake8, autopep8 in dev dependancies. [ylesueur]
 
 Fix
+- Folder name. [ylesueur]
 - Add a clean object Invoice to create_invoice_item and
   delete_invoice_item. [ylesueur]
 - __get_selected_org should be called before __get_teams to avoid None
@@ -50,6 +53,7 @@ Fix
   variable (0.0.4) [ylesueur]
 
 Other
+- Version 1.0.2. [ylesueur]
 - Feat(changelog): Add changelog. [Jordan martin]
 - Feat(folders-name): Change folder name, little fix in makefile.
   [Jordan martin]
