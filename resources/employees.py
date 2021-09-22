@@ -1,7 +1,9 @@
-import requests
 import json
 
+import requests
+
 from .helper import Helper
+
 
 class Employees(Helper):
     def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
