@@ -57,6 +57,8 @@ This sdk is for all people wanting to use the ooti API
 
 ### Prerequisites
 
+* Pip 21.2.4
+  - https://pip.pypa.io/en/stable/getting-started/
 * Python 3.7
   - https://www.python.org/downloads/release/python-377/
 
@@ -67,6 +69,10 @@ In case you work with virtuel environment you could, add ooti-api in your requir
 Run  the following command to install package ```ooti-api```:
 ```sh
    pip install ooti-api
+```
+Installation finished, use ```make```, this create our .env, write your credential in.
+```sh
+    make
 ```
 
 <!-- HOW TO USE -->
@@ -83,7 +89,7 @@ Run  the following command to install package ```ooti-api```:
    ```
 3. Do a request
    ```py
-   invoices = my_account.get_invoices_list()
+   invoices = my_account.Invoicing.get_invoices_list()
    ``` 
 
 ## Example
@@ -116,7 +122,7 @@ pprint.pp(invoice)
 payload = {
     "amount": 3000,
 }
-invoice = my_account.update_invoice(pk='invoice_pk', payload)  # updatee an invoice
+invoice = my_account.update_invoice(payload, pk='invoice_pk')  # updatee an invoice
 pprint.pp(invoice)
 
 ###### Payment ######
@@ -136,7 +142,7 @@ pprint.pp(payment)
 payload = {
     "amount": 3000,
 }
-payment = my_account.update_payment(pk='payment_pk', payload)  # updatee an payment
+payment = my_account.update_payment(payload, pk='payment_pk')  # updatee an payment
 pprint.pp(payment)
 
 ###### Project ######

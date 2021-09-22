@@ -95,7 +95,8 @@ Then, should edit your ```.env``` file with your username and your password
 ```
 
 ### Start the environment
-Now, you are ready ! You could run the following command to start the virtuel environment
+Now, you are ready ! You could run the following command to start the virtuel environment.
+Warning: when the virtual environment has started, any change in .env have doesn't affect. If needed, restart the environment.
 ```
   make start
 ```
