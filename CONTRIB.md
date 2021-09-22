@@ -113,7 +113,17 @@ Run all tests:
 
 Run a specific test
 ```
-  make test [filename]
+  make test filename=my_file
+```
+
+Run a specific class test
+```
+  make test filename=my_file class=my_class
+```
+
+Run a specific method in test file
+```
+  make test filename=my_file method=my_method
 ```
 
 
