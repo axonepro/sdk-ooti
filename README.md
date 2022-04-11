@@ -1,10 +1,6 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/axonepro/sdk-ooti/blob/master/README.md">
-    <img src="ooti/logo.png" alt="Logo" width="240" height="140">
-  </a>
-
   <h3 align="center">SDK OOTI</h3>
 
   <p align="center">
