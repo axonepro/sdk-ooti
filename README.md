@@ -85,7 +85,7 @@ Run  the following command to install package ```ooti-api```:
 ## Example
 
 ```
-import ooti
+import ooti.ooti as ooti
 import pprint
 
 
