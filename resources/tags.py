@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -16,7 +17,7 @@ class Tags(Helper):
         return self.process_response(response, True)
 
     def create_tag(self, data):
-        """ Create a new tag 
+        """ Create a new tag
 
         Keywords arguments:
         data -- data of the new tag to be created:

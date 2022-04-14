@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -16,7 +17,7 @@ class Roles(Helper):
         return self.process_response(response, True)
 
     def create_roles(self, data):
-        """ Create roles list 
+        """ Create roles list
 
         Keyword arguments:
 
@@ -40,7 +41,7 @@ class Roles(Helper):
         return self.process_response(response, True)
 
     def create_roles_project(self, data):
-        """ Get roles project list 
+        """ Get roles project list
 
         Keyword arguments:
 
@@ -60,7 +61,7 @@ class Roles(Helper):
         return self.process_response(response)
 
     def get_roles_project_details(self, pk):
-        """ Get roles details 
+        """ Get roles details
 
         Keyword arguments:
 
@@ -72,7 +73,7 @@ class Roles(Helper):
         return self.process_response(response)
 
     def update_roles_project(self, pk, data):
-        """ Update roles project 
+        """ Update roles project
 
         Keyword arguments:
 
@@ -93,7 +94,7 @@ class Roles(Helper):
         return self.process_response(response)
 
     def delete_roles_project(self, pk):
-        """ Delete roles project 
+        """ Delete roles project
 
         Keyword arguments:
 
@@ -119,7 +120,7 @@ class Roles(Helper):
         return self.process_response(response)
 
     def get_roles_details(self, pk):
-        """ Get roles details 
+        """ Get roles details
 
         Keyword arguments:
 
@@ -131,7 +132,7 @@ class Roles(Helper):
         return self.process_response(response)
 
     def update_roles(self, pk, data):
-        """ Update roles 
+        """ Update roles
 
         Keyword arguments:
 
@@ -149,11 +150,11 @@ class Roles(Helper):
         return self.process_response(response)
 
     def delete_roles(self, pk):
-        """ Delete roles 
+        """ Delete roles
 
         Keyword arguments:
 
-        pk -- pk of the roles 
+        pk -- pk of the roles
         """
 
         route = 'v1/roles/{0}/'.format(pk)

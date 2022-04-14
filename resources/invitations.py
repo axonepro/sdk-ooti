@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -16,7 +17,7 @@ class Invitations(Helper):
         return self.process_response(response, True)
 
     def get_team_invitations_list(self, team_pk):
-        """ Get the list of invitations of a specific team 
+        """ Get the list of invitations of a specific team
 
         Keywords arguments:
         team_pk -- pk of the team

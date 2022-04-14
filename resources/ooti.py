@@ -1,6 +1,10 @@
-import requests
 import json
+# To read .env variables
+import os
 import sys
+
+import requests
+from dotenv import load_dotenv
 
 # TODO Trouver comment refacto tous ces imports
 from .accounting import Accounting
@@ -69,10 +73,6 @@ from .token_refresh import Token_refresh
 from .token_verify import Token_verify
 from .trips import Trips
 from .zones import Zones
-
-# To read .env variables
-import os
-from dotenv import load_dotenv
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -411,7 +411,7 @@ class OotiAPI(Helper):
             print('Unable to log with provided credentials. Please modify your .ENV file.')
             sys.exit('Authentication failed.')
 
-        self.access_token = json.loads(response.content)['token']
+        self.access_token = json.loads(response.content)['access_token']
         self.headers = {
             'Authorization': 'JWT {0}'.format(self.access_token),
             'Content-Type': 'application/json',

@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -16,7 +17,7 @@ class Expenses(Helper):
         return self.process_response(response, True)
 
     def create_expenses_category(self, data):
-        """ Create a new expenses category 
+        """ Create a new expenses category
 
         Keywords arguments:
         data -- data of the new expenses category to be created:

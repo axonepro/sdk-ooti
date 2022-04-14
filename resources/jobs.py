@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -29,7 +30,7 @@ class Jobs(Helper):
         return self.process_response(response, True)
 
     def create_jobs_invoices_item(self, data):
-        """ Create a new jobs invoices item 
+        """ Create a new jobs invoices item
 
         Keywords arguments:
         data -- data of the new jobs invoices item to be created:
@@ -74,7 +75,7 @@ class Jobs(Helper):
         data -- content of the update:
         {
             "invoice": invoice_id, # REQUIRED
-            "project": project_id, 
+            "project": project_id,
             "phases": [
                 phase_id,
                 ...
@@ -95,7 +96,7 @@ class Jobs(Helper):
         return self.process_response(response)
 
     def delete_jobs_invoices_item(self, job_invoice_item_pk):
-        """ Delete the jobs invoices item 
+        """ Delete the jobs invoices item
 
         Keywords arguments:
         job_invoice_item_pk -- pk of the item
@@ -225,7 +226,7 @@ class Jobs(Helper):
         return self.process_response(response, True)
 
     def create_job(self, data):
-        """ Create a new job 
+        """ Create a new job
 
         Keywords arguments:
         data -- data of the new job to be created:
@@ -277,7 +278,7 @@ class Jobs(Helper):
         return self.process_response(response, True)
 
     def create_jobs_month(self, data):
-        """ Create a new jobs month 
+        """ Create a new jobs month
 
         Keywords arguments:
         data -- data of the jobs month to be created:
@@ -337,7 +338,7 @@ class Jobs(Helper):
         return self.process_response(response)
 
     def delete_jobs_month(self, month_id):
-        """ Delete the jobs month 
+        """ Delete the jobs month
 
         Keywords arguments:
         month_id -- id of the jobs month

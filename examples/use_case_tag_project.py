@@ -1,6 +1,8 @@
+import pprint
+
 import ooti.ooti as ooti
 from dotenv import dotenv_values
-import pprint
+
 config = dotenv_values("../.env")
 
 def add_tag_to_project(id,tag):

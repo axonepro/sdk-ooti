@@ -80,7 +80,7 @@ Run  the following command to install package ```ooti-api```:
 3. Do a request
    ```py
    invoices = my_account.get_invoices_list()
-   ``` 
+   ```
 
 ## Example
 

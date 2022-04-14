@@ -1,27 +1,19 @@
-import unittest
-
-from factories.factories import ContractorFactory
-from factories.factories import EmployeeContractFactory
-from factories.factories import EmployeePeriodFactory
-from factories.factories import ExpenseGroupFactory
-from factories.factories import JobFactory
-from factories.factories import JobInvoiceFactory
-from factories.factories import OrguserFactory
-from factories.factories import ProjectFactory
-from factories.factories import TeamFactory
-from factories.factories import CostFactory
-from factories.factories import CostMonthFactory
-
 import os
 import sys
-from dotenv import load_dotenv
+import unittest
 
+from dotenv import load_dotenv
+from factories.factories import (ContractorFactory, CostFactory,
+                                 CostMonthFactory, EmployeeContractFactory,
+                                 EmployeePeriodFactory, ExpenseGroupFactory,
+                                 JobFactory, JobInvoiceFactory, OrguserFactory,
+                                 ProjectFactory, TeamFactory)
 
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from resources import ooti # noqa E402
+from resources import ooti  # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()

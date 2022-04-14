@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -146,7 +147,7 @@ class Projections(Helper):
         return self.process_response(response)
 
     def delete_projections_forecast_month_ruleset(self, month_ruleset_id):
-        """ Delete the month rule 
+        """ Delete the month rule
 
         Keywords arguments:
         month_ruleset_id -- id of the month ruleset
@@ -168,7 +169,7 @@ class Projections(Helper):
         return self.process_response(response, True)
 
     def create_projections_month_annex(self, project_id, data):
-        """ Create a new project month annex 
+        """ Create a new project month annex
 
         Keywords arguments:
         project_id -- id of the project
@@ -505,7 +506,7 @@ class Projections(Helper):
         return self.process_response(response)
 
     def get_projections_update_project_budget(self, project_pk):
-        """ Get projections update project budget 
+        """ Get projections update project budget
         Keyword argument:
         project_pk -- pk of the project
         """
@@ -514,7 +515,7 @@ class Projections(Helper):
         return self.process_response(response)
 
     def get_projections_update_project_projections(self, project_pk):
-        """ Get projections update project projections 
+        """ Get projections update project projections
         Keyword argument:
         project_pk -- pk of the project
         """
@@ -529,7 +530,7 @@ class Projections(Helper):
         return self.process_response(response)
 
     def get_projections_users_annex_list(self, project_pk, page=1):
-        """ Get projections users annex list  
+        """ Get projections users annex list
         Keyword argument:
         project_pk -- pk of the project
         """
@@ -538,18 +539,18 @@ class Projections(Helper):
         return self.process_response(response)
 
     def get_projections_users_annex_details(self, pk):
-        """ Get projections users annex details 
+        """ Get projections users annex details
         Keyword argument:
-        pk -- pk of the user annex 
+        pk -- pk of the user annex
         """
         route = 'v1/projections/users/annex/{0}/'.format(pk)
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_projections_users_annex(self, pk, data):
-        """ Get projections users annex 
+        """ Get projections users annex
         Keyword argument:
-        pk -- pk of the user annex 
+        pk -- pk of the user annex
         data -- data update :
         {
             "annex": 0,
@@ -566,7 +567,7 @@ class Projections(Helper):
         return self.process_response(response)
 
     def get_projections_users_phase_list(self, project_pk, page=1):
-        """ Get projections users phase list 
+        """ Get projections users phase list
         Keyword argument:
         project_pk -- pk of the project
         """
@@ -575,7 +576,7 @@ class Projections(Helper):
         return self.process_response(response, True)
 
     def get_projections_users_phase_details(self, pk):
-        """ Get projections users phase details 
+        """ Get projections users phase details
         Keyword argument:
         pk -- pk of the user phase
         """
@@ -584,9 +585,9 @@ class Projections(Helper):
         return self.process_response(response, True)
 
     def update_projections_users_phase(self, pk, data):
-        """ Get projections users phase 
+        """ Get projections users phase
         Keyword argument:
-        pk -- pk of the user phase 
+        pk -- pk of the user phase
         data -- data update :
         {
             "phase": 0,

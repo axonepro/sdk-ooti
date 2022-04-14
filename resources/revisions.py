@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -20,7 +21,7 @@ class Revisions(Helper):
         return self.process_response(response)
 
     def get_revisions_annexes_team_project(self, team_pk, project_pk, page=1):
-        """ Get annexes revisions team project 
+        """ Get annexes revisions team project
 
         Keyword arguments:
 
@@ -39,7 +40,7 @@ class Revisions(Helper):
 
         Keyword arguments:
 
-        data -- data create : 
+        data -- data create :
             {
                 "progress": 0,
                 "date": "string",
@@ -66,7 +67,7 @@ class Revisions(Helper):
         return self.process_response(response)
 
     def get_revisions_documents_team_project(self, team_pk, project_pk, page=1):
-        """ Get documents revisions team project 
+        """ Get documents revisions team project
 
         Keyword arguments:
 
@@ -85,7 +86,7 @@ class Revisions(Helper):
 
         Keyword arguments:
 
-        data -- data create : 
+        data -- data create :
             {
                 "progress": 0,
                 "date": "string",
@@ -112,7 +113,7 @@ class Revisions(Helper):
         return self.process_response(response)
 
     def get_revisions_fee_items_team_project(self, team_pk, project_pk, page=1):
-        """ Get fee_items revisions team project 
+        """ Get fee_items revisions team project
 
         Keyword arguments:
 
@@ -131,7 +132,7 @@ class Revisions(Helper):
 
         Keyword arguments:
 
-        data -- data create : 
+        data -- data create :
             {
                 "fee_item": 0,
                 "progress": 0,
@@ -159,7 +160,7 @@ class Revisions(Helper):
         return self.process_response(response)
 
     def get_revisions_phases_team_project(self, team_pk, project_pk, page=1):
-        """ Get phases revisions team project 
+        """ Get phases revisions team project
 
         Keyword arguments:
 
@@ -177,7 +178,7 @@ class Revisions(Helper):
 
         Keyword arguments:
 
-        data -- data create : 
+        data -- data create :
             {
                 "phase": 0,
                 "progress": 0,
@@ -205,7 +206,7 @@ class Revisions(Helper):
         return self.process_response(response)
 
     def get_revisions_plans_team_project(self, team_pk, project_pk, page=1):
-        """ Get plans revisions team project 
+        """ Get plans revisions team project
 
         Keyword arguments:
 
@@ -223,7 +224,7 @@ class Revisions(Helper):
 
         Keyword arguments:
 
-        data -- data create : 
+        data -- data create :
             {
                 "progress": 0,
                 "date": "string",

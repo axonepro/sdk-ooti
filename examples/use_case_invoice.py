@@ -1,6 +1,8 @@
+import pprint
+
 import ooti.ooti as ooti
 from dotenv import dotenv_values
-import pprint
+
 config = dotenv_values("../.env")
 
 def create_invoice_for_project():
@@ -31,10 +33,18 @@ def create_invoice_for_project():
     for i in projects['data']:
         if(i['project_title']=='test_project'):
             id=i['id']
-    
-    my_account.Phases.create_phase(id,{'name':'phase1','pct':10.0})
-    my_account.Phases.create_phase(id,{'name':'phase2','pct':60.0})
-    my_account.Phases.create_phase(id,{'name':'phase3','pct':30.0})
+
+    pprint.pprint(my_account.Fees.get_fees_project_list())
+
+    """my_account.Phases.create_phase(project_pk=id,data={'name':'phase1','pct':10,'bas_production_fees':0.1*100,'mockup_pct':10,'dependants':[]})
+    my_account.Phases.create_phase(project_pk=id,data={'name':'phase2','pct':50,'base_production_fees':0.5*100,'mockup_pct':50,'dependants':[]})
+    pprint.pprint(my_account.Phases.create_phase(project_pk=id,data={'name':'phase3','pct':40,'production_fees':0.4*100,'mockup_pct':40,'dependants':[]}))"""
+
+    #pprint.pprint(my_account.Phases.get_phases_list(48013)['data'][6])
+
+
+    #my_account.Invoices.create_invoice(team_pk,{'project':id,'invoice_date':"14-05-2022"}) #Create an invoice
+    #pprint.pprint(my_account.Invoices.get_invoices_list())
 
 create_invoice_for_project()
 

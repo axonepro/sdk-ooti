@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -29,7 +30,7 @@ class Profiles(Helper):
         return self.process_response(response)
 
     def update_profile_details(self, data):
-        """ Update current profile details 
+        """ Update current profile details
 
         Keywords arguments:
         data -- content of the update:

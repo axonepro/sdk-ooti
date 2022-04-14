@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -50,7 +51,7 @@ class Imports(Helper):
         return self.process_response(response)
 
     def get_export_details(self, export_pk):
-        """ Get the export details 
+        """ Get the export details
 
         Keywords arguments:
         export_pk -- pk of the export
@@ -90,7 +91,7 @@ class Imports(Helper):
         {
             "data": {
 
-            } 
+            }
             "type":
         }
         """
@@ -123,7 +124,7 @@ class Imports(Helper):
         return self.process_response(response)
 
     def delete_import(self, id):
-        """ Delete the import 
+        """ Delete the import
 
         Keywords arguments:
         id -- id of the import

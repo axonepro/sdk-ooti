@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -9,7 +10,7 @@ class Defaults(Helper):
         super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
 
     def duplicate_defaults_phase(self, pk):
-        """ Duplicate defaults phase  
+        """ Duplicate defaults phase
 
         Keyword arguements:
 
@@ -144,7 +145,7 @@ class Defaults(Helper):
         return self.process_response(response)
 
     def apply_defaults_phasesets(self, data):
-        """ Apply default phase sets 
+        """ Apply default phase sets
 
         data = {
             'library': phaseset_pk,
@@ -157,7 +158,7 @@ class Defaults(Helper):
         return self.process_response(response)
 
     def duplicate_defaults_phasesets(self, pk):
-        """ Duplicate default phase sets 
+        """ Duplicate default phase sets
 
         Keyword arguements:
 
@@ -269,11 +270,11 @@ class Defaults(Helper):
         return self.process_response(response)
 
     def duplicate_defaults_plan(self, pk):
-        """ Duplicate defaults plan 
+        """ Duplicate defaults plan
 
-        Keyword arguments : 
+        Keyword arguments :
 
-        pk -- pk of the plan 
+        pk -- pk of the plan
         """
 
         data = {
@@ -410,7 +411,7 @@ class Defaults(Helper):
         return self.process_response(response)
 
     def duplicate_defaults_plansets(self, pk):
-        """ Duplicate default plan sets 
+        """ Duplicate default plan sets
 
         Keyword arguements:
 

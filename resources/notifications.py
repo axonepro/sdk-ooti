@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -16,7 +17,7 @@ class Notifications(Helper):
         return self.process_response(response)
 
     def update_notifications_config(self, data):  # "off"/? - "on" and "active" rejected
-        """ Update the notifications config of the organization 
+        """ Update the notifications config of the organization
 
         Keywords arguments:
         data -- content of the update

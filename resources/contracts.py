@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -20,7 +21,7 @@ class Contracts(Helper):
 
         Keyword arguments:
 
-        data -- data create : 
+        data -- data create :
             {
                 "identity_team": 0,
                 "currency": 0,
@@ -61,7 +62,7 @@ class Contracts(Helper):
         Keyword arguments:
 
         pk -- the pk of the contractor
-        data -- data create : 
+        data -- data create :
             {
                 "identity_team": 0,
                 "currency": 0,
@@ -127,7 +128,7 @@ class Contracts(Helper):
 
         Keyword arguments:
 
-        data -- data create : 
+        data -- data create :
             {
                 "contract": 0,
                 "phase": 0,
@@ -164,7 +165,7 @@ class Contracts(Helper):
         Keyword arguments:
 
         pk -- pk of the item
-        data -- data update : 
+        data -- data update :
             {
                 "contract": 0,
                 "phase": 0,
@@ -203,11 +204,11 @@ class Contracts(Helper):
 
     def create_contract(self, data):
         """ Create a contract
-        #! A contract can be added to a fee_project under review only. 
+        #! A contract can be added to a fee_project under review only.
 
         Keyword arguments:
 
-        data -- data create : 
+        data -- data create :
             {
                 "contractor": 0, (R)
                 "manager": 0,
@@ -247,7 +248,7 @@ class Contracts(Helper):
         Keyword arguments:
 
         pk -- the pk of the contract
-        data -- data create : 
+        data -- data create :
             {
                 "contractor": 0,
                 "manager": 0,
@@ -268,7 +269,7 @@ class Contracts(Helper):
         return self.process_response(response)
 
     def delete_contract(self, pk):
-        """ Delete contract 
+        """ Delete contract
 
         Keyword arguments:
 
@@ -280,7 +281,7 @@ class Contracts(Helper):
         return self.process_response(response)
 
     def generate_contracts_month_org(self, contract_pk):
-        """ Generate contract month 
+        """ Generate contract month
 
         Keyword arguments:
 
@@ -307,7 +308,7 @@ class Contracts(Helper):
 
         Keyword arguments:
 
-        data -- data create : 
+        data -- data create :
             {
                 "contract": 0,
                 "year": 0,
@@ -346,7 +347,7 @@ class Contracts(Helper):
         Keyword arguments:
 
         pk -- the pk of the contract month
-        data -- data create : 
+        data -- data create :
             {
                 "contract": 0,
                 "year": 0,

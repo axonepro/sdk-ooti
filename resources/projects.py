@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -68,7 +69,7 @@ class Projects(Helper):
         return self.process_response(response)
 
     def get_projects_list(self, team_pk=None):
-        """ Get the projects list 
+        """ Get the projects list
 
         Keywords arguments:
         team_pk -- pk of a team to get the project list of a specific team
@@ -181,7 +182,7 @@ class Projects(Helper):
         return self.process_response(response)
 
     def delete_project_tags_group_details(self, group_pk):
-        """ Delete the group of project tags 
+        """ Delete the group of project tags
 
         Keywords arguments:
         group_pk -- pk of the group of project tags
@@ -199,7 +200,7 @@ class Projects(Helper):
         return self.process_response(response, True)
 
     def create_project_tag(self, data):
-        """ Create a new tag 
+        """ Create a new tag
 
         Keywords arguments:
         data -- content of the tag to be created:
@@ -215,7 +216,7 @@ class Projects(Helper):
         return self.process_response(response)
 
     def get_project_tag_details(self, tag_pk):
-        """ Get project tag details 
+        """ Get project tag details
 
         Keywords arguments:
         tag_pk -- pk of the tag
@@ -225,7 +226,7 @@ class Projects(Helper):
         return self.process_response(response)
 
     def update_project_tag_details(self, tag_pk, data):
-        """ Update project tag details 
+        """ Update project tag details
 
         Keywords arguments:
         tag_pk -- pk of the tag
@@ -241,7 +242,7 @@ class Projects(Helper):
         return self.process_response(response)
 
     def delete_project_tag(self, tag_pk):
-        """ Delete project tag 
+        """ Delete project tag
 
         Keywords arguments:
         tag_pk -- pk of the tag to be deleted
@@ -262,7 +263,7 @@ class Projects(Helper):
     # TODO POST on /api/v1/projects/users/list/action/
 
     def get_project_users_list(self, id):
-        """ Get the list of users of a project 
+        """ Get the list of users of a project
 
         Keyword arguments:
         id -- the id of the project
@@ -273,7 +274,7 @@ class Projects(Helper):
         return {'status': response.status_code, 'data': json.loads(response.content)['results']}
 
     def add_project_user(self, id, data):
-        """ Add a new user to the project 
+        """ Add a new user to the project
 
         Keyword arguments:
         id -- id of the project
@@ -291,7 +292,7 @@ class Projects(Helper):
         return self.process_response(response)
 
     def get_project_user_details(self, user_pk):
-        """ Get the project user details 
+        """ Get the project user details
 
         Keyword arguments:
         user_pk -- pk of the user
@@ -302,7 +303,7 @@ class Projects(Helper):
         return self.process_response(response)
 
     def update_project_user_details(self, user_pk, data):
-        """ Update the project user details 
+        """ Update the project user details
 
         Keyword arguments:
         user_pk -- pk of the user

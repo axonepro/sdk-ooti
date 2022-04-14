@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -23,7 +24,7 @@ class Tasks(Helper):
         return self.process_response(response, True)
 
     def create_task_label(self, data):
-        """ Create a new task label 
+        """ Create a new task label
 
         Keywords arguments:
         data -- data of the new label to be created:
@@ -87,7 +88,7 @@ class Tasks(Helper):
         return self.process_response(response, True)
 
     def create_task(self, data):
-        """ Create a new task 
+        """ Create a new task
 
         Keywords arguments:
         data -- data of the new task to be created:
@@ -116,7 +117,7 @@ class Tasks(Helper):
         return self.process_response(response, True)
 
     def create_tasks_list(self, data):
-        """ Create a new list of tasks 
+        """ Create a new list of tasks
 
         Keywords arguments:
         data -- data of the new list of tasks to be created:
@@ -139,7 +140,7 @@ class Tasks(Helper):
         return self.process_response(response)
 
     def get_tasks_list_details(self, list_pk):
-        """ Get the list of tasks details 
+        """ Get the list of tasks details
 
         Keywords arguments:
         list_pk -- the pk of list of tasks
@@ -150,7 +151,7 @@ class Tasks(Helper):
         return self.process_response(response)
 
     def update_tasks_list_details(self, list_pk, data):
-        """ Update the list of tasks details 
+        """ Update the list of tasks details
 
         Keywords arguments:
         list_pk -- the pk of list of tasks
@@ -174,7 +175,7 @@ class Tasks(Helper):
         return self.process_response(response)
 
     def delete_tasks_list(self, list_pk):
-        """ Delete the list of tasks 
+        """ Delete the list of tasks
 
         Keywords arguments:
         list_pk -- the pk of list of tasks
@@ -198,7 +199,7 @@ class Tasks(Helper):
         return self.process_response(response)
 
     def get_task_details(self, pk):
-        """ Get task details 
+        """ Get task details
 
         Keywords arguments:
         pk -- the pk of the task
@@ -209,7 +210,7 @@ class Tasks(Helper):
         return self.process_response(response)
 
     def update_task_details(self, pk, data):
-        """ Update task details 
+        """ Update task details
 
         Keywords arguments:
         pk -- the pk of the task
@@ -235,7 +236,7 @@ class Tasks(Helper):
         return self.process_response(response)
 
     def delete_task(self, pk):
-        """ Delete task 
+        """ Delete task
 
         Keywords arguments:
         pk -- the pk of the task

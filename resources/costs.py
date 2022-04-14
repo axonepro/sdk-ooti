@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -152,7 +153,7 @@ class Costs(Helper):
         route = 'v1/costs/month/{0}/'.format(month_id)
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
-  
+
     def set_costs_annual_budget(self, cost_id, data):
         """ Set the cost annual budget
 
@@ -165,7 +166,7 @@ class Costs(Helper):
         """
         route = 'v1/costs/set-annual-budget/{0}/'.format(cost_id)
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, data)
-        return self.process_response(response) 
+        return self.process_response(response)
 
     def get_cost_details(self, id):
         """ Get the cost details
