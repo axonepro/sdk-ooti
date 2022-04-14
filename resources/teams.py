@@ -18,7 +18,7 @@ class Teams(Helper):
     def get_teams_list(self):
         """ Get the list of teams """
 
-        route = 'v1/teams/list/{0}/'.format(self.org_pk)
+        route = f'v1/teams/list/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)  # no 'results' key
 
@@ -38,7 +38,7 @@ class Teams(Helper):
         }
         """
 
-        route = 'v1/teams/list/{0}/'.format(self.org_pk)
+        route = f'v1/teams/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -63,7 +63,7 @@ class Teams(Helper):
         }
         """
 
-        route = 'v1/teams/users/bulk/add/{0}/'.format(self.org_pk)
+        route = f'v1/teams/users/bulk/add/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -81,7 +81,7 @@ class Teams(Helper):
         }
         """
 
-        route = 'v1/teams/users/bulk/delete/{0}/'.format(self.org_pk)
+        route = f'v1/teams/users/bulk/delete/{self.org_pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -92,7 +92,7 @@ class Teams(Helper):
         pk -- pk of the team
         """
 
-        route = 'v1/teams/users/list/{0}/'.format(pk)
+        route = f'v1/teams/users/list/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -110,7 +110,7 @@ class Teams(Helper):
         }
         """
 
-        route = 'v1/teams/users/list/{0}/'.format(pk)
+        route = f'v1/teams/users/list/{pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -121,7 +121,7 @@ class Teams(Helper):
         user_pk -- pk of the team user
         """
 
-        route = 'v1/teams/users/{0}/'.format(user_pk)
+        route = f'v1/teams/users/{user_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -137,14 +137,14 @@ class Teams(Helper):
         }
         """
 
-        route = 'v1/teams/users/{0}/'.format(user_pk)
+        route = f'v1/teams/users/{user_pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def remove_team_user(self, user_pk):
         """ Delete a user from the team """
 
-        route = 'v1/teams/users/{0}/'.format(user_pk)
+        route = f'v1/teams/users/{user_pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -155,7 +155,7 @@ class Teams(Helper):
         pk -- pk of the team
         """
 
-        route = 'v1/teams/{0}/'.format(pk)
+        route = f'v1/teams/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -171,6 +171,6 @@ class Teams(Helper):
         }
         """
 
-        route = 'v1/teams/{0}/'.format(pk)
+        route = f'v1/teams/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)

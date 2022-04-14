@@ -58,7 +58,7 @@ class TestClients(unittest.TestCase):
 
         client = {
             "name": "UNITTEST",
-            "number": "{0}{1}{2}{3}{4}".format(random.randint(0, 9), random.randint(0, 9), random.randint(0, 9), random.randint(0, 9), random.randint(0, 9)),
+            "number": f"{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}",
             "currency": self.currency_pk,
             "billing_address": "Unittest address",
             "team": self.team_pk,

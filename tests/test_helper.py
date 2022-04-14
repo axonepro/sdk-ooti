@@ -75,7 +75,7 @@ class HelperTest:
 
         data_client = {
             "name": "UNITTEST",
-            "number": "{0}{1}{2}{3}{4}".format(random.randint(0, 9), random.randint(0, 9), random.randint(0, 9), random.randint(0, 9), random.randint(0, 9)),
+            "number": f"{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}",
             "currency": currency_pk,
             "team": team_pk,
             "tags": [],
@@ -226,9 +226,9 @@ class HelperTest:
             "name": name,
             "currency": currency_pk,
             "country": "FR",
-            "iban": "XXX-{0}".format(name),
-            "bic": "XXX-{0}".format(name),
-            "rib": "XXX-{0}".format(name),
+            "iban": f"XXX-{name}",
+            "bic": f"XXX-{name}",
+            "rib": f"XXX-{name}",
             "teams": [str(team_pk)],
             "projects": [str(project_pk)]
         }

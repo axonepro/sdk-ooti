@@ -22,9 +22,9 @@ class Projections(Helper):
         project_id -- id of the project
         """
 
-        route = 'v1/projections/export/{0}/'.format(project_id)
+        route = f'v1/projections/export/{project_id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
-        xls_file = open('project_{0}_timeline.xls'.format(project_id), 'wb')
+        xls_file = open(f'project_{project_id}_timeline.xls', 'wb')
         xls_file.write(response.content)
         xls_file.close()
         return self.process_response(response)
@@ -32,8 +32,7 @@ class Projections(Helper):
     def get_projections_forecast_month_rule_list(self, page=1):
         """ Get the list of month rules """
 
-        route = 'v1/projections/forecast-month-rule/list/{0}/?page_size={1}&page={2}'.format(
-            self.org_pk, self.pagination, page)
+        route = f'v1/projections/forecast-month-rule/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -49,7 +48,7 @@ class Projections(Helper):
             "pct": 0
         }
         """
-        route = 'v1/projections/forecast-month-rule/list/{0}/'.format(self.org_pk)
+        route = f'v1/projections/forecast-month-rule/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -60,7 +59,7 @@ class Projections(Helper):
         month_rule_id -- id of the month rule
         """
 
-        route = 'v1/projections/forecast-month-rule/{0}/'.format(month_rule_id)
+        route = f'v1/projections/forecast-month-rule/{month_rule_id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -77,7 +76,7 @@ class Projections(Helper):
             "pct": 0
         }
         """
-        route = 'v1/projections/forecast-month-rule/{0}/'.format(month_rule_id)
+        route = f'v1/projections/forecast-month-rule/{month_rule_id}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -88,15 +87,14 @@ class Projections(Helper):
         month_rule_id -- id of the month rule
         """
 
-        route = 'v1/projections/forecast-month-rule/{0}/'.format(month_rule_id)
+        route = f'v1/projections/forecast-month-rule/{month_rule_id}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_projections_forecast_month_ruleset_list(self, page=1):
         """ Get the list of month rulesets """
 
-        route = 'v1/projections/forecast-month-ruleset/list/{0}/?page_size={1}&page={2}'.format(
-            self.org_pk, self.pagination, page)
+        route = f'v1/projections/forecast-month-ruleset/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -113,7 +111,7 @@ class Projections(Helper):
             ]
         }
         """
-        route = 'v1/projections/forecast-month-ruleset/list/{0}/'.format(self.org_pk)
+        route = f'v1/projections/forecast-month-ruleset/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -123,7 +121,7 @@ class Projections(Helper):
         Keyword arguments:
         month_rule_id -- id of the month rule
         """
-        route = 'v1/projections/forecast-month-ruleset/{0}/'.format(month_ruleset_id)
+        route = f'v1/projections/forecast-month-ruleset/{month_ruleset_id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -141,7 +139,7 @@ class Projections(Helper):
             ]
         }
         """
-        route = 'v1/projections/forecast-month-ruleset/{0}/'.format(month_ruleset_id)
+        route = f'v1/projections/forecast-month-ruleset/{month_ruleset_id}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -152,7 +150,7 @@ class Projections(Helper):
         month_ruleset_id -- id of the month ruleset
         """
 
-        route = 'v1/projections/forecast-month-ruleset/{0}/'.format(month_ruleset_id)
+        route = f'v1/projections/forecast-month-ruleset/{month_ruleset_id}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -163,7 +161,7 @@ class Projections(Helper):
         project_id -- id of the project
         """
 
-        route = 'v1/projections/months/annex/list/{0}/?page_size={1}&page={2}'.format(project_id, self.pagination, page)
+        route = f'v1/projections/months/annex/list/{project_id}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -194,7 +192,7 @@ class Projections(Helper):
         }
         """
 
-        route = 'v1/projections/months/annex/list/{0}/'.format(project_id)
+        route = f'v1/projections/months/annex/list/{project_id}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -205,7 +203,7 @@ class Projections(Helper):
         month_annex_id -- id of the month annex
         """
 
-        route = 'v1/projections/months/annex/{0}/'.format(month_annex_id)
+        route = f'v1/projections/months/annex/{month_annex_id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -220,7 +218,7 @@ class Projections(Helper):
         }
         """
 
-        route = 'v1/projections/months/annex/{0}/'.format(month_annex_id)
+        route = f'v1/projections/months/annex/{month_annex_id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -231,7 +229,7 @@ class Projections(Helper):
         month_annex_id -- id of the month annex
         """
 
-        route = 'v1/projections/months/annex/{0}/'.format(month_annex_id)
+        route = f'v1/projections/months/annex/{month_annex_id}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -242,7 +240,7 @@ class Projections(Helper):
         project_id -- id of the project
         """
 
-        route = 'v1/projections/months/fee/list/{0}/?page_size={1}&page={2}'.format(project_id, self.pagination, page)
+        route = f'v1/projections/months/fee/list/{project_id}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -270,7 +268,7 @@ class Projections(Helper):
         }
         """
 
-        route = 'v1/projections/months/fee/list/{0}/'.format(project_id)
+        route = f'v1/projections/months/fee/list/{project_id}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -281,7 +279,7 @@ class Projections(Helper):
         month_fee_id -- id of the month fee
         """
 
-        route = 'v1/projections/months/fee/{0}/'.format(month_fee_id)
+        route = f'v1/projections/months/fee/{month_fee_id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -296,7 +294,7 @@ class Projections(Helper):
         }
         """
 
-        route = 'v1/projections/months/fee/{0}/'.format(month_fee_id)
+        route = f'v1/projections/months/fee/{month_fee_id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -307,7 +305,7 @@ class Projections(Helper):
         month_fee_id -- id of the month fee
         """
 
-        route = 'v1/projections/months/fee/{0}/'.format(month_fee_id)
+        route = f'v1/projections/months/fee/{month_fee_id}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -318,7 +316,7 @@ class Projections(Helper):
         project_id -- id of the project
         """
 
-        route = 'v1/projections/months/phase/list/{0}/?page_size={1}&page={2}'.format(project_id, self.pagination, page)
+        route = f'v1/projections/months/phase/list/{project_id}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -346,7 +344,7 @@ class Projections(Helper):
         }
         """
 
-        route = 'v1/projections/months/phase/list/{0}/'.format(project_id)
+        route = f'v1/projections/months/phase/list/{project_id}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -357,7 +355,7 @@ class Projections(Helper):
         month_phase_id -- id of the month phase
         """
 
-        route = 'v1/projections/months/phase/{0}/'.format(month_phase_id)
+        route = f'v1/projections/months/phase/{month_phase_id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -372,7 +370,7 @@ class Projections(Helper):
         }
         """
 
-        route = 'v1/projections/months/phase/{0}/'.format(month_phase_id)
+        route = f'v1/projections/months/phase/{month_phase_id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -383,7 +381,7 @@ class Projections(Helper):
         month_phase_id -- id of the month phase
         """
 
-        route = 'v1/projections/months/phase/{0}/'.format(month_phase_id)
+        route = f'v1/projections/months/phase/{month_phase_id}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -398,7 +396,7 @@ class Projections(Helper):
         Keyword argument:
         project_pk -- pk of the project
         """
-        route = 'v1/projections/reset_budget/{0}/'.format(project_pk)
+        route = f'v1/projections/reset_budget/{project_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -407,7 +405,7 @@ class Projections(Helper):
         Keyword argument:
         project_pk -- pk of the project
         """
-        route = 'v1/projections/roles/annex/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
+        route = f'v1/projections/roles/annex/list/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -416,7 +414,7 @@ class Projections(Helper):
         Keyword argument:
         pk -- pk of the project projection role annex
         """
-        route = 'v1/projections/roles/annex/{0}/'.format(pk)
+        route = f'v1/projections/roles/annex/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -436,7 +434,7 @@ class Projections(Helper):
             "is_locked": true
         }
         """
-        route = 'v1/projections/roles/annex/{0}/'.format(pk)
+        route = f'v1/projections/roles/annex/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -445,7 +443,7 @@ class Projections(Helper):
         Keyword argument:
         pk -- pk of the project projection role annex
         """
-        route = 'v1/projections/roles/annex/{0}/'.format(pk)
+        route = f'v1/projections/roles/annex/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -454,7 +452,7 @@ class Projections(Helper):
         Keyword argument:
         project_pk -- pk of the project
         """
-        route = 'v1/projections/roles/phase/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
+        route = f'v1/projections/roles/phase/list/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -463,7 +461,7 @@ class Projections(Helper):
         Keyword argument:
         pk -- pk of the project projection role phase
         """
-        route = 'v1/projections/roles/phase/{0}/'.format(pk)
+        route = f'v1/projections/roles/phase/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -485,7 +483,7 @@ class Projections(Helper):
             "mockup_is_locked": true
         }
         """
-        route = 'v1/projections/roles/phase/{0}/'.format(pk)
+        route = f'v1/projections/roles/phase/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -494,13 +492,13 @@ class Projections(Helper):
         Keyword argument:
         pk -- pk of the project projection role phase
         """
-        route = 'v1/projections/roles/phase/{0}/'.format(pk)
+        route = f'v1/projections/roles/phase/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_all_teamuser_months(self):
         """ Update all teamuser months (post request) """
-        route = 'v1/projections/update_all_teamuser_months/{0}/'.format(self.org_pk)
+        route = f'v1/projections/update_all_teamuser_months/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -509,7 +507,7 @@ class Projections(Helper):
         Keyword argument:
         project_pk -- pk of the project
         """
-        route = 'v1/projections/update_project_budget/{0}/'.format(project_pk)
+        route = f'v1/projections/update_project_budget/{project_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -518,13 +516,13 @@ class Projections(Helper):
         Keyword argument:
         project_pk -- pk of the project
         """
-        route = 'v1/projections/update_project_projections/{0}/'.format(project_pk)
+        route = f'v1/projections/update_project_projections/{project_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_projections_update_projections(self):
         """ Get projections update projections """
-        route = 'v1/projections/update_projections/{0}/'.format(self.org_pk)
+        route = f'v1/projections/update_projections/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -533,7 +531,7 @@ class Projections(Helper):
         Keyword argument:
         project_pk -- pk of the project
         """
-        route = 'v1/projections/users/annex/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
+        route = f'v1/projections/users/annex/list/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -542,7 +540,7 @@ class Projections(Helper):
         Keyword argument:
         pk -- pk of the user annex 
         """
-        route = 'v1/projections/users/annex/{0}/'.format(pk)
+        route = f'v1/projections/users/annex/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -561,7 +559,7 @@ class Projections(Helper):
             "hours_allocated": 0
         }
         """
-        route = 'v1/projections/users/annex/{0}/'.format(pk)
+        route = f'v1/projections/users/annex/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -570,7 +568,7 @@ class Projections(Helper):
         Keyword argument:
         project_pk -- pk of the project
         """
-        route = 'v1/projections/users/phase/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
+        route = f'v1/projections/users/phase/list/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -579,7 +577,7 @@ class Projections(Helper):
         Keyword argument:
         pk -- pk of the user phase
         """
-        route = 'v1/projections/users/phase/{0}/'.format(pk)
+        route = f'v1/projections/users/phase/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -600,6 +598,6 @@ class Projections(Helper):
             "hours_allocated": 0
         }
         """
-        route = 'v1/projections/users/phase/{0}/'.format(pk)
+        route = f'v1/projections/users/phase/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)

@@ -11,7 +11,7 @@ class Notes(Helper):
     def get_notes_list(self, page=1):
         """ Get the list of notes """
 
-        route = 'v1/notes/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/notes/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -35,7 +35,7 @@ class Notes(Helper):
         }
         """
 
-        route = 'v1/notes/list/{0}/'.format(self.org_pk)
+        route = f'v1/notes/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -46,7 +46,7 @@ class Notes(Helper):
         pk -- pk of the note
         """
 
-        route = 'v1/notes/{0}/'.format(pk)
+        route = f'v1/notes/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -71,7 +71,7 @@ class Notes(Helper):
         }
         """
 
-        route = 'v1/notes/{0}/'.format(pk)
+        route = f'v1/notes/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -82,6 +82,6 @@ class Notes(Helper):
         pk -- pk of the note
         """
 
-        route = 'v1/notes/{0}/'.format(pk)
+        route = f'v1/notes/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
