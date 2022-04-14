@@ -407,11 +407,16 @@ class OotiAPI(Helper):
         }
         response = self.process_request(requests, 'POST', self.base_url, route, headers, None, data)
 
+        if response.status_code != 200:
+            print('Unable to log with provided credentials. Please modify your .ENV file.')
+            sys.exit('Authentication failed.')
+
         if response.content == b'{"non_field_errors":["Unable to log in with provided credentials."]}':
             print('Unable to log with provided credentials. Please modify your .ENV file.')
             sys.exit('Authentication failed.')
 
-        self.access_token = json.loads(response.content)['access_token']
+        self.access_token = json.loads(response.content)['token']
+
         self.headers = {
             'Authorization': 'JWT {0}'.format(self.access_token),
             'Content-Type': 'application/json',
