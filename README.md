@@ -1,3 +1,5 @@
+[![Build Status](https://app.travis-ci.com/axonepro/sdk-ooti.svg?branch=master)](https://app.travis-ci.com/axonepro/sdk-ooti)
+
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
