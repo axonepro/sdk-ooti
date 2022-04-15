@@ -411,10 +411,6 @@ class OotiAPI(Helper):
             print('Unable to log with provided credentials. Please modify your .ENV file.')
             sys.exit('Authentication failed.')
 
-        if response.content == b'{"non_field_errors":["Unable to log in with provided credentials."]}':
-            print('Unable to log with provided credentials. Please modify your .ENV file.')
-            sys.exit('Authentication failed.')
-
         self.access_token = json.loads(response.content)['token']
 
         self.headers = {
@@ -431,6 +427,11 @@ class OotiAPI(Helper):
 
         route = 'v1/profiles/profile/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+
+        if response.status_code != 200:
+            print('Unable to log with provided credentials. Please modify your .ENV file.')
+            sys.exit('Authentication failed.')
+
         self.org_pk = json.loads(response.content)['selected_org']
         return self.process_response(response)
 
@@ -439,6 +440,11 @@ class OotiAPI(Helper):
 
         route = 'v1/organizations/membership/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+
+        if response.status_code != 200:
+            print('Unable to log with provided credentials. Please modify your .ENV file.')
+            sys.exit('Authentication failed.')
+
         organizations = json.loads(response.content)['organizations']
         selected_organization = next((org for org in organizations if org.get('id') == self.org_pk), None)
         teams = selected_organization['teams']
