@@ -31,7 +31,8 @@ class TestContacts(unittest.TestCase):
 
     def test_create_contact(self):
         payload = {
-            'name': 'contact test'
+            'name': 'contact test',
+            'tags':[]
         }
         response = sdk.Contacts.create_contact(payload)
         self.assertEqual(response['status'], 201)

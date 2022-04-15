@@ -31,12 +31,18 @@ def UserFactory():
 
 
 def OrguserFactory():
+    count=0
     payload = {
-        "email": "test@test.fr",
+        "email": "test{0}@test.fr".format(count),
         "first_name": "Julie",
         "last_name": "TEST",
     }
     response = sdk.Orgusers.create_orguser(payload)
+    while(response['data']==['Email already used']):
+        count+=1
+        payload['email']="test{0}@test.fr".format(count)
+        response = sdk.Orgusers.create_orguser(payload)
+
     if response['status'] == 201:
         return response['data']
     else:

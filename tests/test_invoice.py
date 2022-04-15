@@ -1,4 +1,5 @@
 import os
+import pprint
 import random
 import string
 import sys
@@ -138,7 +139,10 @@ class TestInvoices(unittest.TestCase):
             "amount": 1000
         }
 
+        res=my_account.Invoices.update_invoice(self.invoice_pk,{'is_valid':False})
         res_creation = my_account.Invoices.create_invoice_item(self.invoice_pk, invoice_item)
+        my_account.Invoices.update_invoice(self.invoice_pk,{'is_valid':True})
+
         self.assertEqual(res_creation['status'], 201)
 
     def test_update_invoice_item(self):
