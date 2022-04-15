@@ -1,5 +1,7 @@
 import os
+import pprint
 import sys
+import time
 import unittest
 
 from dotenv import load_dotenv
@@ -39,7 +41,6 @@ class TestContracts(unittest.TestCase):
         cls.contractor_pk = cls.testHelper._create_contractor_return_pk()
         cls.contract_pk = cls.testHelper._create_contract_return_pk(
             cls.contractor_pk, cls.project_pk, cls.fee_project_pk)
-        print(cls.contract_pk)
         cls.contract_item_pk = cls.testHelper._create_contract_item_return_pk(cls.contract_pk)
         cls.contract_month_pk = cls.testHelper._create_contract_month_return_pk(cls.contract_pk)
 
@@ -183,11 +184,13 @@ class TestContracts(unittest.TestCase):
     def test_delete_contract(self):
         """ Test that 204 is returned """
 
-        res = my_account.Contracts.get_contracts_list()
-        res = my_account.Fees.delete_fee_project(self.fee_project_pk)
-        print(res)
+        my_account.Contracts.get_contracts_list()
         res = my_account.Contracts.delete_contract(self.contract_pk)
-        print(res)
+        self.assertEqual(res['status'], 400)    #This contract has fees and cannot be deleted
+        my_account.Contracts.get_contracts_items_list(contract_pk=self.contract_pk)
+        for i in my_account.Contracts.get_contracts_items_list(contract_pk=self.contract_pk)['data']:
+            my_account.Contracts.update_contract_item(i['id'],{'fee':0.0})
+        res = my_account.Contracts.delete_contract(self.contract_pk)
         self.assertEqual(res['status'], 204)
 
     ### Contracts month ### noqa: E266

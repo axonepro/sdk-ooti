@@ -50,10 +50,11 @@ class TestPhases(unittest.TestCase):
         self.assertEqual(len(res['data']), 1)
         obj = res['data'][0]
 
-        res = my_account.Phases.get_phases_list(self.project_pk, page=2)
-        self.assertEqual(res['status'], 200)
-        self.assertEqual(len(res['data']), 1)
-        self.assertNotEqual(obj, res['data'][0])
+        if(len(my_account.Projects.get_project_details(self.project_pk)['data']['phases'])>=2):
+            res = my_account.Phases.get_phases_list(self.project_pk, page=2)
+            self.assertEqual(res['status'], 200)
+            self.assertEqual(len(res['data']), 1)
+            self.assertNotEqual(obj, res['data'][0])
 
         my_account.update_pagination(5)
         res = my_account.Phases.get_phases_list(self.project_pk)

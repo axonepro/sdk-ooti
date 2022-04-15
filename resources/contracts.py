@@ -116,10 +116,12 @@ class Contracts(Helper):
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
-    def get_contracts_items_list(self, page=1):
+    def get_contracts_items_list(self, page=1, contract_pk=None):
         """ Get contracts item list """
-
-        route = 'v1/contracts/item/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        if(contract_pk!=None):
+            route = 'v1/contracts/item/list/{0}/?page_size={1}&page={2}&contract={3}'.format(self.org_pk, self.pagination, page,contract_pk)
+        else:
+            route = 'v1/contracts/item/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
