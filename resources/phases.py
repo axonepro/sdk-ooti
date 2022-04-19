@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -164,7 +165,7 @@ class Phases(Helper):
         Keyword arguments:
 
         pk -- the pk of the phase
-        data -- data update : 
+        data -- data update :
             {
                 "is_active": true,
                 "is_immediate": true,

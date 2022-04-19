@@ -156,7 +156,7 @@ Not good:
    from operations.factories import OperationFactory
    from discounts.selectors import (discount_coefficient,
                                     discount_list)
-   ```  
+   ```
 
 ### Initialize environment
 

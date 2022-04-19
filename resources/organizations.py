@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -39,7 +40,7 @@ class Organizations(Helper):
     # TODO PATCH on /api/v1/organizations/transfer-ownership/{id}/
 
     def get_organization_details(self, pk):
-        """ Get organizations details 
+        """ Get organizations details
 
         Keywords arguments:
         pk -- pk of the organizaton
@@ -50,7 +51,7 @@ class Organizations(Helper):
         return self.process_response(response)
 
     def update_organization_details(self, data):
-        """ Update organizations details 
+        """ Update organizations details
 
         Keywords arguments:
         data - content of the update:

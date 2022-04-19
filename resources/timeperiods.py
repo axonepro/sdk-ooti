@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -30,9 +31,9 @@ class Timeperiods(Helper):
         return self.process_response(response)
 
     def get_timeperiods_resources_timeline(self, project_pk):
-        """ Get resources timeline 
+        """ Get resources timeline
 
-        Keyword arguments: 
+        Keyword arguments:
 
         project_pk -- pk of the project
         """
@@ -49,11 +50,11 @@ class Timeperiods(Helper):
         return self.process_response(response, True)
 
     def create_timeperiods_role_annex_periods(self, data):
-        """ Create week config list 
+        """ Create week config list
 
         Keyword arguments:
 
-        data -- data create: 
+        data -- data create:
         {
             "start_date": "string",
             "end_date": "string",
@@ -63,7 +64,7 @@ class Timeperiods(Helper):
             "include_sunday": true,
             "hours_scheduled": 0,
             "hours_scheduled_per_user": 0,
-            "annex": 0, (R) 
+            "annex": 0, (R)
             "role": 0,
             "project_role": 0,
             "orgusers": [
@@ -79,7 +80,7 @@ class Timeperiods(Helper):
         return self.process_response(response)
 
     def get_timeperiods_role_annex_period_details(self, pk):
-        """ Get role annex period details  
+        """ Get role annex period details
 
         Keyword arguments:
 
@@ -91,7 +92,7 @@ class Timeperiods(Helper):
         return self.process_response(response)
 
     def update_timeperiods_role_annex_period(self, pk, data):
-        """ Update role annex period details  
+        """ Update role annex period details
 
         Keyword arguments:
 
@@ -121,7 +122,7 @@ class Timeperiods(Helper):
         return self.process_response(response)
 
     def delete_timeperiods_role_annex_period(self, pk):
-        """ Delete role annex period  
+        """ Delete role annex period
 
         Keyword arguments:
 

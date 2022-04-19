@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -16,7 +17,7 @@ class Trips(Helper):
         return self.process_response(response, True)
 
     def create_trip(self, data):
-        """ Create trip  
+        """ Create trip
 
         Keyword arguments:
 
@@ -36,7 +37,7 @@ class Trips(Helper):
         return self.process_response(response)
 
     def get_trips_details(self, pk):
-        """ Get trip details 
+        """ Get trip details
 
         Keyword arguments:
 
@@ -48,7 +49,7 @@ class Trips(Helper):
         return self.process_response(response)
 
     def update_trip(self, pk, data):
-        """ Update trip 
+        """ Update trip
 
         Keyword arguments:
 
@@ -69,7 +70,7 @@ class Trips(Helper):
         return self.process_response(response)
 
     def delete_trip(self, pk):
-        """ Delete trip 
+        """ Delete trip
 
         Keyword arguments:
 

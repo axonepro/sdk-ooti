@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -76,7 +77,7 @@ class Plans(Helper):
         route = f'v1/plans/list/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
-    
+
     def get_plan_details(self, plan_pk):
         """ Get plans details
 

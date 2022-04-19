@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -55,7 +56,7 @@ class Orgusers(Helper):
         return self.process_response(response, True)
 
     def create_orguser(self, data):
-        """ Create a new user in the organization 
+        """ Create a new user in the organization
 
         data -- content of the orguser to be created:
         {
@@ -86,7 +87,7 @@ class Orgusers(Helper):
         return self.process_response(response)
 
     def update_orguser_details(self, pk, data):
-        """ Update the orguser details 
+        """ Update the orguser details
 
         Keywords arguments:
         pk -- pk of the orguser to update
@@ -102,7 +103,7 @@ class Orgusers(Helper):
         return self.process_response(response)
 
     def delete_orguser(self, pk):
-        """ Delete the orguser 
+        """ Delete the orguser
 
         Keyword arguments:
         pk -- pk of the orguser to update

@@ -1,20 +1,18 @@
-from factories.factories import AlbumFactory, OrguserFactory, PostFactory, ProjectFactory
-from factories.factories import TaskFactory
-from test_helper import HelperTest
-
-import unittest
-
 # To read .env variables
 import os
 import sys
+import unittest
+
 from dotenv import load_dotenv
+from factories.factories import (AlbumFactory, OrguserFactory, PostFactory,
+                                 ProjectFactory, TaskFactory)
+from test_helper import HelperTest
 
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from ooti import ooti # noqa E402
-
+from ooti import ooti  # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()

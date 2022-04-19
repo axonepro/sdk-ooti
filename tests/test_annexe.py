@@ -1,17 +1,16 @@
-import unittest
-from test_helper import HelperTest
-from factories.factories import TeamFactory
-
 import os
 import sys
-from dotenv import load_dotenv
+import unittest
 
+from dotenv import load_dotenv
+from factories.factories import TeamFactory
+from test_helper import HelperTest
 
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from resources import ooti # noqa E402
+from resources import ooti  # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -24,8 +23,8 @@ my_account.connect()
 
 team_pk = TeamFactory()
 currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
-project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
-fee_project = my_account.Fees.get_fees_project_list_projects(project_pk)['data'][0]['id']
+"""project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
+fee_project = my_account.Fees.get_fees_project_list_projects(project_pk)['data'][0]['id']"""
 
 class TestAnnexes(unittest.TestCase):
 
@@ -94,7 +93,7 @@ class TestAnnexes(unittest.TestCase):
         my_account.Currencies.delete_currency(cls.currency_pk)
         my_account.Clients.delete_client(cls.client_pk)
         my_account.Projects.delete_project(cls.project_pk)
-        my_account.Annexes.delete_annexe(cls.annex_pk) 
+        my_account.Annexes.delete_annexe(cls.annex_pk)
 
 if __name__ == '__main__':
     unittest.main()

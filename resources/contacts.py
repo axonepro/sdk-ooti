@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -110,7 +111,7 @@ class Contacts(Helper):
         Keywords arguments:
         project_id -- id of the contact's project (optional)
         data -- data to create:
-            {   
+            {
                 "name": "string" (required),
                 "first_name": "string" (optional),
                 "last_name": "string" (optional),
@@ -176,7 +177,7 @@ class Contacts(Helper):
             "country1": "string",
             "job_title": "string",
             "client": [ (ids of the clients associated with this contact)
-                "string" 
+                "string"
             ]
         }
         """

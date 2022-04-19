@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -208,11 +209,11 @@ class Fees(Helper):
         return self.process_response(response)
 
     def get_fees_project_list_projects(self, project_pk, page=1):
-        """ Get fees project list for a given project 
+        """ Get fees project list for a given project
 
         Keyword arguments :
 
-        project_pk -- pk of the project 
+        project_pk -- pk of the project
         """
 
         route = f'v1/fees/projects/list/{self.org_pk}/?page_size={self.pagination}&page={page}&project={project_pk}'
@@ -391,7 +392,7 @@ class Fees(Helper):
     def get_fees_revisions_item_details(self, fee_item_pk):
         """ Get fees revisions item details
 
-        Note that "fee_item" is a fee 
+        Note that "fee_item" is a fee
 
         Keyword arguments:
 
@@ -405,7 +406,7 @@ class Fees(Helper):
     def create_fee_revisions_item(self, fee_item_pk, data):
         """ Create a fee revision item
 
-        Note that "fee_item" is a fee 
+        Note that "fee_item" is a fee
 
         Keyword arguments:
 

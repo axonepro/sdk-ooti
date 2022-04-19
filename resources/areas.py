@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -7,7 +8,7 @@ from .helper import Helper
 class Areas(Helper):
     def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
         super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
-    
+
     def get_areas_list(self, project_pk, page=1):
         """ Get the areas list
 

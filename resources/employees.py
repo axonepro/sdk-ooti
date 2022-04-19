@@ -1,7 +1,9 @@
-import requests
 import json
 
+import requests
+
 from .helper import Helper
+
 
 class Employees(Helper):
     def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
@@ -15,7 +17,7 @@ class Employees(Helper):
         return self.process_response(response, True)
 
     def create_employees_contract(self, data):
-        """ Create a new employees 
+        """ Create a new employees
 
         Keywords arguments:
         data -- data of the new contract to be created:
@@ -51,7 +53,7 @@ class Employees(Helper):
         return self.process_response(response)
 
     def get_employees_contracts_details(self, contract_id):
-        """ Get employees contract details 
+        """ Get employees contract details
 
         Keywords arguments:
         contract_id -- id of the employees contract
@@ -62,7 +64,7 @@ class Employees(Helper):
         return self.process_response(response)
 
     def update_employees_contracts_details(self, contract_id, data):
-        """ Get employees contract details 
+        """ Get employees contract details
 
         Keywords arguments:
         contract_id -- id of the employees contract
@@ -157,7 +159,7 @@ class Employees(Helper):
         return self.process_response(response)
 
     def update_employees_period_details(self, period_id, data):
-        """ Update the employees period details 
+        """ Update the employees period details
 
         Keywords arguments:
         period_id -- id of the period

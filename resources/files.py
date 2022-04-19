@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -92,7 +93,7 @@ class Files(Helper):
         return self.process_response(response, True)
 
     def create_file(self, project_pk, data):
-        """ Create a file 
+        """ Create a file
 
         Keyword arguments:
 

@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -26,7 +27,7 @@ class Documents(Helper):
         Keyword arguments:
 
         project_pk -- the pk of the project
-        data -- data create : 
+        data -- data create :
             {
                 "progress": 0,
                 "name": "string", (R)
@@ -80,7 +81,7 @@ class Documents(Helper):
         Keyword arguments:
 
         pk -- the pk of the document
-        data -- data update : 
+        data -- data update :
             {
                 "progress": 0,
                 "name": "string",

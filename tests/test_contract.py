@@ -1,17 +1,18 @@
-import unittest
-from test_helper import HelperTest
-from factories.factories import TeamFactory
-
 import os
+import pprint
 import sys
-from dotenv import load_dotenv
+import time
+import unittest
 
+from dotenv import load_dotenv
+from factories.factories import TeamFactory
+from test_helper import HelperTest
 
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from resources import ooti # noqa E402
+from resources import ooti  # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -183,7 +184,12 @@ class TestContracts(unittest.TestCase):
     def test_delete_contract(self):
         """ Test that 204 is returned """
 
-        res = my_account.Contracts.get_contracts_list()
+        my_account.Contracts.get_contracts_list()
+        res = my_account.Contracts.delete_contract(self.contract_pk)
+        self.assertEqual(res['status'], 400)    #This contract has fees and cannot be deleted
+        my_account.Contracts.get_contracts_items_list(contract_pk=self.contract_pk)
+        for i in my_account.Contracts.get_contracts_items_list(contract_pk=self.contract_pk)['data']:
+            my_account.Contracts.update_contract_item(i['id'],{'fee':0.0})
         res = my_account.Contracts.delete_contract(self.contract_pk)
         self.assertEqual(res['status'], 204)
 

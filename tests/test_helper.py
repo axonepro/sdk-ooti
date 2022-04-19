@@ -1,11 +1,11 @@
-from logging import error
 import random
 import string
 import time
+from logging import error
 
 
 class HelperTest:
-    """ HelperTest class 
+    """ HelperTest class
 
     Create all needed object to do tests
     """
@@ -102,9 +102,9 @@ class HelperTest:
         return self.my_account.Projects.create_project(data_project)['data']['id']
 
     def _create_invoice_return_pk(self, team_pk, project_pk):
-        """ Create and return the pk of an invoice 
+        """ Create and return the pk of an invoice
 
-        It creates 
+        It creates
         """
 
         invoice = {
@@ -131,7 +131,7 @@ class HelperTest:
 
     def _create_payment_return_pk(self, team_pk, invoice_pk, currency_pk):
         """ Create payment
-        Create an invoice, an item invoice, validate the invoice and then a payment. 
+        Create an invoice, an item invoice, validate the invoice and then a payment.
 
         :return: pk of payment
         """
@@ -160,7 +160,7 @@ class HelperTest:
 
     def _create_email_return_pk(self):
         """ Create an email template and return the pk """
- 
+
         email = {
             "name": "UNITTEST",
             "email_subject": "UNITTEST",
@@ -352,7 +352,7 @@ class HelperTest:
         return self.my_account.Defaults.create_defaults_plansets_org(data)['data']['id']
 
     def _create_defaults_plan_return_pk(self, plansets_pk, zone_pk):
-        """ Create a default plan and return it 
+        """ Create a default plan and return it
 
         :return: {'pk': pk, "plansets_pk": plansets_pk, "zone_pk": res_zone_pk['pk'], "area_pk": res_zone_pk['area_pk']}
         """

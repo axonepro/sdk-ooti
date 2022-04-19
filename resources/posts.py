@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -16,7 +17,7 @@ class Posts(Helper):
         return self.process_response(response)
 
     def create_posts_album(self, data):
-        """ Create a new album of posts 
+        """ Create a new album of posts
 
         Keywords arguments:
         data -- data of the new album to be created:
@@ -76,7 +77,7 @@ class Posts(Helper):
         return self.process_response(response, True)
 
     def create_posts_image(self, data):
-        """ Add a new image to a post 
+        """ Add a new image to a post
 
         Keywords arguments:
         data -- data of the image to be created:
@@ -140,7 +141,7 @@ class Posts(Helper):
         return self.process_response(response)
 
     def create_posts_like(self, data):
-        """ Create a like 
+        """ Create a like
 
         Keywords arguments:
         data -- data of the like to be created:

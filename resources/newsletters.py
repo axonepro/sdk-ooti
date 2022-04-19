@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -78,7 +79,7 @@ class Newsletters(Helper):
         return self.process_response(response)
 
     def delete_newsletter(self, pk):
-        """ Delete the newsletter 
+        """ Delete the newsletter
 
         Keywords arguments:
         pk -- pk of the newsletter

@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -23,7 +24,7 @@ class Teams(Helper):
         return self.process_response(response)  # no 'results' key
 
     def create_team(self, data):
-        """ Create a new team 
+        """ Create a new team
 
         Keywords arguments:
         data -- content of the team to be created:
@@ -86,7 +87,7 @@ class Teams(Helper):
         return self.process_response(response)
 
     def get_team_users_list(self, pk):
-        """ Get the list of users in the team 
+        """ Get the list of users in the team
 
         Keywords arguments:
         pk -- pk of the team
@@ -149,7 +150,7 @@ class Teams(Helper):
         return self.process_response(response)
 
     def get_team_details(self, pk):
-        """ Get the team details 
+        """ Get the team details
 
         Keywords arguments:
         pk -- pk of the team
@@ -160,7 +161,7 @@ class Teams(Helper):
         return self.process_response(response)
 
     def update_team_details(self, pk, data):
-        """ Get the team details 
+        """ Get the team details
 
         Keywords arguments:
         pk -- pk of the team

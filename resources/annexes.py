@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -35,7 +36,7 @@ class Annexes(Helper):
 
         Keyword arguments:
         project_pk -- the pk of the project
-        data -- data create : 
+        data -- data create :
         {
             "phases": [
                 "string"

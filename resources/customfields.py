@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -16,7 +17,7 @@ class Customfields(Helper):
         return self.process_response(response, True)
 
     def create_customfield(self, data):  # Error 500
-        """ Create a new customfield 
+        """ Create a new customfield
 
         Keywords arguments:
         data -- data of the new field to be created:
@@ -56,7 +57,7 @@ class Customfields(Helper):
         return self.process_response(response)
 
     def get_customfield_details(self, pk):
-        """ Get the customfield details 
+        """ Get the customfield details
 
         Keywords arguments:
         pk -- pk of the customfield
@@ -67,7 +68,7 @@ class Customfields(Helper):
         return self.process_response(response)
 
     def update_customfield_details(self, pk, data):
-        """ Update the customfield details 
+        """ Update the customfield details
 
         Keywords arguments:
         pk -- pk of the customfield
@@ -94,7 +95,7 @@ class Customfields(Helper):
         return self.process_response(response)
 
     def delete_customfield(self, pk):
-        """ Delete the customfield 
+        """ Delete the customfield
 
         Keywords arguments:
         pk -- pk of the customfield

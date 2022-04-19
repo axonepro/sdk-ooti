@@ -1,23 +1,21 @@
-import unittest
-
-from requests.models import Response
-from test_helper import HelperTest
-from factories.factories import TeamFactory
-
+import os
+import pprint
 import random
 import string
-import time
-
-import os
 import sys
-from dotenv import load_dotenv
+import time
+import unittest
 
+from dotenv import load_dotenv
+from factories.factories import TeamFactory
+from requests.models import Response
+from test_helper import HelperTest
 
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from resources import ooti # noqa E402
+from resources import ooti  # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -141,8 +139,9 @@ class TestInvoices(unittest.TestCase):
             "amount": 1000
         }
 
-        res_creation = my_account.Invoices.create_invoice_item(self.invoice_pk, invoice_item)
-        self.assertEqual(res_creation['status'], 201)
+        res_creation = my_account.Invoices.create_invoice_item(self.invoice_pk, invoice_item)   #Invoice cannot be changed once valid
+
+        self.assertEqual(res_creation['status'], 400)
 
     def test_update_invoice_item(self):
         """ Test that 200 is returned """
@@ -157,8 +156,8 @@ class TestInvoices(unittest.TestCase):
     def test_delete_invoice_item(self):
         """ Test that 204 is returned """
 
-        res_delete = my_account.Invoices.delete_invoice_item(self.invoice_item_pk)
-        self.assertEqual(res_delete['status'], 204)
+        res_delete = my_account.Invoices.delete_invoice_item(self.invoice_item_pk)  #Invoice cannot be changed once valid
+        self.assertEqual(res_delete['status'], 400)
 
     def test_get_credit_notes(self):
         """ Test that 200 is returned """
