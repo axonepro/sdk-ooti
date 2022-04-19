@@ -189,4 +189,3 @@ update ooti package version
 [linkedin-url]: https://www.linkedin.com/company/ooti-co/
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [contributors-url]: https://github.com/axonepro/sdk-ooti/graphs/contributors
-[contributors-shield]: https://img.shields.io/github/contributors/immo/Best-README-Template.svg?style=for-the-badge
