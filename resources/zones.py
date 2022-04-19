@@ -17,7 +17,7 @@ class Zones(Helper):
         project_pk -- the pk of the project
         """
 
-        route = 'v1/zones/export/{0}/'.format(project_pk)
+        route = f'v1/zones/export/{project_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -29,7 +29,7 @@ class Zones(Helper):
         area_pk -- the pk of the area
         """
 
-        route = 'v1/zones/list/{0}/?page_size={1}&page={2}'.format(area_pk, self.pagination, page)
+        route = f'v1/zones/list/{area_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -53,7 +53,7 @@ class Zones(Helper):
         }
         """
 
-        route = 'v1/zones/list/{0}/'.format(area_pk)
+        route = f'v1/zones/list/{area_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -65,7 +65,7 @@ class Zones(Helper):
         pk -- pk of the zone
         """
 
-        route = 'v1/zones/{0}/'.format(pk)
+        route = f'v1/zones/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -89,7 +89,7 @@ class Zones(Helper):
         }
         """
 
-        route = 'v1/zones/{0}/'.format(pk)
+        route = f'v1/zones/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -101,6 +101,6 @@ class Zones(Helper):
         pk -- pk of the zone
         """
 
-        route = 'v1/zones/{0}/'.format(pk)
+        route = f'v1/zones/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

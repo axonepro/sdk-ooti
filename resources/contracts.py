@@ -12,7 +12,7 @@ class Contracts(Helper):
     def get_contractors_list(self, page=1):
         """ Get contractors list """
 
-        route = 'v1/contracts/contractor/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/contracts/contractor/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -40,7 +40,7 @@ class Contracts(Helper):
             }
         """
 
-        route = 'v1/contracts/contractor/list/{0}/'.format(self.org_pk)
+        route = f'v1/contracts/contractor/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -52,7 +52,7 @@ class Contracts(Helper):
         pk -- the pk of the contractor
         """
 
-        route = 'v1/contracts/contractor/{0}/'.format(pk)
+        route = f'v1/contracts/contractor/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -81,7 +81,7 @@ class Contracts(Helper):
             }
         """
 
-        route = 'v1/contracts/contractor/{0}/'.format(pk)
+        route = f'v1/contracts/contractor/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -93,7 +93,7 @@ class Contracts(Helper):
         pk -- the pk of the contractor
         """
 
-        route = 'v1/contracts/contractor/{0}/'.format(pk)
+        route = f'v1/contracts/contractor/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -105,23 +105,25 @@ class Contracts(Helper):
         project_pk -- pk of the project :
         """
 
-        route = 'v1/contracts/generate/contracts/{0}/'.format(project_pk)
+        route = f'v1/contracts/generate/contracts/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def generate_contracts_org(self, project_pk):
         """ Generate contracts """
 
-        route = 'v1/contracts/generate/{0}/?project_pk={1}'.format(self.org_pk, project_pk)
+        route = f'v1/contracts/generate/{self.org_pk}/?project_pk={project_pk}'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_contracts_items_list(self, page=1, contract_pk=None):
         """ Get contracts item list """
+
         if(contract_pk!=None):
-            route = 'v1/contracts/item/list/{0}/?page_size={1}&page={2}&contract={3}'.format(self.org_pk, self.pagination, page,contract_pk)
+            route = f'v1/contracts/item/list/{0}/?page_size={1}&page={2}&contract={3}'.format(self.org_pk, self.pagination, page, contract_pk)
         else:
-            route = 'v1/contracts/item/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+            route = f'v1/contracts/item/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -144,7 +146,7 @@ class Contracts(Helper):
             }
         """
 
-        route = 'v1/contracts/item/list/{0}/'.format(self.org_pk)
+        route = f'v1/contracts/item/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -157,7 +159,7 @@ class Contracts(Helper):
         pk -- the pk of the item
         """
 
-        route = 'v1/contracts/item/{0}/'.format(pk)
+        route = f'v1/contracts/item/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -181,7 +183,7 @@ class Contracts(Helper):
             }
         """
 
-        route = 'v1/contracts/item/{0}/'.format(pk)
+        route = f'v1/contracts/item/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -193,14 +195,14 @@ class Contracts(Helper):
         pk -- pk of the item
         """
 
-        route = 'v1/contracts/item/{0}/'.format(pk)
+        route = f'v1/contracts/item/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_contracts_list(self, page=1):
         """ Get contracts list """
 
-        route = 'v1/contracts/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/contracts/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -228,7 +230,7 @@ class Contracts(Helper):
             }
         """
 
-        route = 'v1/contracts/list/{0}/'.format(self.org_pk)
+        route = f'v1/contracts/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -240,7 +242,7 @@ class Contracts(Helper):
         pk -- the pk of the contract
         """
 
-        route = 'v1/contracts/{0}/'.format(pk)
+        route = f'v1/contracts/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -266,7 +268,7 @@ class Contracts(Helper):
             }
         """
 
-        route = 'v1/contracts/{0}/'.format(pk)
+        route = f'v1/contracts/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -278,7 +280,7 @@ class Contracts(Helper):
         pk -- the pk of the contract
         """
 
-        route = 'v1/contracts/{0}/'.format(pk)
+        route = f'v1/contracts/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -294,14 +296,14 @@ class Contracts(Helper):
             "contract": contract_pk
         }
 
-        route = 'v1/contracts/month/generate/{0}/'.format(self.org_pk)
+        route = f'v1/contracts/month/generate/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_contracts_month_list(self, page=1):
         """ Get contracts month list """
 
-        route = 'v1/contracts/month/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/contracts/month/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -327,7 +329,7 @@ class Contracts(Helper):
             }
         """
 
-        route = 'v1/contracts/month/list/{0}/'.format(self.org_pk)
+        route = f'v1/contracts/month/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -339,7 +341,7 @@ class Contracts(Helper):
         pk -- the pk of the contract month
         """
 
-        route = 'v1/contracts/month/{0}/'.format(pk)
+        route = f'v1/contracts/month/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -366,7 +368,7 @@ class Contracts(Helper):
             }
         """
 
-        route = 'v1/contracts/month/{0}/'.format(pk)
+        route = f'v1/contracts/month/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -378,6 +380,6 @@ class Contracts(Helper):
         pk -- the pk of the contract month
         """
 
-        route = 'v1/contracts/month/{0}/'.format(pk)
+        route = f'v1/contracts/month/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

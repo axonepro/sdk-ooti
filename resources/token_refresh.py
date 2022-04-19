@@ -18,5 +18,5 @@ class Token_refresh(Helper):
         }
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         if response == 201:
-            self.headers['Authorization'] = 'JWT {0}'.format(self.access_token)
+            self.headers['Authorization'] = f'JWT {self.access_token}'
         return response.status_code

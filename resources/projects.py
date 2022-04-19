@@ -19,21 +19,21 @@ class Projects(Helper):
         id -- the id of the project
         """
 
-        route = 'v1/projects/available-clients/{0}/'.format(id)
+        route = f'v1/projects/available-clients/{id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_projects_list_deliverables(self):
         """ Get the list of projects and their associated deliverables where the current user is a member of """
 
-        route = 'v1/projects/deliverables/{0}/'.format(self.org_pk)
+        route = f'v1/projects/deliverables/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def export_projects_list(self):
         """ Export the list of projects as a .xls file """
 
-        route = 'v1/projects/export/{0}/'.format(self.org_pk)
+        route = f'v1/projects/export/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         xls_file = open('projects_list.xls', 'wb')
         xls_file.write(response.content)
@@ -47,7 +47,7 @@ class Projects(Helper):
         id -- the id of the project
         """
 
-        route = 'v1/projects/fee-summary/{0}/'.format(id)
+        route = f'v1/projects/fee-summary/{id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -75,9 +75,9 @@ class Projects(Helper):
         team_pk -- pk of a team to get the project list of a specific team
         """
 
-        route = 'v1/projects/list/{0}/'.format(self.org_pk)
+        route = f'v1/projects/list/{self.org_pk}/'
         if team_pk is not None:
-            route += '{0}/'.format(team_pk)
+            route += f'{team_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -102,7 +102,7 @@ class Projects(Helper):
         }
         """
 
-        route = 'v1/projects/list/{0}/'.format(self.org_pk)
+        route = f'v1/projects/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -122,14 +122,14 @@ class Projects(Helper):
         Keywords arguments:
         id -- the id of the project
         """
-        route = 'v1/projects/revenue/{0}/'.format(id)
+        route = f'v1/projects/revenue/{id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_project_tags_groups_list(self):
         """ Get the list of groups of project tags """
 
-        route = 'v1/projects/tags/groups/list/{0}/'.format(self.org_pk)
+        route = f'v1/projects/tags/groups/list/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -147,7 +147,7 @@ class Projects(Helper):
         }
         """
 
-        route = 'v1/projects/tags/groups/list/{0}/'.format(self.org_pk)
+        route = f'v1/projects/tags/groups/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -158,7 +158,7 @@ class Projects(Helper):
         group_pk -- pk of the group of project tags
         """
 
-        route = 'v1/projects/tags/groups/{0}/'.format(group_pk)
+        route = f'v1/projects/tags/groups/{group_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -177,7 +177,7 @@ class Projects(Helper):
         }
         """
 
-        route = 'v1/projects/tags/groups/{0}/'.format(group_pk)
+        route = f'v1/projects/tags/groups/{group_pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -188,14 +188,14 @@ class Projects(Helper):
         group_pk -- pk of the group of project tags
         """
 
-        route = 'v1/projects/tags/groups/{0}/'.format(group_pk)
+        route = f'v1/projects/tags/groups/{group_pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_project_tags_list(self):
         """ Get the list of tags """
 
-        route = 'v1/projects/tags/list/{0}/'.format(self.org_pk)
+        route = f'v1/projects/tags/list/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -211,7 +211,7 @@ class Projects(Helper):
         }
         """
 
-        route = 'v1/projects/tags/list/{0}/'.format(self.org_pk)
+        route = f'v1/projects/tags/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -221,7 +221,7 @@ class Projects(Helper):
         Keywords arguments:
         tag_pk -- pk of the tag
         """
-        route = 'v1/projects/tags/{0}/'.format(tag_pk)
+        route = f'v1/projects/tags/{tag_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -237,7 +237,7 @@ class Projects(Helper):
         }
         """
 
-        route = 'v1/projects/tags/{0}/'.format(tag_pk)
+        route = f'v1/projects/tags/{tag_pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -248,7 +248,7 @@ class Projects(Helper):
         tag_pk -- pk of the tag to be deleted
         """
 
-        route = 'v1/projects/tags/{0}/'.format(tag_pk)
+        route = f'v1/projects/tags/{tag_pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -269,7 +269,7 @@ class Projects(Helper):
         id -- the id of the project
         """
 
-        route = 'v1/projects/users/list/{0}/'.format(id)
+        route = f'v1/projects/users/list/{id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return {'status': response.status_code, 'data': json.loads(response.content)['results']}
 
@@ -287,7 +287,7 @@ class Projects(Helper):
         }
         """
 
-        route = 'v1/projects/users/list/{0}/'.format(id)
+        route = f'v1/projects/users/list/{id}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -298,7 +298,7 @@ class Projects(Helper):
         user_pk -- pk of the user
         """
 
-        route = 'v1/projects/users/{0}/'.format(user_pk)
+        route = f'v1/projects/users/{user_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -314,7 +314,7 @@ class Projects(Helper):
         }
         """
 
-        route = 'v1/projects/users/{0}/'.format(user_pk)
+        route = f'v1/projects/users/{user_pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -325,7 +325,7 @@ class Projects(Helper):
         user_pk -- pk of the user
         """
 
-        route = 'v1/projects/users/{0}/'.format(user_pk)
+        route = f'v1/projects/users/{user_pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -336,7 +336,7 @@ class Projects(Helper):
         pk -- the pk of the project
         """
 
-        route = 'v1/projects/{0}/'.format(id)
+        route = f'v1/projects/{id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -354,7 +354,7 @@ class Projects(Helper):
         }
         """
 
-        route = 'v1/projects/{0}/'.format(id)
+        route = f'v1/projects/{id}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -364,7 +364,7 @@ class Projects(Helper):
         Keyword arguments:
         id -- the id of the project
         """
-        route = 'v1/projects/{0}/'.format(id)
+        route = f'v1/projects/{id}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 

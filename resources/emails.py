@@ -12,7 +12,7 @@ class Emails(Helper):
     def get_emails_list(self, page=1):
         """ Get the emails list """
 
-        route = 'v1/emails/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/emails/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -23,7 +23,7 @@ class Emails(Helper):
 
         pk -- the pk of the email
         """
-        route = 'v1/emails/{0}/'.format(pk)
+        route = f'v1/emails/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -52,7 +52,7 @@ class Emails(Helper):
         Note that there is no required fields to create the email template.
         """
 
-        route = 'v1/emails/list/{0}/'.format(self.org_pk)
+        route = f'v1/emails/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -82,7 +82,7 @@ class Emails(Helper):
         Note that there is no required fields to create the email template.
         """
 
-        route = 'v1/emails/{0}/'.format(pk)
+        route = f'v1/emails/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -93,7 +93,7 @@ class Emails(Helper):
 
         pk -- pk of the email
         """
-        route = 'v1/emails/{0}'.format(pk)
+        route = f'v1/emails/{pk}'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -105,7 +105,7 @@ class Emails(Helper):
         pk -- the pk of the email template
         """
 
-        route = 'v1/emails/{0}/send-test/'.format(pk)
+        route = f'v1/emails/{pk}/send-test/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -116,14 +116,14 @@ class Emails(Helper):
 
         pk -- pk of the email template
         """
-        route = 'v1/emails/{0}/apply/'.format(pk)
+        route = f'v1/emails/{pk}/apply/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_emails_smtp_list(self, page=1):
         """ Get the emails smtp list """
 
-        route = 'v1/emails/smtp/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/emails/smtp/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -135,7 +135,7 @@ class Emails(Helper):
         pk -- the pk of the email smtp
         """
 
-        route = 'v1/emails/smtp/{0}/'.format(pk)
+        route = f'v1/emails/smtp/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -155,7 +155,7 @@ class Emails(Helper):
                "port": 0
            }
         """
-        route = 'v1/emails/smtp/list/{0}/'.format(self.org_pk)
+        route = f'v1/emails/smtp/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -177,7 +177,7 @@ class Emails(Helper):
            }
         """
 
-        route = 'v1/emails/smtp/{0}/'.format(pk)
+        route = f'v1/emails/smtp/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -188,7 +188,7 @@ class Emails(Helper):
 
         pk -- pk of the email smtp
         """
-        route = 'v1/emails/smtp/{0}'.format(pk)
+        route = f'v1/emails/smtp/{pk}'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -200,6 +200,6 @@ class Emails(Helper):
         pk -- the pk of the email template
         """
 
-        route = 'v1/emails/smtp/{0}/send-test/'.format(pk)
+        route = f'v1/emails/smtp/{pk}/send-test/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

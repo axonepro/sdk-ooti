@@ -414,7 +414,7 @@ class OotiAPI(Helper):
         self.access_token = json.loads(response.content)['token']
 
         self.headers = {
-            'Authorization': 'JWT {0}'.format(self.access_token),
+            'Authorization': f'JWT {self.access_token}',
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             'X-CSRF-Token': self._csrf_token

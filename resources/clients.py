@@ -17,8 +17,8 @@ class Clients(Helper):
         pk -- the pk of the team
         """
 
-        route = 'v1/clients/list/{0}/'.format(self.org_pk)
-        parameters = '?team={0}&page_size={1}&page={2}'.format(team_pk, self.pagination, page)
+        route = f'v1/clients/list/{self.org_pk}/'
+        parameters = f'?team={team_pk}&page_size={self.pagination}&page={page}'
 
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, parameters, None)
         return self.process_response(response, True)
@@ -33,7 +33,7 @@ class Clients(Helper):
         pk -- the pk of the client
         """
 
-        route = 'v1/clients/{0}/'.format(pk)
+        route = f'v1/clients/{pk}/'
 
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
@@ -54,7 +54,7 @@ class Clients(Helper):
             }
         """
 
-        route = 'v1/clients/list/{0}/'.format(self.org_pk)
+        route = f'v1/clients/list/{self.org_pk}/'
 
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
@@ -76,7 +76,7 @@ class Clients(Helper):
                 "address: "string"
             }
         """
-        route = 'v1/clients/{0}/'.format(pk)
+        route = f'v1/clients/{pk}/'
 
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
@@ -88,7 +88,7 @@ class Clients(Helper):
 
         pk -- pk of the client
         """
-        route = 'v1/clients/{0}/'.format(pk)
+        route = f'v1/clients/{pk}/'
 
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

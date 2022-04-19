@@ -17,7 +17,7 @@ class Phases(Helper):
         project_pk -- the pk of the project
 
         """
-        route = 'v1/phases/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
+        route = f'v1/phases/list/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -30,8 +30,7 @@ class Phases(Helper):
         fee_project -- pk of the fee project
         """
 
-        route = 'v1/phases/list/{0}/?page_size={1}&page={2}&fee_project={3}'.format(
-            project_pk, self.pagination, page, fee_project)
+        route = f'v1/phases/list/{project_pk}/?page_size={self.pagination}&page={page}&fee_project={fee_project}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -43,7 +42,7 @@ class Phases(Helper):
         pk -- the pk of the phase
         """
 
-        route = 'v1/phases/{0}/'.format(pk)
+        route = f'v1/phases/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -64,14 +63,14 @@ class Phases(Helper):
                 "dependants": ["string"]
             }
         """
-        route = 'v1/phases/list/{0}/'.format(project_pk)
+        route = f'v1/phases/list/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_phase(self, pk):
         """ Delete a phase """
 
-        route = 'v1/phases/{0}/'.format(pk)
+        route = f'v1/phases/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -89,7 +88,7 @@ class Phases(Helper):
             }
         """
 
-        route = 'v1/phases/{0}/'.format(pk)
+        route = f'v1/phases/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -102,7 +101,7 @@ class Phases(Helper):
 
         """
 
-        route = 'v1/phases/projections/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
+        route = f'v1/phases/projections/list/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -113,7 +112,7 @@ class Phases(Helper):
 
         pk -- pk of the project
         """
-        route = 'v1/phases/reset-orders/{0}/'.format(project_pk)
+        route = f'v1/phases/reset-orders/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -132,7 +131,7 @@ class Phases(Helper):
         project_pk -- pk of the project
         """
 
-        route = 'v1/phases/export/{0}/'.format(project_pk)
+        route = f'v1/phases/export/{project_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -144,7 +143,7 @@ class Phases(Helper):
         pk -- the pk of the phase
         """
 
-        route = 'v1/phases/planphases/{0}/'.format(pk)
+        route = f'v1/phases/planphases/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -156,7 +155,7 @@ class Phases(Helper):
         pk -- the pk of the phase
         """
 
-        route = 'v1/phases/planphases/{0}/'.format(pk)
+        route = f'v1/phases/planphases/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -175,6 +174,6 @@ class Phases(Helper):
             }
         """
 
-        route = 'v1/phases/planphases/{0}/'.format(pk)
+        route = f'v1/phases/planphases/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)

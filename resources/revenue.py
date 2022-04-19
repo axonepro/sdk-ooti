@@ -12,7 +12,7 @@ class Revenue(Helper):
     def get_revenue_list(self, page=1):
         """ Get the revenue list """
 
-        route = 'v1/revenue/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/revenue/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -24,7 +24,7 @@ class Revenue(Helper):
         pk -- pk of the revenue
         """
 
-        route = 'v1/revenue/{0}/'.format(pk)
+        route = f'v1/revenue/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -50,14 +50,14 @@ class Revenue(Helper):
             }
         """
 
-        route = 'v1/revenue/list/{0}/'.format(self.org_pk)
+        route = f'v1/revenue/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_revenue_month_list(self, page=1):
         """ Get the revenue month list """
 
-        route = 'v1/revenue/month/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/revenue/month/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -78,7 +78,7 @@ class Revenue(Helper):
         }
         """
 
-        route = 'v1/revenue/month/list/{0}/'.format(self.org_pk)
+        route = f'v1/revenue/month/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -90,7 +90,7 @@ class Revenue(Helper):
         pk -- pk of the revenue month
         """
 
-        route = 'v1/revenue/month/{0}/'.format(pk)
+        route = f'v1/revenue/month/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -112,7 +112,7 @@ class Revenue(Helper):
         }
         """
 
-        route = 'v1/revenue/month/{0}/'.format(pk)
+        route = f'v1/revenue/month/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -124,7 +124,7 @@ class Revenue(Helper):
         pk -- pk of the revenue month
         """
 
-        route = 'v1/revenue/month/{0}/'.format(pk)
+        route = f'v1/revenue/month/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -151,7 +151,7 @@ class Revenue(Helper):
             }
         """
 
-        route = 'v1/revenue/{0}/'.format(pk)
+        route = f'v1/revenue/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -163,7 +163,7 @@ class Revenue(Helper):
         pk -- pk of the revenue
         """
 
-        route = 'v1/revenue/{0}/'.format(pk)
+        route = f'v1/revenue/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 

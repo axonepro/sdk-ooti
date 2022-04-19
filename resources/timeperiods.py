@@ -12,21 +12,21 @@ class Timeperiods(Helper):
     def get_timeperiods_dashboard_scheduling_timeline(self):
         """ Get dashboard scheduling timeline """
 
-        route = 'v1/timeperiods/dashboard/scheduling/timeline/{0}/'.format(self.org_pk)
+        route = f'v1/timeperiods/dashboard/scheduling/timeline/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_timeperiods_resource_planning_timeline(self):
         """ Get resource planning timeline """
 
-        route = 'v1/timeperiods/resource-planning-timeline/{0}/'.format(self.org_pk)
+        route = f'v1/timeperiods/resource-planning-timeline/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_timeperiods_resource_planning_timeline(self, data):
         """ Create planning timeline """
 
-        route = 'v1/timeperiods/resource-planning-timeline/{0}/'.format(self.org_pk)
+        route = f'v1/timeperiods/resource-planning-timeline/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -38,15 +38,14 @@ class Timeperiods(Helper):
         project_pk -- pk of the project
         """
 
-        route = 'v1/timeperiods/resources-timeline/{0}/'.format(project_pk)
+        route = f'v1/timeperiods/resources-timeline/{project_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_timeperiods_role_annex_periods(self, page=1):
         """ Get role annex periods list """
 
-        route = 'v1/timeperiods/role-annex-periods/list/{0}/?page_size={1}&page={2}'.format(
-            self.org_pk, self.pagination, page)
+        route = f'v1/timeperiods/role-annex-periods/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -76,7 +75,7 @@ class Timeperiods(Helper):
 
         """
 
-        route = 'v1/timeperiods/role-annex-periods/list/{0}/'.format(self.org_pk)
+        route = f'v1/timeperiods/role-annex-periods/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -88,7 +87,7 @@ class Timeperiods(Helper):
         pk -- pk of the role annex period
         """
 
-        route = 'v1/timeperiods/role-annex-periods/{0}/'.format(pk)
+        route = f'v1/timeperiods/role-annex-periods/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -118,7 +117,7 @@ class Timeperiods(Helper):
         }
         """
 
-        route = 'v1/timeperiods/role-annex-periods/{0}/'.format(pk)
+        route = f'v1/timeperiods/role-annex-periods/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -130,7 +129,7 @@ class Timeperiods(Helper):
         pk -- pk of the role annex period
         """
 
-        route = 'v1/timeperiods/role-annex-periods/{0}/'.format(pk)
+        route = f'v1/timeperiods/role-annex-periods/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -153,7 +152,7 @@ class Timeperiods(Helper):
         pk -- pk of the project
         """
 
-        route = 'v1/timeperiods/scheduling-timeline/actions/{0}/'.format(project_pk)
+        route = f'v1/timeperiods/scheduling-timeline/actions/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -166,21 +165,21 @@ class Timeperiods(Helper):
         pk -- pk of the project
         """
 
-        route = 'v1/timeperiods/scheduling-timeline/{0}/'.format(project_pk)
+        route = f'v1/timeperiods/scheduling-timeline/{project_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def create_user_period_action(self):
         """ Create user period action """
 
-        route = 'v1/timeperiods/user-period/list/action/{0}/'.format(self.org_pk)
+        route = f'v1/timeperiods/user-period/list/action/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_user_period_list(self, team_pk):
         """ Get user period list"""
 
-        route = 'v1/timeperiods/user-period/list/{0}/?team={1}'.format(self.org_pk, team_pk)
+        route = f'v1/timeperiods/user-period/list/{self.org_pk}/?team={team_pk}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -209,7 +208,7 @@ class Timeperiods(Helper):
         }
         """
 
-        route = 'v1/timeperiods/user-period/list/{0}/'.format(self.org_pk)
+        route = f'v1/timeperiods/user-period/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -221,7 +220,7 @@ class Timeperiods(Helper):
         pk -- pk of the user perdio
         """
 
-        route = 'v1/timeperiods/user-period/{0}/'.format(pk)
+        route = f'v1/timeperiods/user-period/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -251,7 +250,7 @@ class Timeperiods(Helper):
         }
         """
 
-        route = 'v1/timeperiods/user-period/{0}/'.format(pk)
+        route = f'v1/timeperiods/user-period/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -263,13 +262,13 @@ class Timeperiods(Helper):
         pk -- pk of the user perdio
         """
 
-        route = 'v1/timeperiods/user-period/{0}/'.format(pk)
+        route = f'v1/timeperiods/user-period/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_users_scheduling_timeline(self):
         """ Get user scheduling timeline """
 
-        route = 'v1/timeperiods/users/scheduling-timeline/{0}/'.format(self.org_pk)
+        route = f'v1/timeperiods/users/scheduling-timeline/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

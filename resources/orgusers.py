@@ -16,7 +16,7 @@ class Orgusers(Helper):
     def get_orgusers_count(self):
         """ Get only the number of orguser inside the organization """
 
-        route = 'v1/orgusers/count/{0}/'.format(self.org_pk)
+        route = f'v1/orgusers/count/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -25,7 +25,7 @@ class Orgusers(Helper):
     def export_orgusers_list(self):
         """ Export the list of orgusers as a .xls file """
 
-        route = 'v1/orgusers/export/{0}/'.format(self.org_pk)
+        route = f'v1/orgusers/export/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         xls_file = open('orgusers_list.xls', 'wb')
         xls_file.write(response.content)
@@ -51,7 +51,7 @@ class Orgusers(Helper):
     def get_orgusers_list(self):
         """ Get the list of users in the organization """
 
-        route = 'v1/orgusers/list/{0}/'.format(self.org_pk)
+        route = f'v1/orgusers/list/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -71,7 +71,7 @@ class Orgusers(Helper):
         }
         """
 
-        route = 'v1/orgusers/list/{0}/'.format(self.org_pk)
+        route = f'v1/orgusers/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -82,7 +82,7 @@ class Orgusers(Helper):
         pk -- pk of the orguser
         """
 
-        route = 'v1/orgusers/{0}/'.format(pk)
+        route = f'v1/orgusers/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -98,7 +98,7 @@ class Orgusers(Helper):
         }
         """
 
-        route = 'v1/orgusers/{0}/'.format(pk)
+        route = f'v1/orgusers/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -109,6 +109,6 @@ class Orgusers(Helper):
         pk -- pk of the orguser to update
         """
 
-        route = 'v1/orgusers/{0}/'.format(pk)
+        route = f'v1/orgusers/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

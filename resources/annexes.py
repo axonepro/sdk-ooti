@@ -16,7 +16,7 @@ class Annexes(Helper):
         project_pk -- the pk of the project
         """
 
-        route = 'v1/annexes/list/{0}/'.format(project_pk)
+        route = f'v1/annexes/list/{project_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -27,7 +27,7 @@ class Annexes(Helper):
         pk -- the pk of the annexe
         """
 
-        route = 'v1/annexes/{0}/'.format(pk)
+        route = f'v1/annexes/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -55,7 +55,7 @@ class Annexes(Helper):
         }
         """
 
-        route = 'v1/annexes/list/{0}/'.format(project_pk)
+        route = f'v1/annexes/list/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -66,7 +66,7 @@ class Annexes(Helper):
         pk - - the pk of the project
         """
 
-        route = 'v1/annexes/{0}/'.format(pk)
+        route = f'v1/annexes/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return {'status': response.status_code, 'data': json.loads(response.content)}
 
@@ -78,7 +78,7 @@ class Annexes(Helper):
         pk -- the pk of the annexe
         """
 
-        route = 'v1/annexes/{0}/'.format(pk)
+        route = f'v1/annexes/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -89,6 +89,6 @@ class Annexes(Helper):
         project_pk -- the pk of the project
         """
 
-        route = 'v1/annexes/projections/list/{0}/'.format(project_pk)
+        route = f'v1/annexes/projections/list/{project_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)

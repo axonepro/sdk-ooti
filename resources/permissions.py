@@ -12,7 +12,7 @@ class Permissions(Helper):
     def get_permissions_list(self):
         """ Get the list of permissions sets """
 
-        route = 'v1/permissions/list/{0}/'.format(self.org_pk)
+        route = f'v1/permissions/list/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -35,7 +35,7 @@ class Permissions(Helper):
         }
         """
 
-        route = 'v1/permissions/list/{0}/'.format(self.org_pk)
+        route = f'v1/permissions/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -53,7 +53,7 @@ class Permissions(Helper):
         id -- id of the permissions set
         """
 
-        route = 'v1/permissions/{0}/'.format(id)
+        route = f'v1/permissions/{id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -77,7 +77,7 @@ class Permissions(Helper):
         }
         """
 
-        route = 'v1/permissions/{0}/'.format(id)
+        route = f'v1/permissions/{id}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -88,6 +88,6 @@ class Permissions(Helper):
         id -- id of the permissions set
         """
 
-        route = 'v1/permissions/{0}/'.format(id)
+        route = f'v1/permissions/{id}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

@@ -12,7 +12,7 @@ class Customfields(Helper):
     def get_customfields_list(self, page=1):
         """ Get the list of customfields """
 
-        route = 'v1/customfields/field/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/customfields/field/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -52,7 +52,7 @@ class Customfields(Helper):
 
         """
 
-        route = 'v1/customfields/field/list/{0}/'.format(self.org_pk)
+        route = f'v1/customfields/field/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -63,7 +63,7 @@ class Customfields(Helper):
         pk -- pk of the customfield
         """
 
-        route = 'v1/customfields/field/{0}/'.format(pk)
+        route = f'v1/customfields/field/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -90,7 +90,7 @@ class Customfields(Helper):
         }
         """
 
-        route = 'v1/customfields/field/{0}/'.format(pk)
+        route = f'v1/customfields/field/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -101,7 +101,7 @@ class Customfields(Helper):
         pk -- pk of the customfield
         """
 
-        route = 'v1/customfields/field/{0}/'.format(pk)
+        route = f'v1/customfields/field/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 

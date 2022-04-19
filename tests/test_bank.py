@@ -62,9 +62,9 @@ class TestBanks(unittest.TestCase):
             "name": name,
             "currency": self.currency_pk,
             "country": "FR",
-            "iban": "XXX-{0}".format(name),
-            "bic": "XXX-{0}".format(name),
-            "rib": "XXX-{0}".format(name),
+            "iban": f"XXX-{name}",
+            "bic": f"XXX-{name}",
+            "rib": f"XXX-{name}",
             "teams": [str(self.team_pk)],
             "projects": [str(self.project_pk)]
         }

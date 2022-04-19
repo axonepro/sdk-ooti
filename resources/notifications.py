@@ -12,7 +12,8 @@ class Notifications(Helper):
     def get_notifications_config(self):
         """ Get the notifications config of the organization """
 
-        route = 'v1/digests/digest-config/{0}/'.format(self.org_pk)
+        route = f'v1/digests/digest-config/{0}/'.format(self.org_pk)
+
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -54,6 +55,7 @@ class Notifications(Helper):
         }
         """
 
-        route = 'v1/digests/digest-config/{0}/'.format(self.org_pk)
+        route = f'v1/digests/digest-config/{0}/'.format(self.org_pk)
+
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)

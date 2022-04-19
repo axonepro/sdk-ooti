@@ -17,7 +17,7 @@ class Files(Helper):
         project_pk -- pk of the project
         """
 
-        route = 'v1/files/folder/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
+        route = f'v1/files/folder/list/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -35,7 +35,7 @@ class Files(Helper):
                 "parent": 0
             }
         """
-        route = 'v1/files/folder/list/{0}/'.format(project_pk)
+        route = f'v1/files/folder/list/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -47,7 +47,7 @@ class Files(Helper):
         pk -- pk of the folder
         """
 
-        route = 'v1/files/folder/{0}/'.format(pk)
+        route = f'v1/files/folder/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -65,7 +65,7 @@ class Files(Helper):
                 "parent": 0
             }
         """
-        route = 'v1/files/folder/{0}/'.format(pk)
+        route = f'v1/files/folder/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -76,7 +76,7 @@ class Files(Helper):
 
         pk -- pk of the folder
         """
-        route = 'v1/files/folder/{0}/'.format(pk)
+        route = f'v1/files/folder/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -88,7 +88,7 @@ class Files(Helper):
         project_pk -- pk of the project
         """
 
-        route = 'v1/files/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
+        route = f'v1/files/list/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -100,7 +100,7 @@ class Files(Helper):
         project_pk -- pk of the project
         """
 
-        route = 'v1/files/list/{0}/'.format(project_pk)
+        route = f'v1/files/list/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response, True)
 
@@ -116,7 +116,7 @@ class Files(Helper):
         pk -- pk of the file
         """
 
-        route = 'v1/files/{0}/'.format(pk)
+        route = f'v1/files/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -130,6 +130,6 @@ class Files(Helper):
         pk -- pk of the file
         """
 
-        route = 'v1/files/{0}/'.format(pk)
+        route = f'v1/files/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

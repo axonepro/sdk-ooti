@@ -29,7 +29,7 @@ class Organizations(Helper):
     def get_organization_metrics(self):
         """ Get the admin dashboard metrics """
 
-        route = 'v1/organizations/metrics/{0}/'.format(self.org_pk)
+        route = f'v1/organizations/metrics/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -46,7 +46,7 @@ class Organizations(Helper):
         pk -- pk of the organizaton
         """
 
-        route = 'v1/organizations/{0}/'.format(pk)
+        route = f'v1/organizations/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -148,6 +148,6 @@ class Organizations(Helper):
             "with_unallocated_payroll": true
         }
         """
-        route = 'v1/organizations/{0}/'.format(self.org_pk)
+        route = f'v1/organizations/{self.org_pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
