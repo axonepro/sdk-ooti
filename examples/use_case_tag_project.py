@@ -3,11 +3,11 @@ import pprint
 import ooti.ooti as ooti
 from dotenv import dotenv_values
 
-config = dotenv_values("../.env")
+config = dotenv_values("../.ENV")
 
 def add_tag_to_project(id,tag):
 
-    my_account = ooti.OotiAPI(config['EMAIL'], config['PASSWORD'])  #connect to ooti
+    my_account = ooti.OotiAPI(config['OOTI_AUTH'], config['OOTI_PASSWORD'])  #connect to ooti
     my_account.connect()
 
     project=my_account.Projects.get_project_details(id)
