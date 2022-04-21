@@ -10,7 +10,9 @@ STEPS :
 
 import ooti.ooti as oo
 from pprint import pprint
+from dotenv import dotenv_values
 
+config = dotenv_values("../.ENV")
 def connect(email,mdp):
     my_account = oo.OotiAPI(email,mdp)
     my_account.connect()
@@ -47,9 +49,8 @@ def get_item(myAccount,invoice_pk,number):
     return myAccount.Invoices.get_invoice_items(invoice_pk)["data"]["results"][number]
 
 if __name__ == "__main__":
-    email = "atraore@ooti.co"
-    mdp = "@Goussainville95"
-    my_account = connect(email,mdp)
+    my_account = oo.OotiAPI(config['OOTI_AUTH'], config['OOTI_PASSWORD'])  #connect to ooti
+    my_account.connect()
 
     #Create project
     client_pk = 41937
