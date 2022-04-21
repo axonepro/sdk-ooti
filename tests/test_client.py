@@ -1,23 +1,20 @@
-import unittest
-
-from requests.models import Response
-from test_helper import HelperTest
-from factories.factories import TeamFactory
-
+import os
 import random
 import string
-import time
-
-import os
 import sys
-from dotenv import load_dotenv
+import time
+import unittest
 
+from dotenv import load_dotenv
+from factories.factories import TeamFactory
+from requests.models import Response
+from test_helper import HelperTest
 
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from resources import ooti # noqa E402
+from resources import ooti  # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -58,7 +55,7 @@ class TestClients(unittest.TestCase):
 
         client = {
             "name": "UNITTEST",
-            "number": "{0}{1}{2}{3}{4}".format(random.randint(0, 9), random.randint(0, 9), random.randint(0, 9), random.randint(0, 9), random.randint(0, 9)),
+            "number": f"{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}",
             "currency": self.currency_pk,
             "billing_address": "Unittest address",
             "team": self.team_pk,

@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -7,7 +8,7 @@ from .helper import Helper
 class Token_refresh(Helper):
     def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
         super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
-    
+
     def __refresh_token(self):
         """ Refresh the access token """
 
@@ -17,5 +18,5 @@ class Token_refresh(Helper):
         }
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         if response == 201:
-            self.headers['Authorization'] = 'JWT {0}'.format(self.access_token)
+            self.headers['Authorization'] = f'JWT {self.access_token}'
         return response.status_code

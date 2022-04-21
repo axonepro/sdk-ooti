@@ -1,10 +1,11 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
 """
-- ERROR 403 v1/celery_tasks/last/ 
+- ERROR 403 v1/celery_tasks/last/
 - ERROR 404 v1/celery_tasks/last/{org_pk}/
 
 """
@@ -18,13 +19,13 @@ class Celery_tasks(Helper):
     def get_last_celery_task(self):
         """ """
 
-        route = 'v1/celery_tasks/last/{0}/'.format(self.org_pk)
+        route = f'v1/celery_tasks/last/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_celery_tasks_list(self, page=1):
         """ Get the list of celery tasks """
 
-        route = 'v1/celery_tasks/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/celery_tasks/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

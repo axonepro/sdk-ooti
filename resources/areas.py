@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -7,7 +8,7 @@ from .helper import Helper
 class Areas(Helper):
     def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
         super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
-    
+
     def get_areas_list(self, project_pk, page=1):
         """ Get the areas list
 
@@ -16,7 +17,7 @@ class Areas(Helper):
         project_pk -- the pk of the project
         """
 
-        route = 'v1/areas/list/{0}/?page_size={1}&page={2}'.format(project_pk, self.pagination, page)
+        route = f'v1/areas/list/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -34,7 +35,7 @@ class Areas(Helper):
                 "client_code": "string" (in UI)
             }
         """
-        route = 'v1/areas/list/{0}/'.format(project_pk)
+        route = f'v1/areas/list/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -46,7 +47,7 @@ class Areas(Helper):
         pk -- pk of the area
         """
 
-        route = 'v1/areas/{0}/'.format(pk)
+        route = f'v1/areas/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -64,7 +65,7 @@ class Areas(Helper):
                 "client_code": "string"
             }
         """
-        route = 'v1/areas/{0}/'.format(pk)
+        route = f'v1/areas/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -75,6 +76,6 @@ class Areas(Helper):
 
         pk -- pk of the project
         """
-        route = 'v1/areas/{0}/'.format(pk)
+        route = f'v1/areas/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

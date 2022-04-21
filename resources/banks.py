@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -11,7 +12,7 @@ class Banks(Helper):
     def get_banks_list(self, page=1):
         """ Get the banks list """
 
-        route = 'v1/banks/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/banks/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -23,7 +24,7 @@ class Banks(Helper):
         pk -- pk of the bank
         """
 
-        route = 'v1/banks/{0}/'.format(pk)
+        route = f'v1/banks/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -44,7 +45,7 @@ class Banks(Helper):
                 "projects": ["string"]
             }
         """
-        route = 'v1/banks/list/{0}/'.format(self.org_pk)
+        route = f'v1/banks/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -65,7 +66,7 @@ class Banks(Helper):
                 "projects": ["string"]
             }
         """
-        route = 'v1/banks/{0}/'.format(pk)
+        route = f'v1/banks/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -76,6 +77,6 @@ class Banks(Helper):
 
         pk -- pk of the bank
         """
-        route = 'v1/banks/{0}/'.format(pk)
+        route = f'v1/banks/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

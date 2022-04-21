@@ -2,8 +2,8 @@ PIP?=pip
 PYTHON?=python 3.7
 CHANGELOG?=CHANGELOG.md
 
-init: 
-	echo "ENVIRONMENT=STAGING\nOOTI_AUTH=youremail\nOOTI_PASSWORD=yourpassword\nPYTHONPATH=$(PWD)" > .env	
+init:
+	echo "ENVIRONMENT=STAGING\nOOTI_AUTH=youremail\nOOTI_PASSWORD=yourpassword\nPYTHONPATH=$(PWD)" > .env
 	pip install pipenv
 	pip install gitchangelog
 	pipenv --$(PYTHON)
@@ -13,7 +13,7 @@ init:
 
 install:
 	pipenv install
-	
+
 start:
 	pipenv shell
 

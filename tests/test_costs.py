@@ -1,19 +1,14 @@
+import os
 import unittest
 
-from factories.factories import ContractorFactory
-from factories.factories import EmployeeContractFactory
-from factories.factories import EmployeePeriodFactory
-from factories.factories import ExpenseGroupFactory
-from factories.factories import JobFactory
-from factories.factories import JobInvoiceFactory
-from factories.factories import OrguserFactory
-from factories.factories import ProjectFactory
-from factories.factories import CostFactory
-from factories.factories import CostMonthFactory
-from test_helper import HelperTest
-import os
 from dotenv import load_dotenv
+from factories.factories import (ContractorFactory, CostFactory,
+                                 CostMonthFactory, EmployeeContractFactory,
+                                 EmployeePeriodFactory, ExpenseGroupFactory,
+                                 JobFactory, JobInvoiceFactory, OrguserFactory,
+                                 ProjectFactory)
 from ooti import ooti
+from test_helper import HelperTest
 
 # Loading environment variables (stored in .env file)
 load_dotenv()

@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -18,7 +19,7 @@ class Costs(Helper):
             "fee_project": fee_project_pk
         }
         """
-        route = 'v1/costs/copy-fee-allocations-from-contract-hours/{0}/'.format(project_id)
+        route = f'v1/costs/copy-fee-allocations-from-contract-hours/{project_id}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -32,7 +33,7 @@ class Costs(Helper):
             "fee_project": fee_project_pk
         }
         """
-        route = 'v1/costs/copy-fee-allocations-from-subcontractor-fees/{0}/'.format(project_id)
+        route = f'v1/costs/copy-fee-allocations-from-subcontractor-fees/{project_id}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -45,7 +46,7 @@ class Costs(Helper):
             "year": 0
         }
         """
-        route = 'v1/costs/copy-prev-year/{0}/'.format(self.org_pk)
+        route = f'v1/costs/copy-prev-year/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -56,7 +57,7 @@ class Costs(Helper):
     def get_costs_list(self, page=1):
         """ Get the list of costs """
 
-        route = 'v1/costs/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/costs/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -81,14 +82,14 @@ class Costs(Helper):
         }
         """
 
-        route = 'v1/costs/list/{0}/'.format(self.org_pk)
+        route = f'v1/costs/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_costs_months_list(self, page=1):
         """ Get the list of costs month """
 
-        route = 'v1/costs/month/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/costs/month/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -107,7 +108,7 @@ class Costs(Helper):
         }
         """
 
-        route = 'v1/costs/month/list/{0}/'.format(self.org_pk)
+        route = f'v1/costs/month/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -118,7 +119,7 @@ class Costs(Helper):
         month_id -- id of the month
         """
 
-        route = 'v1/costs/month/{0}/'.format(month_id)
+        route = f'v1/costs/month/{month_id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -138,7 +139,7 @@ class Costs(Helper):
         }
         """
 
-        route = 'v1/costs/month/{0}/'.format(month_id)
+        route = f'v1/costs/month/{month_id}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -149,10 +150,10 @@ class Costs(Helper):
         month_id -- id of the month
         """
 
-        route = 'v1/costs/month/{0}/'.format(month_id)
+        route = f'v1/costs/month/{month_id}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
-  
+
     def set_costs_annual_budget(self, cost_id, data):
         """ Set the cost annual budget
 
@@ -163,9 +164,9 @@ class Costs(Helper):
             "amount_budgeted": 0
         }
         """
-        route = 'v1/costs/set-annual-budget/{0}/'.format(cost_id)
+        route = f'v1/costs/set-annual-budget/{cost_id}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, data)
-        return self.process_response(response) 
+        return self.process_response(response)
 
     def get_cost_details(self, id):
         """ Get the cost details
@@ -174,7 +175,7 @@ class Costs(Helper):
         id -- id of the cost
         """
 
-        route = 'v1/costs/{0}/'.format(id)
+        route = f'v1/costs/{id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -200,7 +201,7 @@ class Costs(Helper):
         }
         """
 
-        route = 'v1/costs/{0}/'.format(id)
+        route = f'v1/costs/{id}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -211,6 +212,6 @@ class Costs(Helper):
         id -- id of the cost
         """
 
-        route = 'v1/costs/{0}/'.format(id)
+        route = f'v1/costs/{id}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

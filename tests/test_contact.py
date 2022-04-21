@@ -1,18 +1,17 @@
-from factories.factories import AlbumFactory, OrguserFactory, PostFactory, ProjectFactory
-from factories.factories import TaskFactory, TeamFactory
-import unittest
-
 # To read .env variables
 import os
 import sys
-from dotenv import load_dotenv
+import unittest
 
+from dotenv import load_dotenv
+from factories.factories import (AlbumFactory, OrguserFactory, PostFactory,
+                                 ProjectFactory, TaskFactory, TeamFactory)
 
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from resources import ooti # noqa E402
+from resources import ooti  # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -32,7 +31,8 @@ class TestContacts(unittest.TestCase):
 
     def test_create_contact(self):
         payload = {
-            'name': 'contact test'
+            'name': 'contact test',
+            'tags':[]
         }
         response = sdk.Contacts.create_contact(payload)
         self.assertEqual(response['status'], 201)

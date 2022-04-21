@@ -2,7 +2,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/axonepro/sdk-ooti/blob/master/README.md">
-    <img src="ooti/logo.png" alt="Logo" width="240" height="140">
+    <img src="static/logo.png" alt="Logo" width="240" height="140">
   </a>
 
   <h3 align="center">SDK OOTI</h3>
@@ -156,7 +156,7 @@ Not good:
    from operations.factories import OperationFactory
    from discounts.selectors import (discount_coefficient,
                                     discount_list)
-   ```  
+   ```
 
 ### Initialize environment
 
@@ -164,9 +164,9 @@ Not good:
 <!-- LICENSE -->
 ## License
 
-Copyright (C) 2016-2021 AxonePro S.A.S. legal@ooti.co All Rights Reserved
+Copyright (C) 2016-2022 AxonePro S.A.S. legal@ooti.co All Rights Reserved
 
-This file is part of axonepro.com.
+This file is part of ooti.co.
 
 Unauthorized copying of any file in this project, via any medium is strictly prohibited. Proprietary and confidential
 
@@ -189,4 +189,3 @@ update ooti package version
 [linkedin-url]: https://www.linkedin.com/company/ooti-co/
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [contributors-url]: https://github.com/axonepro/sdk-ooti/graphs/contributors
-[contributors-shield]: https://img.shields.io/github/contributors/immo/Best-README-Template.svg?style=for-the-badge

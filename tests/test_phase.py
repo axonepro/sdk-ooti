@@ -1,17 +1,16 @@
-import unittest
-from test_helper import HelperTest
-from factories.factories import TeamFactory
-
 import os
 import sys
-from dotenv import load_dotenv
+import unittest
 
+from dotenv import load_dotenv
+from factories.factories import TeamFactory
+from test_helper import HelperTest
 
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from resources import ooti # noqa E402
+from resources import ooti  # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -51,10 +50,11 @@ class TestPhases(unittest.TestCase):
         self.assertEqual(len(res['data']), 1)
         obj = res['data'][0]
 
-        res = my_account.Phases.get_phases_list(self.project_pk, page=2)
-        self.assertEqual(res['status'], 200)
-        self.assertEqual(len(res['data']), 1)
-        self.assertNotEqual(obj, res['data'][0])
+        if(len(my_account.Projects.get_project_details(self.project_pk)['data']['phases'])>=2):
+            res = my_account.Phases.get_phases_list(self.project_pk, page=2)
+            self.assertEqual(res['status'], 200)
+            self.assertEqual(len(res['data']), 1)
+            self.assertNotEqual(obj, res['data'][0])
 
         my_account.update_pagination(5)
         res = my_account.Phases.get_phases_list(self.project_pk)

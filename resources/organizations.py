@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -28,7 +29,7 @@ class Organizations(Helper):
     def get_organization_metrics(self):
         """ Get the admin dashboard metrics """
 
-        route = 'v1/organizations/metrics/{0}/'.format(self.org_pk)
+        route = f'v1/organizations/metrics/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -39,18 +40,18 @@ class Organizations(Helper):
     # TODO PATCH on /api/v1/organizations/transfer-ownership/{id}/
 
     def get_organization_details(self, pk):
-        """ Get organizations details 
+        """ Get organizations details
 
         Keywords arguments:
         pk -- pk of the organizaton
         """
 
-        route = 'v1/organizations/{0}/'.format(pk)
+        route = f'v1/organizations/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_organization_details(self, data):
-        """ Update organizations details 
+        """ Update organizations details
 
         Keywords arguments:
         data - content of the update:
@@ -147,6 +148,6 @@ class Organizations(Helper):
             "with_unallocated_payroll": true
         }
         """
-        route = 'v1/organizations/{0}/'.format(self.org_pk)
+        route = f'v1/organizations/{self.org_pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)

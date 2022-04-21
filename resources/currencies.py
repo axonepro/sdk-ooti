@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -11,7 +12,7 @@ class Currencies(Helper):
     def get_currencies_list(self, page=1):
         """Get the currencies list """
 
-        route = 'v1/currencies/list/?page_size={0}&page={1}'.format(self.pagination, page)
+        route = f'v1/currencies/list/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -43,7 +44,7 @@ class Currencies(Helper):
         pk -- the pk of the currency
         """
 
-        route = 'v1/currencies/{0}/'.format(pk)
+        route = f'v1/currencies/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -63,7 +64,7 @@ class Currencies(Helper):
         pk -- the pk of the currency
         """
 
-        route = 'v1/currencies/{0}/'.format(pk)
+        route = f'v1/currencies/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -73,6 +74,6 @@ class Currencies(Helper):
         pk -- the pk of the currency
         """
 
-        route = 'v1/currencies/{0}/'.format(pk)
+        route = f'v1/currencies/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

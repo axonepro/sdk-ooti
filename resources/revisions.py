@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -15,12 +16,12 @@ class Revisions(Helper):
         pk -- the pk of the annex revision
         """
 
-        route = 'v1/revisions/annexes/detail/{0}/'.format(pk)
+        route = f'v1/revisions/annexes/detail/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_revisions_annexes_team_project(self, team_pk, project_pk, page=1):
-        """ Get annexes revisions team project 
+        """ Get annexes revisions team project
 
         Keyword arguments:
 
@@ -29,8 +30,7 @@ class Revisions(Helper):
 
         """
 
-        route = 'v1/revisions/annexes/{0}/{1}/?page_size={2}&page={3}'.format(
-            team_pk, project_pk, self.pagination, page)
+        route = f'v1/revisions/annexes/{team_pk}/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -39,7 +39,7 @@ class Revisions(Helper):
 
         Keyword arguments:
 
-        data -- data create : 
+        data -- data create :
             {
                 "progress": 0,
                 "date": "string",
@@ -50,7 +50,7 @@ class Revisions(Helper):
             }
         """
 
-        route = 'v1/revisions/annexes/{0}/{1}/'.format(team_pk, project_pk)
+        route = f'v1/revisions/annexes/{team_pk}/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -61,12 +61,12 @@ class Revisions(Helper):
         pk -- the pk of the document revision
         """
 
-        route = 'v1/revisions/documents/detail/{0}/'.format(pk)
+        route = f'v1/revisions/documents/detail/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_revisions_documents_team_project(self, team_pk, project_pk, page=1):
-        """ Get documents revisions team project 
+        """ Get documents revisions team project
 
         Keyword arguments:
 
@@ -75,8 +75,7 @@ class Revisions(Helper):
 
         """
 
-        route = 'v1/revisions/documents/{0}/{1}/?page_size={2}&page={3}'.format(
-            team_pk, project_pk, self.pagination, page)
+        route = f'v1/revisions/documents/{team_pk}/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -85,7 +84,7 @@ class Revisions(Helper):
 
         Keyword arguments:
 
-        data -- data create : 
+        data -- data create :
             {
                 "progress": 0,
                 "date": "string",
@@ -95,7 +94,7 @@ class Revisions(Helper):
             }
         """
 
-        route = 'v1/revisions/documents/{0}/{1}/'.format(team_pk, project_pk)
+        route = f'v1/revisions/documents/{team_pk}/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -107,12 +106,12 @@ class Revisions(Helper):
         pk -- the pk of the fee_items revision
         """
 
-        route = 'v1/revisions/fee_items/detail/{0}/'.format(pk)
+        route = f'v1/revisions/fee_items/detail/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_revisions_fee_items_team_project(self, team_pk, project_pk, page=1):
-        """ Get fee_items revisions team project 
+        """ Get fee_items revisions team project
 
         Keyword arguments:
 
@@ -121,8 +120,7 @@ class Revisions(Helper):
 
         """
 
-        route = 'v1/revisions/fee_items/{0}/{1}/?page_size={2}&page={3}'.format(
-            team_pk, project_pk, self.pagination, page)
+        route = f'v1/revisions/fee_items/{team_pk}/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -131,7 +129,7 @@ class Revisions(Helper):
 
         Keyword arguments:
 
-        data -- data create : 
+        data -- data create :
             {
                 "fee_item": 0,
                 "progress": 0,
@@ -142,7 +140,7 @@ class Revisions(Helper):
             }
         """
 
-        route = 'v1/revisions/fee_items/{0}/{1}/'.format(team_pk, project_pk)
+        route = f'v1/revisions/fee_items/{team_pk}/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -154,12 +152,12 @@ class Revisions(Helper):
         pk -- the pk of the phases revision
         """
 
-        route = 'v1/revisions/phases/detail/{0}/'.format(pk)
+        route = f'v1/revisions/phases/detail/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_revisions_phases_team_project(self, team_pk, project_pk, page=1):
-        """ Get phases revisions team project 
+        """ Get phases revisions team project
 
         Keyword arguments:
 
@@ -168,7 +166,7 @@ class Revisions(Helper):
 
         """
 
-        route = 'v1/revisions/phases/{0}/{1}/?page_size={2}&page={3}'.format(team_pk, project_pk, self.pagination, page)
+        route = f'v1/revisions/phases/{team_pk}/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -177,7 +175,7 @@ class Revisions(Helper):
 
         Keyword arguments:
 
-        data -- data create : 
+        data -- data create :
             {
                 "phase": 0,
                 "progress": 0,
@@ -188,7 +186,7 @@ class Revisions(Helper):
             }
         """
 
-        route = 'v1/revisions/phases/{0}/{1}/'.format(team_pk, project_pk)
+        route = f'v1/revisions/phases/{team_pk}/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -200,12 +198,12 @@ class Revisions(Helper):
         pk -- the pk of the plans revision
         """
 
-        route = 'v1/revisions/plans/detail/{0}/'.format(pk)
+        route = f'v1/revisions/plans/detail/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_revisions_plans_team_project(self, team_pk, project_pk, page=1):
-        """ Get plans revisions team project 
+        """ Get plans revisions team project
 
         Keyword arguments:
 
@@ -214,7 +212,7 @@ class Revisions(Helper):
 
         """
 
-        route = 'v1/revisions/plans/{0}/{1}/?page_size={2}&page={3}'.format(team_pk, project_pk, self.pagination, page)
+        route = f'v1/revisions/plans/{team_pk}/{project_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -223,7 +221,7 @@ class Revisions(Helper):
 
         Keyword arguments:
 
-        data -- data create : 
+        data -- data create :
             {
                 "progress": 0,
                 "date": "string",
@@ -233,6 +231,6 @@ class Revisions(Helper):
             }
         """
 
-        route = 'v1/revisions/plans/{0}/{1}/'.format(team_pk, project_pk)
+        route = f'v1/revisions/plans/{team_pk}/{project_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)

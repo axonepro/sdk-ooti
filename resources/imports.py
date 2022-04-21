@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -24,7 +25,7 @@ class Imports(Helper):
     def get_exports_list(self, page=1):
         """ Get the list of exports """
 
-        route = 'v1/imports/export/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/imports/export/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -45,18 +46,18 @@ class Imports(Helper):
         }
         """
 
-        route = 'v1/imports/export/list/{0}/'.format(self.org_pk)
+        route = f'v1/imports/export/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_export_details(self, export_pk):
-        """ Get the export details 
+        """ Get the export details
 
         Keywords arguments:
         export_pk -- pk of the export
         """
 
-        route = 'v1/imports/export/{0}/'.format(export_pk)
+        route = f'v1/imports/export/{export_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -67,7 +68,7 @@ class Imports(Helper):
         export_pk -- pk of the export
         """
 
-        route = 'v1/imports/export/{0}/'.format(export_pk)
+        route = f'v1/imports/export/{export_pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -78,7 +79,7 @@ class Imports(Helper):
     def get_imports_list(self, page=1):
         """ Get the list of imports """
 
-        route = 'v1/imports/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/imports/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -90,12 +91,12 @@ class Imports(Helper):
         {
             "data": {
 
-            } 
+            }
             "type":
         }
         """
 
-        route = 'v1/imports/list/{0}/'.format(self.org_pk)
+        route = f'v1/imports/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -106,7 +107,7 @@ class Imports(Helper):
         id -- id of the import
         """
 
-        route = 'v1/imports/{0}/'.format(id)
+        route = f'v1/imports/{id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -118,18 +119,18 @@ class Imports(Helper):
         data -- content of the update
         """
 
-        route = 'v1/imports/{0}/'.format(id)
+        route = f'v1/imports/{id}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_import(self, id):
-        """ Delete the import 
+        """ Delete the import
 
         Keywords arguments:
         id -- id of the import
         """
 
-        route = 'v1/imports/{0}/'.format(id)
+        route = f'v1/imports/{id}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 

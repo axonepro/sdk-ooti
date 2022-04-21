@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -11,7 +12,7 @@ class Newsletters(Helper):
     def get_newsletters_list(self, page=1):
         """ Get the list of newsletters """
 
-        route = 'v1/newsletters/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/newsletters/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -36,7 +37,7 @@ class Newsletters(Helper):
         }
         """
 
-        route = 'v1/newsletters/list/{0}/'.format(self.org_pk)
+        route = f'v1/newsletters/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -47,7 +48,7 @@ class Newsletters(Helper):
         pk -- pk of the newsletter
         """
 
-        route = 'v1/newsletters/{0}/'.format(pk)
+        route = f'v1/newsletters/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -73,17 +74,17 @@ class Newsletters(Helper):
         }
         """
 
-        route = 'v1/newsletters/{0}/'.format(pk)
+        route = f'v1/newsletters/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_newsletter(self, pk):
-        """ Delete the newsletter 
+        """ Delete the newsletter
 
         Keywords arguments:
         pk -- pk of the newsletter
         """
 
-        route = 'v1/newsletters/{0}/'.format(pk)
+        route = f'v1/newsletters/{pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

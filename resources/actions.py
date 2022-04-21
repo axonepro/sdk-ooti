@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -11,7 +12,7 @@ class Actions(Helper):
     def get_actions_list(self, page=1):
         """ Get the list of actions """
 
-        route = 'v1/actions/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/actions/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -22,6 +23,6 @@ class Actions(Helper):
         id -- id of the action
         """
 
-        route = 'v1/actions/{0}/'.format(id)
+        route = f'v1/actions/{id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

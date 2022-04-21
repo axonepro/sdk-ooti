@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -17,19 +18,19 @@ class Jobs(Helper):
             "invoice": job_invoice_id
         }
         """
-        route = 'v1/jobs/invoices/items/generate/{0}/'.format(self.org_pk)
+        route = f'v1/jobs/invoices/items/generate/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_jobs_invoices_items_list(self, page=1):
         """ Get the list of jobs invoices items """
 
-        route = 'v1/jobs/invoices/items/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/jobs/invoices/items/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_jobs_invoices_item(self, data):
-        """ Create a new jobs invoices item 
+        """ Create a new jobs invoices item
 
         Keywords arguments:
         data -- data of the new jobs invoices item to be created:
@@ -51,7 +52,7 @@ class Jobs(Helper):
         }
         """
 
-        route = 'v1/jobs/invoices/items/list/{0}/'.format(self.org_pk)
+        route = f'v1/jobs/invoices/items/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -62,7 +63,7 @@ class Jobs(Helper):
         job_invoice_item_pk -- pk of the item
         """
 
-        route = 'v1/jobs/invoices/items/{0}/'.format(job_invoice_item_pk)
+        route = f'v1/jobs/invoices/items/{job_invoice_item_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -74,7 +75,7 @@ class Jobs(Helper):
         data -- content of the update:
         {
             "invoice": invoice_id, # REQUIRED
-            "project": project_id, 
+            "project": project_id,
             "phases": [
                 phase_id,
                 ...
@@ -90,25 +91,25 @@ class Jobs(Helper):
         }
         """
 
-        route = 'v1/jobs/invoices/items/{0}/'.format(job_invoice_item_pk)
+        route = f'v1/jobs/invoices/items/{job_invoice_item_pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_jobs_invoices_item(self, job_invoice_item_pk):
-        """ Delete the jobs invoices item 
+        """ Delete the jobs invoices item
 
         Keywords arguments:
         job_invoice_item_pk -- pk of the item
         """
 
-        route = 'v1/jobs/invoices/items/{0}/'.format(job_invoice_item_pk)
+        route = f'v1/jobs/invoices/items/{job_invoice_item_pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_jobs_invoices_list(self, page=1):
         """ Get the list of jobs invoices """
 
-        route = 'v1/jobs/invoices/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/jobs/invoices/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -149,7 +150,7 @@ class Jobs(Helper):
         }
         """
 
-        route = 'v1/jobs/invoices/list/{0}/'.format(self.org_pk)
+        route = f'v1/jobs/invoices/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -160,7 +161,7 @@ class Jobs(Helper):
         job_invoice_pk -- pk of the invoice
         """
 
-        route = 'v1/jobs/invoices/{0}/'.format(job_invoice_pk)
+        route = f'v1/jobs/invoices/{job_invoice_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -202,7 +203,7 @@ class Jobs(Helper):
         }
         """
 
-        route = 'v1/jobs/invoices/{0}/'.format(job_invoice_pk)
+        route = f'v1/jobs/invoices/{job_invoice_pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -213,19 +214,19 @@ class Jobs(Helper):
         job_invoice_pk -- pk of the invoice
         """
 
-        route = 'v1/jobs/invoices/{0}/'.format(job_invoice_pk)
+        route = f'v1/jobs/invoices/{job_invoice_pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_jobs_list(self, page=1):
         """ Get the list of jobs """
 
-        route = 'v1/jobs/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/jobs/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_job(self, data):
-        """ Create a new job 
+        """ Create a new job
 
         Keywords arguments:
         data -- data of the new job to be created:
@@ -265,19 +266,19 @@ class Jobs(Helper):
         }
         """
 
-        route = 'v1/jobs/list/{0}/'.format(self.org_pk)
+        route = f'v1/jobs/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_jobs_months_list(self, page=1):
         """ Get the list of jobs months """
 
-        route = 'v1/jobs/month/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+        route = f'v1/jobs/month/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
     def create_jobs_month(self, data):
-        """ Create a new jobs month 
+        """ Create a new jobs month
 
         Keywords arguments:
         data -- data of the jobs month to be created:
@@ -296,7 +297,7 @@ class Jobs(Helper):
         }
         """
 
-        route = 'v1/jobs/month/list/{0}/'.format(self.org_pk)
+        route = f'v1/jobs/month/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -307,7 +308,7 @@ class Jobs(Helper):
         month_id -- id of the jobs month
         """
 
-        route = 'v1/jobs/month/{0}/'.format(month_id)
+        route = f'v1/jobs/month/{month_id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -332,18 +333,18 @@ class Jobs(Helper):
         }
         """
 
-        route = 'v1/jobs/month/{0}/'.format(month_id)
+        route = f'v1/jobs/month/{month_id}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def delete_jobs_month(self, month_id):
-        """ Delete the jobs month 
+        """ Delete the jobs month
 
         Keywords arguments:
         month_id -- id of the jobs month
         """
 
-        route = 'v1/jobs/month/{0}/'.format(month_id)
+        route = f'v1/jobs/month/{month_id}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -354,7 +355,7 @@ class Jobs(Helper):
         id -- id of the job
         """
 
-        route = 'v1/jobs/{0}/'.format(id)
+        route = f'v1/jobs/{id}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -398,7 +399,7 @@ class Jobs(Helper):
         }
         """
 
-        route = 'v1/jobs/{0}/'.format(id)
+        route = f'v1/jobs/{id}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -409,6 +410,6 @@ class Jobs(Helper):
         id -- id of the job
         """
 
-        route = 'v1/jobs/{0}/'.format(id)
+        route = f'v1/jobs/{id}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)

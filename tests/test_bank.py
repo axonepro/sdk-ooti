@@ -1,23 +1,20 @@
-import unittest
-
-from requests.models import Response
-from test_helper import HelperTest
-from factories.factories import TeamFactory
-
+import os
 import random
 import string
-import time
-
-import os
 import sys
-from dotenv import load_dotenv
+import time
+import unittest
 
+from dotenv import load_dotenv
+from factories.factories import TeamFactory
+from requests.models import Response
+from test_helper import HelperTest
 
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from resources import ooti # noqa E402
+from resources import ooti  # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -65,9 +62,9 @@ class TestBanks(unittest.TestCase):
             "name": name,
             "currency": self.currency_pk,
             "country": "FR",
-            "iban": "XXX-{0}".format(name),
-            "bic": "XXX-{0}".format(name),
-            "rib": "XXX-{0}".format(name),
+            "iban": f"XXX-{name}",
+            "bic": f"XXX-{name}",
+            "rib": f"XXX-{name}",
             "teams": [str(self.team_pk)],
             "projects": [str(self.project_pk)]
         }

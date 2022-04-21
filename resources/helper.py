@@ -34,24 +34,24 @@ class Helper:
 
             if (verb == 'GET'):
                 if (_parameter is None):
-                    return request.get('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+                    return request.get(f'{_base_url}{_route}', headers=_headers, data=_data)
                 else:
-                    return request.get('{0}{1}{2}'.format(_base_url, _route, _parameter), headers=_headers, data=_data)
+                    return request.get(f'{_base_url}{_route}{_parameter}', headers=_headers, data=_data)
             if (verb == 'POST'):
                 if (_parameter is None):
-                    return request.post('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+                    return request.post(f'{_base_url}{_route}', headers=_headers, data=_data)
                 else:
-                    return request.post('{0}{1}{2}'.format(_base_url, _route, _parameter), headers=_headers, data=_data)
+                    return request.post(f'{_base_url}{_route}{_parameter}', headers=_headers, data=_data)
             if (verb == 'PATCH'):
                 if (_parameter is None):
-                    return request.patch('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+                    return request.patch(f'{_base_url}{_route}', headers=_headers, data=_data)
                 else:
-                    return request.patch('{0}{1}{2}'.format(_base_url, _route, _parameter), headers=_headers, data=_data)
+                    return request.patch(f'{_base_url}{_route}{_parameter}', headers=_headers, data=_data)
             if (verb == 'DELETE'):
                 if (_parameter is None):
-                    return request.delete('{0}{1}'.format(_base_url, _route), headers=_headers, data=_data)
+                    return request.delete(f'{_base_url}{_route}', headers=_headers, data=_data)
                 else:
-                    return request.delete('{0}{1}{2}'.format(_base_url, _route, _parameter), headers=_headers, data=_data)
+                    return request.delete(f'{_base_url}{_route}{_parameter}', headers=_headers, data=_data)
             else:
                 raise ValueError('Wrong verb! (', verb, ')')
         except ValueError as err:

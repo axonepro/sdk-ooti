@@ -1,15 +1,16 @@
 
 # To read .env variables
 import os
+import sys
+
 from dotenv import load_dotenv
 from test_helper import HelperTest
-import sys
 
 PACKAGE_PARENT = '../..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from resources import ooti # noqa E402
+from resources import ooti  # noqa E402
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -30,12 +31,18 @@ def UserFactory():
 
 
 def OrguserFactory():
+    count=0
     payload = {
-        "email": "test@test.fr",
+        "email": "test{0}@test.fr".format(count),
         "first_name": "Julie",
         "last_name": "TEST",
     }
     response = sdk.Orgusers.create_orguser(payload)
+    while(response['data']==['Email already used']):
+        count+=1
+        payload['email']="test{0}@test.fr".format(count)
+        response = sdk.Orgusers.create_orguser(payload)
+
     if response['status'] == 201:
         return response['data']
     else:

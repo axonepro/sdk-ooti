@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 from .helper import Helper
 
@@ -18,12 +19,12 @@ class Teams(Helper):
     def get_teams_list(self):
         """ Get the list of teams """
 
-        route = 'v1/teams/list/{0}/'.format(self.org_pk)
+        route = f'v1/teams/list/{self.org_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)  # no 'results' key
 
     def create_team(self, data):
-        """ Create a new team 
+        """ Create a new team
 
         Keywords arguments:
         data -- content of the team to be created:
@@ -38,7 +39,7 @@ class Teams(Helper):
         }
         """
 
-        route = 'v1/teams/list/{0}/'.format(self.org_pk)
+        route = f'v1/teams/list/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -63,7 +64,7 @@ class Teams(Helper):
         }
         """
 
-        route = 'v1/teams/users/bulk/add/{0}/'.format(self.org_pk)
+        route = f'v1/teams/users/bulk/add/{self.org_pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -81,18 +82,18 @@ class Teams(Helper):
         }
         """
 
-        route = 'v1/teams/users/bulk/delete/{0}/'.format(self.org_pk)
+        route = f'v1/teams/users/bulk/delete/{self.org_pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def get_team_users_list(self, pk):
-        """ Get the list of users in the team 
+        """ Get the list of users in the team
 
         Keywords arguments:
         pk -- pk of the team
         """
 
-        route = 'v1/teams/users/list/{0}/'.format(pk)
+        route = f'v1/teams/users/list/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response, True)
 
@@ -110,7 +111,7 @@ class Teams(Helper):
         }
         """
 
-        route = 'v1/teams/users/list/{0}/'.format(pk)
+        route = f'v1/teams/users/list/{pk}/'
         response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
@@ -121,7 +122,7 @@ class Teams(Helper):
         user_pk -- pk of the team user
         """
 
-        route = 'v1/teams/users/{0}/'.format(user_pk)
+        route = f'v1/teams/users/{user_pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
@@ -137,30 +138,30 @@ class Teams(Helper):
         }
         """
 
-        route = 'v1/teams/users/{0}/'.format(user_pk)
+        route = f'v1/teams/users/{user_pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)
 
     def remove_team_user(self, user_pk):
         """ Delete a user from the team """
 
-        route = 'v1/teams/users/{0}/'.format(user_pk)
+        route = f'v1/teams/users/{user_pk}/'
         response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def get_team_details(self, pk):
-        """ Get the team details 
+        """ Get the team details
 
         Keywords arguments:
         pk -- pk of the team
         """
 
-        route = 'v1/teams/{0}/'.format(pk)
+        route = f'v1/teams/{pk}/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
         return self.process_response(response)
 
     def update_team_details(self, pk, data):
-        """ Get the team details 
+        """ Get the team details
 
         Keywords arguments:
         pk -- pk of the team
@@ -171,6 +172,6 @@ class Teams(Helper):
         }
         """
 
-        route = 'v1/teams/{0}/'.format(pk)
+        route = f'v1/teams/{pk}/'
         response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
         return self.process_response(response)

@@ -1,6 +1,10 @@
-import requests
 import json
+# To read .env variables
+import os
 import sys
+
+import requests
+from dotenv import load_dotenv
 
 # TODO Trouver comment refacto tous ces imports
 from .accounting import Accounting
@@ -69,10 +73,6 @@ from .token_refresh import Token_refresh
 from .token_verify import Token_verify
 from .trips import Trips
 from .zones import Zones
-
-# To read .env variables
-import os
-from dotenv import load_dotenv
 
 # Loading environment variables (stored in .env file)
 load_dotenv()
@@ -407,13 +407,14 @@ class OotiAPI(Helper):
         }
         response = self.process_request(requests, 'POST', self.base_url, route, headers, None, data)
 
-        if response.content == b'{"non_field_errors":["Unable to log in with provided credentials."]}':
+        if response.status_code != 200:
             print('Unable to log with provided credentials. Please modify your .ENV file.')
             sys.exit('Authentication failed.')
 
         self.access_token = json.loads(response.content)['token']
+
         self.headers = {
-            'Authorization': 'JWT {0}'.format(self.access_token),
+            'Authorization': f'JWT {self.access_token}',
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             'X-CSRF-Token': self._csrf_token
@@ -426,6 +427,11 @@ class OotiAPI(Helper):
 
         route = 'v1/profiles/profile/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+
+        if response.status_code != 200:
+            print('Unable to log with provided credentials. Please modify your .ENV file.')
+            sys.exit('Authentication failed.')
+
         self.org_pk = json.loads(response.content)['selected_org']
         return self.process_response(response)
 
@@ -434,6 +440,11 @@ class OotiAPI(Helper):
 
         route = 'v1/organizations/membership/'
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+
+        if response.status_code != 200:
+            print('Unable to log with provided credentials. Please modify your .ENV file.')
+            sys.exit('Authentication failed.')
+
         organizations = json.loads(response.content)['organizations']
         selected_organization = next((org for org in organizations if org.get('id') == self.org_pk), None)
         teams = selected_organization['teams']
