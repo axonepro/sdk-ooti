@@ -1,5 +1,5 @@
 PIP?=pip
-PYTHON?=python 3.7
+PYTHON?=python 3.8.2
 CHANGELOG?=CHANGELOG.md
 
 init:

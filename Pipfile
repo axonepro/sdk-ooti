@@ -8,13 +8,13 @@ certifi = "==2020.6.20"
 chardet = "==3.0.4"
 idna = "==2.10"
 requests = "==2.24.0"
-urllib3 = "==1.26.5"
 python-dotenv = "==0.18.0"
 
 [dev-packages]
 pytest = "==6.2.5"
 flake8 = "==3.9.2"
 autopep8 = "==1.5.7"
+pre-commit = "==2.18.1"
 
 [requires]
 python_version = "3.7"
