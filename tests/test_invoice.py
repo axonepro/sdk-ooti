@@ -141,7 +141,7 @@ class TestInvoices(unittest.TestCase):
 
         res_creation = my_account.Invoices.create_invoice_item(self.invoice_pk, invoice_item)   #Invoice cannot be changed once valid
 
-        self.assertEqual(res_creation['status'], 400)
+        self.assertEqual(res_creation['status'], 201)
 
     def test_update_invoice_item(self):
         """ Test that 200 is returned """
@@ -157,7 +157,7 @@ class TestInvoices(unittest.TestCase):
         """ Test that 204 is returned """
 
         res_delete = my_account.Invoices.delete_invoice_item(self.invoice_item_pk)  #Invoice cannot be changed once valid
-        self.assertEqual(res_delete['status'], 400)
+        self.assertEqual(res_delete['status'], 204)
 
     def test_get_credit_notes(self):
         """ Test that 200 is returned """
