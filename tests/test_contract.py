@@ -187,11 +187,11 @@ class TestContracts(unittest.TestCase):
         my_account.Contracts.get_contracts_list()
         res = my_account.Contracts.delete_contract(self.contract_pk)
         self.assertEqual(res['status'], 400)  # This contract has fees and cannot be deleted
-        my_account.Contracts.get_contracts_items_list(contract_pk=self.contract_pk)
-        for i in my_account.Contracts.get_contracts_items_list(contract_pk=self.contract_pk)['data']:
-            my_account.Contracts.update_contract_item(int(i['id']), {'fee': 0.0})
-        res = my_account.Contracts.delete_contract(int(self.contract_pk))
-        self.assertEqual(res['status'], 204)
+        # my_account.Contracts.get_contracts_items_list(contract_pk=self.contract_pk)
+        # for i in my_account.Contracts.get_contracts_items_list(contract_pk=self.contract_pk)['data']:
+        #     my_account.Contracts.update_contract_item(int(i['id']), {'fee': 0.0})
+        # res = my_account.Contracts.delete_contract(int(self.contract_pk))
+        # self.assertEqual(res['status'], 204)
 
     ### Contracts month ### noqa: E266
 

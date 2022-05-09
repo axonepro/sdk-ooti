@@ -208,7 +208,7 @@ class HelperTest:
 
         data = {
             "name": name,
-            "file": "README.md",
+            "file": "file_UNITTEST_file.pdf",
             "folder": folder_pk,
         }
 

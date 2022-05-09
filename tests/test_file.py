@@ -1,13 +1,9 @@
 import os
-import random
-import string
 import sys
-import time
 import unittest
 
 from dotenv import load_dotenv
 from factories.factories import TeamFactory
-from requests.models import Response
 from test_helper import HelperTest
 
 PACKAGE_PARENT = '..'
@@ -28,6 +24,7 @@ my_account.connect()
 team_pk = TeamFactory()
 currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
 project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
+
 
 class TestFiles(unittest.TestCase):
 
@@ -101,8 +98,8 @@ class TestFiles(unittest.TestCase):
     def test_create_file(self):
         """ Test that 201 is returned """
         data = {
-            "name": "file_UNITTEST",
-            "file": "README.md",
+            "name": "file_UNITTEST_file",
+            "file": "file_UNITTEST_create.pdf",
             "folder": self.folder_pk,
         }
 
@@ -126,6 +123,7 @@ class TestFiles(unittest.TestCase):
     def tearDown(cls):
         my_account.Files.delete_folder(cls.folder_pk)
         my_account.Files.delete_file(cls.file_pk)
+
 
 if __name__ == '__main__':
     unittest.main()
