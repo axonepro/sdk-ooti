@@ -47,8 +47,8 @@ def get_item(myAccount,invoice_pk,number):
     return myAccount.Invoices.get_invoice_items(invoice_pk)["data"]["results"][number]
 
 if __name__ == "__main__":
-    email = "atraore@ooti.co"
-    mdp = "@Goussainville95"
+    email = ""
+    mdp = ""
     my_account = connect(email,mdp)
 
     #Create project

@@ -164,7 +164,7 @@ Not good:
 <!-- LICENSE -->
 ## License
 
-Copyright (C) 2016-2022 AxonePro S.A.S. legal@ooti.co All Rights Reserved
+Copyright (C) 2016-2022 AxonePro S.A.S. info@ooti.co All Rights Reserved
 
 This file is part of ooti.co.
 
