@@ -180,6 +180,10 @@ Twine documentation: https://twine.readthedocs.io/en/latest/
 ```
 change version in resources.__init__.py
 make deploy
+
+To use this API token:
+Set your username to __token__
+Set your password to the token value, including the pypi- prefix
 ```
 
 
