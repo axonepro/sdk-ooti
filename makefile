@@ -79,8 +79,8 @@ clean:
 	rm -Rf $(shell pipenv --py | rev | cut -d'/' -f3- | rev)
 
 deploy:
-	python setup.py sdist bdist_whee
+	python setup.py sdist bdist_wheel
 	python -m twine check dist/*
-	python -m twine upload -r pypi dist/*
+	python -m twine upload --verbose -r pypi dist/*
 
 .PHONY: venv stop test tests test-class test-method cover clean deploy first-deploy

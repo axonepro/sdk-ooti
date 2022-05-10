@@ -19,3 +19,4 @@ ooti_api.egg-info/
 ooti/.DS_Store
 .DS_Store
 ooti/.DS_Store
+build/

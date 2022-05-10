@@ -177,6 +177,12 @@ French tuto: https://sametmax.com/creer-un-setup-py-et-mettre-sa-bibliotheque-py
 
 Twine documentation: https://twine.readthedocs.io/en/latest/
 
+```
+change version in resources.__init__.py
+make deploy
+```
+
+
 update ooti package version
 ```sh
    python setup.py sdist bdist_wheel
