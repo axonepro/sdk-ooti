@@ -19,10 +19,10 @@ class Pipelines(Helper):
 
     def get_pipeline_stage_details(self,stage_pk):
         """ Get details of a stage
-        
-        Keywords arguments: 
+
+        Keywords arguments:
         stage_pk --  pk of the stage
-        
+
         """
         route = f"v1/pipelines/stage/{stage_pk}"
         response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)

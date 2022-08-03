@@ -7,7 +7,7 @@ setup.cfg
 # operating system-related files
 
 #file properties cache/storage on macOS
-*.DS_Store 
+*.DS_Store
 main.py
 .env
 .ENV

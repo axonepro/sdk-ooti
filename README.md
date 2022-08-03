@@ -72,7 +72,7 @@ Run  the following command to install package ```ooti-api```:
 
 1. Import
    ```py
-   import ooti.ooti as ooti
+   import resources import ooti
    ```
 2. Connect to the API
    ```py
@@ -81,13 +81,13 @@ Run  the following command to install package ```ooti-api```:
    ```
 3. Do a request
    ```py
-   invoices = my_account.get_invoices_list()
+   invoices = my_account.Invoices.get_invoices_list()
    ```
 
 ## Example
 
-```
-import ooti.ooti as ooti
+```py
+from resources import ooti
 import pprint
 
 
@@ -97,83 +97,83 @@ my_account.connect()
 
 
 ###### Invoice ######
-invoices = my_account.Invoices.get_invoices_list()  # Get the list of invoices
+invoices = my_account.Invoices.get_invoices_list()
 for invoice in invoices['data']:
-    pprint.pp(invoice)  # Print each invoice
+    pprint.pprint(invoice)
 
-invoice = my_account.Invoices.get_invoice_details(pk='invoice_pk')  # Get the details of one invoice
+invoice = my_account.Invoices.get_invoice_details(pk='invoice_pk')
 if(invoice['status']==404):
     print('check the pk as it must be false')
 else:
-    pprint.pp(invoice['data'])  #Print details of the invoice
+    pprint.pprint(invoice['data'])
 
 payload = {
     "amount": 1000,
 }
-invoice = my_account.Invoices.create_invoice(1499, payload)  # Create an invoice
-pprint.pp(invoice)
+invoice = my_account.Invoices.create_invoice(1499, payload)
+pprint.pprint(invoice)
 
 payload = {
     "amount": 3000,
 }
-invoice = my_account.Invoices.update_invoice(pk='invoice_pk', payload)  # update an invoice
-pprint.pp(invoice)
+invoice = my_account.Invoices.update_invoice(pk='invoice_pk', payload)
+pprint.pprint(invoice)
 
 ###### Payment ######
-payments = my_account.Payments.get_payments_list()  # Get the list of payments
+payments = my_account.Payments.get_payments_list()
 for payment in payments['data']:
-    pprint.pp(payment)  # Print each payment
+    pprint.pprint(payment)
 
-payment = my_account.Payments.get_payment_details(pk='payment_pk')  # Get the details of one payment
+payment = my_account.Payments.get_payment_details(pk='payment_pk')
 if(payment['status']==404):
     print('check the pk as it must be false')
 else:
-    pprint.pp(payment['data'])  #Print details of the payment
+    pprint.pprint(payment['data'])
 
 payload = {
     "amount": 1000,
 }
-payment = my_account.Payments.create_payment(1499, payload)  # Create a payment
-pprint.pp(payment)
+payment = my_account.Payments.create_payment(1499, payload)
+pprint.pprint(payment)
 
 payload = {
     "amount": 3000,
 }
-payment = my_account.Payments.update_payment(pk='payment_pk', payload)  # update a payment
-pprint.pp(payment)
+payment = my_account.Payments.update_payment(pk='payment_pk', payload)
+pprint.pprint(payment)
 
 ###### Project ######
-projects = my_account.Projects.get_projects_list()  # Get the list of projects
+projects = my_account.Projects.get_projects_list()
 for project in projects['data']:
-    pprint.pp(project)  # Print each project
+    pprint.pprint(project)
 
-project = my_account.Projects.get_project_details(id='project_id')  # Get the details of one project
+project = my_account.Projects.get_project_details(id='project_id')
 if(project['status']==404):
     print('check the id as it must be false')
 else:
-    pprint.pp(project['data'])  #Print details of the project
+    pprint.pprint(project['data'])
 
 data = {
     'business_title': 'new_title'
 }
-project = my_account.Projects.update_project_details(pk='invoice_pk', data=data)  # Update the details of one project
-pprint.pp(project)  # Print details of the updated project
+project = my_account.Projects.update_project_details(pk='invoice_pk', data=data)
+pprint.pprint(project)
 
 
 ###### Phase ######
-phases = my_account.Phases.get_phases_list(project_pk='project_id')  # Get the list of phases for one project
+phases = my_account.Phases.get_phases_list(project_pk='project_id')
 for phase in phases['data']:
-    pprint.pp(phase)  # Print each phase
+    pprint.pprint(phase)
 
-phase = my_account.Phases.get_phase_details(pk='phase_id')  # Get the details of one phase
+phase = my_account.Phases.get_phase_details(pk='phase_id')
 if(phase['status']==404):
     print('check the id as it must be false')
 else:
-    pprint.pp(phase['data']) #Print details of the phase
+    pprint.pprint(phase['data'])
 
 data = {'progress': 66}
-phase = my_account.Phases.update_phase_details(pk='phase_pk', data=data)  # Update the details of one phase
-pprint.pp(phase)  # Print details of the updated phase
+phase = my_account.Phases.update_phase_details(pk='phase_pk', data=data)
+pprint.pprint(phase)
 ```
 
 <!-- LICENSE -->

@@ -1,6 +1,7 @@
-import ooti.ooti as oo
-from pandas import read_csv
 from dotenv import dotenv_values
+from pandas import read_csv
+
+import resources.ooti as oo
 
 config = dotenv_values("../.ENV")
 
