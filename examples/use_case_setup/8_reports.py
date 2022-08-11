@@ -2,26 +2,25 @@ from pprint import pprint
 
 from constants import *
 
-# report_data = {
-#             "name": "report test",
-#             "project": project_pk,
-#             "type": 1,
-#         }
-# my_account.Reports.create_report(report_data)
-# pprint(my_account.Reports.get_reports_list())
+report_data = {
+            "name": "report test",
+            "project": project_pk,
+            "type": 1,
+        }
+my_account.Reports.create_report(report_data)
+pprint(my_account.Reports.get_reports_list())
 
 #### PROJECT REPORT
-# FIXME 201 but cannot open the report
 report_data = {
             "name": "my project report",
             "project": project_pk,
             "type": "one_pager",
         }
-# pprint(my_account.Reports.create_report(report_data))
+pprint(my_account.Reports.create_report(report_data))
+pprint(my_account.Reports.generate_report({"pk": 197,"project": project_pk}))
 
 #### TEAM REPORT
-# FIXME same for project report
-# pprint(my_account.Reports.get_reports_list())
+pprint(my_account.Reports.get_reports_list())
 report_data = {
             "name": "my team report",
             "project": project_pk,
@@ -29,8 +28,8 @@ report_data = {
             "filter_team": team_pk
         }
 generate_data = {
-    "pk": report_pk,
+    "pk": 196,
     "project": project_pk,
 }
-# pprint(my_account.Reports.generate_report(generate_data))
-# pprint(my_account.Reports.create_report(report_data))
+pprint(my_account.Reports.generate_report(generate_data))
+pprint(my_account.Reports.create_report(report_data))
