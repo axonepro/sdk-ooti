@@ -34,6 +34,7 @@ from constants import *
 
 
 ##### PHASES
+# FIXME progress in 50% only
 # phase_data = {
 #                 "name": "phase test",
 #                 "shortname": "p t",
@@ -46,6 +47,7 @@ from constants import *
 # my_account.Phases.create_phase(project_pk, phase_data)
 # pprint(my_account.Phases.get_phases_list(project_pk))
 
+##### FEE
 # fee_data = {
 #                 "title": "fee 2",
 #                 "cost": 1000,
@@ -61,10 +63,10 @@ from constants import *
 # my_account.Fees.update_fee_project(fee_project_pk, fee_project_data)
 # pprint(my_account.Phases.get_phases_list_fee_project(project_pk, fee_project_pk))
 
-###### PROGRESS
-# FIXME not working
 
-# my_account.Revisions.create_phase_revision(team_pk, project_pk, {'phase': phase_id, 'progress': 1.0, 'date': "08-08-2022"})
+###### PROGRESS
+# FIXME 201 but progress not complete
+# pprint(my_account.Revisions.create_phase_revision(team_pk, project_pk, {'phase': phase_id, 'progress': 1.0, 'date': "08-08-2022"}))
 # pprint(my_account.Revisions.get_revisions_phases_team_project(team_pk,project_pk))
 
 ##### PHASES PLAN

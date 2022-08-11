@@ -11,26 +11,26 @@ from constants import *
 # pprint(my_account.Reports.get_reports_list())
 
 #### PROJECT REPORT
-# FIXME not working
+# FIXME 201 but cannot open the report
 report_data = {
-            "name": "my report",
+            "name": "my project report",
             "project": project_pk,
             "type": "one_pager",
         }
-pprint(my_account.Reports.create_report(report_data))
+# pprint(my_account.Reports.create_report(report_data))
 
 #### TEAM REPORT
-# FIXME not working
+# FIXME same for project report
 # pprint(my_account.Reports.get_reports_list())
-# report_data = {
-#             "name": "my team report",
-#             "project": project_pk,
-#             "type": "org_hours_by_collaborator",
-#             "filter_team": team_pk
-#         }
-# generate_data = {
-#     "pk": report_pk,
-#     "project": project_pk,
-# }
+report_data = {
+            "name": "my team report",
+            "project": project_pk,
+            "type": "org_hours_by_collaborator",
+            "filter_team": team_pk
+        }
+generate_data = {
+    "pk": report_pk,
+    "project": project_pk,
+}
 # pprint(my_account.Reports.generate_report(generate_data))
 # pprint(my_account.Reports.create_report(report_data))

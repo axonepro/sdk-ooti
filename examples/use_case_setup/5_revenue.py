@@ -38,17 +38,17 @@ from constants import *
 # pprint(my_account.Styleguides.get_styleguides_list())
 
 ##### INVOICE IMPORT
-# FIXME not working maybe Settings
-# import_data = {
-#     "team": team_pk,
-#     "project": project_pk,
-#     "type": 12,
-# }
+# FIXME status 201 but not appeared in import list -> not working maybe Settings
+import_data = {
+    "team": team_pk,
+    "project": project_pk,
+    "type": 12,
+}
 # pprint(my_account.Imports.create_import(import_data))
 
 ##### VALIDATE INVOICE
-# FIXME not working
-pprint(my_account.Invoices.validate_invoice(invoice_pk))
+# FIXME {'data': ['You cannot edit a valid invoice.'], 'status': 400} -> probably wrong method
+# pprint(my_account.Invoices.validate_invoice(invoice_pk))
 # pprint(my_account.Invoices.get_invoices_list())
 
 ##### INVOICE EXPORT

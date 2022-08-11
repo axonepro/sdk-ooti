@@ -23,9 +23,9 @@ from constants import *
 
 ### PROPOSITION
 # FIXME not working
-proposition_data = {
-    "stage": 553
-}
-pprint(my_account.Projects.update_project_details(1336, proposition_data))
+# proposition_data = {
+#     "stage": 553
+# }
+# pprint(my_account.Projects.update_project_details(1336, proposition_data))
 # pprint(my_account.Pipelines.get_pipelines_stage_list())
 # pprint(my_account.Projects.get_projects_list())
