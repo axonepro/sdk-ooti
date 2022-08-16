@@ -6,24 +6,30 @@ from .helper import Helper
 
 
 class Contacts(Helper):
-    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
-        super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
+    def __init__(
+        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+    ):
+        super().__init__(
+            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+        )
 
     def get_contact_categories_list(self, project_id=None):
-        """ Get the list of categories of contact
+        """Get the list of categories of contact
 
         Keywords arguments:
         project_id -- id of the project if the category is specific to a project
         """
 
-        route = f'v1/contacts/categories/{self.org_pk}/'
+        route = f"v1/contacts/categories/{self.org_pk}/"
         if project_id is not None:
-            route += f'{project_id}/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+            route += f"{project_id}/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def create_contact_category(self, data, project_id=None):
-        """ Create a new category for contacts
+        """Create a new category for contacts
 
         Keywords arguments:
         project_id -- id of the project if the category is specific to a project
@@ -37,25 +43,29 @@ class Contacts(Helper):
             ]
         }
         """
-        route = f'v1/contacts/categories/{self.org_pk}/'
+        route = f"v1/contacts/categories/{self.org_pk}/"
         if project_id is not None:
-            route += f'{project_id}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+            route += f"{project_id}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response, True)
 
     def get_contact_category_details(self, category_pk):
-        """ Get the contact category details
+        """Get the contact category details
 
         Keywords arguments:
         category_pk -- the pk of the contact
         """
 
-        route = f'v1/contacts/category/{category_pk}/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/contacts/category/{category_pk}/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def update_contact_category_details(self, category_pk, data):
-        """ Update the contact category details
+        """Update the contact category details
 
         Keywords arguments:
         category_pk -- the pk of the contact category
@@ -70,43 +80,59 @@ class Contacts(Helper):
         }
         """
 
-        route = f'v1/contacts/category/{category_pk}/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/contacts/category/{category_pk}/"
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def delete_contact_category(self, category_pk):
-        """ Delete the contact
+        """Delete the contact
 
         Keywords arguments:
         category_pk -- the pk of the contact category
         """
 
-        route = f'v1/contacts/category/{category_pk}/'
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
+        route = f"v1/contacts/category/{category_pk}/"
+        response = self.process_request(
+            requests, "DELETE", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def get_contact_list_action(self):
 
-        route = f'v1/contacts/list-action/{self.org_pk}/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/contacts/list-action/{self.org_pk}/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     # TODO POST on /api/v1/contacts/list-action/{org_pk}/
 
     def get_contacts_list(self, project_id=None, page=1):
-        """ Get the contacts list
+        """Get the contacts list
 
         project_id -- id of the contacts' project (optional)
         """
 
-        route = f'v1/contacts/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
+        route = (
+            f"v1/contacts/list/{self.org_pk}/?page_size={self.pagination}&page={page}"
+        )
         if project_id is not None:
-            route += f'{project_id}/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+            route += f"{project_id}/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def create_contact(self, data, project_id=None):
-        """ Create a new contact
+        """Create a new contact
 
         Keywords arguments:
         project_id -- id of the contact's project (optional)
@@ -121,41 +147,47 @@ class Contacts(Helper):
             }
         """
 
-        route = f'v1/contacts/list/{self.org_pk}/'
+        route = f"v1/contacts/list/{self.org_pk}/"
         if project_id is not None:
-            route += f'{project_id}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+            route += f"{project_id}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response)
 
     def get_number_uncategorized_contacts(self, team_pk=None, project_id=None):
-        """ Return the number of uncategorized contacts """
+        """Return the number of uncategorized contacts"""
 
-        route = f'v1/contacts/uncategorized/count/{self.org_pk}/'
-        parameters = ''
+        route = f"v1/contacts/uncategorized/count/{self.org_pk}/"
+        parameters = ""
         if team_pk is not None or project_id is not None:
-            parameters = '?'
+            parameters = "?"
             if team_pk is not None:
-                parameters += f'team={team_pk}'
+                parameters += f"team={team_pk}"
                 if project_id is not None:
-                    parameters += '&'
+                    parameters += "&"
             if project_id is not None:
-                parameters += f'project={team_pk}'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, parameters, None)
+                parameters += f"project={team_pk}"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, parameters, None
+        )
         return self.process_response(response)
 
     def get_contact_details(self, pk):
-        """ Get the contact details
+        """Get the contact details
 
         Keywords arguments:
         pk -- the pk of the contact
         """
 
-        route = f'v1/contacts/{pk}/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/contacts/{pk}/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def update_contact_details(self, pk, data):
-        """ Update the contact details
+        """Update the contact details
 
         Keywords arguments:
         pk -- the pk of the contact
@@ -182,17 +214,27 @@ class Contacts(Helper):
         }
         """
 
-        route = f'v1/contacts/{pk}/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/contacts/{pk}/"
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def delete_contact(self, pk):
-        """ Delete the contact
+        """Delete the contact
 
         Keywords arguments:
         pk -- the pk of the contact
         """
 
-        route = f'v1/contacts/{pk}/'
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
+        route = f"v1/contacts/{pk}/"
+        response = self.process_request(
+            requests, "DELETE", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)

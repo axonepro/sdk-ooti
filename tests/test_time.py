@@ -6,8 +6,10 @@ from dotenv import load_dotenv
 from factories.factories import OrguserPkFactory, TeamFactory
 from test_helper import HelperTest
 
-PACKAGE_PARENT = '..'
-SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+PACKAGE_PARENT = ".."
+SCRIPT_DIR = os.path.dirname(
+    os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__)))
+)
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
 from resources import ooti  # noqa E402
@@ -22,13 +24,13 @@ my_account = ooti.OotiAPI(OOTI_AUTH, OOTI_PASSWORD)
 my_account.connect()
 
 team_pk = TeamFactory()
-currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
-project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
+currency_pk = my_account.Currencies.get_currencies_list()["data"][0]["pk"]
+project_pk = my_account.Projects.get_projects_list()["data"][0]["id"]
 
 orguser = OrguserPkFactory(my_account.org_pk)
-week_pk = my_account.Timelogs.get_timelogs_week_list()['data'][0]['id']
-res = my_account.update_orguser_details(orguser, {'trips_enabled': True})
-print(res.get('status'))
+week_pk = my_account.Timelogs.get_timelogs_week_list()["data"][0]["id"]
+res = my_account.update_orguser_details(orguser, {"trips_enabled": True})
+print(res.get("status"))
 
 
 # class Tests(unittest.TestCase):
@@ -630,5 +632,5 @@ print(res.get('status'))
 #         self.assertEqual(res['status'], 204)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

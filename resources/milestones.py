@@ -6,17 +6,25 @@ from .helper import Helper
 
 
 class Milestones(Helper):
-    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
-        super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
+    def __init__(
+        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+    ):
+        super().__init__(
+            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+        )
 
     def get_milestones_list(self, page=1):
-        """ Get milestones list """
-        route = f'v1/milestones/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        """Get milestones list"""
+        route = (
+            f"v1/milestones/list/{self.org_pk}/?page_size={self.pagination}&page={page}"
+        )
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def create_milestone(self, data):
-        """ Create a milestone
+        """Create a milestone
 
         Keyword arguments:
 
@@ -36,23 +44,27 @@ class Milestones(Helper):
                 "in_timeline": true
             }
         """
-        route = f'v1/milestones/list/{self.org_pk}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/milestones/list/{self.org_pk}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response)
 
     def get_milestone_details(self, pk):
-        """ Get melistone details
+        """Get melistone details
 
         Keyword arguments:
 
         pk -- pk of the milestone
         """
-        route = f'v1/milestones/{pk}/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/milestones/{pk}/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def update_milestone(self, pk, data):
-        """ Update a milestone
+        """Update a milestone
 
         Keyword arguments:
 
@@ -72,17 +84,27 @@ class Milestones(Helper):
                 "in_timeline": true
             }
         """
-        route = f'v1/milestones/{pk}/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/milestones/{pk}/"
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def delete_milestone(self, pk):
-        """ Delete milestone
+        """Delete milestone
 
         Keyword arguments:
 
         pk -- pk of the milestone
         """
-        route = f'v1/milestones/{pk}/'
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
+        route = f"v1/milestones/{pk}/"
+        response = self.process_request(
+            requests, "DELETE", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)

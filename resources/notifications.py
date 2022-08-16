@@ -6,19 +6,25 @@ from .helper import Helper
 
 
 class Notifications(Helper):
-    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
-        super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
+    def __init__(
+        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+    ):
+        super().__init__(
+            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+        )
 
     def get_notifications_config(self):
-        """ Get the notifications config of the organization """
+        """Get the notifications config of the organization"""
 
-        route = f'v1/digests/digest-config/{0}/'.format(self.org_pk)
+        route = f"v1/digests/digest-config/{0}/".format(self.org_pk)
 
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def update_notifications_config(self, data):  # "off"/? - "on" and "active" rejected
-        """ Update the notifications config of the organization
+        """Update the notifications config of the organization
 
         Keywords arguments:
         data -- content of the update
@@ -55,7 +61,15 @@ class Notifications(Helper):
         }
         """
 
-        route = f'v1/digests/digest-config/{0}/'.format(self.org_pk)
+        route = f"v1/digests/digest-config/{0}/".format(self.org_pk)
 
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)

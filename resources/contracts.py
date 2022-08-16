@@ -6,18 +6,24 @@ from .helper import Helper
 
 
 class Contracts(Helper):
-    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
-        super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
+    def __init__(
+        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+    ):
+        super().__init__(
+            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+        )
 
     def get_contractors_list(self, page=1):
-        """ Get contractors list """
+        """Get contractors list"""
 
-        route = f'v1/contracts/contractor/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/contracts/contractor/list/{self.org_pk}/?page_size={self.pagination}&page={page}"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def create_contractors(self, data):
-        """ Create a contractor
+        """Create a contractor
 
         Keyword arguments:
 
@@ -40,24 +46,28 @@ class Contracts(Helper):
             }
         """
 
-        route = f'v1/contracts/contractor/list/{self.org_pk}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/contracts/contractor/list/{self.org_pk}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response)
 
     def get_contractor_details(self, pk):
-        """ Get contractor details
+        """Get contractor details
 
         Keyword arguments:
 
         pk -- the pk of the contractor
         """
 
-        route = f'v1/contracts/contractor/{pk}/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/contracts/contractor/{pk}/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def update_contractor(self, pk, data):
-        """ Update a contractor
+        """Update a contractor
 
         Keyword arguments:
 
@@ -81,54 +91,74 @@ class Contracts(Helper):
             }
         """
 
-        route = f'v1/contracts/contractor/{pk}/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/contracts/contractor/{pk}/"
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def delete_contractor(self, pk):
-        """ Delete contractor
+        """Delete contractor
 
         Keyword arguments:
 
         pk -- the pk of the contractor
         """
 
-        route = f'v1/contracts/contractor/{pk}/'
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
+        route = f"v1/contracts/contractor/{pk}/"
+        response = self.process_request(
+            requests, "DELETE", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def generate_contracts_project(self, project_pk):
-        """ Copy contracts from fee projects to annexes
+        """Copy contracts from fee projects to annexes
 
         Keyword arguments:
 
         project_pk -- pk of the project :
         """
 
-        route = f'v1/contracts/generate/contracts/{project_pk}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
+        route = f"v1/contracts/generate/contracts/{project_pk}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def generate_contracts_org(self, project_pk):
-        """ Generate contracts """
+        """Generate contracts"""
 
-        route = f'v1/contracts/generate/{self.org_pk}/?project_pk={project_pk}'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
+        route = f"v1/contracts/generate/{self.org_pk}/?project_pk={project_pk}"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def get_contracts_items_list(self, page=1, contract_pk=None):
-        """ Get contracts item list """
+        """Get contracts item list"""
 
-        if(contract_pk!=None):
-            route = f'v1/contracts/item/list/{0}/?page_size={1}&page={2}&contract={3}'.format(self.org_pk, self.pagination, page, contract_pk)
+        if contract_pk is not None:
+            route = f"v1/contracts/item/list/{0}/?page_size={1}&page={2}&contract={3}".format(
+                self.org_pk, self.pagination, page, contract_pk
+            )
         else:
-            route = f'v1/contracts/item/list/{0}/?page_size={1}&page={2}'.format(self.org_pk, self.pagination, page)
+            route = f"v1/contracts/item/list/{0}/?page_size={1}&page={2}".format(
+                self.org_pk, self.pagination, page
+            )
 
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def create_contracts_items(self, data):
-        """ Create a contract item
+        """Create a contract item
 
         Keyword arguments:
 
@@ -146,12 +176,14 @@ class Contracts(Helper):
             }
         """
 
-        route = f'v1/contracts/item/list/{self.org_pk}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/contracts/item/list/{self.org_pk}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response)
 
     def get_contract_item_details(self, pk):
-        """ Get contract item details
+        """Get contract item details
 
 
         Keyword arguments:
@@ -159,12 +191,14 @@ class Contracts(Helper):
         pk -- the pk of the item
         """
 
-        route = f'v1/contracts/item/{pk}/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/contracts/item/{pk}/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def update_contract_item(self, pk, data):
-        """ Update a contract item
+        """Update a contract item
 
         Keyword arguments:
 
@@ -183,31 +217,45 @@ class Contracts(Helper):
             }
         """
 
-        route = f'v1/contracts/item/{pk}/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/contracts/item/{pk}/"
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def delete_contract_item(self, pk):
-        """ Delete a contract item
+        """Delete a contract item
 
         Keyword arguments:
 
         pk -- pk of the item
         """
 
-        route = f'v1/contracts/item/{pk}/'
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
+        route = f"v1/contracts/item/{pk}/"
+        response = self.process_request(
+            requests, "DELETE", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def get_contracts_list(self, page=1):
-        """ Get contracts list """
+        """Get contracts list"""
 
-        route = f'v1/contracts/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = (
+            f"v1/contracts/list/{self.org_pk}/?page_size={self.pagination}&page={page}"
+        )
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def create_contract(self, data):
-        """ Create a contract
+        """Create a contract
         #! A contract can be added to a fee_project under review only.
 
         Keyword arguments:
@@ -230,24 +278,28 @@ class Contracts(Helper):
             }
         """
 
-        route = f'v1/contracts/list/{self.org_pk}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/contracts/list/{self.org_pk}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response)
 
     def get_contract_details(self, pk):
-        """ Get contract details
+        """Get contract details
 
         Keyword arguments:
 
         pk -- the pk of the contract
         """
 
-        route = f'v1/contracts/{pk}/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/contracts/{pk}/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def update_contract(self, pk, data):
-        """ Update a contract
+        """Update a contract
 
         Keyword arguments:
 
@@ -268,47 +320,59 @@ class Contracts(Helper):
             }
         """
 
-        route = f'v1/contracts/{pk}/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/contracts/{pk}/"
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def delete_contract(self, pk):
-        """ Delete contract
+        """Delete contract
 
         Keyword arguments:
 
         pk -- the pk of the contract
         """
 
-        route = f'v1/contracts/{pk}/'
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
+        route = f"v1/contracts/{pk}/"
+        response = self.process_request(
+            requests, "DELETE", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def generate_contracts_month_org(self, contract_pk):
-        """ Generate contract month
+        """Generate contract month
 
         Keyword arguments:
 
         contract_pk -- pk of the contract
         """
 
-        data = {
-            "contract": contract_pk
-        }
+        data = {"contract": contract_pk}
 
-        route = f'v1/contracts/month/generate/{self.org_pk}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/contracts/month/generate/{self.org_pk}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response)
 
     def get_contracts_month_list(self, page=1):
-        """ Get contracts month list """
+        """Get contracts month list"""
 
-        route = f'v1/contracts/month/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/contracts/month/list/{self.org_pk}/?page_size={self.pagination}&page={page}"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def create_contracts_month(self, data):
-        """ Create a contract month
+        """Create a contract month
 
         Keyword arguments:
 
@@ -329,24 +393,28 @@ class Contracts(Helper):
             }
         """
 
-        route = f'v1/contracts/month/list/{self.org_pk}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/contracts/month/list/{self.org_pk}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response)
 
     def get_contract_month_details(self, pk):
-        """ Get contract month details
+        """Get contract month details
 
         Keyword arguments:
 
         pk -- the pk of the contract month
         """
 
-        route = f'v1/contracts/month/{pk}/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/contracts/month/{pk}/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def update_contracts_month(self, pk, data):
-        """ Create a contract month
+        """Create a contract month
 
         Keyword arguments:
 
@@ -368,18 +436,28 @@ class Contracts(Helper):
             }
         """
 
-        route = f'v1/contracts/month/{pk}/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/contracts/month/{pk}/"
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def delete_contract_month(self, pk):
-        """ Delete contract month
+        """Delete contract month
 
         Keyword arguments:
 
         pk -- the pk of the contract month
         """
 
-        route = f'v1/contracts/month/{pk}/'
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
+        route = f"v1/contracts/month/{pk}/"
+        response = self.process_request(
+            requests, "DELETE", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)

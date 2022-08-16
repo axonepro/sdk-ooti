@@ -6,39 +6,51 @@ from .helper import Helper
 
 
 class Reports(Helper):
-    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
-        super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
+    def __init__(
+        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+    ):
+        super().__init__(
+            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+        )
 
     # TODO POST on /api/v1/reports/copy-as-custom/{project_pk}/
 
     def get_reports_list(self, page=1):
-        """ Get the reports list """
+        """Get the reports list"""
 
-        route = f'v1/reports/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = (
+            f"v1/reports/list/{self.org_pk}/?page_size={self.pagination}&page={page}"
+        )
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def get_reports_project_list(self, project_pk, page=1):
-        """ Get the reports list for a project """
+        """Get the reports list for a project"""
 
-        route = f'v1/reports/list/{self.org_pk}/?project={project_pk}&page_size={self.pagination}&page={page}'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/reports/list/{self.org_pk}/?project={project_pk}&page_size={self.pagination}&page={page}"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def get_report_details(self, pk):
-        """ Get the report details
+        """Get the report details
 
         Keyword arguments:
 
         pk -- pk of the report
         """
 
-        route = f'v1/reports/{pk}/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/reports/{pk}/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def create_report(self, data):
-        """ Create a report
+        """Create a report
 
         Keyword arguments:
 
@@ -83,12 +95,14 @@ class Reports(Helper):
 
         Note: You can create a report without "type", but this will create a blank page.
         """
-        route = f'v1/reports/list/{self.org_pk}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/reports/list/{self.org_pk}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response)
 
     def update_report(self, pk, data):
-        """ Update a report
+        """Update a report
 
         Keyword arguments:
 
@@ -113,23 +127,33 @@ class Reports(Helper):
 
         Note: You can create a report without "type", but this will create a blank page.
         """
-        route = f'v1/reports/{pk}/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/reports/{pk}/"
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def delete_report(self, pk):
-        """ Delete a report
+        """Delete a report
 
         Keyword arguments:
 
         pk -- pk of the report
         """
-        route = f'v1/reports/{pk}/'
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
+        route = f"v1/reports/{pk}/"
+        response = self.process_request(
+            requests, "DELETE", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def generate_report(self, data):
-        """ Generate a report (report that is already created)
+        """Generate a report (report that is already created)
 
         Keyword arguments:
 
@@ -139,20 +163,24 @@ class Reports(Helper):
                 "project": 0 (project linked to the report)
             }
         """
-        route = f'v1/reports/generate/{self.org_pk}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/reports/generate/{self.org_pk}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response)
 
     def get_templates_list(self, team_pk, page=1):
-        """ Get list of templates
+        """Get list of templates
 
         Keyword arguments:
 
         team_pk -- pk of the team
         """
 
-        route = f'v1/reports/templates/list/{team_pk}/?page_size={self.pagination}&page={page}'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/reports/templates/list/{team_pk}/?page_size={self.pagination}&page={page}"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def get_template_details(self, pk):
@@ -163,12 +191,14 @@ class Reports(Helper):
         pk -- pk of the template
         """
 
-        route = f'v1/reports/templates/{pk}/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/reports/templates/{pk}/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def create_template(self, team_pk, data):
-        """ Create a template
+        """Create a template
 
         Keyword arguments:
 
@@ -186,14 +216,16 @@ class Reports(Helper):
                 "margin_left": 0,
                 "margin_right": 0
             }
-            """
+        """
 
-        route = f'v1/reports/templates/list/{team_pk}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/reports/templates/list/{team_pk}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response)
 
     def update_template(self, pk, data):
-        """ Update a template
+        """Update a template
 
         Keyword arguments:
 
@@ -211,34 +243,46 @@ class Reports(Helper):
                 "margin_left": 0,
                 "margin_right": 0
             }
-            """
+        """
 
-        route = f'v1/reports/templates/{pk}/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/reports/templates/{pk}/"
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def delete_template(self, pk):
-        """ Delete a template
+        """Delete a template
 
         Keyword arguments:
 
         pk -- pk of the template
-         """
+        """
 
-        route = f'v1/reports/templates/{pk}/'
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
+        route = f"v1/reports/templates/{pk}/"
+        response = self.process_request(
+            requests, "DELETE", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def duplicate_template(self, pk):
-        """ Duplicate a template
+        """Duplicate a template
 
         Keyword arguments:
 
         pk -- pk of the template
-         """
+        """
 
-        route = f'v1/reports/templates/duplicate/{pk}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, None)
+        route = f"v1/reports/templates/duplicate/{pk}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     # TODO GET on /api/v1/reports/variables/{id}/
