@@ -6,23 +6,29 @@ from .helper import Helper
 
 
 class Files(Helper):
-    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
-        super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
+    def __init__(
+        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+    ):
+        super().__init__(
+            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+        )
 
     def get_folder_list(self, project_pk, page=1):
-        """ Get the folder list
+        """Get the folder list
 
         Keyword arguments:
 
         project_pk -- pk of the project
         """
 
-        route = f'v1/files/folder/list/{project_pk}/?page_size={self.pagination}&page={page}'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/files/folder/list/{project_pk}/?page_size={self.pagination}&page={page}"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def create_folder(self, project_pk, data):
-        """ Create a folder
+        """Create a folder
 
         Keyword arguments:
 
@@ -35,24 +41,28 @@ class Files(Helper):
                 "parent": 0
             }
         """
-        route = f'v1/files/folder/list/{project_pk}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/files/folder/list/{project_pk}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response)
 
     def get_folder_details(self, pk):
-        """ Get the folder details
+        """Get the folder details
 
         Keyword arguments:
 
         pk -- pk of the folder
         """
 
-        route = f'v1/files/folder/{pk}/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/files/folder/{pk}/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def update_folder(self, pk, data):
-        """ Update a folder
+        """Update a folder
 
         Keyword arguments:
 
@@ -65,43 +75,57 @@ class Files(Helper):
                 "parent": 0
             }
         """
-        route = f'v1/files/folder/{pk}/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/files/folder/{pk}/"
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def delete_folder(self, pk):
-        """ Delete a folder
+        """Delete a folder
 
         Keyword arguments:
 
         pk -- pk of the folder
         """
-        route = f'v1/files/folder/{pk}/'
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
+        route = f"v1/files/folder/{pk}/"
+        response = self.process_request(
+            requests, "DELETE", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def get_files_list(self, project_pk, page=1):
-        """ Get the files list
+        """Get the files list
 
         Keyword arguments:
 
         project_pk -- pk of the project
         """
 
-        route = f'v1/files/list/{project_pk}/?page_size={self.pagination}&page={page}'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/files/list/{project_pk}/?page_size={self.pagination}&page={page}"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def create_file(self, project_pk, data):
-        """ Create a file
+        """Create a file
 
         Keyword arguments:
 
         project_pk -- pk of the project
         """
 
-        route = f'v1/files/list/{project_pk}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/files/list/{project_pk}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response, True)
 
     # TODO GET on /api/v1/files/request_access/
@@ -109,27 +133,31 @@ class Files(Helper):
     # TODO GET on /api/v1/files/smtp_request_access/
 
     def get_file_details(self, pk):
-        """ Get the file details
+        """Get the file details
 
         Keyword arguments:
 
         pk -- pk of the file
         """
 
-        route = f'v1/files/{pk}/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/files/{pk}/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     # TODO PATCH on /api/v1/files/{id}/
 
     def delete_file(self, pk):
-        """ Delete a file
+        """Delete a file
 
         Keyword arguments:
 
         pk -- pk of the file
         """
 
-        route = f'v1/files/{pk}/'
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
+        route = f"v1/files/{pk}/"
+        response = self.process_request(
+            requests, "DELETE", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
