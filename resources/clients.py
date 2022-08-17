@@ -6,8 +6,12 @@ from .helper import Helper
 
 
 class Clients(Helper):
-    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
-        super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
+    def __init__(
+        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+    ):
+        super().__init__(
+            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+        )
 
     def get_clients_list(self, team_pk, page=1):
         """Get the clients list
@@ -17,10 +21,12 @@ class Clients(Helper):
         pk -- the pk of the team
         """
 
-        route = f'v1/clients/list/{self.org_pk}/'
-        parameters = f'?team={team_pk}&page_size={self.pagination}&page={page}'
+        route = f"v1/clients/list/{self.org_pk}/"
+        parameters = f"?team={team_pk}&page_size={self.pagination}&page={page}"
 
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, parameters, None)
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, parameters, None
+        )
         return self.process_response(response, True)
 
     # TODO POST on /api/v1/clients/list/{org_pk}/
@@ -33,13 +39,15 @@ class Clients(Helper):
         pk -- the pk of the client
         """
 
-        route = f'v1/clients/{pk}/'
+        route = f"v1/clients/{pk}/"
 
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def create_client(self, data):
-        """ Create client
+        """Create client
 
         Keyword arguments:
 
@@ -54,13 +62,15 @@ class Clients(Helper):
             }
         """
 
-        route = f'v1/clients/list/{self.org_pk}/'
+        route = f"v1/clients/list/{self.org_pk}/"
 
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response)
 
     def update_client(self, pk, data):
-        """ Update client
+        """Update client
 
         Keyword arguments:
 
@@ -76,21 +86,31 @@ class Clients(Helper):
                 "address: "string"
             }
         """
-        route = f'v1/clients/{pk}/'
+        route = f"v1/clients/{pk}/"
 
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def delete_client(self, pk):
-        """ Delete client
+        """Delete client
 
         Keyword arguments:
 
         pk -- pk of the client
         """
-        route = f'v1/clients/{pk}/'
+        route = f"v1/clients/{pk}/"
 
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
+        response = self.process_request(
+            requests, "DELETE", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     # TODO GET on /api/v1/clients/export/{org_pk}/

@@ -5,8 +5,10 @@ import unittest
 from dotenv import load_dotenv
 from factories.factories import OrguserFactory, ProjectFactory, TeamFactory
 
-PACKAGE_PARENT = '..'
-SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+PACKAGE_PARENT = ".."
+SCRIPT_DIR = os.path.dirname(
+    os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__)))
+)
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
 from resources import ooti  # noqa E402
@@ -76,5 +78,5 @@ class TestImports(unittest.TestCase):
         response = sdk.Settings.delete_import(71)
 """
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -6,38 +6,50 @@ from .helper import Helper
 
 
 class Invoices(Helper):
-    def __init__(self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination):
-        super().__init__(base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination)
+    def __init__(
+        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+    ):
+        super().__init__(
+            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
+        )
 
     def get_invoice_details(self, pk):
-        """ Get the invoice details
+        """Get the invoice details
 
         Keyword arguments:
 
         pk -- the pk of the invoice
         """
 
-        route = f'v1/invoices/{pk}/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/invoices/{pk}/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def get_invoices_list(self, page=1):
-        """ Get the invoice list """
+        """Get the invoice list"""
 
-        route = f'v1/invoices/list/{self.org_pk}/?page_size={self.pagination}&page={page}'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = (
+            f"v1/invoices/list/{self.org_pk}/?page_size={self.pagination}&page={page}"
+        )
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def get_invoices_sent_valid_list(self, team_pk, page=1):
-        """ Get the sent and valid invoice list
+        """Get the sent and valid invoice list
 
         Keyword arguments:
 
         team_pk -- pk of the team
         """
 
-        route = f'v1/invoices/list/{self.org_pk}/?team={team_pk}&page_size={self.pagination}&page={page}&q=&is_sent=true&is_valid=true'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/invoices/list/{self.org_pk}/?team={team_pk}&page_size={self.pagination}&page={page}&q=&is_sent=true&is_valid=true"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def update_invoice(self, pk, data):
@@ -59,8 +71,16 @@ class Invoices(Helper):
             }
         """
 
-        route = f'v1/invoices/{pk}/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/invoices/{pk}/"
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def create_invoice(self, team_pk, data):
@@ -82,9 +102,17 @@ class Invoices(Helper):
             Note that for type 4 (other), project is not mandatory
         """
 
-        route = f'v1/invoices/list/{self.org_pk}/'
-        parameters = f'?team={team_pk}'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, parameters, json.dumps(data))
+        route = f"v1/invoices/list/{self.org_pk}/"
+        parameters = f"?team={team_pk}"
+        response = self.process_request(
+            requests,
+            "POST",
+            self.base_url,
+            route,
+            self.headers,
+            parameters,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def validate_invoice(self, pk):
@@ -94,8 +122,16 @@ class Invoices(Helper):
         """
         data = {"is_valid": True}
 
-        route = f'v1/invoices/{pk}/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/invoices/{pk}/"
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def send_invoice(self, pk):
@@ -105,8 +141,16 @@ class Invoices(Helper):
         """
         data = {"is_sent": True}
 
-        route = f'v1/invoices/{pk}/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/invoices/{pk}/"
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def cancel_invoice(self, pk):
@@ -116,30 +160,40 @@ class Invoices(Helper):
         """
         data = {"is_closed": True}
 
-        route = f'v1/invoices/{pk}/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/invoices/{pk}/"
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
 
-        if(response.status_code == 200):
+        if response.status_code == 200:
             response_data = json.loads(response.content)
-            credit_note_pk = response_data['credit_note_url'].split('/')[4]
-            return {'status': response.status_code, 'data': credit_note_pk}
+            credit_note_pk = response_data["credit_note_url"].split("/")[4]
+            return {"status": response.status_code, "data": credit_note_pk}
 
         return self.process_response(response)
 
     def get_invoice_items(self, pk, page=1):
-        """ Get invoice's items
+        """Get invoice's items
 
         Keyword arguments:
 
         pk -- invoice pk
         """
 
-        route = f'v1/invoices/items/{pk}/?page_size={self.pagination}&page={page}'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/invoices/items/{pk}/?page_size={self.pagination}&page={page}"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def create_invoice_item(self, pk, data):
-        """ Create invoice's item
+        """Create invoice's item
 
         Keyword Arguments:
 
@@ -154,8 +208,10 @@ class Invoices(Helper):
             }
         """
 
-        route = f'v1/invoices/items/{pk}/'
-        response = self.process_request(requests, 'POST', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/invoices/items/{pk}/"
+        response = self.process_request(
+            requests, "POST", self.base_url, route, self.headers, None, json.dumps(data)
+        )
         return self.process_response(response)
 
     # TODO DELETE on /api/v1/invoices/{id}/
@@ -163,7 +219,7 @@ class Invoices(Helper):
     # TODO GET on /api/v1/invoices/item/{id}/
 
     def update_invoice_item(self, pk, data):
-        """ Update invoice's item
+        """Update invoice's item
 
         Keyword Arguments:
 
@@ -176,39 +232,53 @@ class Invoices(Helper):
             }
         """
 
-        route = f'v1/invoices/item/{pk}/'
-        response = self.process_request(requests, 'PATCH', self.base_url, route, self.headers, None, json.dumps(data))
+        route = f"v1/invoices/item/{pk}/"
+        response = self.process_request(
+            requests,
+            "PATCH",
+            self.base_url,
+            route,
+            self.headers,
+            None,
+            json.dumps(data),
+        )
         return self.process_response(response)
 
     def delete_invoice_item(self, pk):
-        """ Update invoice's item
+        """Update invoice's item
 
         Keyword Arguments:
 
         pk -- pk of the item
         """
 
-        route = f'v1/invoices/item/{pk}/'
-        response = self.process_request(requests, 'DELETE', self.base_url, route, self.headers, None, None)
+        route = f"v1/invoices/item/{pk}/"
+        response = self.process_request(
+            requests, "DELETE", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response)
 
     def get_credit_notes_list(self, page=1):
-        """ Get the invoice list """
+        """Get the invoice list"""
 
-        route = f'v1/invoices/list/{self.org_pk}/?page_size={self.pagination}&page={page}&type=9'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/invoices/list/{self.org_pk}/?page_size={self.pagination}&page={page}&type=9"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     def get_credit_notes_sent_valid_list(self, team_pk, page=1):
-        """ Get the sent and valid invoice list
+        """Get the sent and valid invoice list
 
         Keyword arguments:
 
         team_pk -- pk of the team
         """
 
-        route = f'v1/invoices/list/{self.org_pk}/?team={team_pk}&page_size={self.pagination}&page={page}&q=&is_sent=true&is_valid=true&type=9'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = f"v1/invoices/list/{self.org_pk}/?team={team_pk}&page_size={self.pagination}&page={page}&q=&is_sent=true&is_valid=true&type=9"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
         return self.process_response(response, True)
 
     # TODO GET on /api/v1/invoices/accounting-dashboard/{team_pk}/

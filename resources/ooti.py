@@ -1,4 +1,5 @@
 import json
+
 # To read .env variables
 import os
 import sys
@@ -169,152 +170,614 @@ class OotiAPI(Helper):
         self.__get_selected_org()
         self.__get_teams()
 
-        self.Accounting = Accounting(self.base_url, self.org_pk, self.teams_pk,
-                           self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Actions = Actions(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Annexes = Annexes(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Areas = Areas(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Auth = Auth(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Banks = Banks(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Billing = Billing(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Celery_tasks = Celery_tasks(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Clients = Clients(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Contacts = Contacts(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Contracts = Contracts(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Costs = Costs(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Countries = Countries(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Currencies = Currencies(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Customfields = Customfields(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Defaults = Defaults(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Documents = Documents(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Emails = Emails(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Employees = Employees(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Expenses = Expenses(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Fees = Fees(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Files = Files(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Goals = Goals(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Help = Help(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Helper = Helper(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Imports = Imports(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Inbound_emails = Inbound_emails(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Indicators = Indicators(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Invitations = Invitations(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Invoices = Invoices(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Jobs = Jobs(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Languages = Languages(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Lots = Lots(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Milestones = Milestones(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Newsletters = Newsletters(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Notes = Notes(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Notifications = Notifications(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Organizations = Organizations(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Orgusers = Orgusers(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Payments = Payments(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Permissions = Permissions(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Phases = Phases(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Pipelines = Pipelines(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Plans = Plans(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Posts = Posts(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Prescriptions = Prescriptions(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Profiles = Profiles(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Projections = Projections(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Projects = Projects(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Quickbooks = Quickbooks(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Reports = Reports(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Revenue = Revenue(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Revisions = Revisions(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Roles = Roles(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Stats = Stats(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Styleguides = Styleguides(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Tags = Tags(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Tasks = Tasks(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Teams = Teams(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Timelogs = Timelogs(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Timeperiods = Timeperiods(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Token_auth = Token_auth(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Token_refresh = Token_refresh(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Token_verify = Token_verify(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Trips = Trips(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
-        self.Zones = Zones(self.base_url, self.org_pk, self.teams_pk,
-                                   self.access_token, self._csrf_token, self.headers, self.pagination)
+        self.Accounting = Accounting(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Actions = Actions(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Annexes = Annexes(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Areas = Areas(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Auth = Auth(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Banks = Banks(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Billing = Billing(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Celery_tasks = Celery_tasks(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Clients = Clients(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Contacts = Contacts(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Contracts = Contracts(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Costs = Costs(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Countries = Countries(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Currencies = Currencies(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Customfields = Customfields(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Defaults = Defaults(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Documents = Documents(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Emails = Emails(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Employees = Employees(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Expenses = Expenses(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Fees = Fees(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Files = Files(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Goals = Goals(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Help = Help(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Helper = Helper(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Imports = Imports(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Inbound_emails = Inbound_emails(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Indicators = Indicators(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Invitations = Invitations(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Invoices = Invoices(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Jobs = Jobs(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Languages = Languages(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Lots = Lots(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Milestones = Milestones(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Newsletters = Newsletters(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Notes = Notes(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Notifications = Notifications(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Organizations = Organizations(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Orgusers = Orgusers(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Payments = Payments(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Permissions = Permissions(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Phases = Phases(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Pipelines = Pipelines(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Plans = Plans(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Posts = Posts(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Prescriptions = Prescriptions(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Profiles = Profiles(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Projections = Projections(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Projects = Projects(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Quickbooks = Quickbooks(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Reports = Reports(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Revenue = Revenue(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Revisions = Revisions(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Roles = Roles(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Stats = Stats(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Styleguides = Styleguides(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Tags = Tags(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Tasks = Tasks(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Teams = Teams(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Timelogs = Timelogs(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Timeperiods = Timeperiods(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Token_auth = Token_auth(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Token_refresh = Token_refresh(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Token_verify = Token_verify(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Trips = Trips(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
+        self.Zones = Zones(
+            self.base_url,
+            self.org_pk,
+            self.teams_pk,
+            self.access_token,
+            self._csrf_token,
+            self.headers,
+            self.pagination,
+        )
 
     def base_url(self):
-        """ Choose base_url based on ENV variable """
+        """Choose base_url based on ENV variable"""
         ENVIRONMENT = os.getenv("ENVIRONMENT", default=None)
 
-        if ENVIRONMENT and ENVIRONMENT == 'STAGING':
-            self.base_url = 'https://ooti-staging-3.herokuapp.com/api/'
-        elif ENVIRONMENT and ENVIRONMENT == 'LOCAL':
-            self.base_url = 'http://127.0.0.1:8000/api/'
+        if ENVIRONMENT and ENVIRONMENT == "STAGING":
+            self.base_url = "https://ooti-staging-3.herokuapp.com/api/"
+        elif ENVIRONMENT and ENVIRONMENT == "LOCAL":
+            self.base_url = "http://127.0.0.1:8000/api/"
         else:
-            self.base_url = 'https://app.ooti.co/api/'
+            self.base_url = "https://app.ooti.co/api/"
 
     def update_pagination(self, pagination):
-        """ Setter for pagination """
+        """Setter for pagination"""
         if pagination and isinstance(pagination, int) and pagination > 0:
             self.Accounting.pagination = pagination
             self.Actions.pagination = pagination
@@ -389,67 +852,75 @@ class OotiAPI(Helper):
         client = requests.session()
         # Retrieve the CSRF token first
         client.get("https://app.ooti.co/accounts/login/")  # sets cookie
-        if 'csrftoken' in client.cookies:
-            csrftoken = client.cookies['csrftoken']
+        if "csrftoken" in client.cookies:
+            csrftoken = client.cookies["csrftoken"]
         else:
-            csrftoken = client.cookies['csrf']
+            csrftoken = client.cookies["csrf"]
 
         self._csrf_token = csrftoken
 
     def __get_token(self):
-        route = 'v1/token-auth/'
-        headers = {
-            'Accept': 'application/json'
-        }
-        data = {
-            'username': self.username,
-            'password': self.password
-        }
-        response = self.process_request(requests, 'POST', self.base_url, route, headers, None, data)
+        route = "v1/token-auth/"
+        headers = {"Accept": "application/json"}
+        data = {"username": self.username, "password": self.password}
+        response = self.process_request(
+            requests, "POST", self.base_url, route, headers, None, data
+        )
 
         if response.status_code != 200:
-            print('Unable to log with provided credentials. Please modify your .ENV file.')
-            sys.exit('Authentication failed.')
+            print(
+                "Unable to log with provided credentials. Please modify your .ENV file."
+            )
+            sys.exit("Authentication failed.")
 
-        self.access_token = json.loads(response.content)['token']
+        self.access_token = json.loads(response.content)["token"]
 
         self.headers = {
-            'Authorization': f'JWT {self.access_token}',
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'X-CSRF-Token': self._csrf_token
+            "Authorization": f"JWT {self.access_token}",
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "X-CSRF-Token": self._csrf_token,
         }
         return response.status_code
 
     def __get_selected_org(self):
-        """ Get the organization selected on user profile
-        """
+        """Get the organization selected on user profile"""
 
-        route = 'v1/profiles/profile/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = "v1/profiles/profile/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
 
         if response.status_code != 200:
-            print('Unable to log with provided credentials. Please modify your .ENV file.')
-            sys.exit('Authentication failed.')
+            print(
+                "Unable to log with provided credentials. Please modify your .ENV file."
+            )
+            sys.exit("Authentication failed.")
 
-        self.org_pk = json.loads(response.content)['selected_org']
+        self.org_pk = json.loads(response.content)["selected_org"]
         return self.process_response(response)
 
     def __get_teams(self):
-        """ Set the organization id of the user """
+        """Set the organization id of the user"""
 
-        route = 'v1/organizations/membership/'
-        response = self.process_request(requests, 'GET', self.base_url, route, self.headers, None, None)
+        route = "v1/organizations/membership/"
+        response = self.process_request(
+            requests, "GET", self.base_url, route, self.headers, None, None
+        )
 
         if response.status_code != 200:
-            print('Unable to log with provided credentials. Please modify your .ENV file.')
-            sys.exit('Authentication failed.')
+            print(
+                "Unable to log with provided credentials. Please modify your .ENV file."
+            )
+            sys.exit("Authentication failed.")
 
-        organizations = json.loads(response.content)['organizations']
-        selected_organization = next((org for org in organizations if org.get('id') == self.org_pk), None)
-        teams = selected_organization['teams']
+        organizations = json.loads(response.content)["organizations"]
+        selected_organization = next(
+            (org for org in organizations if org.get("id") == self.org_pk), None
+        )
+        teams = selected_organization["teams"]
         # teams = json.loads(response.content)['organizations'][0]['teams']
         self.teams_pk = []
         for team in range(len(teams)):
-            self.teams_pk.append({key: teams[team][key] for key in ('id', 'title')})
+            self.teams_pk.append({key: teams[team][key] for key in ("id", "title")})
         return response.status_code

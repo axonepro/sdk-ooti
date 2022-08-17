@@ -10,8 +10,10 @@ from factories.factories import TeamFactory
 from requests.models import Response
 from test_helper import HelperTest
 
-PACKAGE_PARENT = '..'
-SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+PACKAGE_PARENT = ".."
+SCRIPT_DIR = os.path.dirname(
+    os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__)))
+)
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
 from resources import ooti  # noqa E402
@@ -26,8 +28,8 @@ my_account = ooti.OotiAPI(OOTI_AUTH, OOTI_PASSWORD)
 my_account.connect()
 
 team_pk = TeamFactory()
-currency_pk = my_account.Currencies.get_currencies_list()['data'][0]['pk']
-project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
+currency_pk = my_account.Currencies.get_currencies_list()["data"][0]["pk"]
+project_pk = my_account.Projects.get_projects_list()["data"][0]["id"]
 
 # class Tests(unittest.TestCase):
 #     def _create_invoice_return_pk(self):
@@ -416,5 +418,5 @@ project_pk = my_account.Projects.get_projects_list()['data'][0]['id']
 #         self.assertEqual(res['status'], 204)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
