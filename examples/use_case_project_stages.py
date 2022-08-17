@@ -90,6 +90,5 @@ if __name__ == "__main__":
     change_stage_project(my_account, opportunite_pk, "Proposition Envoyé")
     print("Proposition dans Proposition Envoyé")
     sleep(10)
-    signed_project(my_account,opportunite_pk)
+    signed_project(my_account, opportunite_pk)
     print("Proposition devenue un projet")
-
