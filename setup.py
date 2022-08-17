@@ -25,6 +25,8 @@ setup(
 
     url='https://github.com/axonepro/sdk-ooti',
 
+    install_requires=["requests", "python-dotenv"],
+
     # https://pypi.python.org/pypi?%3Aaction=list_classifiers.
     classifiers=[
         "Programming Language :: Python",

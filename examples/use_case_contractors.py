@@ -8,9 +8,11 @@ STEPS :
 6) Create a bill
 '''
 
-import ooti.ooti as oo
 from pprint import pprint
+
 from dotenv import dotenv_values
+
+import resources.ooti as oo
 
 config = dotenv_values("../.ENV")
 
@@ -24,7 +26,7 @@ def create_project(myAccount,client_pk,project_name):
                         "currency": "134313",
                         "project_title": project_name}
     return myAccount.Projects.create_project(data_opportunite)
-    
+
 def get_project_by_name(myAccount,name):
     for project in myAccount.Projects.get_projects_list()["data"]:
         if project["project_title"] == name:
@@ -34,7 +36,7 @@ def get_fee_id(myAccount,fee_name,project_id):
     for fee in myAccount.Fees.get_fees_project_list_projects(project_id)["data"]:
         if fee_name == fee["title"]:
             return fee["id"]
- 
+
 def get_contractor_id(myAccount,contractor_name):
     for contractor in myAccount.Contracts.get_contractors_list()["data"]:
         if contractor["display"] == contractor_name:
@@ -59,7 +61,7 @@ if __name__ == "__main__":
     team_pk = 3583
     project = create_project(my_account,41937,project_name)
     project_id = get_project_by_name(my_account,project_name)["id"]
-    
+
     #Create a project fee
     fee_name = "Fee1"
     data = {"title":fee_name,
@@ -95,12 +97,12 @@ if __name__ == "__main__":
 
     #Create a contract
     contractor_id = get_contractor_id(my_account,"Co-traitant test8")
-    data = {"contractor":contractor_id, 
-            "project":project_id, 
-            "fee_project":fee_id, 
+    data = {"contractor":contractor_id,
+            "project":project_id,
+            "fee_project":fee_id,
             "avg_pct":5,
             "type":"co"
-            } 
+            }
     my_account.Contracts.create_contract(data)
 
     #Validate the fee

@@ -1,6 +1,8 @@
-import ooti.ooti as oo
 from time import sleep
+
 from dotenv import dotenv_values
+
+import resources.ooti as oo
 
 config = dotenv_values("../.ENV")
 
@@ -43,7 +45,7 @@ def get_project_by_id(myAccount,project_id):
 def get_dict_stages(myAccount):
     out = {}
     for stage in myAccount.Pipelines.get_pipelines_stage_list()["data"]["results"]:
-        out[stage["title"]] = stage["pk"] 
+        out[stage["title"]] = stage["pk"]
     return out
 
 def change_stage_project(myAccount,project_id,name_stage):
@@ -58,7 +60,7 @@ def signed_project(myAccount,project_id):
 if __name__ == '__main__':
     my_account = oo.OotiAPI(config['OOTI_AUTH'], config['OOTI_PASSWORD'])  #connect to ooti
     my_account.connect()
-    
+
     client = create_client(my_account,"Aminata Company","Paris 2e")
     client_pk = get_client_id(client)
     opportunite = create_opportunite(my_account,client_pk,"My Project")
@@ -66,9 +68,9 @@ if __name__ == '__main__':
 
     change_stage_project(my_account,opportunite_pk,"Prospect")
     print("Proposition dans prospect")
-    sleep(10) 
+    sleep(10)
     change_stage_project(my_account,opportunite_pk,"Proposition Envoyé")
     print("Proposition dans Proposition Envoyé")
     sleep(10)
-    signed_project(my_account,opportunite_pk) 
+    signed_project(my_account,opportunite_pk)
     print("Proposition devenue un projet")

@@ -1,7 +1,8 @@
 import pprint
 
-import ooti.ooti as ooti
 from dotenv import dotenv_values
+
+import resources.ooti as ooti
 
 config = dotenv_values("../.ENV")
 
