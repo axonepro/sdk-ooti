@@ -1,22 +1,25 @@
-.Vscode
-.vscode
 __pycache__/
 .flake8
 setup.cfg
-
-# operating system-related files
-
-#file properties cache/storage on macOS
-*.DS_Store
 main.py
+
+# Local environment files
 .env
 .ENV
-projects_list.xls
-orgusers_list.xls
-project_11718_timeline.xls
+
+# File properties cache/storage on macOS
+**/.DS_Store
+
+# IDE generated files
+.Vscode
+.vscode
+.idea
+*~
+
+# Build generated
+build/
 dist/
 ooti_api.egg-info/
-ooti/.DS_Store
-.DS_Store
-ooti/.DS_Store
-build/
+
+# Exported files
+*.xls
