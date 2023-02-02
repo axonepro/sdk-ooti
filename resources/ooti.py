@@ -770,7 +770,7 @@ class OotiAPI(Helper):
         ENVIRONMENT = os.getenv("ENVIRONMENT", default=None)
 
         if ENVIRONMENT and ENVIRONMENT == "STAGING":
-            self.base_url = "https://ooti-staging-3.herokuapp.com/api/"
+            self.base_url = "https://staging3.ooti.co/api/"
         elif ENVIRONMENT and ENVIRONMENT == "LOCAL":
             self.base_url = "http://127.0.0.1:8000/api/"
         else:
