@@ -17,4 +17,4 @@ autopep8 = "==1.5.7"
 pre-commit = "==2.18.1"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
