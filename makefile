@@ -2,8 +2,14 @@ PIP?=pip
 PYTHON?=python 3.8.2
 CHANGELOG?=CHANGELOG.md
 
-init:
-	echo "ENVIRONMENT=STAGING\nOOTI_AUTH=youremail\nOOTI_PASSWORD=yourpassword\nPYTHONPATH=$(PWD)" > .env
+env:
+	@if [[ -f ".env" ]]; then\
+		echo ".env file already exists.";\
+	else\
+		echo "ENVIRONMENT=STAGING\nOOTI_AUTH=youremail\nOOTI_PASSWORD=yourpassword\nPYTHONPATH=$(PWD)" > .env;\
+	fi
+
+init: env
 	pip install pipenv
 	pip install gitchangelog
 	pipenv --$(PYTHON)
