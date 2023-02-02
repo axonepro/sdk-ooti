@@ -78,6 +78,8 @@ from .zones import Zones
 # Loading environment variables (stored in .env file)
 load_dotenv()
 
+ENVIRONMENT = os.getenv("ENVIRONMENT", default=None)
+
 
 class OotiAPI(Helper):
     def __init__(self, username, password, pagination=None):
@@ -767,8 +769,6 @@ class OotiAPI(Helper):
 
     def base_url(self):
         """Choose base_url based on ENV variable"""
-        ENVIRONMENT = os.getenv("ENVIRONMENT", default=None)
-
         if ENVIRONMENT and ENVIRONMENT == "STAGING":
             self.base_url = "https://staging3.ooti.co/api/"
         elif ENVIRONMENT and ENVIRONMENT == "LOCAL":
