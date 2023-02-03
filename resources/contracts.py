@@ -137,14 +137,9 @@ class Contracts(Resource):
     def get_contracts_items_list(self, page=1, contract_pk=None):
         """Get contracts item list"""
 
+        route = f"v1/contracts/item/list/{self.org_pk}/?page_size={self.pagination}&page={page}"
         if contract_pk is not None:
-            route = f"v1/contracts/item/list/{0}/?page_size={1}&page={2}&contract={3}".format(
-                self.org_pk, self.pagination, page, contract_pk
-            )
-        else:
-            route = f"v1/contracts/item/list/{0}/?page_size={1}&page={2}".format(
-                self.org_pk, self.pagination, page
-            )
+            route = f"{route}&contract={contract_pk}"
 
         response = self.process_request(
             requests, "GET", self.base_url, route, self.headers, None, None
