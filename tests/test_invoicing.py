@@ -1,25 +1,8 @@
 import os
-import random
-import string
-import sys
-import time
 import unittest
 
-from dotenv import load_dotenv
 from factories.factories import TeamFactory
-from requests.models import Response
-from test_helper import HelperTest
-
-PACKAGE_PARENT = ".."
-SCRIPT_DIR = os.path.dirname(
-    os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__)))
-)
-sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
-
-from resources import ooti  # noqa E402
-
-# Loading environment variables (stored in .env file)
-load_dotenv()
+from resources import ooti
 
 OOTI_AUTH = os.getenv("OOTI_AUTH")
 OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")

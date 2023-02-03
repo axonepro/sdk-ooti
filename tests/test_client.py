@@ -5,8 +5,6 @@ import pytest
 from factories.factories import TeamFactory
 from test_helper import HelperTest
 
-from resources import ooti  # noqa E402
-
 
 @pytest.mark.usefixtures("my_account")
 class TestClients(unittest.TestCase):
