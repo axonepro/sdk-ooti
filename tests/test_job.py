@@ -5,14 +5,8 @@ import unittest
 from dotenv import load_dotenv
 from factories.factories import (
     ContractorFactory,
-    CostFactory,
-    CostMonthFactory,
-    EmployeeContractFactory,
-    EmployeePeriodFactory,
-    ExpenseGroupFactory,
     JobFactory,
     JobInvoiceFactory,
-    OrguserFactory,
     ProjectFactory,
     TeamFactory,
 )
