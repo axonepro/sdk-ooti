@@ -6,12 +6,6 @@ from .helper import Helper
 
 
 class Customfields(Helper):
-    def __init__(
-        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-    ):
-        super().__init__(
-            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-        )
 
     def get_customfields_list(self, page=1):
         """Get the list of customfields"""

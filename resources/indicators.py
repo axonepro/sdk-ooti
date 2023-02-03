@@ -1,17 +1,9 @@
-import json
-
 import requests
 
 from .helper import Helper
 
 
 class Indicators(Helper):
-    def __init__(
-        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-    ):
-        super().__init__(
-            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-        )
 
     def get_indicators_financial_costs(self, team_pk=None, project_id=None):
         """Get financial costs indicators list"""

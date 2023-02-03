@@ -6,12 +6,6 @@ from .helper import Helper
 
 
 class Organizations(Helper):
-    def __init__(
-        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-    ):
-        super().__init__(
-            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-        )
 
     # TODO GET on /api/v1/organizations/admin-dashboard-metrics/{team_pk}/
 

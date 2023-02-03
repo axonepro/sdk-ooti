@@ -6,12 +6,6 @@ from .helper import Helper
 
 
 class Zones(Helper):
-    def __init__(
-        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-    ):
-        super().__init__(
-            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-        )
 
     def export_zones(self, project_pk):
         """Export zone

@@ -6,12 +6,6 @@ from .helper import Helper
 
 
 class Tasks(Helper):
-    def __init__(
-        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-    ):
-        super().__init__(
-            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-        )
 
     def empty_tasks_trash(self, project_id):
         """Set delete all not-completed archived tasks in project"""

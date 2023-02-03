@@ -6,12 +6,6 @@ from .helper import Helper
 
 
 class Emails(Helper):
-    def __init__(
-        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-    ):
-        super().__init__(
-            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-        )
 
     def get_emails_list(self, page=1):
         """Get the emails list"""
