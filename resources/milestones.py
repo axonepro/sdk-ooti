@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Milestones(Helper):
+class Milestones(Resource):
 
     def get_milestones_list(self, page=1):
         """Get milestones list"""

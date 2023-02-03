@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Orgusers(Helper):
+class Orgusers(Resource):
 
     # TODO GET on /api/v1/orgusers/all/
 

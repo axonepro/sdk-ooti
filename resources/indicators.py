@@ -1,9 +1,9 @@
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Indicators(Helper):
+class Indicators(Resource):
 
     def get_indicators_financial_costs(self, team_pk=None, project_id=None):
         """Get financial costs indicators list"""

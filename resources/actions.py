@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Actions(Helper):
+class Actions(Resource):
 
     def get_actions_list(self, page=1):
         """Get the list of actions"""

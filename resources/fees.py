@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Fees(Helper):
+class Fees(Resource):
 
     # TODO GET on /api/v1/fees/apply-project-defaults/{fee_project_pk}/{is_price}/
 

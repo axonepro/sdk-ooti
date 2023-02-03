@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Plans(Helper):
+class Plans(Resource):
 
     def get_plans_list_action(self, project_pk):
         """Get data needed to perfom actions

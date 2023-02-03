@@ -1,6 +1,6 @@
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 """
 - ERROR 403 v1/celery_tasks/last/
@@ -9,7 +9,7 @@ from .helper import Helper
 """
 
 
-class CeleryTask(Helper):
+class CeleryTask(Resource):
     # TODO GET on /api/v1/celery_tasks/last/
 
     def get_last_celery_task(self):

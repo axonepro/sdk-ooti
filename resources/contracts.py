@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Contracts(Helper):
+class Contracts(Resource):
 
     def get_contractors_list(self, page=1):
         """Get contractors list"""

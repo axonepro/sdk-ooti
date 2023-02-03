@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Tasks(Helper):
+class Tasks(Resource):
 
     def empty_tasks_trash(self, project_id):
         """Set delete all not-completed archived tasks in project"""

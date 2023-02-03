@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Reports(Helper):
+class Reports(Resource):
 
     # TODO POST on /api/v1/reports/copy-as-custom/{project_pk}/
 

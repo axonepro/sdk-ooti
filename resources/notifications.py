@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Notifications(Helper):
+class Notifications(Resource):
 
     def get_notifications_config(self):
         """Get the notifications config of the organization"""

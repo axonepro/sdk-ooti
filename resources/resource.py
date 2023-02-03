@@ -1,7 +1,7 @@
 import json
 
 
-class Helper:
+class Resource:
     def __init__(
         self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
     ):

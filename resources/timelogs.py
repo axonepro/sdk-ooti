@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Timelogs(Helper):
+class Timelogs(Resource):
 
     def copy_previous_week(self):
         """Copy previous week"""

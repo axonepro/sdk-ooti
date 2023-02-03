@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Documents(Helper):
+class Documents(Resource):
 
     def get_documents_list(self, project_pk, page=1):
         """Get docuemnts list

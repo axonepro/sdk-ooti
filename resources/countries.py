@@ -1,5 +1,5 @@
-from .helper import Helper
+from .resource import Resource
 
 
-class Countries(Helper):
+class Countries(Resource):
     pass

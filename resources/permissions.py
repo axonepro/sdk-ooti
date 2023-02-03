@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Permissions(Helper):
+class Permissions(Resource):
 
     def get_permissions_list(self):
         """Get the list of permissions sets"""

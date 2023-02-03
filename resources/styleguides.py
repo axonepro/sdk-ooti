@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Styleguides(Helper):
+class Styleguides(Resource):
 
     # TODO POST on /api/v1/styleguides/duplicate/{org_pk}/
 

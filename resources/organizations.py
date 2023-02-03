@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Organizations(Helper):
+class Organizations(Resource):
 
     # TODO GET on /api/v1/organizations/admin-dashboard-metrics/{team_pk}/
 

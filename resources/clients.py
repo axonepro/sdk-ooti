@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Clients(Helper):
+class Clients(Resource):
 
     def get_clients_list(self, team_pk, page=1):
         """Get the clients list

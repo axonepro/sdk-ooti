@@ -1,5 +1,5 @@
-from .helper import Helper
+from .resource import Resource
 
 
-class Accounting(Helper):
+class Accounting(Resource):
     pass

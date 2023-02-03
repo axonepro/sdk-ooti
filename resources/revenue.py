@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Revenue(Helper):
+class Revenue(Resource):
 
     def get_revenue_list(self, page=1):
         """Get the revenue list"""

@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class InboundEmail(Helper):
+class InboundEmail(Resource):
 
     def get_inbound_emails_list(self, page=1):
         """Get the list of inbound emails"""

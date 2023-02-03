@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Areas(Helper):
+class Areas(Resource):
 
     def get_areas_list(self, project_pk, page=1):
         """Get the areas list

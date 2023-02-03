@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Roles(Helper):
+class Roles(Resource):
 
     def get_roles_list(self, page=1):
         """Get roles list"""

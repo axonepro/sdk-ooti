@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Zones(Helper):
+class Zones(Resource):
 
     def export_zones(self, project_pk):
         """Export zone

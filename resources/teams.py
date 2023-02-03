@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Teams(Helper):
+class Teams(Resource):
 
     def get_teams_access_list(self):
         """Get teams orguser has or has not access to"""

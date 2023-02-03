@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Jobs(Helper):
+class Jobs(Resource):
 
     def generate_jobs_invoices_items(self, data):
         """Generate invoice items based on the job invoice contractor

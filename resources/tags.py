@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Tags(Helper):
+class Tags(Resource):
 
     def get_tags_list(self, page=1):
         """Get the list of tags"""

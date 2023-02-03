@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Emails(Helper):
+class Emails(Resource):
 
     def get_emails_list(self, page=1):
         """Get the emails list"""

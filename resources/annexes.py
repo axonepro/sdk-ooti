@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Annexes(Helper):
+class Annexes(Resource):
 
     def get_annexes_list(self, project_pk):
         """Get the annexes list

@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Phases(Helper):
+class Phases(Resource):
 
     def get_phases_list(self, project_pk, page=1):
         """Get the phases list

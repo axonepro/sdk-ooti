@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Projects(Helper):
+class Projects(Resource):
 
     # TODO POST on /api/v1/projects/actions/{org_pk}/
 

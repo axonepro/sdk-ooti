@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Revisions(Helper):
+class Revisions(Resource):
 
     def delete_revisions_annexe_detail(self, pk):
         """Delete revision annexe detail

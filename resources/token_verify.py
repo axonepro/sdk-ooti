@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class TokenVerify(Helper):
+class TokenVerify(Resource):
 
     def __verify_token(self):
         """Verify if the access token is still valid"""

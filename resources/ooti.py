@@ -32,7 +32,7 @@ from .fees import Fees
 from .files import Files
 from .goals import Goals
 from .help import Help
-from .helper import Helper
+from .resource import Resource
 from .imports import Imports
 from .inbound_emails import InboundEmail
 from .indicators import Indicators
@@ -81,7 +81,7 @@ load_dotenv()
 ENVIRONMENT = os.getenv("ENVIRONMENT", default=None)
 
 
-class OotiAPI(Helper):
+class OotiAPI(Resource):
     def __init__(self, username, password, pagination=None):
         self.username = username
         self.password = password
@@ -388,7 +388,7 @@ class OotiAPI(Helper):
             self.headers,
             self.pagination,
         )
-        self.Helper = Helper(
+        self.Helper = Resource(
             self.base_url,
             self.org_pk,
             self.teams_pk,

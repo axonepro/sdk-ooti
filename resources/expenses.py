@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Expenses(Helper):
+class Expenses(Resource):
 
     def get_expenses_categories_list(self, page=1):
         """Get the list of expenses categories"""

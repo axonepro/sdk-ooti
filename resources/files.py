@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Files(Helper):
+class Files(Resource):
 
     def get_folder_list(self, project_pk, page=1):
         """Get the folder list

@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Timeperiods(Helper):
+class Timeperiods(Resource):
 
     def get_timeperiods_dashboard_scheduling_timeline(self):
         """Get dashboard scheduling timeline"""

@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Prescriptions(Helper):
+class Prescriptions(Resource):
 
     def get_prescriptions_list(self, project_pk, page=1):
         """Get prescription list

@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Contacts(Helper):
+class Contacts(Resource):
 
     def get_contact_categories_list(self, project_id=None):
         """Get the list of categories of contact

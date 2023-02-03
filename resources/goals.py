@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Goals(Helper):
+class Goals(Resource):
 
     def get_goals_list(self, page=1):
         """Get the list of goals"""

@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Defaults(Helper):
+class Defaults(Resource):
 
     def duplicate_defaults_phase(self, pk):
         """Duplicate defaults phase

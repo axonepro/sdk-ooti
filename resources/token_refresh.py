@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class TokenRefresh(Helper):
+class TokenRefresh(Resource):
 
     def __refresh_token(self):
         """Refresh the access token"""

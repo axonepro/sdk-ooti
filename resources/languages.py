@@ -2,8 +2,8 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Languages(Helper):
+class Languages(Resource):
     pass

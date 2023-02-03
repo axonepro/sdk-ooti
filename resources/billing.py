@@ -1,9 +1,9 @@
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Billing(Helper):
+class Billing(Resource):
 
     def cancel_subscription(self):  # return 200
         """Cancel subscription"""

@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Trips(Helper):
+class Trips(Resource):
 
     def get_trips_list(self, page=1):
         """Get trips list"""

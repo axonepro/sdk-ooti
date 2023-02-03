@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Projections(Helper):
+class Projections(Resource):
 
     def get_component_metrics_widget(self):
         """ """

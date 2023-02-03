@@ -1,9 +1,9 @@
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Pipelines(Helper):
+class Pipelines(Resource):
 
     def get_pipelines_stage_list(self):
         """Get the list of stages"""

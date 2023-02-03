@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Payments(Helper):
+class Payments(Resource):
 
     def get_payment_details(self, pk):
         """Get the payment details

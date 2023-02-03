@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Banks(Helper):
+class Banks(Resource):
 
     def get_banks_list(self, page=1):
         """Get the banks list"""

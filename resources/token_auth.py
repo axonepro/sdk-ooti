@@ -1,5 +1,5 @@
-from .helper import Helper
+from .resource import Resource
 
 
-class TokenAuth(Helper):
+class TokenAuth(Resource):
     pass

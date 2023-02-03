@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Currencies(Helper):
+class Currencies(Resource):
 
     def get_currencies_list(self, page=1):
         """Get the currencies list"""

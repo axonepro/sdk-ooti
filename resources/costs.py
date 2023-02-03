@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Costs(Helper):
+class Costs(Resource):
 
     def copy_costs_fee_allocations_from_contract_hours(self, project_id):  # ?
         """Copy cost fee allocations from contract hours

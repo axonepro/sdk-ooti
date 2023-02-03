@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Posts(Helper):
+class Posts(Resource):
 
     def get_posts_albums_list(self, page=1):
         """Get the posts albums list"""

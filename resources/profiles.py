@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Profiles(Helper):
+class Profiles(Resource):
 
     # TODO GET on /api/v1/profiles/onboarding/{org_pk}/
 

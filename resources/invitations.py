@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Invitations(Helper):
+class Invitations(Resource):
 
     def get_invitations_list(self):
         """Get the list of invitations"""
