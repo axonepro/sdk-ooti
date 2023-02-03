@@ -72,7 +72,7 @@ Run  the following command to install package ```ooti-api```:
 
 1. Import
    ```py
-   import resources import ooti
+   from resources import ooti
    ```
 2. Connect to the API
    ```py
