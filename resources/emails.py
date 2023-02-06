@@ -2,16 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Emails(Helper):
-    def __init__(
-        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-    ):
-        super().__init__(
-            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-        )
+class Emails(Resource):
 
     def get_emails_list(self, page=1):
         """Get the emails list"""

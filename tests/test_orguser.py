@@ -1,21 +1,9 @@
 import os
-import sys
+import time
 import unittest
 
-from dotenv import load_dotenv
 from factories.factories import OrguserFactory, ProjectFactory, TeamFactory
-from requests.api import delete
-
-PACKAGE_PARENT = ".."
-SCRIPT_DIR = os.path.dirname(
-    os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__)))
-)
-sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
-
-from resources import ooti  # noqa E402
-
-# Loading environment variables (stored in .env file)
-load_dotenv()
+from resources import ooti
 
 OOTI_AUTH = os.getenv("OOTI_AUTH")
 OOTI_PASSWORD = os.getenv("OOTI_PASSWORD")
@@ -44,17 +32,11 @@ class TestOrguser(unittest.TestCase):
         self.assertEqual(response["status"], 200)
 
     def test_create_orguser(self):  # Error 500
-        count = 0
-        payload = {
-            "email": "test{0}@test.fr".format(count),
+        response = sdk.Orgusers.create_orguser({
+            "email": f"test{int(time.time() * 1000)}@test.fr",
             "first_name": "Julie",
             "last_name": "TEST",
-        }
-        response = sdk.Orgusers.create_orguser(payload)
-        while response["data"] == ["Email already used"]:
-            count += 1
-            payload["email"] = "test{0}@test.fr".format(count)
-            response = sdk.Orgusers.create_orguser(payload)
+        })
         self.assertEqual(response["status"], 201)
         delete = sdk.Orgusers.delete_orguser(response["data"]["pk"])
         self.assertEqual(delete["status"], 204)

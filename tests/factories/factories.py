@@ -1,6 +1,7 @@
 # To read .env variables
 import os
 import sys
+import time
 
 from dotenv import load_dotenv
 from test_helper import HelperTest
@@ -32,23 +33,15 @@ def UserFactory():
 
 
 def OrguserFactory():
-    count = 0
-    payload = {
-        "email": "test{0}@test.fr".format(count),
+    response = sdk.Orgusers.create_orguser({
+        "email": f"test{int(time.time() * 1000)}@test.fr",
         "first_name": "Julie",
         "last_name": "TEST",
-    }
-    response = sdk.Orgusers.create_orguser(payload)
-    while response["data"] == ["Email already used"]:
-        count += 1
-        payload["email"] = "test{0}@test.fr".format(count)
-        response = sdk.Orgusers.create_orguser(payload)
+    })
 
     if response["status"] == 201:
         return response["data"]
-    else:
-        print(response)
-        return None
+    return None
 
 
 def TeamFactory():

@@ -2,16 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Documents(Helper):
-    def __init__(
-        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-    ):
-        super().__init__(
-            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-        )
+class Documents(Resource):
 
     def get_documents_list(self, project_pk, page=1):
         """Get docuemnts list

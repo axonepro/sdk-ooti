@@ -2,16 +2,10 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Costs(Helper):
-    def __init__(
-        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-    ):
-        super().__init__(
-            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-        )
+class Costs(Resource):
 
     def copy_costs_fee_allocations_from_contract_hours(self, project_id):  # ?
         """Copy cost fee allocations from contract hours

@@ -2,7 +2,7 @@ import json
 
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 """
 - ERROR 403 : GET v1/imports/counts/
@@ -12,13 +12,7 @@ from .helper import Helper
 """
 
 
-class Imports(Helper):
-    def __init__(
-        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-    ):
-        super().__init__(
-            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-        )
+class Imports(Resource):
 
     def get_imports_count(self):  # Error 403
         """Get the number of imports"""

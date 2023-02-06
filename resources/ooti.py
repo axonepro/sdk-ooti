@@ -15,7 +15,7 @@ from .areas import Areas
 from .auth import Auth
 from .banks import Banks
 from .billing import Billing
-from .celery_tasks import Celery_tasks
+from .celery_tasks import CeleryTask
 from .clients import Clients
 from .contacts import Contacts
 from .contracts import Contracts
@@ -32,9 +32,9 @@ from .fees import Fees
 from .files import Files
 from .goals import Goals
 from .help import Help
-from .helper import Helper
+from .resource import Resource
 from .imports import Imports
-from .inbound_emails import Inbound_emails
+from .inbound_emails import InboundEmail
 from .indicators import Indicators
 from .invitations import Invitations
 from .invoices import Invoices
@@ -69,9 +69,9 @@ from .tasks import Tasks
 from .teams import Teams
 from .timelogs import Timelogs
 from .timeperiods import Timeperiods
-from .token_auth import Token_auth
-from .token_refresh import Token_refresh
-from .token_verify import Token_verify
+from .token_auth import TokenAuth
+from .token_refresh import TokenRefresh
+from .token_verify import TokenVerify
 from .trips import Trips
 from .zones import Zones
 
@@ -81,7 +81,7 @@ load_dotenv()
 ENVIRONMENT = os.getenv("ENVIRONMENT", default=None)
 
 
-class OotiAPI(Helper):
+class OotiAPI(Resource):
     def __init__(self, username, password, pagination=None):
         self.username = username
         self.password = password
@@ -235,7 +235,7 @@ class OotiAPI(Helper):
             self.headers,
             self.pagination,
         )
-        self.Celery_tasks = Celery_tasks(
+        self.Celery_tasks = CeleryTask(
             self.base_url,
             self.org_pk,
             self.teams_pk,
@@ -388,7 +388,7 @@ class OotiAPI(Helper):
             self.headers,
             self.pagination,
         )
-        self.Helper = Helper(
+        self.Helper = Resource(
             self.base_url,
             self.org_pk,
             self.teams_pk,
@@ -406,7 +406,7 @@ class OotiAPI(Helper):
             self.headers,
             self.pagination,
         )
-        self.Inbound_emails = Inbound_emails(
+        self.Inbound_emails = InboundEmail(
             self.base_url,
             self.org_pk,
             self.teams_pk,
@@ -721,7 +721,7 @@ class OotiAPI(Helper):
             self.headers,
             self.pagination,
         )
-        self.Token_auth = Token_auth(
+        self.Token_auth = TokenAuth(
             self.base_url,
             self.org_pk,
             self.teams_pk,
@@ -730,7 +730,7 @@ class OotiAPI(Helper):
             self.headers,
             self.pagination,
         )
-        self.Token_refresh = Token_refresh(
+        self.Token_refresh = TokenRefresh(
             self.base_url,
             self.org_pk,
             self.teams_pk,
@@ -739,7 +739,7 @@ class OotiAPI(Helper):
             self.headers,
             self.pagination,
         )
-        self.Token_verify = Token_verify(
+        self.Token_verify = TokenVerify(
             self.base_url,
             self.org_pk,
             self.teams_pk,

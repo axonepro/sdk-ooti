@@ -1,17 +1,9 @@
-import json
-
 import requests
 
-from .helper import Helper
+from .resource import Resource
 
 
-class Pipelines(Helper):
-    def __init__(
-        self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-    ):
-        super().__init__(
-            base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
-        )
+class Pipelines(Resource):
 
     def get_pipelines_stage_list(self):
         """Get the list of stages"""

@@ -1,7 +1,7 @@
 import json
 
 
-class Helper:
+class Resource:
     def __init__(
         self, base_url, org_pk, teams_pk, access_token, _csrf_token, headers, pagination
     ):
@@ -13,7 +13,8 @@ class Helper:
         self.headers = headers
         self.pagination = pagination
 
-    def process_response(self, response, results=None):
+    @staticmethod
+    def process_response(response, results=None):
         """Process the response and return it
 
         :param: response is the response from the API
@@ -40,8 +41,9 @@ class Helper:
                 "data": json.loads(response.content),
             }
 
+    @staticmethod
     def process_request(
-        self, request, verb, _base_url, _route, _headers, _parameter=None, _data=None
+        request, verb, _base_url, _route, _headers, _parameter=None, _data=None
     ):
         try:
 
